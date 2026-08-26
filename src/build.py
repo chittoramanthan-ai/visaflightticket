@@ -139,7 +139,7 @@ LOGO_SVG = (
     '<rect x="1" y="6" width="30" height="20" rx="4" fill="currentColor" opacity=".1"/>'
     '<rect x="1.6" y="6.6" width="28.8" height="18.8" rx="3.4" stroke="currentColor" stroke-opacity=".28" stroke-width="1.2"/>'
     '<path d="M21 6.5v19" stroke="currentColor" stroke-opacity=".45" stroke-width="1.2" stroke-dasharray="2.4 2.4"/>'
-    '<path d="M17.4 20.6 16 14.5l2.6-2.6a1.55 1.55 0 0 0-2.2-2.2l-2.6 2.6-6.1-1.4a.37.37 0 0 0-.36.6l2.36 2.36-1.48 1.48-1.33-.3a.37.37 0 0 0-.37.6l1.06 1.06 1.06 1.06a.37.37 0 0 0 .6-.37l-.3-1.33 1.48-1.48 2.36 2.36a.37.37 0 0 0 .6-.37Z" fill="#1b54d6"/>'
+    '<path d="M17.4 20.6 16 14.5l2.6-2.6a1.55 1.55 0 0 0-2.2-2.2l-2.6 2.6-6.1-1.4a.37.37 0 0 0-.36.6l2.36 2.36-1.48 1.48-1.33-.3a.37.37 0 0 0-.37.6l1.06 1.06 1.06 1.06a.37.37 0 0 0 .6-.37l-.3-1.33 1.48-1.48 2.36 2.36a.37.37 0 0 0 .6-.37Z" fill="#b4531f"/>'
     '<circle cx="25.6" cy="12.5" r="1.1" fill="currentColor" opacity=".3"/>'
     '<circle cx="25.6" cy="16" r="1.1" fill="currentColor" opacity=".3"/>'
     '<circle cx="25.6" cy="19.5" r="1.1" fill="currentColor" opacity=".3"/>'
@@ -452,8 +452,8 @@ PAGE_TPL = """<!doctype html>
 <title>{title}</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{canonical}">
-{robots}<meta name="theme-color" content="#1b54d6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0a1120" media="(prefers-color-scheme: dark)">
+{robots}<meta name="theme-color" content="#b4531f" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17120d" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="{brand}">
 <meta property="og:title" content="{og_title}">
@@ -574,7 +574,7 @@ def write_extras():
     manifest = {
         "name": BRAND, "short_name": "VisaFlightTicket",
         "description": TAGLINE, "start_url": url(), "display": "standalone",
-        "background_color": "#f4f6fb", "theme_color": "#1b54d6",
+        "background_color": "#fdfaf5", "theme_color": "#b4531f",
         "icons": [
             {"src": asset("assets/img/favicon.svg"), "sizes": "any", "type": "image/svg+xml"},
             {"src": asset("assets/img/apple-touch-icon.png"), "sizes": "180x180", "type": "image/png"},

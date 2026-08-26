@@ -4,8 +4,8 @@
   "description": "Verifiable flight reservations & hotel bookings for visa applications",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f4f6fb",
-  "theme_color": "#1b54d6",
+  "background_color": "#fdfaf5",
+  "theme_color": "#b4531f",
   "icons": [
     {
       "src": "/assets/img/favicon.svg",
