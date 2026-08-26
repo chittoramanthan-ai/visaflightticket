@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Disallow: /order/thank-you/
+
+# AI answer engines are a growing referral source for this niche - let them in.
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://visaflightticket.com/sitemap.xml

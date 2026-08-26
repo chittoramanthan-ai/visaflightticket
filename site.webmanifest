@@ -1,0 +1,21 @@
+{
+  "name": "Visa Flight Ticket",
+  "short_name": "VisaFlightTicket",
+  "description": "Verifiable flight reservations & hotel bookings for visa applications",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f6fb",
+  "theme_color": "#1b54d6",
+  "icons": [
+    {
+      "src": "/assets/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/assets/img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
