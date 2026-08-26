@@ -7,7 +7,8 @@ from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
                    IATA_ACCREDITED, IATA_NUMBER,
                    add_page, url, abs_url, ticket, faq_block, faq_schema,
                    crumbs, cta_band, pricing_tickets,
-                   stat_bar, trust_cards, airline_strip, iata_badge)
+                   stat_bar, trust_cards, airline_strip, iata_badge,
+                   booking_widget, trust_section, visitor_visa_panel)
 
 
 # ==========================================================================
@@ -225,8 +226,8 @@ def home():
 
 %s
 """ % (DELIVERY, PRICE_FLIGHT, url("order"), PRICE_FLIGHT, url("how-it-works"),
-       TRUSTLINE, BOARDING_PASS, stat_bar(),
-       trust_cards(),
+       TRUSTLINE, booking_widget(), stat_bar(),
+       trust_section(),
        pricing_tickets(), PRICE_RUSH,
        url("verify-pnr"),
        steps_block(ORDER_STEPS, "From order to embassy-ready PDF"), url("order"),

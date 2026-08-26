@@ -1,36 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#6d3011"/>
-      <stop offset="1" stop-color="#b4531f"/>
+      <stop offset="0" stop-color="#064a2c"/>
+      <stop offset="1" stop-color="#0d8f57"/>
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <circle cx="1050" cy="90" r="260" fill="#ffffff" opacity=".05"/>
-  <circle cx="140" cy="560" r="200" fill="#e0ac4c" opacity=".08"/>
+  <circle cx="140" cy="560" r="200" fill="#8fe0b6" opacity=".08"/>
 
   <!-- ticket -->
   <g transform="translate(90,150)">
     <rect x="0" y="0" width="1020" height="300" rx="26" fill="#ffffff"/>
-    <path d="M760 0v300" stroke="#d9cdbb" stroke-width="3" stroke-dasharray="10 9"/>
-    <circle cx="760" cy="0" r="22" fill="#8a4218"/>
-    <circle cx="760" cy="300" r="22" fill="#8a4218"/>
+    <path d="M760 0v300" stroke="#cbd6d1" stroke-width="3" stroke-dasharray="10 9"/>
+    <circle cx="760" cy="0" r="22" fill="#075c36"/>
+    <circle cx="760" cy="300" r="22" fill="#075c36"/>
 
-    <text x="52" y="72" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#86786a" letter-spacing="4">FLIGHT RESERVATION &#183; VISA PURPOSES</text>
-    <text x="52" y="152" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="66" font-weight="700" fill="#221c14" letter-spacing="-2">Visa Flight Ticket</text>
-    <text x="52" y="205" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="30" fill="#574c3d">Verifiable flight &amp; hotel bookings with a live PNR</text>
+    <text x="52" y="72" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#7b8a83" letter-spacing="4">FLIGHT RESERVATION &#183; VISA PURPOSES</text>
+    <text x="52" y="152" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="66" font-weight="700" fill="#131a17" letter-spacing="-2">Visa Flight Ticket</text>
+    <text x="52" y="205" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="30" fill="#4c5a53">Verifiable flight &amp; hotel bookings with a live PNR</text>
 
     <g transform="translate(52,240)">
-      <rect x="0" y="0" width="250" height="42" rx="10" fill="#e4f0e8"/>
-      <text x="24" y="29" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#1d6b47">&#10003; Verify it yourself</text>
-      <rect x="272" y="0" width="230" height="42" rx="10" fill="#fbeee2"/>
-      <text x="296" y="29" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#b4531f">IATA certified</text>
+      <rect x="0" y="0" width="250" height="42" rx="10" fill="#e6f4ec"/>
+      <text x="24" y="29" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#0b7f49">&#10003; Verify it yourself</text>
+      <rect x="272" y="0" width="230" height="42" rx="10" fill="#e6f4ec"/>
+      <text x="296" y="29" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#0b7f49">IATA certified</text>
     </g>
 
     <!-- stub -->
-    <text x="890" y="120" text-anchor="middle" font-family="Consolas,Menlo,monospace" font-size="30" font-weight="700" fill="#221c14" letter-spacing="6">PNR</text>
-    <text x="890" y="168" text-anchor="middle" font-family="Consolas,Menlo,monospace" font-size="40" font-weight="700" fill="#b4531f" letter-spacing="4">K7QX2M</text>
-    <g fill="#221c14" opacity=".8">
+    <text x="890" y="120" text-anchor="middle" font-family="Consolas,Menlo,monospace" font-size="30" font-weight="700" fill="#131a17" letter-spacing="6">PNR</text>
+    <text x="890" y="168" text-anchor="middle" font-family="Consolas,Menlo,monospace" font-size="40" font-weight="700" fill="#0b7f49" letter-spacing="4">K7QX2M</text>
+    <g fill="#131a17" opacity=".8">
       <rect x="812" y="200" width="4" height="56"/><rect x="822" y="200" width="2" height="56"/>
       <rect x="830" y="200" width="6" height="56"/><rect x="842" y="200" width="2" height="56"/>
       <rect x="850" y="200" width="4" height="56"/><rect x="860" y="200" width="7" height="56"/>

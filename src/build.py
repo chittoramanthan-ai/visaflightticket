@@ -139,7 +139,7 @@ LOGO_SVG = (
     '<rect x="1" y="6" width="30" height="20" rx="4" fill="currentColor" opacity=".1"/>'
     '<rect x="1.6" y="6.6" width="28.8" height="18.8" rx="3.4" stroke="currentColor" stroke-opacity=".28" stroke-width="1.2"/>'
     '<path d="M21 6.5v19" stroke="currentColor" stroke-opacity=".45" stroke-width="1.2" stroke-dasharray="2.4 2.4"/>'
-    '<path d="M17.4 20.6 16 14.5l2.6-2.6a1.55 1.55 0 0 0-2.2-2.2l-2.6 2.6-6.1-1.4a.37.37 0 0 0-.36.6l2.36 2.36-1.48 1.48-1.33-.3a.37.37 0 0 0-.37.6l1.06 1.06 1.06 1.06a.37.37 0 0 0 .6-.37l-.3-1.33 1.48-1.48 2.36 2.36a.37.37 0 0 0 .6-.37Z" fill="#b4531f"/>'
+    '<path d="M17.4 20.6 16 14.5l2.6-2.6a1.55 1.55 0 0 0-2.2-2.2l-2.6 2.6-6.1-1.4a.37.37 0 0 0-.36.6l2.36 2.36-1.48 1.48-1.33-.3a.37.37 0 0 0-.37.6l1.06 1.06 1.06 1.06a.37.37 0 0 0 .6-.37l-.3-1.33 1.48-1.48 2.36 2.36a.37.37 0 0 0 .6-.37Z" fill="#0b7f49"/>'
     '<circle cx="25.6" cy="12.5" r="1.1" fill="currentColor" opacity=".3"/>'
     '<circle cx="25.6" cy="16" r="1.1" fill="currentColor" opacity=".3"/>'
     '<circle cx="25.6" cy="19.5" r="1.1" fill="currentColor" opacity=".3"/>'
@@ -342,6 +342,129 @@ def trust_cards(heading="Why travellers trust %s" % BRAND):
     return '%s<div class="trust-panel">%s</div>' % (head, inner)
 
 
+def booking_widget():
+    """Hero search widget: service tabs, trip type, route, dates. GETs to /order/."""
+    return """
+<form class="bw" id="bw" action="%s" method="get">
+  <div class="bw__tabs" role="tablist" aria-label="What do you need?">
+    <button type="button" class="bw__tab is-on" data-svc="flight" role="tab" aria-selected="true">Flight</button>
+    <button type="button" class="bw__tab" data-svc="hotel" role="tab" aria-selected="false">Hotel</button>
+    <button type="button" class="bw__tab" data-svc="both" role="tab" aria-selected="false">Both</button>
+  </div>
+  <input type="hidden" name="service" id="bw-service" value="flight">
+
+  <div class="bw__trip" id="bw-trip">
+    <label><input type="radio" name="trip" value="oneway" checked><span>One way</span></label>
+    <label><input type="radio" name="trip" value="round"><span>Round trip</span></label>
+    <label><input type="radio" name="trip" value="multi"><span>Multi city</span></label>
+  </div>
+
+  <div class="bw__f" id="bw-from-wrap">
+    <label for="bw-from">From</label>
+    <input id="bw-from" name="from" type="text" placeholder="Delhi (DEL)" autocomplete="off">
+  </div>
+  <div class="bw__f">
+    <label for="bw-to" id="bw-to-label">To</label>
+    <input id="bw-to" name="to" type="text" placeholder="Paris (CDG)" autocomplete="off">
+  </div>
+  <div class="bw__row">
+    <div class="bw__f">
+      <label for="bw-dep" id="bw-dep-label">Departure</label>
+      <input id="bw-dep" name="depart" type="date">
+    </div>
+    <div class="bw__f" id="bw-ret-wrap" hidden>
+      <label for="bw-ret" id="bw-ret-label">Return</label>
+      <input id="bw-ret" name="return" type="date">
+    </div>
+  </div>
+
+  <button class="btn btn--primary btn--lg btn--block" type="submit" id="bw-submit">
+    Get my dummy ticket &mdash; $%d</button>
+  <p class="bw__note">
+    <b>%s Live PNR</b><b>%s No airline payment</b><b>%s In %s</b>
+  </p>
+</form>""" % (url("order"), PRICE_FLIGHT, ICON["check"], ICON["check"], ICON["check"], DELIVERY)
+
+
+# --- simplified public-domain national flags, drawn for a 44x29 field -------
+_FLAGS = {
+    "EU": ('European Union', '<rect width="44" height="29" fill="#039"/>' + "".join(
+        '<circle cx="%.2f" cy="%.2f" r="1.35" fill="#fc0"/>' % (
+            22 + 8.6 * __import__("math").sin(__import__("math").radians(i * 30)),
+            14.5 - 8.6 * __import__("math").cos(__import__("math").radians(i * 30)))
+        for i in range(12))),
+    "US": ('United States',
+           '<rect width="44" height="29" fill="#fff"/>' +
+           "".join('<rect y="%.2f" width="44" height="2.23" fill="#b22234"/>' % (i * 4.46) for i in range(7)) +
+           '<rect width="17.6" height="15.6" fill="#3c3b6e"/>' +
+           "".join('<circle cx="%.1f" cy="%.1f" r=".8" fill="#fff"/>' % (3 + c * 3.9, 3 + r * 3.6)
+                   for r in range(4) for c in range(4))),
+    "GB": ('United Kingdom',
+           '<rect width="44" height="29" fill="#012169"/>'
+           '<path d="M0 0 44 29M44 0 0 29" stroke="#fff" stroke-width="6"/>'
+           '<path d="M0 0 44 29M44 0 0 29" stroke="#c8102e" stroke-width="2.4"/>'
+           '<path d="M22 0v29M0 14.5h44" stroke="#fff" stroke-width="9.5"/>'
+           '<path d="M22 0v29M0 14.5h44" stroke="#c8102e" stroke-width="5.7"/>'),
+    "CA": ('Canada',
+           '<rect width="44" height="29" fill="#fff"/>'
+           '<rect width="11" height="29" fill="#d52b1e"/>'
+           '<rect x="33" width="11" height="29" fill="#d52b1e"/>'
+           '<path d="M22 7.6l1.7 3.3 3.4-.8-1.2 3.2 2.8 2-3.1 1.3.7 3.4-3.2-1.5-1.1 3.4-1.1-3.4-3.2 1.5.7-3.4-3.1-1.3 2.8-2-1.2-3.2 3.4.8z" fill="#d52b1e"/>'),
+    "AU": ('Australia',
+           '<rect width="44" height="29" fill="#012169"/>'
+           '<path d="M0 0 22 14.5M22 0 0 14.5" stroke="#fff" stroke-width="3"/>'
+           '<path d="M11 0v14.5M0 7.25h22" stroke="#fff" stroke-width="4.8"/>'
+           '<path d="M11 0v14.5M0 7.25h22" stroke="#c8102e" stroke-width="2.6"/>'
+           '<circle cx="11" cy="22" r="1.7" fill="#fff"/>'
+           '<circle cx="33" cy="6" r="1.1" fill="#fff"/><circle cx="37.5" cy="12" r="1.1" fill="#fff"/>'
+           '<circle cx="30" cy="15" r="1.1" fill="#fff"/><circle cx="34" cy="21" r="1.1" fill="#fff"/>'
+           '<circle cx="35.5" cy="16.5" r=".7" fill="#fff"/>'),
+}
+
+
+def _window(code):
+    label, flag = _FLAGS[code]
+    return """<span class="vv__win" title="%s">
+<svg viewBox="0 0 62 84" preserveAspectRatio="xMidYMid slice" role="img" aria-label="%s flag">
+  <defs><linearGradient id="sky%s" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#bfe3f7"/><stop offset="1" stop-color="#e9f5fb"/></linearGradient></defs>
+  <rect width="62" height="84" fill="url(#sky%s)"/>
+  <ellipse cx="16" cy="17" rx="13" ry="5" fill="#fff" opacity=".75"/>
+  <ellipse cx="47" cy="70" rx="15" ry="5.5" fill="#fff" opacity=".6"/>
+  <g transform="translate(9,27.5)">
+    <rect width="44" height="29" rx="2.5" fill="#fff"/>
+    <g clip-path="inset(0 round 2.5px)">%s</g>
+    <rect width="44" height="29" rx="2.5" fill="none" stroke="rgba(0,0,0,.18)"/>
+  </g>
+</svg></span>""" % (label, label, code, code, flag)
+
+
+def visitor_visa_panel():
+    wins = "".join(_window(c) for c in ("EU", "US", "GB", "CA", "AU"))
+    return """
+<div class="vv">
+  <p class="vv__k">Schengen &middot; USA &middot; UK &middot; Canada &middot; Australia</p>
+  <h2>Get your visitor visa</h2>
+  <p>One file, five continents. We supply the flight and hotel proof; you bring the rest.</p>
+  <div class="vv__windows">%s</div>
+</div>""" % wins
+
+
+def trust_section(heading="Why travellers trust %s" % BRAND):
+    head = '<div class="center" style="margin-bottom:2.4rem"><h2>%s</h2></div>' % heading if heading else ""
+    return """%s
+<div class="grid" style="grid-template-columns:1.35fr .65fr;gap:24px;align-items:stretch">
+  <div>%s
+    <p style="text-align:center;margin:1.6rem 0 0">
+      <a class="btn btn--primary btn--lg" href="%s">Book now</a></p>
+  </div>
+  %s
+</div>
+<style>@media (max-width:900px){.grid[style*="1.35fr"]{grid-template-columns:1fr!important}}</style>""" % (
+        head, trust_cards(heading=None).replace('trust-panel', 'trust-panel trust-panel--2'),
+        url("order"), visitor_visa_panel())
+
+
 def airline_strip(heading=None):
     if heading is None:
         heading = "Visa flight bookings with %s trusted airlines" % AIRLINE_COUNT
@@ -452,8 +575,8 @@ PAGE_TPL = """<!doctype html>
 <title>{title}</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{canonical}">
-{robots}<meta name="theme-color" content="#b4531f" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#17120d" media="(prefers-color-scheme: dark)">
+{robots}<meta name="theme-color" content="#0b7f49" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b120f" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="{brand}">
 <meta property="og:title" content="{og_title}">
@@ -574,7 +697,7 @@ def write_extras():
     manifest = {
         "name": BRAND, "short_name": "VisaFlightTicket",
         "description": TAGLINE, "start_url": url(), "display": "standalone",
-        "background_color": "#fdfaf5", "theme_color": "#b4531f",
+        "background_color": "#ffffff", "theme_color": "#0b7f49",
         "icons": [
             {"src": asset("assets/img/favicon.svg"), "sizes": "any", "type": "image/svg+xml"},
             {"src": asset("assets/img/apple-touch-icon.png"), "sizes": "180x180", "type": "image/png"},

@@ -7,8 +7,8 @@
 <meta name="description" content="Get a verifiable flight ticket for your visa application from $9. Real airline-held reservation with a live PNR, hotel bookings from $7, delivered in 30-60 minutes.">
 <link rel="canonical" href="https://visaflightticket.com/">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
-<meta name="theme-color" content="#b4531f" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#17120d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0b7f49" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b120f" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Visa Flight Ticket">
 <meta property="og:title" content="Verifiable flight ticket for your visa - live PNR, $9">
@@ -35,7 +35,7 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="hdr">
   <div class="wrap hdr__in">
-    <a class="logo" href="/" aria-label="Visa Flight Ticket home"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="1" y="6" width="30" height="20" rx="4" fill="currentColor" opacity=".1"/><rect x="1.6" y="6.6" width="28.8" height="18.8" rx="3.4" stroke="currentColor" stroke-opacity=".28" stroke-width="1.2"/><path d="M21 6.5v19" stroke="currentColor" stroke-opacity=".45" stroke-width="1.2" stroke-dasharray="2.4 2.4"/><path d="M17.4 20.6 16 14.5l2.6-2.6a1.55 1.55 0 0 0-2.2-2.2l-2.6 2.6-6.1-1.4a.37.37 0 0 0-.36.6l2.36 2.36-1.48 1.48-1.33-.3a.37.37 0 0 0-.37.6l1.06 1.06 1.06 1.06a.37.37 0 0 0 .6-.37l-.3-1.33 1.48-1.48 2.36 2.36a.37.37 0 0 0 .6-.37Z" fill="#b4531f"/><circle cx="25.6" cy="12.5" r="1.1" fill="currentColor" opacity=".3"/><circle cx="25.6" cy="16" r="1.1" fill="currentColor" opacity=".3"/><circle cx="25.6" cy="19.5" r="1.1" fill="currentColor" opacity=".3"/></svg><span>Visa<b>Flight</b>Ticket</span></a>
+    <a class="logo" href="/" aria-label="Visa Flight Ticket home"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="1" y="6" width="30" height="20" rx="4" fill="currentColor" opacity=".1"/><rect x="1.6" y="6.6" width="28.8" height="18.8" rx="3.4" stroke="currentColor" stroke-opacity=".28" stroke-width="1.2"/><path d="M21 6.5v19" stroke="currentColor" stroke-opacity=".45" stroke-width="1.2" stroke-dasharray="2.4 2.4"/><path d="M17.4 20.6 16 14.5l2.6-2.6a1.55 1.55 0 0 0-2.2-2.2l-2.6 2.6-6.1-1.4a.37.37 0 0 0-.36.6l2.36 2.36-1.48 1.48-1.33-.3a.37.37 0 0 0-.37.6l1.06 1.06 1.06 1.06a.37.37 0 0 0 .6-.37l-.3-1.33 1.48-1.48 2.36 2.36a.37.37 0 0 0 .6-.37Z" fill="#0b7f49"/><circle cx="25.6" cy="12.5" r="1.1" fill="currentColor" opacity=".3"/><circle cx="25.6" cy="16" r="1.1" fill="currentColor" opacity=".3"/><circle cx="25.6" cy="19.5" r="1.1" fill="currentColor" opacity=".3"/></svg><span>Visa<b>Flight</b>Ticket</span></a>
     <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <nav class="nav" id="nav" aria-label="Main">
       <a href="/flight-reservation-for-visa/">Flight Ticket</a><a href="/hotel-booking-for-visa/">Hotel Booking</a><a href="/flight-and-hotel-package/">Flight + Hotel</a><a href="/pricing/">Pricing</a><a href="/how-it-works/">How It Works</a><a href="/visa/">Visa Guides</a><a href="/blog/">Blog</a>
@@ -67,37 +67,126 @@
 <div style="margin-top:1.2rem"><span class="badge badge--md"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 2.4 1.8 3-.2.9 2.9 2.4 1.8-1.1 2.8 1.1 2.8-2.4 1.8-.9 2.9-3-.2L12 20l-2.4-1.8-3 .2-.9-2.9L3.3 13.7 4.4 11 3.3 8.2l2.4-1.8.9-2.9 3 .2Z"/><path d="m9 11.5 2 2 4-4"/></svg><span class="badge__txt"><b>IATA Certified Agent</b></span></span></div>
       </div>
       <div>
-<div class="pass" role="img" aria-label="Example of a flight reservation document showing passenger name, route, dates and a live PNR">
-  <div class="pass__top"><span>Flight reservation</span><span>Visa purposes</span></div>
-  <div class="pass__body">
-    <div class="pass__row">
-      <div class="pass__f"><span>Passenger</span><b>SURNAME / GIVEN NAME</b></div>
-      <div class="pass__f"><span>Class</span><b>Economy</b></div>
+<form class="bw" id="bw" action="/order/" method="get">
+  <div class="bw__tabs" role="tablist" aria-label="What do you need?">
+    <button type="button" class="bw__tab is-on" data-svc="flight" role="tab" aria-selected="true">Flight</button>
+    <button type="button" class="bw__tab" data-svc="hotel" role="tab" aria-selected="false">Hotel</button>
+    <button type="button" class="bw__tab" data-svc="both" role="tab" aria-selected="false">Both</button>
+  </div>
+  <input type="hidden" name="service" id="bw-service" value="flight">
+
+  <div class="bw__trip" id="bw-trip">
+    <label><input type="radio" name="trip" value="oneway" checked><span>One way</span></label>
+    <label><input type="radio" name="trip" value="round"><span>Round trip</span></label>
+    <label><input type="radio" name="trip" value="multi"><span>Multi city</span></label>
+  </div>
+
+  <div class="bw__f" id="bw-from-wrap">
+    <label for="bw-from">From</label>
+    <input id="bw-from" name="from" type="text" placeholder="Delhi (DEL)" autocomplete="off">
+  </div>
+  <div class="bw__f">
+    <label for="bw-to" id="bw-to-label">To</label>
+    <input id="bw-to" name="to" type="text" placeholder="Paris (CDG)" autocomplete="off">
+  </div>
+  <div class="bw__row">
+    <div class="bw__f">
+      <label for="bw-dep" id="bw-dep-label">Departure</label>
+      <input id="bw-dep" name="depart" type="date">
     </div>
-    <div class="pass__route">
-      <span class="ticket__iata">DEL</span>
-      <span class="ticket__plane"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2a.5.5 0 0 0-.5.8l3.2 3.2-2 2-1.8-.4a.5.5 0 0 0-.5.8L5 14.5l1.9 1.8a.5.5 0 0 0 .8-.5l-.4-1.8 2-2 3.2 3.2a.5.5 0 0 0 .8-.5Z"/></svg></span>
-      <span class="ticket__iata">CDG</span>
-    </div>
-    <div class="pass__row" style="margin-bottom:0">
-      <div class="pass__f"><span>Departure</span><b>14 Sep</b></div>
-      <div class="pass__f"><span>Return</span><b>28 Sep</b></div>
-      <div class="pass__f"><span>Carrier</span><b>Air France</b></div>
+    <div class="bw__f" id="bw-ret-wrap" hidden>
+      <label for="bw-ret" id="bw-ret-label">Return</label>
+      <input id="bw-ret" name="return" type="date">
     </div>
   </div>
-  <div class="pass__foot">
-    <div><span style="display:block;font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">Booking reference</span>
-      <span class="pnr-chip">K7QX2M</span></div>
-    <span class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Verifiable on the airline site</span>
-  </div>
-</div></div>
+
+  <button class="btn btn--primary btn--lg btn--block" type="submit" id="bw-submit">
+    Get my dummy ticket &mdash; $9</button>
+  <p class="bw__note">
+    <b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Live PNR</b><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> No airline payment</b><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> In 30-60 minutes</b>
+  </p>
+</form></div>
     </div>
     <div class="stats"><div class="stat"><b>Since 2017</b><span>Issuing travel documents for visa applicants</span></div><div class="stat"><b>10 lakh+</b><span>Flight bookings made</span></div><div class="stat"><b>50,000+</b><span>Travellers helped with visa files</span></div><div class="stat"><b>100+</b><span>Airlines we book on</span></div></div>
   </div>
 </section>
 
 <section class="tight">
-  <div class="wrap"><div class="center" style="margin-bottom:2.4rem"><h2>Why travellers trust Visa Flight Ticket</h2></div><div class="trust-panel"><div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 2.4 1.8 3-.2.9 2.9 2.4 1.8-1.1 2.8 1.1 2.8-2.4 1.8-.9 2.9-3-.2L12 20l-2.4-1.8-3 .2-.9-2.9L3.3 13.7 4.4 11 3.3 8.2l2.4-1.8.9-2.9 3 .2Z"/><path d="m9 11.5 2 2 4-4"/></svg><h3>50,000+ successful visa files</h3><p>Documents supplied for Schengen, US, UK, Canada, UAE and beyond &mdash; since 2017.</p></div><div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg><h3>100% verifiable PNR</h3><p>Real six-character booking references that resolve on the airline&rsquo;s own &lsquo;manage booking&rsquo; page. Check yours before you file.</p></div><div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.2 13.8-1.4 7.4 5.2-2.8 5.2 2.8-1.4-7.4"/></svg><h3>IATA certified agent</h3><p>Bookings are made through accredited channels in live airline reservation systems &mdash; not generated as PDFs.</p></div><div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M16 12h3"/></svg><h3>Money-back guarantee</h3><p>If a booking reference does not verify, or we fail to deliver, you get a full refund. <a href="/refund-policy/">Read the policy</a>.</p></div></div></div>
+  <div class="wrap"><div class="center" style="margin-bottom:2.4rem"><h2>Why travellers trust Visa Flight Ticket</h2></div>
+<div class="grid" style="grid-template-columns:1.35fr .65fr;gap:24px;align-items:stretch">
+  <div><div class="trust-panel trust-panel--2"><div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 2.4 1.8 3-.2.9 2.9 2.4 1.8-1.1 2.8 1.1 2.8-2.4 1.8-.9 2.9-3-.2L12 20l-2.4-1.8-3 .2-.9-2.9L3.3 13.7 4.4 11 3.3 8.2l2.4-1.8.9-2.9 3 .2Z"/><path d="m9 11.5 2 2 4-4"/></svg><h3>50,000+ successful visa files</h3><p>Documents supplied for Schengen, US, UK, Canada, UAE and beyond &mdash; since 2017.</p></div><div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg><h3>100% verifiable PNR</h3><p>Real six-character booking references that resolve on the airline&rsquo;s own &lsquo;manage booking&rsquo; page. Check yours before you file.</p></div><div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.2 13.8-1.4 7.4 5.2-2.8 5.2 2.8-1.4-7.4"/></svg><h3>IATA certified agent</h3><p>Bookings are made through accredited channels in live airline reservation systems &mdash; not generated as PDFs.</p></div><div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M16 12h3"/></svg><h3>Money-back guarantee</h3><p>If a booking reference does not verify, or we fail to deliver, you get a full refund. <a href="/refund-policy/">Read the policy</a>.</p></div></div>
+    <p style="text-align:center;margin:1.6rem 0 0">
+      <a class="btn btn--primary btn--lg" href="/order/">Book now</a></p>
+  </div>
+  
+<div class="vv">
+  <p class="vv__k">Schengen &middot; USA &middot; UK &middot; Canada &middot; Australia</p>
+  <h2>Get your visitor visa</h2>
+  <p>One file, five continents. We supply the flight and hotel proof; you bring the rest.</p>
+  <div class="vv__windows"><span class="vv__win" title="European Union">
+<svg viewBox="0 0 62 84" preserveAspectRatio="xMidYMid slice" role="img" aria-label="European Union flag">
+  <defs><linearGradient id="skyEU" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#bfe3f7"/><stop offset="1" stop-color="#e9f5fb"/></linearGradient></defs>
+  <rect width="62" height="84" fill="url(#skyEU)"/>
+  <ellipse cx="16" cy="17" rx="13" ry="5" fill="#fff" opacity=".75"/>
+  <ellipse cx="47" cy="70" rx="15" ry="5.5" fill="#fff" opacity=".6"/>
+  <g transform="translate(9,27.5)">
+    <rect width="44" height="29" rx="2.5" fill="#fff"/>
+    <g clip-path="inset(0 round 2.5px)"><rect width="44" height="29" fill="#039"/><circle cx="22.00" cy="5.90" r="1.35" fill="#fc0"/><circle cx="26.30" cy="7.05" r="1.35" fill="#fc0"/><circle cx="29.45" cy="10.20" r="1.35" fill="#fc0"/><circle cx="30.60" cy="14.50" r="1.35" fill="#fc0"/><circle cx="29.45" cy="18.80" r="1.35" fill="#fc0"/><circle cx="26.30" cy="21.95" r="1.35" fill="#fc0"/><circle cx="22.00" cy="23.10" r="1.35" fill="#fc0"/><circle cx="17.70" cy="21.95" r="1.35" fill="#fc0"/><circle cx="14.55" cy="18.80" r="1.35" fill="#fc0"/><circle cx="13.40" cy="14.50" r="1.35" fill="#fc0"/><circle cx="14.55" cy="10.20" r="1.35" fill="#fc0"/><circle cx="17.70" cy="7.05" r="1.35" fill="#fc0"/></g>
+    <rect width="44" height="29" rx="2.5" fill="none" stroke="rgba(0,0,0,.18)"/>
+  </g>
+</svg></span><span class="vv__win" title="United States">
+<svg viewBox="0 0 62 84" preserveAspectRatio="xMidYMid slice" role="img" aria-label="United States flag">
+  <defs><linearGradient id="skyUS" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#bfe3f7"/><stop offset="1" stop-color="#e9f5fb"/></linearGradient></defs>
+  <rect width="62" height="84" fill="url(#skyUS)"/>
+  <ellipse cx="16" cy="17" rx="13" ry="5" fill="#fff" opacity=".75"/>
+  <ellipse cx="47" cy="70" rx="15" ry="5.5" fill="#fff" opacity=".6"/>
+  <g transform="translate(9,27.5)">
+    <rect width="44" height="29" rx="2.5" fill="#fff"/>
+    <g clip-path="inset(0 round 2.5px)"><rect width="44" height="29" fill="#fff"/><rect y="0.00" width="44" height="2.23" fill="#b22234"/><rect y="4.46" width="44" height="2.23" fill="#b22234"/><rect y="8.92" width="44" height="2.23" fill="#b22234"/><rect y="13.38" width="44" height="2.23" fill="#b22234"/><rect y="17.84" width="44" height="2.23" fill="#b22234"/><rect y="22.30" width="44" height="2.23" fill="#b22234"/><rect y="26.76" width="44" height="2.23" fill="#b22234"/><rect width="17.6" height="15.6" fill="#3c3b6e"/><circle cx="3.0" cy="3.0" r=".8" fill="#fff"/><circle cx="6.9" cy="3.0" r=".8" fill="#fff"/><circle cx="10.8" cy="3.0" r=".8" fill="#fff"/><circle cx="14.7" cy="3.0" r=".8" fill="#fff"/><circle cx="3.0" cy="6.6" r=".8" fill="#fff"/><circle cx="6.9" cy="6.6" r=".8" fill="#fff"/><circle cx="10.8" cy="6.6" r=".8" fill="#fff"/><circle cx="14.7" cy="6.6" r=".8" fill="#fff"/><circle cx="3.0" cy="10.2" r=".8" fill="#fff"/><circle cx="6.9" cy="10.2" r=".8" fill="#fff"/><circle cx="10.8" cy="10.2" r=".8" fill="#fff"/><circle cx="14.7" cy="10.2" r=".8" fill="#fff"/><circle cx="3.0" cy="13.8" r=".8" fill="#fff"/><circle cx="6.9" cy="13.8" r=".8" fill="#fff"/><circle cx="10.8" cy="13.8" r=".8" fill="#fff"/><circle cx="14.7" cy="13.8" r=".8" fill="#fff"/></g>
+    <rect width="44" height="29" rx="2.5" fill="none" stroke="rgba(0,0,0,.18)"/>
+  </g>
+</svg></span><span class="vv__win" title="United Kingdom">
+<svg viewBox="0 0 62 84" preserveAspectRatio="xMidYMid slice" role="img" aria-label="United Kingdom flag">
+  <defs><linearGradient id="skyGB" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#bfe3f7"/><stop offset="1" stop-color="#e9f5fb"/></linearGradient></defs>
+  <rect width="62" height="84" fill="url(#skyGB)"/>
+  <ellipse cx="16" cy="17" rx="13" ry="5" fill="#fff" opacity=".75"/>
+  <ellipse cx="47" cy="70" rx="15" ry="5.5" fill="#fff" opacity=".6"/>
+  <g transform="translate(9,27.5)">
+    <rect width="44" height="29" rx="2.5" fill="#fff"/>
+    <g clip-path="inset(0 round 2.5px)"><rect width="44" height="29" fill="#012169"/><path d="M0 0 44 29M44 0 0 29" stroke="#fff" stroke-width="6"/><path d="M0 0 44 29M44 0 0 29" stroke="#c8102e" stroke-width="2.4"/><path d="M22 0v29M0 14.5h44" stroke="#fff" stroke-width="9.5"/><path d="M22 0v29M0 14.5h44" stroke="#c8102e" stroke-width="5.7"/></g>
+    <rect width="44" height="29" rx="2.5" fill="none" stroke="rgba(0,0,0,.18)"/>
+  </g>
+</svg></span><span class="vv__win" title="Canada">
+<svg viewBox="0 0 62 84" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Canada flag">
+  <defs><linearGradient id="skyCA" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#bfe3f7"/><stop offset="1" stop-color="#e9f5fb"/></linearGradient></defs>
+  <rect width="62" height="84" fill="url(#skyCA)"/>
+  <ellipse cx="16" cy="17" rx="13" ry="5" fill="#fff" opacity=".75"/>
+  <ellipse cx="47" cy="70" rx="15" ry="5.5" fill="#fff" opacity=".6"/>
+  <g transform="translate(9,27.5)">
+    <rect width="44" height="29" rx="2.5" fill="#fff"/>
+    <g clip-path="inset(0 round 2.5px)"><rect width="44" height="29" fill="#fff"/><rect width="11" height="29" fill="#d52b1e"/><rect x="33" width="11" height="29" fill="#d52b1e"/><path d="M22 7.6l1.7 3.3 3.4-.8-1.2 3.2 2.8 2-3.1 1.3.7 3.4-3.2-1.5-1.1 3.4-1.1-3.4-3.2 1.5.7-3.4-3.1-1.3 2.8-2-1.2-3.2 3.4.8z" fill="#d52b1e"/></g>
+    <rect width="44" height="29" rx="2.5" fill="none" stroke="rgba(0,0,0,.18)"/>
+  </g>
+</svg></span><span class="vv__win" title="Australia">
+<svg viewBox="0 0 62 84" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Australia flag">
+  <defs><linearGradient id="skyAU" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#bfe3f7"/><stop offset="1" stop-color="#e9f5fb"/></linearGradient></defs>
+  <rect width="62" height="84" fill="url(#skyAU)"/>
+  <ellipse cx="16" cy="17" rx="13" ry="5" fill="#fff" opacity=".75"/>
+  <ellipse cx="47" cy="70" rx="15" ry="5.5" fill="#fff" opacity=".6"/>
+  <g transform="translate(9,27.5)">
+    <rect width="44" height="29" rx="2.5" fill="#fff"/>
+    <g clip-path="inset(0 round 2.5px)"><rect width="44" height="29" fill="#012169"/><path d="M0 0 22 14.5M22 0 0 14.5" stroke="#fff" stroke-width="3"/><path d="M11 0v14.5M0 7.25h22" stroke="#fff" stroke-width="4.8"/><path d="M11 0v14.5M0 7.25h22" stroke="#c8102e" stroke-width="2.6"/><circle cx="11" cy="22" r="1.7" fill="#fff"/><circle cx="33" cy="6" r="1.1" fill="#fff"/><circle cx="37.5" cy="12" r="1.1" fill="#fff"/><circle cx="30" cy="15" r="1.1" fill="#fff"/><circle cx="34" cy="21" r="1.1" fill="#fff"/><circle cx="35.5" cy="16.5" r=".7" fill="#fff"/></g>
+    <rect width="44" height="29" rx="2.5" fill="none" stroke="rgba(0,0,0,.18)"/>
+  </g>
+</svg></span></div>
+</div>
+</div>
+<style>@media (max-width:900px){.grid[style*="1.35fr"]{grid-template-columns:1fr!important}}</style></div>
 </section>
 
 <section class="band">
@@ -262,7 +351,7 @@ No endorsement or partnership is implied.</p></div>
   <div class="wrap">
     <div class="ftr__grid">
       <div>
-        <a class="logo" href="/"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="1" y="6" width="30" height="20" rx="4" fill="currentColor" opacity=".1"/><rect x="1.6" y="6.6" width="28.8" height="18.8" rx="3.4" stroke="currentColor" stroke-opacity=".28" stroke-width="1.2"/><path d="M21 6.5v19" stroke="currentColor" stroke-opacity=".45" stroke-width="1.2" stroke-dasharray="2.4 2.4"/><path d="M17.4 20.6 16 14.5l2.6-2.6a1.55 1.55 0 0 0-2.2-2.2l-2.6 2.6-6.1-1.4a.37.37 0 0 0-.36.6l2.36 2.36-1.48 1.48-1.33-.3a.37.37 0 0 0-.37.6l1.06 1.06 1.06 1.06a.37.37 0 0 0 .6-.37l-.3-1.33 1.48-1.48 2.36 2.36a.37.37 0 0 0 .6-.37Z" fill="#b4531f"/><circle cx="25.6" cy="12.5" r="1.1" fill="currentColor" opacity=".3"/><circle cx="25.6" cy="16" r="1.1" fill="currentColor" opacity=".3"/><circle cx="25.6" cy="19.5" r="1.1" fill="currentColor" opacity=".3"/></svg><span>Visa<b>Flight</b>Ticket</span></a>
+        <a class="logo" href="/"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="1" y="6" width="30" height="20" rx="4" fill="currentColor" opacity=".1"/><rect x="1.6" y="6.6" width="28.8" height="18.8" rx="3.4" stroke="currentColor" stroke-opacity=".28" stroke-width="1.2"/><path d="M21 6.5v19" stroke="currentColor" stroke-opacity=".45" stroke-width="1.2" stroke-dasharray="2.4 2.4"/><path d="M17.4 20.6 16 14.5l2.6-2.6a1.55 1.55 0 0 0-2.2-2.2l-2.6 2.6-6.1-1.4a.37.37 0 0 0-.36.6l2.36 2.36-1.48 1.48-1.33-.3a.37.37 0 0 0-.37.6l1.06 1.06 1.06 1.06a.37.37 0 0 0 .6-.37l-.3-1.33 1.48-1.48 2.36 2.36a.37.37 0 0 0 .6-.37Z" fill="#0b7f49"/><circle cx="25.6" cy="12.5" r="1.1" fill="currentColor" opacity=".3"/><circle cx="25.6" cy="16" r="1.1" fill="currentColor" opacity=".3"/><circle cx="25.6" cy="19.5" r="1.1" fill="currentColor" opacity=".3"/></svg><span>Visa<b>Flight</b>Ticket</span></a>
         <p class="ftr__note">Real, airline-held flight reservations and confirmed hotel bookings with verifiable
         references &mdash; built for visa applications, delivered in 30-60 minutes.</p>
         <div style="margin-top:1.1rem"><span class="badge badge--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 2.4 1.8 3-.2.9 2.9 2.4 1.8-1.1 2.8 1.1 2.8-2.4 1.8-.9 2.9-3-.2L12 20l-2.4-1.8-3 .2-.9-2.9L3.3 13.7 4.4 11 3.3 8.2l2.4-1.8.9-2.9 3 .2Z"/><path d="m9 11.5 2 2 4-4"/></svg><span class="badge__txt"><b>IATA Certified Agent</b></span></span></div>

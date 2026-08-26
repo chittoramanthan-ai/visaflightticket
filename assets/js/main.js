@@ -82,6 +82,89 @@
     }
   }
 
+  // --- hero booking widget -------------------------------------------------
+  var bw = document.getElementById('bw');
+  if (bw) {
+    var tabs = bw.querySelectorAll('.bw__tab');
+    var svcField = document.getElementById('bw-service');
+    var tripBox = document.getElementById('bw-trip');
+    var fromWrap = document.getElementById('bw-from-wrap');
+    var retWrap = document.getElementById('bw-ret-wrap');
+    var toLabel = document.getElementById('bw-to-label');
+    var depLabel = document.getElementById('bw-dep-label');
+    var retLabel = document.getElementById('bw-ret-label');
+    var toInput = document.getElementById('bw-to');
+    var submit = document.getElementById('bw-submit');
+    var depInput = document.getElementById('bw-dep');
+    var retInput = document.getElementById('bw-ret');
+    var PRICES = { flight: 9, hotel: 7, both: 14 };
+    var LABELS = {
+      flight: 'Get my dummy ticket',
+      hotel: 'Get my hotel booking',
+      both: 'Get flight + hotel'
+    };
+    var service = 'flight';
+
+    function tripValue() {
+      var r = bw.querySelector('input[name="trip"]:checked');
+      return r ? r.value : 'oneway';
+    }
+
+    function render() {
+      var hotel = service === 'hotel';
+      // hotel needs a city and a stay, not a route and a trip type
+      tripBox.hidden = hotel;
+      fromWrap.hidden = hotel;
+      toLabel.textContent = hotel ? 'City' : 'To';
+      toInput.placeholder = hotel ? 'Paris' : 'Paris (CDG)';
+      depLabel.textContent = hotel ? 'Check-in' : 'Departure';
+      retLabel.textContent = hotel ? 'Check-out' : 'Return';
+      retWrap.hidden = !hotel && tripValue() === 'oneway';
+      submit.innerHTML = LABELS[service] + ' — $' + PRICES[service];
+    }
+
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].addEventListener('click', function () {
+        for (var j = 0; j < tabs.length; j++) {
+          tabs[j].classList.remove('is-on');
+          tabs[j].setAttribute('aria-selected', 'false');
+        }
+        this.classList.add('is-on');
+        this.setAttribute('aria-selected', 'true');
+        service = this.getAttribute('data-svc');
+        svcField.value = service;
+        render();
+      });
+    }
+    tripBox.addEventListener('change', render);
+
+    var today = new Date().toISOString().slice(0, 10);
+    depInput.min = today;
+    retInput.min = today;
+    depInput.addEventListener('change', function () {
+      retInput.min = depInput.value || today;
+      if (retInput.value && retInput.value < depInput.value) retInput.value = depInput.value;
+    });
+    render();
+  }
+
+  // --- order page: prefill from the hero widget's query string -------------
+  if (form && window.location.search) {
+    var q = new URLSearchParams(window.location.search);
+    var svc = q.get('service');
+    if (svc) {
+      var radio = form.querySelector('input[name="service"][value="' + svc + '"]');
+      if (radio) { radio.checked = true; }
+    }
+    [['from', 'from'], ['to', 'to'], ['depart', 'depart'], ['return', 'return']]
+      .forEach(function (pair) {
+        var v = q.get(pair[0]);
+        var el = form.querySelector('#' + pair[1]);
+        if (v && el) el.value = v;
+      });
+    form.dispatchEvent(new Event('change'));
+  }
+
   // --- current year in footer ---------------------------------------------
   var y = document.querySelectorAll('.js-year');
   for (var i = 0; i < y.length; i++) y[i].textContent = new Date().getFullYear();
