@@ -377,13 +377,13 @@ def stat_bar():
 FEATURES = [
     ("bulb", "Live PNR",
      "Every booking is real and held in an airline system. Verify the reference "
-     "on the carrier&rsquo;s own site before you file &mdash; takes two minutes."),
+     "on the carrier&rsquo;s own site before you file. Takes two minutes."),
     ("headset", "24&times;7 support",
      "Appointment at six in the morning? Message us at any hour and a person "
      "answers. Priority handling is included when it is urgent."),
     ("cash", "Cheapest price",
      "%s per traveller, all inclusive. No fare is ever purchased, so there is "
-     "no fare to recover &mdash; that is why it can be this cheap."),
+     "no fare to recover. That is why it can be this cheap."),
     ("handshake", "Money-back guarantee",
      "If a reference does not verify, or we fail to deliver, you get a full "
      "refund. Written down, not implied."),
@@ -411,7 +411,7 @@ def trust_cards(heading="Why travellers trust %s" % BRAND):
     cards = []
     if VISAS_HELPED:
         cards.append((ICON["seal"], "%s successful visa files" % VISAS_HELPED,
-                      "Documents supplied for Schengen, US, UK, Canada, UAE and beyond &mdash; "
+                      "Documents supplied for Schengen, US, UK, Canada, UAE and beyond. "
                       "since %s." % SINCE_YEAR if SINCE_YEAR else
                       "Documents supplied for Schengen, US, UK, Canada, UAE and beyond."))
     cards.append((ICON["shield"], "100% verifiable PNR",
@@ -420,7 +420,7 @@ def trust_cards(heading="Why travellers trust %s" % BRAND):
     if IATA_ACCREDITED:
         cards.append((ICON["award"], "IATA certified agent",
                       "Bookings are made through accredited channels in live airline reservation "
-                      "systems &mdash; not generated as PDFs." +
+                      "systems, not generated as PDFs." +
                       (" Accreditation no. %s." % IATA_NUMBER if IATA_NUMBER else "")))
     cards.append((ICON["wallet"], "Money-back guarantee",
                   "If a booking reference does not verify, or we fail to deliver, you get a full "
@@ -494,7 +494,7 @@ def booking_widget():
   <button type="button" class="bw__add" id="bw-addleg" hidden>+ Add another city</button>
 
   <button class="btn btn--primary btn--lg btn--block" type="submit" id="bw-submit">
-    Get my dummy ticket &mdash; %s</button>
+    Get my dummy ticket at %s</button>
   <p class="bw__note">
     <b>%s Live PNR</b><b>%s No airline payment</b><b>%s In %s</b>
   </p>
@@ -719,7 +719,7 @@ def footer(visa_links):
       <div>
         <a class="logo" href="%s">%s<span>Visa<b>Flight</b>Ticket</span></a>
         <p class="ftr__note">Real, airline-held flight reservations and confirmed hotel bookings with verifiable
-        references &mdash; built for visa applications, delivered in %s.</p>
+        references. Built for visa applications, delivered in %s.</p>
         <div style="margin-top:1.1rem">%s</div>
         <div class="btn-row" style="margin-top:1.2rem">
           <a class="btn btn--ghost" href="%s">%s Email us</a>

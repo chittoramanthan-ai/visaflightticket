@@ -61,7 +61,7 @@ def steps_block(steps, heading="How it works"):
 
 ORDER_STEPS = [
     ("Tell us your route", "Enter the cities, your travel dates and your name exactly as it is printed in your passport. Two minutes, no account needed."),
-    ("We hold a real booking", "We place a genuine reservation in a live airline or hotel system. That booking generates a real reference code &mdash; a PNR."),
+    ("We hold a real booking", "We place a genuine reservation in a live airline or hotel system. That booking generates a real reference code. A PNR."),
     ("You get the PDF", "An embassy-ready itinerary lands in your inbox within %s, showing the airline, flight numbers, dates and the PNR." % DELIVERY),
     ("You verify it yourself", "Check the PNR on the airline&rsquo;s own &lsquo;manage booking&rsquo; page before you submit. What you can verify, a visa officer can verify."),
 ]
@@ -91,17 +91,17 @@ def build():
 def home():
     home_faqs = [
         ("What is a visa flight ticket?",
-         "<p>A visa flight ticket &mdash; also called a flight reservation, dummy ticket or flight itinerary &mdash; is a genuine airline booking held in your name that has <strong>not been paid for</strong>. It carries a real booking reference (PNR) that a consulate can look up, and it proves your intended travel dates and route without forcing you to buy a ticket before your visa is decided.</p>"),
+         "<p>A visa flight ticket. Also called a flight reservation, dummy ticket or flight itinerary. Is a genuine airline booking held in your name that has <strong>not been paid for</strong>. It carries a real booking reference (PNR) that a consulate can look up, and it proves your intended travel dates and route without forcing you to buy a ticket before your visa is decided.</p>"),
         ("Is it legal to use a flight reservation instead of a paid ticket?",
-         "<p>Yes, when the reservation is real. Embassies ask for <em>proof of intended travel</em>, not proof of purchase. The European Commission&rsquo;s own guidance tells applicants not to buy non-refundable tickets before a decision. What is <strong>not</strong> legal is submitting a forged or edited PDF that has no live booking behind it &mdash; that is document fraud. Every itinerary we issue is backed by an actual reservation you can verify.</p>"),
+         "<p>Yes, when the reservation is real. Embassies ask for <em>proof of intended travel</em>, not proof of purchase. The European Commission&rsquo;s own guidance tells applicants not to buy non-refundable tickets before a decision. What is <strong>not</strong> legal is submitting a forged or edited PDF that has no live booking behind it. That is document fraud. Every itinerary we issue is backed by an actual reservation you can verify.</p>"),
         ("How fast will I get my ticket?",
          "<p>Most orders are delivered within %s. If you are inside 24 hours of your appointment, add the priority option at checkout and tell us the appointment time.</p>" % DELIVERY),
         ("How long does the reservation stay valid?",
-         "<p>Airline hold periods vary by carrier and route &mdash; typically 48 hours to 14 days. We time your booking so it is live on the day you submit, and we will reissue it free of charge if your appointment moves.</p>"),
+         "<p>Airline hold periods vary by carrier and route, typically 48 hours to 14 days. We time your booking so it is live on the day you submit, and we will reissue it free of charge if your appointment moves.</p>"),
         ("Do you also provide hotel bookings?",
          "<p>Yes. A confirmed hotel booking in your name with a reference number, for %s, or bundled with your flight reservation for %s. Most consulates ask for both.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
         ("What if my visa is refused?",
-         "<p>Nothing happens to your money, which is the whole point of a reservation. You never paid the airline, so there is no ticket to cancel and no refund to chase. Our own fee is small and non-refundable once the booking is issued &mdash; see the <a href=\"%s\">refund policy</a>.</p>" % url("refund-policy")),
+         "<p>Nothing happens to your money, which is the whole point of a reservation. You never paid the airline, so there is no ticket to cancel and no refund to chase. Our own fee is small and non-refundable once the booking is issued. See the <a href=\"%s\">refund policy</a>.</p>" % url("refund-policy")),
     ]
 
     body = """
@@ -110,11 +110,11 @@ def home():
     <div class="hero__grid">
       <div>
         <p class="eyebrow">Flight &amp; hotel proof for visa files</p>
-        <h1>A verifiable flight ticket for your visa &mdash; without buying the flight</h1>
+        <h1>A verifiable flight ticket for your visa. Without buying the flight</h1>
         <p class="lede">We issue real, airline-held reservations with a live PNR that you and the consulate can
         check on the airline&rsquo;s own website. Embassy-ready PDF in %s, from %s.</p>
         <div class="btn-row">
-          <a class="btn btn--primary btn--lg" href="%s">Get my flight ticket &mdash; %s</a>
+          <a class="btn btn--primary btn--lg" href="%s">Get my flight ticket at %s</a>
           <a class="btn btn--ghost btn--lg" href="%s">See how it works</a>
         </div>
         <div class="hero__seal">%s</div>
@@ -150,7 +150,7 @@ def home():
   <div class="wrap wrap--narrow">
     <h2>What exactly is a &ldquo;dummy ticket&rdquo;?</h2>
     <p>A dummy ticket is a <strong>flight reservation that has been created in a real airline booking system but not
-    paid for</strong>. The airline holds the seat for a fixed window and issues a booking reference &mdash; a six-character
+    paid for</strong>. The airline holds the seat for a fixed window and issues a booking reference. A six-character
     PNR such as <code>K7QX2M</code>. The document you receive shows exactly what a paid ticket shows: passenger name,
     airline, flight numbers, dates, times and that reference. The only thing missing is the payment.</p>
     <p>That is precisely what a visa officer wants to see. They need evidence that you have planned a specific trip,
@@ -159,8 +159,7 @@ def home():
     <div class="note note--warn">
       <strong>The line that matters</strong>
       A reservation that exists in an airline system is legitimate. A PDF that was designed in Photoshop to look like
-      one is forgery, and consulates check. Everything we send you can be verified on the carrier&rsquo;s own site &mdash;
-      <a href="%s">here is how to check it</a> before you submit.
+      one is forgery, and consulates check. Everything we send you can be verified on the carrier&rsquo;s own site.       <a href="%s">here is how to check it</a> before you submit.
     </div>
   </div>
 </section>
@@ -294,13 +293,13 @@ def flight_page():
         ("Can I verify the PNR myself before I submit?",
          "<p>You should. Open the airline&rsquo;s &lsquo;Manage booking&rsquo; page, enter the six-character PNR and your surname, and the itinerary appears. Our <a href=\"%s\">step-by-step verification guide</a> covers the major carriers.</p>" % url("verify-pnr")),
         ("How long is the reservation held?",
-         "<p>Between 48 hours and 14 days depending on the airline, the route and how far ahead you are travelling. We schedule your booking so it is live on your submission date. If the consulate keeps your file for weeks, that is normal &mdash; officers check the PNR when they open the file, not months later, and by then you will usually have bought a real ticket anyway.</p>"),
+         "<p>Between 48 hours and 14 days depending on the airline, the route and how far ahead you are travelling. We schedule your booking so it is live on your submission date. If the consulate keeps your file for weeks, that is normal. Officers check the PNR when they open the file, not months later, and by then you will usually have bought a real ticket anyway.</p>"),
         ("Can you do multi-city or one-way itineraries?",
-         "<p>Yes &mdash; one-way, return, open-jaw and multi-city are all available at the same price. For a Schengen application you almost always want a return or onward leg; for <a href=\"%s\">proof of onward travel</a> at check-in, a one-way onward booking is usually what is required.</p>" % url("proof-of-onward-travel")),
+         "<p>Yes. One-way, return, open-jaw and multi-city are all available at the same price. For a Schengen application you almost always want a return or onward leg; for <a href=\"%s\">proof of onward travel</a> at check-in, a one-way onward booking is usually what is required.</p>" % url("proof-of-onward-travel")),
         ("What if I spelled my name wrong?",
          "<p>Tell us and we will reissue it once, free. Names must match your passport exactly: surname and given names in the same order and spelling as the machine-readable zone. This is the single most common cause of a returned file.</p>"),
         ("Do you cover every airline?",
-         "<p>We book on the carrier that actually serves your route, using live availability. If a specific airline is required for your application &mdash; some consulates note a preferred national carrier &mdash; tell us in the order notes and we will match it where the route allows.</p>"),
+         "<p>We book on the carrier that actually serves your route, using live availability. If a specific airline is required for your application, and some consulates do note a preferred national carrier, tell us in the order notes and we will match it where the route allows.</p>"),
     ]
 
     body = """
@@ -314,7 +313,7 @@ def flight_page():
         <p class="lede">A genuine airline-held itinerary in your name, with a live PNR the consulate can verify on
         the carrier&rsquo;s own website. Delivered as a print-ready PDF in %s.</p>
         <div class="btn-row" style="margin-top:1.6rem">
-          <a class="btn btn--primary btn--lg" href="%s">Order &mdash; %s</a>
+          <a class="btn btn--primary btn--lg" href="%s">Order at %s</a>
           <a class="btn btn--ghost btn--lg" href="%s">How verification works</a>
         </div>
         %s
@@ -335,7 +334,7 @@ def flight_page():
     <p>One PDF, formatted the way consular officers expect to see an itinerary, containing:</p>
     <ul>
       <li><strong>Passenger name</strong> exactly as printed in your passport, surname first.</li>
-      <li><strong>Booking reference (PNR)</strong> &mdash; a live six-character code, not a placeholder.</li>
+      <li><strong>Booking reference (PNR)</strong>: a live six-character code, not a placeholder.</li>
       <li><strong>Airline and flight numbers</strong> for every leg, with operating carrier where it differs.</li>
       <li><strong>Departure and arrival airports, dates and local times</strong>, including layovers.</li>
       <li><strong>Issue date and travel agency details</strong>, so the document has a traceable origin.</li>
@@ -364,7 +363,7 @@ def flight_page():
       <div class="card"><div class="card__ico">%s</div><h3>Visa extensions and renewals</h3><p>Extension applications frequently require a departure booking on or before the new expiry date.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>Student and work permits</h3><p>Many student visa checklists want a provisional travel plan aligned to your course start date.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>Employer and sponsor files</h3><p>Sponsorship packs often need a travel plan before the sponsor releases funds.</p></div>
-      <div class="card"><div class="card__ico">%s</div><h3>Insurance quotes</h3><p>Travel insurance for Schengen must cover exact travel dates &mdash; the reservation fixes them.</p></div>
+      <div class="card"><div class="card__ico">%s</div><h3>Insurance quotes</h3><p>Travel insurance for Schengen must cover exact travel dates. The reservation fixes them.</p></div>
     </div>
   </div>
 </section>
@@ -418,15 +417,15 @@ def hotel_page():
 
     faqs = [
         ("Is a hotel booking really required?",
-         "<p>For most tourist visas, yes &mdash; consulates want proof of accommodation for every night you are in the country. Schengen missions are explicit about it. If you are staying with family or friends you normally submit an invitation letter instead, and you do not need a hotel booking at all.</p>"),
+         "<p>For most tourist visas, yes. Consulates want proof of accommodation for every night you are in the country. Schengen missions are explicit about it. If you are staying with family or friends you normally submit an invitation letter instead, and you do not need a hotel booking at all.</p>"),
         ("Is the booking confirmed or just a hold?",
          "<p>It is a confirmed booking in your name with a reference number, made under a policy that allows free cancellation. That is what makes the price low and the risk zero: the property has the booking, you have the confirmation, and nothing is charged.</p>"),
         ("Can the booking cover several cities?",
-         "<p>Yes. Multi-city Schengen trips need accommodation covering every night. Tell us your city-by-city plan in the order notes and we will issue one booking per city so there are no gaps &mdash; gaps are what officers look for.</p>"),
+         "<p>Yes. Multi-city Schengen trips need accommodation covering every night. Tell us your city-by-city plan in the order notes and we will issue one booking per city so there are no gaps. Gaps are what officers look for.</p>"),
         ("Will the dates match my flight reservation?",
          "<p>If you order the <a href=\"%s\">flight and hotel bundle</a> we cross-check them automatically: check-in on your arrival date, check-out on your departure date. Mismatched dates between the two documents is a classic avoidable refusal.</p>" % url("flight-and-hotel-package")),
         ("Can I change the hotel or the dates later?",
-         "<p>One free amendment is included. Beyond that, a small reissue fee applies. If your appointment is rescheduled, just email us &mdash; we treat that as the free change.</p>"),
+         "<p>One free amendment is included. Beyond that, a small reissue fee applies. If your appointment is rescheduled, just email us. We treat that as the free change.</p>"),
     ]
 
     body = """
@@ -437,10 +436,10 @@ def hotel_page():
       <p class="eyebrow">From %s per traveller</p>
       <h1>Hotel booking for visa applications</h1>
       <p class="lede">A confirmed accommodation booking in your name, with a real reference number, covering every
-      night of your trip &mdash; issued in %s and cancellable at no cost.</p>
+      night of your trip. Issued in %s and cancellable at no cost.</p>
       <div class="btn-row" style="margin-top:1.6rem">
-        <a class="btn btn--primary btn--lg" href="%s">Order hotel booking &mdash; %s</a>
-        <a class="btn btn--ghost btn--lg" href="%s">Bundle with a flight &mdash; %s</a>
+        <a class="btn btn--primary btn--lg" href="%s">Order hotel booking at %s</a>
+        <a class="btn btn--ghost btn--lg" href="%s">Bundle with a flight at %s</a>
       </div>
       %s
     </div>
@@ -472,7 +471,7 @@ def hotel_page():
     </ol>
     <div class="note">
       <strong>Staying with a host?</strong>
-      Then you need an invitation letter and proof of the host&rsquo;s address or status &mdash; not a hotel booking.
+      Then you need an invitation letter and proof of the host&rsquo;s address or status, not a hotel booking.
       Submitting both, inconsistently, is worse than submitting one clean document.
     </div>
   </div>
@@ -527,7 +526,7 @@ def combo_page():
 
     faqs = [
         ("Why bundle them?",
-         "<p>Because the two documents are read together. The most common avoidable problem in a visa file is not a missing document &mdash; it is two documents that contradict each other. Ordering both from one place means the arrival date on the hotel booking is the arrival date on the flight itinerary, every time.</p>"),
+         "<p>Because the two documents are read together. The most common avoidable problem in a visa file is not a missing document. It is two documents that contradict each other. Ordering both from one place means the arrival date on the hotel booking is the arrival date on the flight itinerary, every time.</p>"),
         ("Is it cheaper?",
          "<p>Yes: %s instead of %s bought separately, per traveller.</p>" % (money(PRICE_BOTH), money(PRICE_FLIGHT + PRICE_HOTEL))),
         ("Multi-city trips?",
@@ -546,7 +545,7 @@ def combo_page():
       <p class="lede">The two documents almost every consulate asks for, issued together and reconciled against each
       other so the dates cannot contradict. %s per traveller, delivered in %s.</p>
       <div class="btn-row" style="margin-top:1.6rem">
-        <a class="btn btn--primary btn--lg" href="%s">Order the bundle &mdash; %s</a>
+        <a class="btn btn--primary btn--lg" href="%s">Order the bundle at %s</a>
       </div>
       %s
     </div>
@@ -563,7 +562,7 @@ def combo_page():
     <p>Before your pack is sent, we run four checks that an officer would run:</p>
     <ul>
       <li>Hotel check-in is on or after your flight arrival date, in local time, accounting for overnight legs.</li>
-      <li>Hotel check-out is on or before your departure date &mdash; not the day after.</li>
+      <li>Hotel check-out is on or before your departure date, not the day after.</li>
       <li>Every night between arrival and departure is covered by an accommodation booking.</li>
       <li>Passenger name and lead guest name are byte-identical, and both match your passport.</li>
     </ul>
@@ -586,7 +585,7 @@ def combo_page():
        steps_block(ORDER_STEPS, "How the bundle is produced"),
        faq_block(faqs, "Package FAQ"),
        cta_band("One order, both documents, zero contradictions",
-                "Flight reservation with a live PNR plus confirmed accommodation for every night &mdash; %s per traveller." % money(PRICE_BOTH)))
+                "Flight reservation with a live PNR plus confirmed accommodation for every night. %s per traveller." % money(PRICE_BOTH)))
 
     product = {
         "@type": "Product",
@@ -626,10 +625,10 @@ def onward_page():
     <div class="wrap--narrow" style="padding:0;margin:0">
       <p class="eyebrow">%s &middot; delivered in %s</p>
       <h1>Proof of onward travel</h1>
-      <p class="lede">A dated onward or return booking with a live PNR &mdash; enough to satisfy an airline check-in agent
+      <p class="lede">A dated onward or return booking with a live PNR. Enough to satisfy an airline check-in agent
       or a border officer who wants to see that you intend to leave.</p>
       <div class="btn-row" style="margin-top:1.6rem">
-        <a class="btn btn--primary btn--lg" href="%s">Get onward proof &mdash; %s</a>
+        <a class="btn btn--primary btn--lg" href="%s">Get onward proof at %s</a>
         <a class="btn btn--ghost btn--lg" href="%s">Read the full guide</a>
       </div>
       %s
@@ -642,7 +641,7 @@ def onward_page():
     <h2>Why one-way travellers get stopped</h2>
     <p>Under the carrier-liability rules that most countries operate, an airline that flies in a passenger who is
     refused entry pays to fly them out again, and often pays a fine on top. That cost lands on the airline, not on
-    the government &mdash; so airlines push the check forward to the departure gate. The agent scanning your passport
+    the government, so airlines push the check forward to the departure gate. The agent scanning your passport
     is protecting their employer, not enforcing immigration law.</p>
     <p>The practical consequence: on a one-way ticket to a visa-free destination, you can be denied boarding by an
     airline even though immigration at the other end would have admitted you without a murmur.</p>
@@ -683,9 +682,9 @@ def pricing_page():
         ("Are there hidden fees?",
          "<p>No. The price you see is the price charged. The only optional extra is priority handling at %s, and you choose it deliberately at checkout.</p>" % money(PRICE_RUSH)),
         ("What payment methods do you take?",
-         "<p>Card, PayPal and UPI. Payment is processed by the payment provider &mdash; we never see or store your card details.</p>"),
+         "<p>Card, PayPal and UPI. Payment is processed by the payment provider. We never see or store your card details.</p>"),
         ("Do you offer agency or bulk rates?",
-         "<p>Yes. If you file more than about twenty applications a month &mdash; travel agencies, immigration consultants, universities, employers &mdash; email <a href=\"mailto:%s\">%s</a> for volume pricing and a single monthly invoice.</p>" % (EMAIL, EMAIL)),
+         "<p>Yes. If you file more than about twenty applications a month. Travel agencies, immigration consultants, universities, employers. Email <a href=\"mailto:%s\">%s</a> for volume pricing and a single monthly invoice.</p>" % (EMAIL, EMAIL)),
         ("Can I get a refund?",
          "<p>If we fail to deliver a working booking, you are refunded in full. Once a valid booking has been issued the fee is non-refundable, because the work is done and the cost is incurred. The <a href=\"%s\">refund policy</a> sets this out precisely.</p>" % url("refund-policy")),
     ]
@@ -732,7 +731,7 @@ def pricing_page():
     <h2>Why this costs %s and a real ticket costs &#8377;75,000</h2>
     <p>Because you are not buying a flight. You are paying for a booking to be created, held and documented in a live
     airline system, and for someone to check that the details on it will survive consular scrutiny. The seat is never
-    purchased, so no fare is ever charged &mdash; to us or to you.</p>
+    purchased, so no fare is ever charged. To us or to you.</p>
     <p>That is also why the service is genuinely low-risk. If your visa is refused, there is nothing to cancel, no
     airline refund process to fight, and no non-refundable fare written off. The most you have spent is the fee above.</p>
   </div>
@@ -762,7 +761,7 @@ def how_it_works():
 
     detail = [
         ("Submit your details", "You need three things: the route, the dates, and your name exactly as it appears in your passport. There is no account to create. If your consular appointment is already booked, tell us the date and we will time the reservation around it."),
-        ("We create a live booking", "Your itinerary is entered into a real airline reservation system using live availability on carriers that actually fly your route. The system returns a booking reference &mdash; the PNR. This is the same process a travel agent follows before a customer pays; we simply stop before the payment step."),
+        ("We create a live booking", "Your itinerary is entered into a real airline reservation system using live availability on carriers that actually fly your route. The system returns a booking reference. The PNR. This is the same process a travel agent follows before a customer pays; we simply stop before the payment step."),
         ("Quality check", "Before anything is sent, we verify the name against passport conventions, confirm both directions of travel are present, and check the hold window will still be open on your submission date. Bundle orders also get flight-to-hotel date reconciliation."),
         ("Delivery", "The finished PDF is emailed to you, typically within %s. It is formatted as a standard agency itinerary: no watermark, no promotional branding, nothing that signals it came from a third-party service." % DELIVERY),
         ("You verify it", "Open the airline&rsquo;s &lsquo;Manage booking&rsquo; page, enter the PNR and your surname, and see your own itinerary come back. Now you know what the officer will see."),
@@ -788,7 +787,7 @@ def how_it_works():
     faqs = [
         ("Do I need to create an account?", "<p>No. One form, one email address, done.</p>"),
         ("What information do you need from me?",
-         "<p>Departure and destination cities, travel dates, and each traveller&rsquo;s full name and date of birth as printed in the passport. Nothing else &mdash; we do not ask for passport numbers or scans, because we do not need them.</p>"),
+         "<p>Departure and destination cities, travel dates, and each traveller&rsquo;s full name and date of birth as printed in the passport. Nothing else. We do not ask for passport numbers or scans, because we do not need them.</p>"),
         ("What happens if the airline releases the booking early?",
          "<p>Tell us and we reissue at no cost. Hold windows occasionally close earlier than expected on high-demand routes; that is our problem to fix, not yours.</p>"),
         ("Can I order for someone else?",
@@ -820,7 +819,7 @@ def how_it_works():
       <li><strong>We do not generate PDFs.</strong> Nothing is designed to look like a booking. A booking is created,
       and then documented.</li>
       <li><strong>We do not sell fake PNRs.</strong> A code that does not resolve on the airline&rsquo;s website is worse
-      than no document at all &mdash; it converts an incomplete file into a fraud finding.</li>
+      than no document at all. It converts an incomplete file into a fraud finding.</li>
       <li><strong>We do not promise visa approval.</strong> Nobody can. We supply one document in a file that also
       contains your finances, your ties, and your history.</li>
       <li><strong>We do not issue tickets.</strong> If you need a paid, ticketed fare with an e-ticket number, buy it
@@ -850,7 +849,7 @@ def verify_page():
 
     steps = [
         ("Find the PNR on your itinerary", "It is a six-character alphanumeric code, printed near the top of the document, usually labelled &lsquo;Booking reference&rsquo;, &lsquo;PNR&rsquo;, &lsquo;Reservation code&rsquo; or &lsquo;Record locator&rsquo;. Example format: <code>K7QX2M</code>."),
-        ("Open the operating airline&rsquo;s website", "Use the carrier shown on the first leg. Go to the section called &lsquo;Manage booking&rsquo;, &lsquo;My trips&rsquo; or &lsquo;Check-in&rsquo; &mdash; the wording differs, the function does not."),
+        ("Open the operating airline&rsquo;s website", "Use the carrier shown on the first leg. Go to the section called &lsquo;Manage booking&rsquo;, &lsquo;My trips&rsquo; or &lsquo;Check-in&rsquo;. The wording differs, the function does not."),
         ("Enter the PNR and the surname", "Surname only, spelled exactly as on the itinerary. Most systems reject a full name in that field."),
         ("Read what comes back", "A valid reservation returns your itinerary: passenger name, flight numbers, dates, times. That is what a consular officer sees when they run the same check."),
     ]
@@ -871,13 +870,13 @@ def verify_page():
 
     faqs = [
         ("My PNR does not come up. What now?",
-         "<p>Three ordinary explanations before you assume the worst. First, you may be checking the wrong carrier &mdash; on a codeshare, the booking sits with the <em>operating</em> airline, not the one whose flight number is printed. Second, some systems need a few minutes to propagate. Third, the surname field may need the surname alone. If it still fails, email us the order reference and we will reissue.</p>"),
+         "<p>Three ordinary explanations before you assume the worst. First, you may be checking the wrong carrier. On a codeshare, the booking sits with the <em>operating</em> airline, not the one whose flight number is printed. Second, some systems need a few minutes to propagate. Third, the surname field may need the surname alone. If it still fails, email us the order reference and we will reissue.</p>"),
         ("Can a consulate see that the ticket is unpaid?",
-         "<p>Yes, and that is fine. A reservation shows a booking status rather than a ticket number. Consulates know the difference and ask for reservations for exactly this reason &mdash; they do not want applicants buying fares before a decision.</p>"),
+         "<p>Yes, and that is fine. A reservation shows a booking status rather than a ticket number. Consulates know the difference and ask for reservations for exactly this reason. They do not want applicants buying fares before a decision.</p>"),
         ("Does checking the booking cancel it?",
          "<p>No. Looking up a reservation is read-only. Just avoid clicking anything labelled cancel, and do not attempt online check-in.</p>"),
         ("How can I tell a fake itinerary from a real one?",
-         "<p>Run this exact check. A fabricated document fails at step four: either the code returns nothing, or it returns somebody else&rsquo;s trip. There is no other reliable test &mdash; a forged PDF can look perfect.</p>"),
+         "<p>Run this exact check. A fabricated document fails at step four: either the code returns nothing, or it returns somebody else&rsquo;s trip. There is no other reliable test. A forged PDF can look perfect.</p>"),
     ]
 
     body = """
@@ -902,7 +901,7 @@ def verify_page():
   <div class="wrap wrap--narrow">
     <h2>Where to check, by airline</h2>
     <p>Every major carrier exposes the same lookup. Search the airline name plus &ldquo;manage booking&rdquo; and use the
-    official domain &mdash; never a link forwarded to you by a third party.</p>
+    official domain, never a link forwarded to you by a third party.</p>
     <div class="tbl-wrap">
       <table>
         <thead><tr><th>Airline group</th><th>Where to look</th><th>Fields required</th></tr></thead>
@@ -960,11 +959,11 @@ def order_page():
         <fieldset>
           <legend>1 &middot; What do you need?</legend>
           <label class="opt"><input type="radio" name="service" value="flight" checked>
-            <span><b>Flight reservation &mdash; %s</b><small>Airline-held itinerary with a live PNR</small></span></label>
+            <span><b>Flight reservation at %s</b><small>Airline-held itinerary with a live PNR</small></span></label>
           <label class="opt"><input type="radio" name="service" value="hotel">
-            <span><b>Hotel booking &mdash; %s</b><small>Confirmed accommodation with a reference number</small></span></label>
+            <span><b>Hotel booking at %s</b><small>Confirmed accommodation with a reference number</small></span></label>
           <label class="opt"><input type="radio" name="service" value="both">
-            <span><b>Flight + hotel &mdash; %s</b><small>Both, with dates reconciled. Most popular.</small></span></label>
+            <span><b>Flight + hotel at %s</b><small>Both, with dates reconciled. Most popular.</small></span></label>
         </fieldset>
 
         <fieldset>
@@ -1011,11 +1010,11 @@ def order_page():
             <textarea id="notes" name="notes" rows="3" placeholder="Appointment date, multi-city plan, extra travellers, preferred airline&hellip;"></textarea>
             <span class="hint">Additional travellers&rsquo; names can go here.</span></div>
           <label class="opt" style="margin-top:6px"><input type="checkbox" id="rush" name="rush">
-            <span><b>Priority handling &mdash; +%s</b><small>Targeted inside 60 minutes, 24/7</small></span></label>
+            <span><b>Priority handling, +%s</b><small>Targeted inside 60 minutes, 24/7</small></span></label>
         </fieldset>
 
         <button class="btn btn--primary btn--lg btn--block" type="submit">
-          Continue to payment &mdash; <span id="price-out">%s</span></button>
+          Continue to payment. <span id="price-out">%s</span></button>
         <p class="hint" style="text-align:center;margin-top:12px" id="price-line"></p>
 
         <div class="note note--ok" id="order-msg" hidden>
@@ -1030,7 +1029,7 @@ def order_page():
         <div class="card">
           <h3>What happens next</h3>
           <ol style="font-size:.95rem;color:var(--ink-2);padding-left:1.1em">
-            <li>You pay the service fee &mdash; never an airfare.</li>
+            <li>You pay the service fee, never an airfare.</li>
             <li>We create the booking in a live reservation system.</li>
             <li>The PDF reaches your inbox in %s.</li>
             <li>You verify the PNR on the airline&rsquo;s site.</li>
@@ -1039,7 +1038,7 @@ def order_page():
         <div class="card" style="margin-top:20px">
           <h3>Name spelling matters</h3>
           <p style="font-size:.95rem;color:var(--ink-2)">Copy your surname and given names character-for-character
-          from the passport data page. A mismatch is the most common reason a visa file is returned &mdash; and the
+          from the passport data page. A mismatch is the most common reason a visa file is returned, and the
           easiest to avoid.</p>
         </div>
         <div class="card" style="margin-top:20px">
@@ -1065,7 +1064,7 @@ def thank_you():
     body = """
 <section><div class="wrap wrap--narrow center">
   <p class="eyebrow">Order received</p>
-  <h1>Thank you &mdash; we are on it</h1>
+  <h1>Thank you. We are on it</h1>
   <p class="lede">Your documents will arrive at the email address you gave us within %s. If nothing has landed after
   that, check your spam folder first, then email <a href="mailto:%s">%s</a> with your order reference.</p>
   <div class="btn-row" style="justify-content:center;margin-top:2rem">
@@ -1085,7 +1084,7 @@ def faq_page():
     groups = [
         ("The basics", [
             ("What is a dummy ticket?",
-             "<p>A flight reservation created in a real airline system and held without payment. It carries a live booking reference (PNR) and shows the same details as a paid ticket &mdash; passenger, route, flight numbers, dates &mdash; minus the purchase. &lsquo;Dummy ticket&rsquo; is industry slang; consulates call it a flight reservation or itinerary.</p>"),
+             "<p>A flight reservation created in a real airline system and held without payment. It carries a live booking reference (PNR) and shows the same details as a paid ticket: passenger, route, flight numbers and dates, everything except the purchase. &lsquo;Dummy ticket&rsquo; is industry slang; consulates call it a flight reservation or itinerary.</p>"),
             ("Is a dummy ticket the same as a fake ticket?",
              "<p>No, and the distinction is the whole business. A dummy ticket is a real booking that has not been paid for. A fake ticket is a fabricated document with no booking behind it. The first is a normal part of visa filing; the second is fraud.</p>"),
             ("Why not just book a refundable ticket myself?",
@@ -1097,9 +1096,9 @@ def faq_page():
             ("Will my embassy accept this?",
              "<p>Consulates ask for evidence of intended travel and explicitly warn against buying tickets before a decision. A reservation with a verifiable PNR meets that requirement. We cannot speak for any individual officer&rsquo;s discretion, and no honest provider can.</p>"),
             ("Is it legal?",
-             "<p>Yes. Holding an unpaid airline reservation is a normal commercial transaction that travel agents perform thousands of times a day. What is illegal is submitting a forged document &mdash; which is why every itinerary we issue corresponds to a booking you can look up yourself.</p>"),
+             "<p>Yes. Holding an unpaid airline reservation is a normal commercial transaction that travel agents perform thousands of times a day. What is illegal is submitting a forged document, which is why every itinerary we issue corresponds to a booking you can look up yourself.</p>"),
             ("Could using one hurt my application?",
-             "<p>A genuine reservation, no. A document that fails verification, catastrophically &mdash; a fraud finding typically means refusal plus a multi-year bar on future applications. This is the reason to care where the document comes from.</p>"),
+             "<p>A genuine reservation, no. A document that fails verification, catastrophically. A fraud finding typically means refusal plus a multi-year bar on future applications. This is the reason to care where the document comes from.</p>"),
             ("Do you guarantee my visa will be approved?",
              "<p>No, and treat any service that does as a warning sign. Your travel documents are one part of a file that also weighs your finances, employment, ties to your home country and immigration history.</p>"),
         ]),
@@ -1113,7 +1112,7 @@ def faq_page():
             ("Can I change the dates after delivery?",
              "<p>One free amendment per order. After that a small reissue fee applies.</p>"),
             ("Do you book hotels too?",
-             "<p>Yes &mdash; %s alone, or %s bundled with a flight reservation, with the dates cross-checked.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
+             "<p>Yes. %s alone, or %s bundled with a flight reservation, with the dates cross-checked.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
             ("What if the PNR does not verify?",
              "<p>Email us and we reissue immediately, or refund in full. See the <a href=\"%s\">refund policy</a>.</p>" % url("refund-policy")),
         ]),
@@ -1130,10 +1129,10 @@ def faq_page():
   <div class="wrap wrap--narrow">
     %s
     <h1>Frequently asked questions</h1>
-    <p class="lede">Everything about flight reservations, hotel bookings and visa documentation &mdash; answered without
+    <p class="lede">Everything about flight reservations, hotel bookings and visa documentation. Answered without
     the marketing gloss.</p>
     <div class="stack" style="margin-top:2.4rem">%s</div>
-    <p style="margin-top:2rem">Still stuck? <a href="%s">Get in touch</a> &mdash; we answer every message.</p>
+    <p style="margin-top:2rem">Still stuck? <a href="%s">Get in touch</a>. We answer every message.</p>
   </div>
 </section>
 %s""" % (c_html, "".join('<div style="margin-bottom:2.4rem">%s</div>' % p for p in parts),
@@ -1159,17 +1158,17 @@ def about_page():
     <h2>Why this service exists</h2>
     <p>Visa applications create a circular problem. The consulate wants to see a flight itinerary. Buying the flight
     before you have the visa risks a substantial non-refundable fare on an application that might be refused. So
-    consulates ask for a <em>reservation</em> instead &mdash; and then applicants discover that airlines rarely hold seats
+    consulates ask for a <em>reservation</em> instead, and then applicants discover that airlines rarely hold seats
     for free, and rarely for long enough.</p>
     <p>That gap is what we fill. We create a genuine booking in a live reservation system, hold it across your
-    submission window, and hand you a document you can verify yourself &mdash; for the price of a sandwich rather than
+    submission window, and hand you a document you can verify yourself. For the price of a sandwich rather than
     the price of a fare.</p>
 
     <h2>What we will not do</h2>
     <p>The market around us is not always careful, so we will be explicit.</p>
     <ul>
       <li>We do not fabricate documents. Every itinerary corresponds to a booking that exists.</li>
-      <li>We do not sell PNRs that fail to resolve. If yours does not, we reissue or refund &mdash; no argument.</li>
+      <li>We do not sell PNRs that fail to resolve. If yours does not, we reissue or refund. No argument.</li>
       <li>We do not claim to influence visa decisions. We supply a document; officers weigh a file.</li>
       <li>We do not store passport scans or numbers, because the job does not require them.</li>
     </ul>
@@ -1182,14 +1181,14 @@ def about_page():
 
     <h2>Accreditation</h2>
     <p>We are an <strong>IATA certified travel agent</strong>. That accreditation is what lets us place bookings
-    directly in live airline reservation systems rather than scraping a public search page &mdash; and it is why the
+    directly in live airline reservation systems rather than scraping a public search page, and it is why the
     references we issue behave exactly like any other agency booking when a consular officer looks them up.
     Our accreditation number is published on this page and can be checked against IATA&rsquo;s own register.</p>
     <p>%s</p>
 
     <h2>Company details</h2>
     <p>Contact: <a href="mailto:%s">%s</a>. Registered company name, address and registration number will be
-    published here in full once incorporation completes &mdash; we would rather leave this section visibly unfinished
+    published here in full once incorporation completes. We would rather leave this section visibly unfinished
     than fill it with something unverifiable.</p>
     <p><a href="%s">Contact us</a> &middot; <a href="%s">Terms of service</a> &middot; <a href="%s">Privacy policy</a></p>
   </div>
@@ -1222,11 +1221,11 @@ def contact_page():
     </div>
     <h2>Before you write</h2>
     <ul>
-      <li><strong>PNR not verifying?</strong> Check the <em>operating</em> carrier first &mdash; see the
+      <li><strong>PNR not verifying?</strong> Check the <em>operating</em> carrier first. See the
       <a href="%s">verification guide</a>. That solves most cases in a minute.</li>
       <li><strong>Need a correction?</strong> Send the order reference and the exact corrected spelling. One free
       reissue is included.</li>
-      <li><strong>Not received anything?</strong> Check spam, then email us &mdash; delivery is normally within %s.</li>
+      <li><strong>Not received anything?</strong> Check spam, then email us. Delivery is normally within %s.</li>
       <li><strong>Agency or bulk enquiry?</strong> Tell us your monthly volume and we will send trade pricing.</li>
     </ul>
     <div class="note note--warn">
@@ -1284,7 +1283,7 @@ supported by our documents will succeed.</p>
 <h2>4. Your obligations</h2>
 <ul>
   <li>Provide names exactly as they appear in the passport, and accurate dates. We cannot verify what you submit.</li>
-  <li>Use the documents for lawful purposes only &mdash; visa applications, proof of onward travel, employer or
+  <li>Use the documents for lawful purposes only. Visa applications, proof of onward travel, employer or
   institutional requirements.</li>
   <li>Do not alter, edit or resell any document we issue. Altering a document voids everything below and may
   constitute fraud in your jurisdiction.</li>
@@ -1339,10 +1338,10 @@ arrangements before launch.</div>
 
 <h2>What we collect</h2>
 <ul>
-  <li><strong>Traveller details</strong> &mdash; name and date of birth, needed to create the reservation.</li>
-  <li><strong>Trip details</strong> &mdash; route, dates, destination.</li>
-  <li><strong>Contact details</strong> &mdash; email address, and a phone number if you give one.</li>
-  <li><strong>Payment confirmation</strong> &mdash; a transaction reference from our payment provider. We never receive
+  <li><strong>Traveller details</strong>: name and date of birth, needed to create the reservation.</li>
+  <li><strong>Trip details</strong>: route, dates, destination.</li>
+  <li><strong>Contact details</strong>: email address, and a phone number if you give one.</li>
+  <li><strong>Payment confirmation</strong>: a transaction reference from our payment provider. We never receive
   your full card number.</li>
 </ul>
 <p>We do <strong>not</strong> ask for passport numbers, passport scans or visa application content, and you should not send
@@ -1390,7 +1389,7 @@ def refund_page():
   <li>The booking reference we supply <strong>does not verify</strong> on the relevant supplier&rsquo;s system and we cannot
   reissue a working one within 24 hours of you telling us.</li>
   <li>You were charged twice for the same order.</li>
-  <li>You cancel <strong>before</strong> we have created the booking. Email immediately &mdash; typically a short window.</li>
+  <li>You cancel <strong>before</strong> we have created the booking. Email immediately, typically a short window.</li>
 </ul>
 
 <h2>No refund</h2>
@@ -1399,7 +1398,7 @@ is incurred at that point. In particular there is no refund for:</p>
 <ul>
   <li>A visa refusal or an application withdrawn for any reason.</li>
   <li>Cancelled travel plans, or a change of mind after delivery.</li>
-  <li>Details you supplied incorrectly &mdash; though your one free correction covers this.</li>
+  <li>Details you supplied incorrectly, though your one free correction covers this.</li>
   <li>A booking released early by the airline where we have offered to reissue it.</li>
   <li>Refusal of the document by an authority for reasons unrelated to its validity.</li>
 </ul>
@@ -1410,7 +1409,7 @@ Approved refunds return to the original payment method and usually appear within
 your bank.</p>
 
 <h2>Chargebacks</h2>
-<p>If you believe a refund is owed, contact us first &mdash; we will almost always resolve it faster than your bank can.
+<p>If you believe a refund is owed, contact us first. We will almost always resolve it faster than your bank can.
 Raising a chargeback on a delivered, verifiable booking will be contested with the delivery record and verification
 log.</p>
 """ % (EMAIL, EMAIL))

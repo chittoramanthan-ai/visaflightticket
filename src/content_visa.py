@@ -27,7 +27,7 @@ VISAS = [
               "accommodation covering the full stay.",
         requirements=[
             "A <strong>return or onward itinerary</strong> showing entry to and exit from the Schengen Area. One-way is refused almost automatically.",
-            "<strong>Accommodation for every night</strong> of the stay &mdash; hotel bookings, or an invitation letter if you are staying with a host.",
+            "<strong>Accommodation for every night</strong> of the stay. Hotel bookings, or an invitation letter if you are staying with a host.",
             "<strong>Travel medical insurance</strong> with at least &euro;30,000 coverage, valid across the whole area for the exact dates on your itinerary.",
             "Dates that <strong>fall inside your insurance validity</strong> and inside the 90-days-in-180 rule.",
             "Entry through the country you are applying to, or a clear main-destination justification if not.",
@@ -36,16 +36,16 @@ VISAS = [
                  "tickets before a decision, and VFS Global centres across the network accept unpaid reservations "
                  "with a valid booking reference.",
         traps=[
-            ("Applying to the wrong consulate", "You apply to the country of your <em>main destination</em> &mdash; where you spend the most nights. If nights are equal, apply to your country of first entry. Your flight reservation should make that obvious at a glance."),
+            ("Applying to the wrong consulate", "You apply to the country of your <em>main destination</em>. Where you spend the most nights. If nights are equal, apply to your country of first entry. Your flight reservation should make that obvious at a glance."),
             ("Gaps in accommodation", "A multi-city trip with one hotel booking is the classic error. Every night needs cover, and officers count."),
             ("Insurance that expires before the return flight", "Buy insurance after your itinerary is fixed, not before, and match the dates exactly."),
-            ("Booking too far ahead", "A reservation for travel eight months out with a 48-hour hold window will have lapsed by the time your file is opened. Apply within the sensible window &mdash; typically 15 days to 6 months before travel."),
+            ("Booking too far ahead", "A reservation for travel eight months out with a 48-hour hold window will have lapsed by the time your file is opened. Apply within the sensible window, typically 15 days to 6 months before travel."),
         ],
         faqs=[
             ("Does the Schengen consulate accept an unpaid flight reservation?",
              "<p>Yes. The requirement is for a flight <em>reservation</em> or itinerary, not proof of purchase. EU guidance explicitly warns applicants against buying non-refundable tickets before a visa decision, and consulates and VFS centres process unpaid reservations with valid booking references every day.</p>"),
             ("Do I need to show a return flight?",
-             "<p>Yes. A Schengen tourist visa is issued on the basis that you will leave, so the itinerary must show both entry and exit. An onward flight out of the Schengen Area counts as an exit &mdash; it does not have to return you home.</p>"),
+             "<p>Yes. A Schengen tourist visa is issued on the basis that you will leave, so the itinerary must show both entry and exit. An onward flight out of the Schengen Area counts as an exit. It does not have to return you home.</p>"),
             ("Do I need a hotel booking for all 15 days?",
              "<p>Every night must be accounted for. Hotels, apartments, or an invitation letter from a host with proof of their address. Our <a href=\"%s\">flight and hotel bundle</a> issues one accommodation booking per city so there are no gaps.</p>" % url("flight-and-hotel-package")),
             ("Which country should I apply to for a multi-country trip?",
@@ -63,11 +63,11 @@ VISAS = [
         desc="Flight itinerary for your US B1/B2 visa interview. Verifiable reservation with a live PNR, no ticket purchase before approval. %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("BOM", "JFK"),
         blurb="The US is the one major destination that explicitly tells you <em>not</em> to buy a ticket before your "
-              "interview. Consular officers care far more about your ties to home than about your itinerary &mdash; but "
+              "interview. Consular officers care far more about your ties to home than about your itinerary, but "
               "an itinerary still helps you answer the questions you will actually be asked.",
         requirements=[
             "The DS-160 asks for <strong>intended arrival date and address in the US</strong>. Your itinerary and hotel booking supply both.",
-            "A <strong>plausible, specific plan</strong> &mdash; officers probe vague answers about where you are going and for how long.",
+            "A <strong>plausible, specific plan</strong>: officers probe vague answers about where you are going and for how long.",
             "Evidence you will <strong>return home</strong>: employment, family, property, studies. This carries more weight than any document.",
             "Consistency between the DS-160, your itinerary and what you say at the counter.",
         ],
@@ -75,7 +75,7 @@ VISAS = [
                  "tickets until they have a visa in hand. An itinerary is used to answer the DS-160 rather than as a "
                  "mandatory attachment.",
         traps=[
-            ("Treating the itinerary as the case", "It is not. The B1/B2 decision turns on Section 214(b) &mdash; whether you have overcome the presumption of immigrant intent. Bring your ties."),
+            ("Treating the itinerary as the case", "It is not. The B1/B2 decision turns on Section 214(b). Whether you have overcome the presumption of immigrant intent. Bring your ties."),
             ("DS-160 dates that contradict the itinerary", "The officer has your DS-160 on screen. If it says 12 March and your itinerary says 20 March, expect a question you did not need."),
             ("A trip too long to be plausible", "A six-week holiday on two weeks of annual leave invites scrutiny."),
             ("Buying the ticket first", "Interview slots move and administrative processing happens. This is exactly the scenario a reservation exists to protect you from."),
@@ -86,7 +86,7 @@ VISAS = [
             ("Should I buy the ticket before the interview?",
              "<p>No. The Department of State says so directly. Interview outcomes and administrative processing timelines are unpredictable, and a non-refundable fare is a real loss.</p>"),
             ("Will a reservation improve my chances?",
-             "<p>Not on its own. A B1/B2 refusal is almost always about ties to your home country, not paperwork. The itinerary helps you present a coherent, specific plan &mdash; nothing more, and no service can honestly claim otherwise.</p>"),
+             "<p>Not on its own. A B1/B2 refusal is almost always about ties to your home country, not paperwork. The itinerary helps you present a coherent, specific plan. Nothing more, and no service can honestly claim otherwise.</p>"),
             ("What about a hotel booking?",
              "<p>Useful for the DS-160 US address field and for answering &ldquo;where will you stay?&rdquo;. %s on its own, or %s bundled with the flight itinerary.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
         ],
@@ -100,12 +100,12 @@ VISAS = [
         desc="Flight reservation for a UK Standard Visitor visa. Verifiable PNR, return itinerary, hotel bookings. %s per traveller, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "LHR"),
         blurb="UKVI does not publish a mandatory flight-booking requirement for the Standard Visitor visa. What it does "
-              "require is that you satisfy the caseworker you will leave at the end of your visit &mdash; and a dated "
+              "require is that you satisfy the caseworker you will leave at the end of your visit, and a dated "
               "return itinerary is one of the cleanest ways to show that.",
         requirements=[
-            "Evidence you will <strong>leave the UK</strong> at the end of your visit &mdash; a return or onward booking is the simplest form.",
+            "Evidence you will <strong>leave the UK</strong> at the end of your visit. A return or onward booking is the simplest form.",
             "A <strong>travel plan and accommodation</strong> for the visit, uploaded with the online application.",
-            "Proof you can <strong>fund the trip</strong> without working &mdash; bank statements covering the stay.",
+            "Proof you can <strong>fund the trip</strong> without working. Bank statements covering the stay.",
             "Consistency with what you entered in the online form and any sponsor letter.",
         ],
         official="UKVI guidance emphasises that you should not book travel until your visa is decided, and caseworkers "
@@ -113,7 +113,7 @@ VISAS = [
         traps=[
             ("Buying tickets before the decision", "UK processing times swing widely. Guidance explicitly advises against booking travel before you have the decision."),
             ("A return date after your visa expires", "Check that the return leg falls inside the six-month visitor allowance."),
-            ("Unexplained sponsor arrangements", "If someone else is paying, say so, with their letter and their bank statements &mdash; do not leave the caseworker to infer it."),
+            ("Unexplained sponsor arrangements", "If someone else is paying, say so, with their letter and their bank statements. Do not leave the caseworker to infer it."),
             ("Documents in the wrong format", "UKVI wants uploads as clean PDFs. A phone photo of a screen reads as careless."),
         ],
         faqs=[
@@ -139,7 +139,7 @@ VISAS = [
               "Resident Visa are among the least predictable of any major destination, which makes an unpaid "
               "reservation the obviously sensible choice.",
         requirements=[
-            "A <strong>travel plan</strong> with intended dates &mdash; supplied through the application form and supporting documents.",
+            "A <strong>travel plan</strong> with intended dates. Supplied through the application form and supporting documents.",
             "Proof of <strong>funds</strong> for the trip and of <strong>ties</strong> to your home country.",
             "A <strong>purpose of travel letter</strong> that matches your itinerary dates.",
             "An invitation letter if you are visiting family or friends, matching your accommodation plan.",
@@ -150,7 +150,7 @@ VISAS = [
             ("Booking flights before approval", "TRV processing can run many weeks. IRCC says plainly: do not buy tickets first."),
             ("Itinerary that contradicts the purpose letter", "If your letter says a two-week family visit, the itinerary should not show five weeks."),
             ("Missing the biometrics window", "Biometrics can add weeks. Build that into the dates on your reservation."),
-            ("Single-entry assumptions", "Most TRVs are issued multiple-entry, but do not assume &mdash; check before planning side trips to the US."),
+            ("Single-entry assumptions", "Most TRVs are issued multiple-entry, but do not assume. Check before planning side trips to the US."),
         ],
         faqs=[
             ("Do I need a flight booking for a Canadian visitor visa?",
@@ -158,7 +158,7 @@ VISAS = [
             ("How long should the reservation be valid?",
              "<p>Long enough to be live when an officer opens your file. Because Canadian processing is slow and variable, most applicants submit a reservation and then buy the real fare after approval.</p>"),
             ("Do I need a hotel booking?",
-             "<p>If you are staying in hotels, yes &mdash; it supports your stated plan. If you are staying with family, an invitation letter with their address serves the same purpose.</p>"),
+             "<p>If you are staying in hotels, yes. It supports your stated plan. If you are staying with family, an invitation letter with their address serves the same purpose.</p>"),
         ],
     ),
     dict(
@@ -171,7 +171,7 @@ VISAS = [
         route=("BOM", "DXB"),
         blurb="UAE tourist visas are typically arranged through an airline, hotel or licensed agent as sponsor. The "
               "documentation is lighter than a Schengen file, but the return-flight and accommodation requirements "
-              "are enforced hard &mdash; at the visa stage and again at the immigration counter.",
+              "are enforced hard. At the visa stage and again at the immigration counter.",
         requirements=[
             "A <strong>confirmed return or onward flight</strong>. This is checked on arrival, not only at application.",
             "<strong>Hotel booking</strong> for the stay, or the address and details of your host.",
@@ -190,7 +190,7 @@ VISAS = [
             ("Do I need a return ticket for Dubai?",
              "<p>Yes in practice. UAE immigration and airline check-in staff both look for evidence of onward travel, and this is enforced consistently. A verifiable onward reservation satisfies it.</p>"),
             ("Is a hotel booking required for a UAE tourist visa?",
-             "<p>You need to show where you are staying &mdash; a hotel booking or a host's address. Sponsors and immigration both ask.</p>"),
+             "<p>You need to show where you are staying. A hotel booking or a host's address. Sponsors and immigration both ask.</p>"),
             ("How quickly can I get the documents?",
              "<p>Within %s. UAE trips are often booked at short notice, so priority handling is available if you are travelling the same day.</p>" % DELIVERY),
         ],
@@ -207,7 +207,7 @@ VISAS = [
               "plans support that; buying tickets before the grant undermines your own position if the visa is "
               "delayed, which subclass 600 applications routinely are.",
         requirements=[
-            "Evidence of a <strong>genuine temporary visit</strong> &mdash; a dated plan showing arrival and departure.",
+            "Evidence of a <strong>genuine temporary visit</strong>: a dated plan showing arrival and departure.",
             "<strong>Sufficient funds</strong> for the visit without working.",
             "<strong>Health and character</strong> requirements, which may add a medical appointment to your timeline.",
             "An invitation or sponsorship letter where relevant, consistent with your itinerary.",
@@ -258,7 +258,7 @@ VISAS = [
             ("How detailed must the schedule of stay be?",
              "<p>Day by day: the date, the city, the accommodation name and its phone number. Your hotel bookings should back up every line of it.</p>"),
             ("Can you match hotel bookings to a multi-city schedule?",
-             "<p>Yes &mdash; give us the city order and nights in each, and we issue one booking per city so your schedule reconciles cleanly. That is the <a href=\"%s\">bundle</a>.</p>" % url("flight-and-hotel-package")),
+             "<p>Yes. Give us the city order and nights in each, and we issue one booking per city so your schedule reconciles cleanly. That is the <a href=\"%s\">bundle</a>.</p>" % url("flight-and-hotel-package")),
         ],
     ),
     dict(
@@ -272,7 +272,7 @@ VISAS = [
         blurb="Turkey's e-visa is quick for eligible nationalities, but the checks happen at the airport instead of "
               "at a consulate: airline staff and Turkish immigration both ask for onward travel and accommodation.",
         requirements=[
-            "A <strong>return or onward flight booking</strong> &mdash; checked at check-in and on arrival.",
+            "A <strong>return or onward flight booking</strong>: checked at check-in and on arrival.",
             "<strong>Hotel booking</strong> or host address for the duration of the stay.",
             "Passport valid at least <strong>150 days</strong> from entry for most e-visa nationalities.",
             "Proof of funds, occasionally requested at the border.",
@@ -300,12 +300,12 @@ VISAS = [
         desc="Proof of onward travel for Thailand, plus hotel bookings for a Thai visa or visa exemption entry. Verifiable PNR from %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "BKK"),
         blurb="Thailand enforces proof of onward travel more consistently than almost anywhere else, and the "
-              "enforcement happens at the check-in desk in your departure city &mdash; before you have any chance to "
+              "enforcement happens at the check-in desk in your departure city. Before you have any chance to "
               "explain your plans to a Thai official.",
         requirements=[
-            "<strong>Proof of onward travel</strong> within your permitted stay &mdash; 30, 60 or 90 days depending on entry type.",
+            "<strong>Proof of onward travel</strong> within your permitted stay. 30, 60 or 90 days depending on entry type.",
             "<strong>Accommodation details</strong> for the arrival card and for immigration questions.",
-            "Proof of funds &mdash; officially 10,000 THB per person, occasionally spot-checked.",
+            "Proof of funds. Officially 10,000 THB per person, occasionally spot-checked.",
             "For a tourist visa applied for in advance, the itinerary and accommodation in the application pack.",
         ],
         official="Thai immigration requires visitors to hold evidence of onward travel within the permitted period, "
@@ -344,7 +344,7 @@ VISAS = [
         official="Korean diplomatic missions require a detailed travel plan with supporting reservations for C-3 "
                  "tourist visa applications.",
         traps=[
-            ("K-ETA confusion", "Check whether your nationality needs a visa or a K-ETA before preparing a full file &mdash; the lists change."),
+            ("K-ETA confusion", "Check whether your nationality needs a visa or a K-ETA before preparing a full file. The lists change."),
             ("Thin financial evidence", "Korean consulates weigh finances heavily. Statements should show a stable balance, not a sudden deposit."),
             ("Itinerary longer than the C-3 allowance", "Usually 90 days maximum. Keep the return leg inside it."),
         ],
@@ -364,7 +364,7 @@ VISAS = [
         desc="Flight reservation and hotel booking for a Singapore visa or visa-free entry, plus proof of onward travel. From %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "SIN"),
         blurb="Singapore's ICA is efficient and unsentimental. Onward travel and accommodation are part of the SG "
-              "Arrival Card, and officers at Changi do ask &mdash; particularly of travellers on one-way tickets.",
+              "Arrival Card, and officers at Changi do ask, particularly of travellers on one-way tickets.",
         requirements=[
             "A <strong>confirmed onward or return booking</strong> within the permitted stay.",
             "<strong>Accommodation address</strong> for the SG Arrival Card, submitted within three days before arrival.",
@@ -376,7 +376,7 @@ VISAS = [
         traps=[
             ("Leaving the arrival card too late", "It must be submitted within three days before arrival, and it asks for your accommodation."),
             ("One-way entry", "Expect questions at Changi, and possibly at check-in before you leave."),
-            ("Assuming the visa-free period is generous", "Length of stay is granted at the officer's discretion &mdash; 30 days is not automatic for every nationality."),
+            ("Assuming the visa-free period is generous", "Length of stay is granted at the officer's discretion. 30 days is not automatic for every nationality."),
         ],
         faqs=[
             ("Do I need proof of onward travel for Singapore?",
@@ -398,7 +398,7 @@ VISAS = [
               "producing bank statements at a check-in desk.",
         requirements=[
             "<strong>Onward travel</strong> to a country you have the right to enter, within your permitted stay.",
-            "Evidence of <strong>funds</strong> &mdash; commonly NZ$1,000 per month of stay, or NZ$400 if accommodation is prepaid.",
+            "Evidence of <strong>funds</strong>: commonly NZ$1,000 per month of stay, or NZ$400 if accommodation is prepaid.",
             "<strong>NZeTA</strong> for visa-waiver nationalities, requested before travel.",
             "Accommodation details for the arrival card.",
         ],
@@ -413,7 +413,7 @@ VISAS = [
             ("Does New Zealand require an onward ticket?",
              "<p>You must hold an onward ticket or show funds sufficient to buy one. A verifiable onward booking is far quicker to present at check-in than bank statements.</p>"),
             ("Is prepaid accommodation useful?",
-             "<p>Yes &mdash; it lowers the funds threshold from around NZ$1,000 to NZ$400 per month of stay.</p>"),
+             "<p>Yes. It lowers the funds threshold from around NZ$1,000 to NZ$400 per month of stay.</p>"),
         ],
     ),
 ]
@@ -500,8 +500,8 @@ def _page(v):
         <h1>%s</h1>
         <p class="lede">%s</p>
         <div class="btn-row" style="margin-top:1.6rem">
-          <a class="btn btn--primary btn--lg" href="%s">Order flight reservation &mdash; %s</a>
-          <a class="btn btn--ghost btn--lg" href="%s">Flight + hotel &mdash; %s</a>
+          <a class="btn btn--primary btn--lg" href="%s">Order flight reservation at %s</a>
+          <a class="btn btn--ghost btn--lg" href="%s">Flight + hotel at %s</a>
         </div>
         %s
       </div>

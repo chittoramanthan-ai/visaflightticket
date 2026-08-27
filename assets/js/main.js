@@ -241,7 +241,7 @@
       if (fromLabel) fromLabel.textContent = multi ? 'From (flight 1)' : 'From';
       if (depLabel && multi) depLabel.textContent = 'Departure (flight 1)';
 
-      submit.innerHTML = LABELS[service] + ' — ' + CUR + PRICES[service];
+      submit.innerHTML = LABELS[service] + ' at ' + CUR + PRICES[service];
     }
 
     for (var i = 0; i < tabs.length; i++) {

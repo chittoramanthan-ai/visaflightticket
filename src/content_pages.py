@@ -26,7 +26,7 @@ def b2b_page():
         ("How are partner orders submitted?",
          "<p>Three ways, and you can mix them: a shared inbox with a fixed template, a spreadsheet upload for batches, or an HTTP endpoint if you want your own system to place orders directly.</p>"),
         ("Can documents be issued unbranded?",
-         "<p>They already are. Nothing we issue carries our branding &mdash; the itinerary reads as a standard agency document. Partner accounts can carry your agency details on it instead.</p>"),
+         "<p>They already are. Nothing we issue carries our branding. The itinerary reads as a standard agency document. Partner accounts can carry your agency details on it instead.</p>"),
         ("How does billing work?",
          "<p>One consolidated invoice per month with a per-file breakdown, on 14- or 30-day terms depending on volume. No prepaid credit to burn down, no minimum commitment.</p>"),
         ("What turnaround can we promise our clients?",
@@ -43,8 +43,8 @@ def b2b_page():
       <div>
         <p class="eyebrow">Partner accounts</p>
         <h1>B2B: visa travel documents at volume</h1>
-        <p class="lede">If you file visa applications for other people &mdash; as an agency, a consultancy, a
-        university or an employer &mdash; you should not be paying retail, and you should not be re-keying the same
+        <p class="lede">If you file visa applications for other people. As an agency, a consultancy, a
+        university or an employer. You should not be paying retail, and you should not be re-keying the same
         traveller details into a form twenty times a week.</p>
         <div class="btn-row" style="margin-top:1.6rem">
           <a class="btn btn--primary btn--lg" href="mailto:%s?subject=B2B%%20account%%20enquiry">Request trade pricing</a>
@@ -79,7 +79,7 @@ def b2b_page():
       <div class="card"><div class="card__ico">%s</div><h3>Priority as standard</h3>
         <p>Partner files go to the front of the queue at no surcharge, including out of hours.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>A named contact</h3>
-        <p>One person who knows your account and answers directly &mdash; not a shared inbox and a ticket
+        <p>One person who knows your account and answers directly, not a shared inbox and a ticket
         number.</p></div>
     </div>
   </div>
@@ -102,7 +102,7 @@ def b2b_page():
     <div class="note">
       <strong>One thing volume does not change</strong>
       Every reservation is still a real airline booking with a PNR your client can verify. If a partner wants
-      documents that skip that step, we are not the right supplier &mdash; and any supplier who agrees is handing
+      documents that skip that step, we are not the right supplier, and any supplier who agrees is handing
       your clients a fraud finding with your name attached to it.
     </div>
   </div>
@@ -117,7 +117,7 @@ def b2b_page():
        ICON["wallet"], ICON["doc"], ICON["refresh"], ICON["shield"], ICON["clock"], ICON["users"],
        faq_block(faqs, "B2B questions"),
        cta_band("Tell us your monthly volume",
-                "We come back with a rate, a submission method and a named contact &mdash; usually the same day.",
+                "We come back with a rate, a submission method and a named contact, usually the same day.",
                 primary=("Email the B2B team", "contact"),
                 secondary=("See retail pricing", "pricing")))
 
@@ -163,16 +163,14 @@ def login_page():
     <h2 class="sr">Common questions about an order</h2>
     <div class="grid g2" style="margin-top:2.2rem">
       <div class="card"><h3>Nothing arrived?</h3>
-        <p style="font-size:.95rem;color:var(--ink-2)">Delivery is normally within %s. Check spam first &mdash;
-        PDFs from an unfamiliar sender get filtered more often than you would expect.</p></div>
+        <p style="font-size:.95rem;color:var(--ink-2)">Delivery is normally within %s. Check spam first.         PDFs from an unfamiliar sender get filtered more often than you would expect.</p></div>
       <div class="card"><h3>Need a correction?</h3>
         <p style="font-size:.95rem;color:var(--ink-2)">One free reissue is included. Send your reference and the
         exact corrected spelling to <a href="mailto:%s">%s</a>.</p></div>
     </div>
 
     <p class="center" style="margin-top:2rem;color:var(--ink-3);font-size:.93rem">
-      Want to check the booking itself rather than the order? You do not need us for that &mdash;
-      <a href="%s">verify the PNR on the airline&rsquo;s own site</a>.</p>
+      Want to check the booking itself rather than the order? You do not need us for that.       <a href="%s">verify the PNR on the airline&rsquo;s own site</a>.</p>
   </div>
 </section>
 """ % (c_html, EMAIL, EMAIL, DELIVERY, EMAIL, EMAIL, url("verify-pnr"))
