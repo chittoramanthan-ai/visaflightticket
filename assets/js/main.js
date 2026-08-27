@@ -39,19 +39,26 @@
   // --- order form: live price estimate ------------------------------------
   var form = document.getElementById('order-form');
   if (form) {
-    var PRICES = { flight: 9, hotel: 7, both: 14 };
+    var CURO = form.getAttribute('data-cur') || '';
+    var PRICES = {
+      flight: +form.getAttribute('data-p-flight'),
+      hotel: +form.getAttribute('data-p-hotel'),
+      both: +form.getAttribute('data-p-both')
+    };
+    var RUSH = +form.getAttribute('data-p-rush');
     var out = document.getElementById('price-out');
     var lineOut = document.getElementById('price-line');
 
     function recalc() {
       var svc = (form.querySelector('input[name="service"]:checked') || {}).value || 'flight';
       var pax = parseInt(form.querySelector('#travellers').value, 10) || 1;
-      var rush = form.querySelector('#rush') && form.querySelector('#rush').checked ? 5 : 0;
+      var rush = form.querySelector('#rush') && form.querySelector('#rush').checked ? RUSH : 0;
       var total = PRICES[svc] * pax + rush;
-      if (out) out.textContent = '$' + total;
+      if (out) out.textContent = CURO + total;
       if (lineOut) {
-        lineOut.textContent = '$' + PRICES[svc] + ' x ' + pax +
-          ' traveller' + (pax > 1 ? 's' : '') + (rush ? ' + $5 priority' : '');
+        lineOut.textContent = CURO + PRICES[svc] + ' x ' + pax +
+          ' traveller' + (pax > 1 ? 's' : '') +
+          (rush ? ' + ' + CURO + RUSH + ' priority' : '');
       }
     }
     form.addEventListener('change', recalc);
@@ -96,7 +103,13 @@
     var submit = document.getElementById('bw-submit');
     var depInput = document.getElementById('bw-dep');
     var retInput = document.getElementById('bw-ret');
-    var PRICES = { flight: 9, hotel: 7, both: 14 };
+    var fromLabel = document.getElementById('bw-from-label');
+    var CUR = bw.getAttribute('data-cur') || '';
+    var PRICES = {
+      flight: +bw.getAttribute('data-p-flight'),
+      hotel: +bw.getAttribute('data-p-hotel'),
+      both: +bw.getAttribute('data-p-both')
+    };
     var LABELS = {
       flight: 'Get my dummy ticket',
       hotel: 'Get my hotel booking',
@@ -109,8 +122,59 @@
       return r ? r.value : 'oneway';
     }
 
+    var legsBox = document.getElementById('bw-legs');
+    var addLeg = document.getElementById('bw-addleg');
+    var MAX_LEGS = 5;
+
+    function legCount() { return legsBox ? legsBox.querySelectorAll('.bw__leg').length : 0; }
+
+    function buildLeg(n) {
+      var d = document.createElement('div');
+      d.className = 'bw__leg';
+      d.innerHTML =
+        '<div class="bw__leghd"><span>Flight ' + (n + 2) + '</span>' +
+        '<button type="button" class="bw__rm" aria-label="Remove this flight">Remove</button></div>' +
+        '<div class="bw__f"><label>From</label>' +
+        '<input type="text" name="leg' + (n + 2) + '_from" data-airport placeholder="Paris (CDG)"></div>' +
+        '<div class="bw__f"><label>To</label>' +
+        '<input type="text" name="leg' + (n + 2) + '_to" data-airport placeholder="Rome (FCO)"></div>' +
+        '<div class="bw__f"><label>Departure</label>' +
+        '<input type="date" name="leg' + (n + 2) + '_date" min="' +
+        new Date().toISOString().slice(0, 10) + '"></div>';
+      d.querySelector('.bw__rm').addEventListener('click', function () {
+        d.parentNode.removeChild(d);
+        renumber();
+        render();
+      });
+      var ins = d.querySelectorAll('[data-airport]');
+      for (var i = 0; i < ins.length; i++) attachAirport(ins[i]);
+      return d;
+    }
+
+    function renumber() {
+      var legs = legsBox.querySelectorAll('.bw__leg');
+      for (var i = 0; i < legs.length; i++) {
+        legs[i].querySelector('.bw__leghd span').textContent = 'Flight ' + (i + 2);
+        var f = legs[i].querySelectorAll('input');
+        f[0].name = 'leg' + (i + 2) + '_from';
+        f[1].name = 'leg' + (i + 2) + '_to';
+        f[2].name = 'leg' + (i + 2) + '_date';
+      }
+      if (addLeg) addLeg.hidden = legs.length + 1 >= MAX_LEGS;
+    }
+
+    if (addLeg) {
+      addLeg.addEventListener('click', function () {
+        if (legCount() + 1 >= MAX_LEGS) return;
+        legsBox.appendChild(buildLeg(legCount()));
+        renumber();
+      });
+    }
+
     function render() {
       var hotel = service === 'hotel';
+      var multi = !hotel && tripValue() === 'multi';
+
       // hotel needs a city and a stay, not a route and a trip type
       tripBox.hidden = hotel;
       fromWrap.hidden = hotel;
@@ -118,8 +182,19 @@
       toInput.placeholder = hotel ? 'Paris' : 'Paris (CDG)';
       depLabel.textContent = hotel ? 'Check-in' : 'Departure';
       retLabel.textContent = hotel ? 'Check-out' : 'Return';
-      retWrap.hidden = !hotel && tripValue() === 'oneway';
-      submit.innerHTML = LABELS[service] + ' — $' + PRICES[service];
+
+      // multi-city has no single return leg -- it has a list of onward flights
+      retWrap.hidden = hotel ? false : (tripValue() !== 'round');
+      if (legsBox) legsBox.hidden = !multi;
+      if (addLeg) addLeg.hidden = !multi || legCount() + 1 >= MAX_LEGS;
+      if (multi && legCount() === 0) {
+        legsBox.appendChild(buildLeg(0));
+        renumber();
+      }
+      if (fromLabel) fromLabel.textContent = multi ? 'From (flight 1)' : 'From';
+      if (depLabel && multi) depLabel.textContent = 'Departure (flight 1)';
+
+      submit.innerHTML = LABELS[service] + ' — ' + CUR + PRICES[service];
     }
 
     for (var i = 0; i < tabs.length; i++) {
@@ -162,6 +237,196 @@
         if (v && el) el.value = v;
       });
     form.dispatchEvent(new Event('change'));
+  }
+
+  // --- airport autocomplete -----------------------------------------------
+  // Index is "IATA|Airport|City|Country" rows in window.VFT_AIRPORTS.
+  var AIR = null;
+  function airports() {
+    if (AIR) return AIR;
+    AIR = [];
+    var raw = window.VFT_AIRPORTS;
+    if (!raw) return AIR;
+    var rows = raw.split('\n');
+    for (var i = 0; i < rows.length; i++) {
+      var f = rows[i].split('|');
+      if (f.length < 4) continue;
+      AIR.push({
+        code: f[0], name: f[1], city: f[2], country: f[3],
+        hay: (f[0] + ' ' + f[1] + ' ' + f[2] + ' ' + f[3]).toLowerCase()
+      });
+    }
+    return AIR;
+  }
+
+  // Ranked so the thing you almost certainly meant is first: exact code,
+  // then code prefix, then city, then airport name, then country.
+  function search(q, limit) {
+    q = q.trim().toLowerCase();
+    if (!q) return [];
+    var list = airports(), hits = [];
+    for (var i = 0; i < list.length; i++) {
+      var a = list[i], code = a.code.toLowerCase(), city = a.city.toLowerCase(), rank = -1;
+      if (code === q) rank = 0;
+      else if (code.indexOf(q) === 0) rank = 1;
+      else if (city.indexOf(q) === 0) rank = 2;
+      else if (a.name.toLowerCase().indexOf(q) === 0) rank = 3;
+      else if (city.indexOf(q) > -1) rank = 4;
+      else if (a.hay.indexOf(q) > -1) rank = 5;
+      if (rank > -1) hits.push([rank, a]);
+    }
+    hits.sort(function (x, y) {
+      return x[0] - y[0] || x[1].city.localeCompare(y[1].city);
+    });
+    var out = [];
+    for (var j = 0; j < hits.length && out.length < (limit || 8); j++) out.push(hits[j][1]);
+    return out;
+  }
+
+  function label(a) { return a.city + ' (' + a.code + ')'; }
+
+  function attachAirport(input) {
+    if (!input || input.__air) return;
+    input.__air = true;
+    input.setAttribute('autocomplete', 'off');
+    input.setAttribute('role', 'combobox');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-expanded', 'false');
+
+    var box = document.createElement('div');
+    box.className = 'ac';
+    box.setAttribute('role', 'listbox');
+    var wrap = document.createElement('div');
+    wrap.className = 'ac-wrap';
+    input.parentNode.insertBefore(wrap, input);
+    wrap.appendChild(input);
+    wrap.appendChild(box);
+
+    var items = [], active = -1;
+
+    function close() {
+      box.classList.remove('is-open');
+      input.setAttribute('aria-expanded', 'false');
+      active = -1;
+    }
+    function choose(a) {
+      input.value = label(a);
+      close();
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    function paint(list) {
+      items = list;
+      if (!list.length) { box.innerHTML = ''; close(); return; }
+      var html = '';
+      for (var i = 0; i < list.length; i++) {
+        var a = list[i];
+        html += '<button type="button" class="ac__i" role="option" data-i="' + i + '">' +
+          '<span class="ac__code">' + a.code + '</span>' +
+          '<span class="ac__txt"><b>' + a.city + '</b>' +
+          '<small>' + a.name + ' &middot; ' + a.country + '</small></span></button>';
+      }
+      box.innerHTML = html;
+      box.classList.add('is-open');
+      input.setAttribute('aria-expanded', 'true');
+      active = -1;
+    }
+    function highlight(n) {
+      var els = box.querySelectorAll('.ac__i');
+      for (var i = 0; i < els.length; i++) els[i].classList.toggle('is-on', i === n);
+      if (els[n]) els[n].scrollIntoView({ block: 'nearest' });
+      active = n;
+    }
+
+    input.addEventListener('input', function () { paint(search(input.value, 8)); });
+    input.addEventListener('focus', function () {
+      if (input.value.trim()) paint(search(input.value, 8));
+    });
+    input.addEventListener('keydown', function (e) {
+      if (!box.classList.contains('is-open')) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); highlight(Math.min(active + 1, items.length - 1)); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); highlight(Math.max(active - 1, 0)); }
+      else if (e.key === 'Enter' && active > -1) { e.preventDefault(); choose(items[active]); }
+      else if (e.key === 'Escape') { close(); }
+    });
+    box.addEventListener('mousedown', function (e) {
+      var b = e.target.closest ? e.target.closest('.ac__i') : null;
+      if (b) { e.preventDefault(); choose(items[+b.getAttribute('data-i')]); }
+    });
+    document.addEventListener('click', function (e) {
+      if (!wrap.contains(e.target)) close();
+    });
+  }
+
+  var airInputs = document.querySelectorAll('[data-airport]');
+  for (var ai = 0; ai < airInputs.length; ai++) attachAirport(airInputs[ai]);
+
+  // --- scroll reveal + counters -------------------------------------------
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Must mirror the CSS selector list exactly, hero excluded -- above-the-fold
+  // content is never allowed to depend on the observer firing.
+  var RV_SEL = [
+    'section:not(.hero) > .wrap > *', 'section:not(.hero) .grid > *',
+    'section:not(.hero) .steps > *', 'section:not(.hero) .trust-panel > .trust-card',
+    'section:not(.hero) .stats .stat', 'section:not(.hero) .mq',
+    'section:not(.hero) .tbl-wrap', 'section:not(.hero) .faq',
+    'section:not(.hero) .note'
+  ].join(', ');
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    // No observer, no animation: drop the flag so nothing stays hidden.
+    document.documentElement.classList.remove('js-anim');
+  } else {
+    var nodes = document.querySelectorAll(RV_SEL);
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      // stagger siblings so a grid cascades instead of popping as one block
+      var sibs = n.parentNode.children, idx = 0;
+      for (var k = 0; k < sibs.length; k++) if (sibs[k] === n) { idx = k; break; }
+      n.style.setProperty('--rvd', Math.min(idx, 6) * 55 + 'ms');
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      for (var e = 0; e < entries.length; e++) {
+        if (entries[e].isIntersecting) {
+          entries[e].target.classList.add('rv-in');
+          io.unobserve(entries[e].target);
+        }
+      }
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
+    for (var r = 0; r < nodes.length; r++) io.observe(nodes[r]);
+
+    // Safety net: whatever has not been revealed after 4s gets revealed anyway,
+    // so a stuck observer can never leave content permanently invisible.
+    setTimeout(function () {
+      document.documentElement.classList.remove('js-anim');
+    }, 4000);
+
+    // count the stat numbers up when the bar first scrolls into view
+    var statEls = document.querySelectorAll('.stats .stat b');
+    var cio = new IntersectionObserver(function (entries) {
+      for (var e = 0; e < entries.length; e++) {
+        if (!entries[e].isIntersecting) continue;
+        var el = entries[e].target;
+        cio.unobserve(el);
+        var m = el.textContent.match(/^([^\d]*)([\d,]+)(.*)$/);
+        if (!m) continue;
+        var target = parseInt(m[2].replace(/,/g, ''), 10);
+        if (!target || target > 5000000) continue;
+        (function (el, pre, post, target) {
+          var t0 = null, dur = 1100;
+          function step(ts) {
+            if (!t0) t0 = ts;
+            var p = Math.min((ts - t0) / dur, 1);
+            var v = Math.round(target * (1 - Math.pow(1 - p, 3)));
+            el.textContent = pre + v.toLocaleString('en-IN') + post;
+            if (p < 1) requestAnimationFrame(step);
+          }
+          el.textContent = pre + '0' + post;
+          requestAnimationFrame(step);
+        })(el, m[1], m[3], target);
+      }
+    }, { threshold: 0.5 });
+    for (var si = 0; si < statEls.length; si++) cio.observe(statEls[si]);
   }
 
   // --- current year in footer ---------------------------------------------

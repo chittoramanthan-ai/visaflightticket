@@ -26,10 +26,16 @@ WHATSAPP = "+918619663455"          # E.164; digits are stripped for the wa.me l
 WHATSAPP_DISPLAY = "Chat on WhatsApp"
 TWITTER = "@visaflightticket"
 
-PRICE_FLIGHT = 9
-PRICE_HOTEL = 7
-PRICE_BOTH = 14
-PRICE_RUSH = 5
+# --- currency & pricing ---------------------------------------------------
+# CURRENCY drives every price on the site, the JS calculators and the
+# priceCurrency in Product/Offer schema. Change these four numbers and the
+# whole site follows -- copy, tables, badges and structured data included.
+CURRENCY = "₹"          # rupee sign
+CURRENCY_CODE = "INR"
+PRICE_FLIGHT = 499
+PRICE_HOTEL = 399
+PRICE_BOTH = 799
+PRICE_RUSH = 199
 DELIVERY = "30-60 minutes"
 
 # --------------------------------------------------------------------------
@@ -126,6 +132,23 @@ def jsonld(*objects):
     dumped = json.dumps(data, ensure_ascii=False, indent=None, separators=(",", ":"))
     dumped = dumped.replace("</", "<\\/")
     return '<script type="application/ld+json">%s</script>' % dumped
+
+
+def money(n):
+    """499 -> Rs499, 150000 -> Rs1,50,000 (Indian digit grouping).
+    Idempotent: an already-formatted value passes straight through, so
+    callers never have to know whether a price was formatted upstream."""
+    if isinstance(n, str):
+        if n.startswith(CURRENCY):
+            return n
+        n = n.replace(CURRENCY, "").replace(",", "")
+    n = int(n)
+    s = str(n)
+    if len(s) > 3:                      # 1,50,000 not 150,000
+        head, tail = s[:-3], s[-3:]
+        head = re.sub(r"(?<=\d)(?=(\d\d)+$)", ",", head)
+        s = head + "," + tail
+    return CURRENCY + s
 
 
 def slugify(text):
@@ -226,7 +249,7 @@ def ticket(title, desc, price, features, cta_label, cta_href,
     <a class="btn btn--%s btn--block" href="%s">%s</a>
   </div>
   <div class="ticket__stub">
-    <p class="ticket__price">$%s<small>%s</small></p>
+    <p class="ticket__price">%s<small>%s</small></p>
     <div class="ticket__barcode"></div>
     <span class="ticket__code">%s</span>
   </div>
@@ -236,7 +259,7 @@ def ticket(title, desc, price, features, cta_label, cta_href,
         '<span class="tag-best">%s</span>' % badge if badge else "",
         title, desc, lis,
         "primary" if featured else "ghost", url(cta_href), cta_label,
-        price, price_note, code,
+        money(price), price_note, code,
     )
 
 
@@ -371,10 +394,28 @@ def trust_cards(heading="Why travellers trust %s" % BRAND):
     return '%s<div class="trust-panel">%s</div>' % (head, inner)
 
 
+def highlights(price=True):
+    """The three claims the client wants front and centre."""
+    items = [
+        ("real", ICON["seal"], "100% Real Ticket", "Booked in a real airline system"),
+        ("pnr", ICON["shield"], "Live PNR", "Check it yourself, free"),
+    ]
+    out = ""
+    for kind, icon, title, sub in items:
+        out += ('<span class="hl__i hl__i--%s">%s<b>%s</b><small>%s</small></span>'
+                % (kind, icon, title, sub))
+    if price:
+        out += ('<span class="hl__i hl__i--price">%s<b>%s <em>only</em></b>'
+                '<small>Per traveller, all in</small></span>'
+                % (ICON["wallet"], money(PRICE_FLIGHT)))
+    return '<div class="hl">%s</div>' % out
+
+
 def booking_widget():
     """Hero search widget: service tabs, trip type, route, dates. GETs to /order/."""
     return """
-<form class="bw" id="bw" action="%s" method="get">
+<form class="bw" id="bw" action="%s" method="get" data-cur="%s"
+      data-p-flight="%d" data-p-hotel="%d" data-p-both="%d">
   <div class="bw__tabs" role="tablist" aria-label="What do you need?">
     <button type="button" class="bw__tab is-on" data-svc="flight" role="tab" aria-selected="true">Flight</button>
     <button type="button" class="bw__tab" data-svc="hotel" role="tab" aria-selected="false">Hotel</button>
@@ -389,12 +430,12 @@ def booking_widget():
   </div>
 
   <div class="bw__f" id="bw-from-wrap">
-    <label for="bw-from">From</label>
-    <input id="bw-from" name="from" type="text" placeholder="Delhi (DEL)" autocomplete="off">
+    <label for="bw-from" id="bw-from-label">From</label>
+    <input id="bw-from" name="from" type="text" placeholder="Delhi (DEL)" data-airport>
   </div>
   <div class="bw__f">
     <label for="bw-to" id="bw-to-label">To</label>
-    <input id="bw-to" name="to" type="text" placeholder="Paris (CDG)" autocomplete="off">
+    <input id="bw-to" name="to" type="text" placeholder="Paris (CDG)" data-airport>
   </div>
   <div class="bw__row">
     <div class="bw__f">
@@ -407,12 +448,16 @@ def booking_widget():
     </div>
   </div>
 
+  <div id="bw-legs" hidden></div>
+  <button type="button" class="bw__add" id="bw-addleg" hidden>+ Add another city</button>
+
   <button class="btn btn--primary btn--lg btn--block" type="submit" id="bw-submit">
-    Get my dummy ticket &mdash; $%d</button>
+    Get my dummy ticket &mdash; %s</button>
   <p class="bw__note">
     <b>%s Live PNR</b><b>%s No airline payment</b><b>%s In %s</b>
   </p>
-</form>""" % (url("order"), PRICE_FLIGHT, ICON["check"], ICON["check"], ICON["check"], DELIVERY)
+</form>""" % (url("order"), CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH,
+       money(PRICE_FLIGHT), ICON["check"], ICON["check"], ICON["check"], DELIVERY)
 
 
 # --- simplified public-domain national flags, drawn for a 44x29 field -------
@@ -480,18 +525,13 @@ def visitor_visa_panel():
 
 
 def trust_section(heading="Why travellers trust %s" % BRAND):
-    head = '<div class="center" style="margin-bottom:2.4rem"><h2>%s</h2></div>' % heading if heading else ""
-    return """%s
-<div class="grid" style="grid-template-columns:1.35fr .65fr;gap:24px;align-items:stretch">
-  <div>%s
-    <p style="text-align:center;margin:1.6rem 0 0">
-      <a class="btn btn--primary btn--lg" href="%s">Book now</a></p>
-  </div>
-  %s
-</div>
-<style>@media (max-width:900px){.grid[style*="1.35fr"]{grid-template-columns:1fr!important}}</style>""" % (
-        head, trust_cards(heading=None).replace('trust-panel', 'trust-panel trust-panel--2'),
-        url("order"), visitor_visa_panel())
+    """Full-width card row. No side panel -- the cards carry the section."""
+    head = ('<div class="center" style="margin-bottom:2.4rem"><h2>%s</h2>'
+            '<p class="lede">Four things that separate a document which passes '
+            'from one that raises a question.</p></div>' % heading) if heading else ""
+    return """%s%s
+<p style="text-align:center;margin:2rem 0 0"><a class="btn btn--primary btn--lg" href="%s">Book now</a></p>""" % (
+        head, trust_cards(heading=None), url("order"))
 
 
 def _logo_file(name):
@@ -659,6 +699,7 @@ PAGE_TPL = """<!doctype html>
 <link rel="icon" href="{fav}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{apple}">
 <link rel="manifest" href="{manifest}">
+<script>document.documentElement.className+=" js-anim"</script>
 <link rel="preload" as="style" href="{css}">
 <link rel="stylesheet" href="{css}">
 {schema}
@@ -669,7 +710,7 @@ PAGE_TPL = """<!doctype html>
 {body}
 </main>
 {footer}
-<script src="{js}" defer></script>
+{extra_js}<script src="{js}" defer></script>
 </body>
 </html>
 """
@@ -677,12 +718,13 @@ PAGE_TPL = """<!doctype html>
 
 def add_page(slug, title, description, body, schema=None, og_type="website",
              og_title=None, noindex=False, priority="0.7", changefreq="monthly",
-             lastmod=TODAY):
+             lastmod=TODAY, extra_js=()):
     """Queue a page for writing. Called by every content module."""
     PAGES.append(dict(
         slug=slug, title=title, description=description, body=body,
         schema=schema or [], og_type=og_type, og_title=og_title or title,
         noindex=noindex, priority=priority, changefreq=changefreq, lastmod=lastmod,
+        extra_js=tuple(extra_js),
     ))
 
 
@@ -708,6 +750,8 @@ def write_pages(visa_links):
             manifest=asset("site.webmanifest"),
             css=asset("assets/css/style.css", bust=True),
             js=asset("assets/js/main.js", bust=True),
+            extra_js="".join('<script src="%s" defer></script>' % asset(x, bust=True)
+                             for x in p["extra_js"]),
             schema=jsonld(*graph),
             header=header(active),
             body=p["body"],
@@ -758,6 +802,17 @@ Sitemap: %s/sitemap.xml
         fh.write(robots)
 
 
+def write_airports():
+    """Ship the lookup table as one pipe-delimited string -- about half the
+    bytes of the equivalent JSON, and parsed just as fast in the browser."""
+    import airports
+    js = "window.VFT_AIRPORTS=%s;" % json.dumps(airports.payload())
+    path = os.path.join(ROOT, "assets", "js", "airports.js")
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(js)
+    return len(airports.AIRPORTS), len(js)
+
+
 def write_extras():
     manifest = {
         "name": BRAND, "short_name": "VisaFlightTicket",
@@ -793,8 +848,8 @@ def write_extras():
         og_type="website", og_title="Page not found", brand=BRAND, site=SITE_URL, twitter=TWITTER,
         fav=asset("assets/img/favicon.svg"), apple=asset("assets/img/apple-touch-icon.png"),
         manifest=asset("site.webmanifest"), css=asset("assets/css/style.css", bust=True),
-        js=asset("assets/js/main.js", bust=True), schema="", header=header(""), body=body,
-        footer=footer(VISA_LINKS_CACHE))
+        js=asset("assets/js/main.js", bust=True), extra_js="", schema="",
+        header=header(""), body=body, footer=footer(VISA_LINKS_CACHE))
     with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8") as fh:
         fh.write(html)
 
@@ -819,6 +874,8 @@ def main():
     content_visa.build()
     content_blog.build()
 
+    count, size = write_airports()
+    print("Airport index: %d airports, %.1f KB" % (count, size / 1024.0))
     n = write_pages(VISA_LINKS_CACHE)
     write_sitemap()
     write_extras()

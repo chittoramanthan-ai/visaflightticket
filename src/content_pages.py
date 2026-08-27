@@ -4,7 +4,7 @@
 import re
 
 from build import (ICON, BRAND, EMAIL, DELIVERY, WHATSAPP,
-                   add_page, url, faq_block, faq_schema, crumbs, cta_band)
+                   money, add_page, url, faq_block, faq_schema, crumbs, cta_band)
 import content_core
 
 

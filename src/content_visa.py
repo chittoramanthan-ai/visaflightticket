@@ -3,7 +3,7 @@
 
 from build import (ICON, BRAND, DELIVERY, SITE_URL, TODAY,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH,
-                   add_page, url, abs_url, faq_block, faq_schema,
+                   money, add_page, url, abs_url, faq_block, faq_schema,
                    crumbs, cta_band, pricing_tickets,
                    stat_bar, trust_cards, airline_strip)
 import content_core
@@ -19,8 +19,8 @@ VISAS = [
         label="Schengen visa",
         short="Schengen",
         h1="Flight reservation for a Schengen visa",
-        title="Flight Reservation for Schengen Visa | Verifiable PNR $%d" % PRICE_FLIGHT,
-        desc="Get a verifiable flight reservation for your Schengen visa application. Live PNR, return itinerary, hotel bookings for every night. $%d, delivered in %s." % (PRICE_FLIGHT, DELIVERY),
+        title="Flight Reservation for Schengen Visa | Verifiable PNR %s" % money(PRICE_FLIGHT),
+        desc="Get a verifiable flight reservation for your Schengen visa application. Live PNR, return itinerary, hotel bookings for every night. %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "CDG"),
         blurb="All 29 Schengen states run the same visa code, so the document requirements barely differ between "
               "France, Germany, Italy, Spain and the rest. Every one of them wants a round-trip itinerary and "
@@ -59,8 +59,8 @@ VISAS = [
         label="US visa (B1/B2)",
         short="United States",
         h1="Flight itinerary for a US B1/B2 visa",
-        title="Flight Itinerary for US Visa | B1/B2 Dummy Ticket $%d" % PRICE_FLIGHT,
-        desc="Flight itinerary for your US B1/B2 visa interview. Verifiable reservation with a live PNR, no ticket purchase before approval. $%d, delivered in %s." % (PRICE_FLIGHT, DELIVERY),
+        title="Flight Itinerary for US Visa | B1/B2 Dummy Ticket %s" % money(PRICE_FLIGHT),
+        desc="Flight itinerary for your US B1/B2 visa interview. Verifiable reservation with a live PNR, no ticket purchase before approval. %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("BOM", "JFK"),
         blurb="The US is the one major destination that explicitly tells you <em>not</em> to buy a ticket before your "
               "interview. Consular officers care far more about your ties to home than about your itinerary &mdash; but "
@@ -88,7 +88,7 @@ VISAS = [
             ("Will a reservation improve my chances?",
              "<p>Not on its own. A B1/B2 refusal is almost always about ties to your home country, not paperwork. The itinerary helps you present a coherent, specific plan &mdash; nothing more, and no service can honestly claim otherwise.</p>"),
             ("What about a hotel booking?",
-             "<p>Useful for the DS-160 US address field and for answering &ldquo;where will you stay?&rdquo;. $%d on its own, or $%d bundled with the flight itinerary.</p>" % (PRICE_HOTEL, PRICE_BOTH)),
+             "<p>Useful for the DS-160 US address field and for answering &ldquo;where will you stay?&rdquo;. %s on its own, or %s bundled with the flight itinerary.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
         ],
     ),
     dict(
@@ -96,8 +96,8 @@ VISAS = [
         label="UK visa",
         short="United Kingdom",
         h1="Flight reservation for a UK visitor visa",
-        title="Flight Reservation for UK Visa | Standard Visitor $%d" % PRICE_FLIGHT,
-        desc="Flight reservation for a UK Standard Visitor visa. Verifiable PNR, return itinerary, hotel bookings. $%d per traveller, delivered in %s." % (PRICE_FLIGHT, DELIVERY),
+        title="Flight Reservation for UK Visa | Standard Visitor %s" % money(PRICE_FLIGHT),
+        desc="Flight reservation for a UK Standard Visitor visa. Verifiable PNR, return itinerary, hotel bookings. %s per traveller, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "LHR"),
         blurb="UKVI does not publish a mandatory flight-booking requirement for the Standard Visitor visa. What it does "
               "require is that you satisfy the caseworker you will leave at the end of your visit &mdash; and a dated "
@@ -132,8 +132,8 @@ VISAS = [
         label="Canada visa",
         short="Canada",
         h1="Flight itinerary for a Canada visitor visa",
-        title="Flight Itinerary for Canada Visa | TRV Reservation $%d" % PRICE_FLIGHT,
-        desc="Flight itinerary for a Canadian visitor visa (TRV). Verifiable reservation with live PNR, no purchase before approval. $%d, delivered in %s." % (PRICE_FLIGHT, DELIVERY),
+        title="Flight Itinerary for Canada Visa | TRV Reservation %s" % money(PRICE_FLIGHT),
+        desc="Flight itinerary for a Canadian visitor visa (TRV). Verifiable reservation with live PNR, no purchase before approval. %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "YYZ"),
         blurb="IRCC is explicit: do not buy your ticket until the visa is issued. Processing times for a Temporary "
               "Resident Visa are among the least predictable of any major destination, which makes an unpaid "
@@ -166,8 +166,8 @@ VISAS = [
         label="Dubai / UAE visa",
         short="UAE",
         h1="Flight ticket for a Dubai or UAE tourist visa",
-        title="Flight Ticket for Dubai Visa | UAE Reservation $%d" % PRICE_FLIGHT,
-        desc="Flight reservation and hotel booking for a Dubai or UAE tourist visa. Verifiable PNR, confirmed accommodation, delivered in %s from $%d." % (DELIVERY, PRICE_FLIGHT),
+        title="Flight Ticket for Dubai Visa | UAE Reservation %s" % money(PRICE_FLIGHT),
+        desc="Flight reservation and hotel booking for a Dubai or UAE tourist visa. Verifiable PNR, confirmed accommodation, delivered in %s from %s." % (DELIVERY, money(PRICE_FLIGHT)),
         route=("BOM", "DXB"),
         blurb="UAE tourist visas are typically arranged through an airline, hotel or licensed agent as sponsor. The "
               "documentation is lighter than a Schengen file, but the return-flight and accommodation requirements "
@@ -200,8 +200,8 @@ VISAS = [
         label="Australia visa",
         short="Australia",
         h1="Flight reservation for an Australian visitor visa",
-        title="Flight Reservation for Australia Visa | Subclass 600 $%d" % PRICE_FLIGHT,
-        desc="Flight reservation for an Australian visitor visa (subclass 600). Verifiable PNR, no ticket purchase before grant. $%d, delivered in %s." % (PRICE_FLIGHT, DELIVERY),
+        title="Flight Reservation for Australia Visa | Subclass 600 %s" % money(PRICE_FLIGHT),
+        desc="Flight reservation for an Australian visitor visa (subclass 600). Verifiable PNR, no ticket purchase before grant. %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "SYD"),
         blurb="Australia's Department of Home Affairs assesses whether you are a genuine temporary entrant. Travel "
               "plans support that; buying tickets before the grant undermines your own position if the visa is "
@@ -232,8 +232,8 @@ VISAS = [
         label="Japan visa",
         short="Japan",
         h1="Flight itinerary for a Japan tourist visa",
-        title="Flight Itinerary for Japan Visa | Daily Schedule + PNR $%d" % PRICE_FLIGHT,
-        desc="Flight itinerary and hotel bookings for a Japan tourist visa, matched to the required daily schedule of stay. $%d per traveller, delivered in %s." % (PRICE_FLIGHT, DELIVERY),
+        title="Flight Itinerary for Japan Visa | Daily Schedule + PNR %s" % money(PRICE_FLIGHT),
+        desc="Flight itinerary and hotel bookings for a Japan tourist visa, matched to the required daily schedule of stay. %s per traveller, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "NRT"),
         blurb="Japan is unusually specific: the application asks for a <strong>daily schedule of stay</strong> listing "
               "where you are each day, with contact details. Your flight and hotel documents have to line up with "
@@ -266,8 +266,8 @@ VISAS = [
         label="Turkey visa",
         short="Turkey",
         h1="Flight ticket for a Turkey visa",
-        title="Flight Ticket for Turkey Visa | e-Visa Reservation $%d" % PRICE_FLIGHT,
-        desc="Flight reservation and hotel booking for a Turkey e-visa or sticker visa. Verifiable PNR, delivered in %s from $%d." % (DELIVERY, PRICE_FLIGHT),
+        title="Flight Ticket for Turkey Visa | e-Visa Reservation %s" % money(PRICE_FLIGHT),
+        desc="Flight reservation and hotel booking for a Turkey e-visa or sticker visa. Verifiable PNR, delivered in %s from %s." % (DELIVERY, money(PRICE_FLIGHT)),
         route=("DEL", "IST"),
         blurb="Turkey's e-visa is quick for eligible nationalities, but the checks happen at the airport instead of "
               "at a consulate: airline staff and Turkish immigration both ask for onward travel and accommodation.",
@@ -296,8 +296,8 @@ VISAS = [
         label="Thailand visa",
         short="Thailand",
         h1="Flight ticket and onward travel proof for Thailand",
-        title="Flight Ticket for Thailand | Onward Travel Proof $%d" % PRICE_FLIGHT,
-        desc="Proof of onward travel for Thailand, plus hotel bookings for a Thai visa or visa exemption entry. Verifiable PNR from $%d, delivered in %s." % (PRICE_FLIGHT, DELIVERY),
+        title="Flight Ticket for Thailand | Onward Travel Proof %s" % money(PRICE_FLIGHT),
+        desc="Proof of onward travel for Thailand, plus hotel bookings for a Thai visa or visa exemption entry. Verifiable PNR from %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "BKK"),
         blurb="Thailand enforces proof of onward travel more consistently than almost anywhere else, and the "
               "enforcement happens at the check-in desk in your departure city &mdash; before you have any chance to "
@@ -329,8 +329,8 @@ VISAS = [
         label="South Korea visa",
         short="South Korea",
         h1="Flight itinerary for a South Korea tourist visa",
-        title="Flight Itinerary for Korea Visa | C-3 Reservation $%d" % PRICE_FLIGHT,
-        desc="Flight itinerary and hotel bookings for a South Korean C-3 tourist visa or K-ETA entry. Verifiable PNR from $%d, delivered in %s." % (PRICE_FLIGHT, DELIVERY),
+        title="Flight Itinerary for Korea Visa | C-3 Reservation %s" % money(PRICE_FLIGHT),
+        desc="Flight itinerary and hotel bookings for a South Korean C-3 tourist visa or K-ETA entry. Verifiable PNR from %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "ICN"),
         blurb="Korean consulates want a documented plan: a round-trip itinerary, accommodation for the stay, and "
               "financial evidence. K-ETA travellers face a lighter process but the same onward-travel checks at the "
@@ -360,8 +360,8 @@ VISAS = [
         label="Singapore visa",
         short="Singapore",
         h1="Flight ticket and onward travel proof for Singapore",
-        title="Flight Ticket for Singapore Visa | Onward Proof $%d" % PRICE_FLIGHT,
-        desc="Flight reservation and hotel booking for a Singapore visa or visa-free entry, plus proof of onward travel. From $%d, delivered in %s." % (PRICE_FLIGHT, DELIVERY),
+        title="Flight Ticket for Singapore Visa | Onward Proof %s" % money(PRICE_FLIGHT),
+        desc="Flight reservation and hotel booking for a Singapore visa or visa-free entry, plus proof of onward travel. From %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "SIN"),
         blurb="Singapore's ICA is efficient and unsentimental. Onward travel and accommodation are part of the SG "
               "Arrival Card, and officers at Changi do ask &mdash; particularly of travellers on one-way tickets.",
@@ -390,8 +390,8 @@ VISAS = [
         label="New Zealand visa",
         short="New Zealand",
         h1="Flight ticket and onward travel proof for New Zealand",
-        title="Flight Ticket for New Zealand Visa | Onward Proof $%d" % PRICE_FLIGHT,
-        desc="Onward travel proof and hotel bookings for a New Zealand visitor visa or NZeTA entry. Verifiable reservation from $%d, delivered in %s." % (PRICE_FLIGHT, DELIVERY),
+        title="Flight Ticket for New Zealand Visa | Onward Proof %s" % money(PRICE_FLIGHT),
+        desc="Onward travel proof and hotel bookings for a New Zealand visitor visa or NZeTA entry. Verifiable reservation from %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("SYD", "AKL"),
         blurb="New Zealand requires visitors to hold onward tickets or evidence of sufficient funds to buy them. In "
               "practice, airline staff on inbound routes ask for the onward booking, because the alternative is "
@@ -495,12 +495,12 @@ def _page(v):
     %s
     <div class="hero__grid" style="align-items:flex-start">
       <div>
-        <p class="eyebrow">%s &middot; from $%d per traveller</p>
+        <p class="eyebrow">%s &middot; from %s per traveller</p>
         <h1>%s</h1>
         <p class="lede">%s</p>
         <div class="btn-row" style="margin-top:1.6rem">
-          <a class="btn btn--primary btn--lg" href="%s">Order flight reservation &mdash; $%d</a>
-          <a class="btn btn--ghost btn--lg" href="%s">Flight + hotel &mdash; $%d</a>
+          <a class="btn btn--primary btn--lg" href="%s">Order flight reservation &mdash; %s</a>
+          <a class="btn btn--ghost btn--lg" href="%s">Flight + hotel &mdash; %s</a>
         </div>
         %s
       </div>
@@ -561,8 +561,8 @@ def _page(v):
 </section>
 
 %s
-""" % (c_html, v["short"], PRICE_FLIGHT, v["h1"], v["blurb"],
-       url("order"), PRICE_FLIGHT, url("flight-and-hotel-package"), PRICE_BOTH,
+""" % (c_html, v["short"], money(PRICE_FLIGHT), v["h1"], v["blurb"],
+       url("order"), money(PRICE_FLIGHT), url("flight-and-hotel-package"), money(PRICE_BOTH),
        content_core.TRUSTLINE, pass_art, stat_bar(),
        trust_cards(heading=None),
        reqs, v["official"], traps,
@@ -571,7 +571,7 @@ def _page(v):
        others,
        url("blog/what-is-a-dummy-ticket"), url("blog/is-a-dummy-ticket-legal"), url("verify-pnr"),
        cta_band("Documents for your %s application" % v["short"],
-                "Verifiable flight reservation from $%d, or the flight + hotel pack for $%d." % (PRICE_FLIGHT, PRICE_BOTH)))
+                "Verifiable flight reservation from %s, or the flight + hotel pack for %s." % (money(PRICE_FLIGHT), money(PRICE_BOTH))))
 
     webpage = {
         "@type": "WebPage",

@@ -3,7 +3,7 @@
 
 from build import (BRAND, SITE_URL, TODAY, DELIVERY, EMAIL,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, SINCE_YEAR,
-                   add_page, url, abs_url, faq_block, faq_schema,
+                   money, add_page, url, abs_url, faq_block, faq_schema,
                    crumbs, cta_band, slugify)
 
 AUTHOR = "The %s editorial team" % BRAND
@@ -57,7 +57,7 @@ is wanted.</p>"""),
 
         ("Why embassies ask for a reservation instead of a ticket", """
 <p>There is a circularity at the heart of visa applications. The consulate wants evidence you have planned a specific
-trip. But buying an international fare before approval means risking several hundred to a few thousand dollars on an
+trip. But buying an international fare before approval means risking tens of thousands of rupees on an
 application that may be refused.</p>
 <p>Consulates resolved this years ago by asking for reservations. The European Commission's own visa guidance advises
 applicants <em>not</em> to purchase non-refundable tickets before a decision is issued. UKVI, IRCC and the US State
@@ -88,11 +88,11 @@ back, the document is real. If it does not, no amount of good design on the PDF 
 <a href="%s">Full verification walkthrough &rarr;</a></div>""" % url("verify-pnr")),
 
         ("What one should cost", """
-<p>Between about $5 and $50, depending on the provider. Anything materially above that is usually a semi-refundable
+<p>Between about &#8377;300 and &#8377;3,000, depending on the provider. Anything materially above that is usually a semi-refundable
 ticket rather than a reservation; anything free is usually generated rather than booked.</p>
-<p>Our own pricing sits at <strong>$%d for a flight reservation</strong>, $%d for a hotel booking and $%d for both,
+<p>Our own pricing sits at <strong>%s for a flight reservation</strong>, %s for a hotel booking and %s for both,
 per traveller. The reason it can be that cheap is straightforward: no fare is ever purchased, so there is no fare to
-recover. You are paying for the booking to be created, held, documented and checked.</p>""" % (PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH)),
+recover. You are paying for the booking to be created, held, documented and checked.</p>""" % (money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH))),
 
         ("How long it stays live", """
 <p>Hold periods are set by the airline, not by whoever sells you the reservation. In practice they run from
@@ -190,7 +190,7 @@ to, because carrier-liability fines land on the airline.</p>"""),
   candid. &ldquo;Valid until your visa is approved&rdquo; is not a thing airlines offer.</li>
   <li><strong>Do they promise visa approval?</strong> Nobody can. Treat any guarantee as a warning.</li>
   <li><strong>Is the pricing plausible?</strong> Free is a red flag &mdash; creating a real booking costs the provider
-  something. So is $200, which suggests you are buying a refundable fare.</li>
+  something. So is &#8377;15,000, which suggests you are buying a refundable fare.</li>
   <li><strong>Do they publish a refund policy for unverifiable bookings?</strong> A provider confident in their
   bookings will commit to this in writing.</li>
   <li><strong>Do they ask for your passport scan?</strong> They do not need it. Names and dates of birth make a
@@ -268,16 +268,16 @@ itinerary&rdquo; or &ldquo;proof of intended travel&rdquo; &mdash; wording chose
 <table>
 <thead><tr><th>Option</th><th>Typical cost</th><th>Money at risk on refusal</th><th>Time to obtain</th></tr></thead>
 <tbody>
-<tr><td><b>Reservation from a service</b></td><td>$%d&ndash;$50</td><td class="yes">Nothing</td><td>%s</td></tr>
-<tr><td><b>Airline hold, where offered</b></td><td>$0&ndash;$25</td><td class="yes">Nothing</td><td>Minutes</td></tr>
-<tr><td><b>Fully refundable fare</b></td><td>$600&ndash;$2,500</td><td>Tied up 1&ndash;4 weeks</td><td>Minutes</td></tr>
-<tr><td><b>Standard economy fare</b></td><td>$400&ndash;$1,800</td><td class="no">Most of it</td><td>Minutes</td></tr>
+<tr><td><b>Reservation from a service</b></td><td>%s&ndash;&#8377;3,000</td><td class="yes">Nothing</td><td>%s</td></tr>
+<tr><td><b>Airline hold, where offered</b></td><td>&#8377;0&ndash;&#8377;2,000</td><td class="yes">Nothing</td><td>Minutes</td></tr>
+<tr><td><b>Fully refundable fare</b></td><td>&#8377;50,000&ndash;&#8377;2,00,000</td><td>Tied up 1&ndash;4 weeks</td><td>Minutes</td></tr>
+<tr><td><b>Standard economy fare</b></td><td>&#8377;35,000&ndash;&#8377;1,50,000</td><td class="no">Most of it</td><td>Minutes</td></tr>
 </tbody>
 </table>
 </div>
 <p>The refundable fare deserves a note. It works, but it locks up real money for the length of consular processing,
 refunds typically take 7&ndash;30 days to reach the card, and some &ldquo;refundable&rdquo; fares carry cancellation fees larger
-than the entire cost of a reservation.</p>""" % (PRICE_FLIGHT, DELIVERY)),
+than the entire cost of a reservation.</p>""" % (money(PRICE_FLIGHT), DELIVERY)),
 
         ("Reading your own document", """
 <p>Look for these fields to work out what you are holding:</p>
@@ -358,16 +358,16 @@ carrying the document is worth the small cost.</p>"""),
         ("The options, and what each really costs", """
 <ol>
   <li><strong>Buy a real onward ticket.</strong> Fine if you genuinely need the flight. Expensive if you do not.</li>
-  <li><strong>Buy a cheap regional flight.</strong> On some routes a $40 hop to a neighbouring country works and you
+  <li><strong>Buy a cheap regional flight.</strong> On some routes a &#8377;3,500 hop to a neighbouring country works and you
   simply do not board it. Only viable where such a route exists.</li>
-  <li><strong>Buy a refundable fare and cancel after arrival.</strong> Works, ties up several hundred dollars, and
+  <li><strong>Buy a refundable fare and cancel after arrival.</strong> Works, ties up tens of thousands of rupees, and
   the refund takes weeks.</li>
   <li><strong>Use a held reservation.</strong> A real booking with a live PNR, valid long enough to get you through
-  check-in and immigration &mdash; $%d, delivered in %s.</li>
+  check-in and immigration &mdash; %s, delivered in %s.</li>
 </ol>
 <p>The fourth option is not a trick. It matches the document to the purpose: the airline needs to see that you have a
 plan to leave, and you need that visible at the moment you board. Once you have cleared immigration, the document has
-done its job.</p>""" % (PRICE_FLIGHT, DELIVERY)),
+done its job.</p>""" % (money(PRICE_FLIGHT), DELIVERY)),
 
         ("Making it work at the desk", """
 <ul>
@@ -584,8 +584,8 @@ best. Pick the arrangement that is true and document it cleanly.</div>"""),
 <p>Not usually. The same logic that applies to flights applies here: a refusal should not cost you a non-refundable
 booking.</p>
 <p>The standard approach is a confirmed booking under a free-cancellation policy &mdash; real, referenced, and
-cancellable at no cost. That is what we issue for $%d, or $%d bundled with a flight reservation with the dates
-reconciled automatically.</p>""" % (PRICE_HOTEL, PRICE_BOTH)),
+cancellable at no cost. That is what we issue for %s, or %s bundled with a flight reservation with the dates
+reconciled automatically.</p>""" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
     ],
     faqs=[
         ("Do I need a hotel booking for every night?", "<p>Yes for Schengen and most tourist visas. Gaps get noticed because officers count nights.</p>"),
@@ -792,9 +792,9 @@ checklist.</p>"""),
 <thead><tr><th>Price</th><th>What it usually means</th></tr></thead>
 <tbody>
 <tr><td><b>Free</b></td><td>Generated document, or a lead magnet for something else. Creating a real booking has a cost.</td></tr>
-<tr><td><b>$5&ndash;$50</b></td><td>The normal range for a genuine held reservation</td></tr>
-<tr><td><b>$100&ndash;$300</b></td><td>Usually a semi-refundable ticket, or heavy margin</td></tr>
-<tr><td><b>$400+</b></td><td>You are buying a refundable fare, not a reservation</td></tr>
+<tr><td><b>&#8377;300&ndash;&#8377;3,000</b></td><td>The normal range for a genuine held reservation</td></tr>
+<tr><td><b>&#8377;8,000&ndash;&#8377;25,000</b></td><td>Usually a semi-refundable ticket, or heavy margin</td></tr>
+<tr><td><b>&#8377;35,000+</b></td><td>You are buying a refundable fare, not a reservation</td></tr>
 </tbody>
 </table>
 </div>
@@ -825,9 +825,9 @@ its own product and expects you to. A provider that avoids the topic, or insists
 without saying <em>why</em>, is hoping you do not ask.</p>
 <div class="note"><strong>Our own answers, for comparison</strong>
 Verify at the airline's own site &mdash; we tell you how. Hold periods 48 hours to 14 days, airline-dependent. No approval
-guarantees, ever. $%d per traveller. Full refund if a reference does not verify. Names and dates of birth only, no
+guarantees, ever. %s per traveller. Full refund if a reference does not verify. Names and dates of birth only, no
 passport scans. Email answered by people. And the legality distinction is
-<a href="%s">set out in full here</a>.</div>""" % (PRICE_FLIGHT, url("blog/is-a-dummy-ticket-legal"))),
+<a href="%s">set out in full here</a>.</div>""" % (money(PRICE_FLIGHT), url("blog/is-a-dummy-ticket-legal"))),
     ],
     faqs=[
         ("Are free dummy ticket generators safe?", "<p>Generally no. Creating a real airline booking costs the provider something, so a free tool is usually producing a document rather than a booking. That is the category that causes deception findings.</p>"),

@@ -2,13 +2,13 @@
 """Core pages: home, services, pricing, process, trust, legal."""
 
 from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
-                   PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, PRICE_RUSH,
+                   PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, PRICE_RUSH, CURRENCY, CURRENCY_CODE,
                    SINCE_YEAR, FLIGHTS_BOOKED, VISAS_HELPED, AIRLINE_COUNT, WHATSAPP,
                    IATA_ACCREDITED, IATA_NUMBER,
-                   add_page, url, abs_url, ticket, faq_block, faq_schema,
+                   money, add_page, url, abs_url, ticket, faq_block, faq_schema,
                    crumbs, cta_band, pricing_tickets,
                    stat_bar, trust_cards, airline_strip, iata_badge,
-                   booking_widget, trust_section, visitor_visa_panel)
+                   booking_widget, trust_section, highlights)
 
 
 # ==========================================================================
@@ -99,7 +99,7 @@ def home():
         ("How long does the reservation stay valid?",
          "<p>Airline hold periods vary by carrier and route &mdash; typically 48 hours to 14 days. We time your booking so it is live on the day you submit, and we will reissue it free of charge if your appointment moves.</p>"),
         ("Do you also provide hotel bookings?",
-         "<p>Yes. A confirmed hotel booking in your name with a reference number, for $%d, or bundled with your flight reservation for $%d. Most consulates ask for both.</p>" % (PRICE_HOTEL, PRICE_BOTH)),
+         "<p>Yes. A confirmed hotel booking in your name with a reference number, for %s, or bundled with your flight reservation for %s. Most consulates ask for both.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
         ("What if my visa is refused?",
          "<p>Nothing happens to your money, which is the whole point of a reservation. You never paid the airline, so there is no ticket to cancel and no refund to chase. Our own fee is small and non-refundable once the booking is issued &mdash; see the <a href=\"%s\">refund policy</a>.</p>" % url("refund-policy")),
     ]
@@ -112,15 +112,16 @@ def home():
         <p class="eyebrow">Flight &amp; hotel proof for visa files</p>
         <h1>A verifiable flight ticket for your visa &mdash; without buying the flight</h1>
         <p class="lede">We issue real, airline-held reservations with a live PNR that you and the consulate can
-        check on the airline&rsquo;s own website. Embassy-ready PDF in %s, from $%d.</p>
+        check on the airline&rsquo;s own website. Embassy-ready PDF in %s, from %s.</p>
         <div class="btn-row">
-          <a class="btn btn--primary btn--lg" href="%s">Get my flight ticket &mdash; $%d</a>
+          <a class="btn btn--primary btn--lg" href="%s">Get my flight ticket &mdash; %s</a>
           <a class="btn btn--ghost btn--lg" href="%s">See how it works</a>
         </div>
         %s
       </div>
       <div>%s</div>
     </div>
+    %s
     %s
   </div>
 </section>
@@ -137,7 +138,7 @@ def home():
     </div>
     %s
     <p class="center" style="margin-top:1.6rem;color:var(--ink-3);font-size:.92rem">
-      Need it inside the hour? Priority handling is +$%d at checkout.</p>
+      Need it inside the hour? Priority handling is +%s at checkout.</p>
   </div>
 </section>
 
@@ -179,7 +180,7 @@ def home():
         <tbody>
           <tr><td><b>Exists in the airline system</b></td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No</td></tr>
           <tr><td><b>PNR verifies on the airline site</b></td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No</td></tr>
-          <tr><td><b>Typical cost</b></td><td><b>$%d</b></td><td>$400 &ndash; $1,800</td><td>$0 &ndash; $10</td></tr>
+          <tr><td><b>Typical cost</b></td><td><b>%s</b></td><td>&#8377;35,000 &ndash; &#8377;1,50,000</td><td>&#8377;0 &ndash; &#8377;500</td></tr>
           <tr><td><b>Money at risk if the visa is refused</b></td><td class="yes">None</td><td class="no">The full fare</td><td class="yes">None</td></tr>
           <tr><td><b>Risk of a fraud finding</b></td><td class="yes">None</td><td class="yes">None</td><td class="no">Refusal + multi-year ban</td></tr>
           <tr><td><b>Accepted for visa filing</b></td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">Until it is checked</td></tr>
@@ -225,13 +226,13 @@ def home():
 </section>
 
 %s
-""" % (DELIVERY, PRICE_FLIGHT, url("order"), PRICE_FLIGHT, url("how-it-works"),
-       TRUSTLINE, booking_widget(), stat_bar(),
+""" % (DELIVERY, money(PRICE_FLIGHT), url("order"), money(PRICE_FLIGHT), url("how-it-works"),
+       TRUSTLINE, booking_widget(), highlights(), stat_bar(),
        trust_section(),
-       pricing_tickets(), PRICE_RUSH,
+       pricing_tickets(), money(PRICE_RUSH),
        url("verify-pnr"),
        steps_block(ORDER_STEPS, "From order to embassy-ready PDF"), url("order"),
-       PRICE_FLIGHT, url("blog/flight-reservation-vs-confirmed-ticket"),
+       money(PRICE_FLIGHT), url("blog/flight-reservation-vs-confirmed-ticket"),
        ICON["shield"], ICON["doc"], ICON["globe"], ICON["clock"],
        airline_strip(),
        _visa_pills(),
@@ -248,7 +249,7 @@ def home():
         "description": "Verifiable, airline-held flight reservations with a live PNR and confirmed hotel bookings, issued for visa applications and delivered within %s." % DELIVERY,
         "offers": {
             "@type": "AggregateOffer",
-            "priceCurrency": "USD",
+            "priceCurrency": CURRENCY_CODE,
             "lowPrice": str(PRICE_HOTEL),
             "highPrice": str(PRICE_BOTH),
             "offerCount": "3",
@@ -268,11 +269,11 @@ def home():
     add_page(
         "",
         "Visa Flight Ticket | Verifiable Flight Reservation for Visa in %s" % DELIVERY,
-        "Get a verifiable flight ticket for your visa application from $%d. Real airline-held reservation with a live PNR, hotel bookings from $%d, delivered in %s." % (PRICE_FLIGHT, PRICE_HOTEL, DELIVERY),
+        "Get a verifiable flight ticket for your visa application from %s. Real airline-held reservation with a live PNR, hotel bookings from %s, delivered in %s." % (money(PRICE_FLIGHT), money(PRICE_HOTEL), DELIVERY),
         body,
         schema=[webpage, service, faq_schema(home_faqs)],
-        og_title="Verifiable flight ticket for your visa - live PNR, $%d" % PRICE_FLIGHT,
-        priority="1.0", changefreq="weekly",
+        og_title="Verifiable flight ticket for your visa - live PNR, %s" % money(PRICE_FLIGHT),
+        priority="1.0", changefreq="weekly", extra_js=("assets/js/airports.js",),
     )
 
 
@@ -308,12 +309,12 @@ def flight_page():
     %s
     <div class="hero__grid" style="align-items:flex-start">
       <div>
-        <p class="eyebrow">From $%d per traveller</p>
+        <p class="eyebrow">From %s per traveller</p>
         <h1>Flight reservation for visa applications</h1>
         <p class="lede">A genuine airline-held itinerary in your name, with a live PNR the consulate can verify on
         the carrier&rsquo;s own website. Delivered as a print-ready PDF in %s.</p>
         <div class="btn-row" style="margin-top:1.6rem">
-          <a class="btn btn--primary btn--lg" href="%s">Order &mdash; $%d</a>
+          <a class="btn btn--primary btn--lg" href="%s">Order &mdash; %s</a>
           <a class="btn btn--ghost btn--lg" href="%s">How verification works</a>
         </div>
         %s
@@ -379,7 +380,7 @@ def flight_page():
 </section>
 
 %s
-""" % (c_html, PRICE_FLIGHT, DELIVERY, url("order"), PRICE_FLIGHT, url("verify-pnr"),
+""" % (c_html, money(PRICE_FLIGHT), DELIVERY, url("order"), money(PRICE_FLIGHT), url("verify-pnr"),
        TRUSTLINE, BOARDING_PASS, stat_bar(),
        trust_cards(),
        steps_block(ORDER_STEPS, "The process, end to end"),
@@ -387,7 +388,7 @@ def flight_page():
        airline_strip(),
        faq_block(faqs, "Flight reservation FAQ"),
        cta_band("Get your flight reservation today",
-                "Live PNR, embassy-ready PDF, delivered in %s for $%d." % (DELIVERY, PRICE_FLIGHT)))
+                "Live PNR, embassy-ready PDF, delivered in %s for %s." % (DELIVERY, money(PRICE_FLIGHT))))
 
     product = {
         "@type": "Product",
@@ -397,15 +398,15 @@ def flight_page():
         "offers": {
             "@type": "Offer",
             "price": str(PRICE_FLIGHT),
-            "priceCurrency": "USD",
+            "priceCurrency": CURRENCY_CODE,
             "availability": "https://schema.org/InStock",
             "url": abs_url("order"),
             "priceValidUntil": "%d-12-31" % (int(TODAY[:4]) + 1),
         },
     }
     add_page(slug,
-             "Flight Reservation for Visa | Verifiable Dummy Ticket $%d" % PRICE_FLIGHT,
-             "Order a real flight reservation for your visa application. Live PNR verifiable on the airline site, embassy-ready PDF in %s, $%d per traveller." % (DELIVERY, PRICE_FLIGHT),
+             "Flight Reservation for Visa | Verifiable Dummy Ticket %s" % money(PRICE_FLIGHT),
+             "Order a real flight reservation for your visa application. Live PNR verifiable on the airline site, embassy-ready PDF in %s, %s per traveller." % (DELIVERY, money(PRICE_FLIGHT)),
              body, schema=[c_schema, product, faq_schema(faqs)],
              priority="0.9", changefreq="weekly")
 
@@ -433,13 +434,13 @@ def hotel_page():
   <div class="wrap">
     %s
     <div class="wrap--narrow" style="padding:0;margin:0">
-      <p class="eyebrow">From $%d per traveller</p>
+      <p class="eyebrow">From %s per traveller</p>
       <h1>Hotel booking for visa applications</h1>
       <p class="lede">A confirmed accommodation booking in your name, with a real reference number, covering every
       night of your trip &mdash; issued in %s and cancellable at no cost.</p>
       <div class="btn-row" style="margin-top:1.6rem">
-        <a class="btn btn--primary btn--lg" href="%s">Order hotel booking &mdash; $%d</a>
-        <a class="btn btn--ghost btn--lg" href="%s">Bundle with a flight &mdash; $%d</a>
+        <a class="btn btn--primary btn--lg" href="%s">Order hotel booking &mdash; %s</a>
+        <a class="btn btn--ghost btn--lg" href="%s">Bundle with a flight &mdash; %s</a>
       </div>
       %s
     </div>
@@ -483,17 +484,17 @@ def hotel_page():
 </section>
 
 %s
-""" % (c_html, PRICE_HOTEL, DELIVERY, url("order"), PRICE_HOTEL,
-       url("flight-and-hotel-package"), PRICE_BOTH, TRUSTLINE,
+""" % (c_html, money(PRICE_HOTEL), DELIVERY, url("order"), money(PRICE_HOTEL),
+       url("flight-and-hotel-package"), money(PRICE_BOTH), TRUSTLINE,
        ticket("Hotel Booking", "Confirmed accommodation in your name for the exact nights of your stay.",
-              PRICE_HOTEL,
+              money(PRICE_HOTEL),
               ["Confirmed booking + reference number",
                "One booking per city, no gaps",
                "Free cancellation policy",
                "Delivered in %s" % DELIVERY],
               "Order hotel booking", "order", code="HOTEL"),
        ticket("Flight + Hotel", "Both documents, dates cross-checked against each other. What most files need.",
-              PRICE_BOTH,
+              money(PRICE_BOTH),
               ["Flight reservation with live PNR",
                "Hotel booking for every night",
                "Dates reconciled automatically",
@@ -501,19 +502,19 @@ def hotel_page():
               "Order the bundle", "order", code="BUNDLE", featured=True, badge="Best value"),
        faq_block(faqs, "Hotel booking FAQ"),
        cta_band("Cover every night of your trip",
-                "Confirmed hotel bookings from $%d, or bundled with your flight reservation for $%d." % (PRICE_HOTEL, PRICE_BOTH)))
+                "Confirmed hotel bookings from %s, or bundled with your flight reservation for %s." % (money(PRICE_HOTEL), money(PRICE_BOTH))))
 
     product = {
         "@type": "Product",
         "name": "Hotel booking for visa application",
         "description": "A confirmed hotel reservation in the applicant's name with a booking reference, covering every night of the trip, issued for visa applications.",
         "brand": {"@id": SITE_URL + "/#organization"},
-        "offers": {"@type": "Offer", "price": str(PRICE_HOTEL), "priceCurrency": "USD",
+        "offers": {"@type": "Offer", "price": str(PRICE_HOTEL), "priceCurrency": CURRENCY_CODE,
                    "availability": "https://schema.org/InStock", "url": abs_url("order")},
     }
     add_page(slug,
-             "Hotel Booking for Visa | Confirmed Reservation from $%d" % PRICE_HOTEL,
-             "Confirmed hotel booking for your visa application with a real reference number, covering every night. From $%d, delivered in %s." % (PRICE_HOTEL, DELIVERY),
+             "Hotel Booking for Visa | Confirmed Reservation from %s" % money(PRICE_HOTEL),
+             "Confirmed hotel booking for your visa application with a real reference number, covering every night. From %s, delivered in %s." % (money(PRICE_HOTEL), DELIVERY),
              body, schema=[c_schema, product, faq_schema(faqs)],
              priority="0.9", changefreq="weekly")
 
@@ -527,7 +528,7 @@ def combo_page():
         ("Why bundle them?",
          "<p>Because the two documents are read together. The most common avoidable problem in a visa file is not a missing document &mdash; it is two documents that contradict each other. Ordering both from one place means the arrival date on the hotel booking is the arrival date on the flight itinerary, every time.</p>"),
         ("Is it cheaper?",
-         "<p>Yes: $%d instead of $%d bought separately, per traveller.</p>" % (PRICE_BOTH, PRICE_FLIGHT + PRICE_HOTEL)),
+         "<p>Yes: %s instead of %s bought separately, per traveller.</p>" % (money(PRICE_BOTH), money(PRICE_FLIGHT + PRICE_HOTEL))),
         ("Multi-city trips?",
          "<p>Covered. Give us the city order and the nights in each, and we issue matching flight legs and one hotel booking per city.</p>"),
         ("Family or group applications?",
@@ -539,12 +540,12 @@ def combo_page():
   <div class="wrap">
     %s
     <div class="wrap--narrow" style="padding:0;margin:0">
-      <p class="eyebrow">Save $%d &middot; the complete travel-proof pack</p>
+      <p class="eyebrow">Save %s &middot; the complete travel-proof pack</p>
       <h1>Flight + hotel package for visa applications</h1>
       <p class="lede">The two documents almost every consulate asks for, issued together and reconciled against each
-      other so the dates cannot contradict. $%d per traveller, delivered in %s.</p>
+      other so the dates cannot contradict. %s per traveller, delivered in %s.</p>
       <div class="btn-row" style="margin-top:1.6rem">
-        <a class="btn btn--primary btn--lg" href="%s">Order the bundle &mdash; $%d</a>
+        <a class="btn btn--primary btn--lg" href="%s">Order the bundle &mdash; %s</a>
       </div>
       %s
     </div>
@@ -578,25 +579,25 @@ def combo_page():
 </section>
 
 %s
-""" % (c_html, PRICE_FLIGHT + PRICE_HOTEL - PRICE_BOTH, PRICE_BOTH, DELIVERY,
-       url("order"), PRICE_BOTH, TRUSTLINE,
+""" % (c_html, money(PRICE_FLIGHT + PRICE_HOTEL - PRICE_BOTH), money(PRICE_BOTH), DELIVERY,
+       url("order"), money(PRICE_BOTH), TRUSTLINE,
        pricing_tickets("both"),
        steps_block(ORDER_STEPS, "How the bundle is produced"),
        faq_block(faqs, "Package FAQ"),
        cta_band("One order, both documents, zero contradictions",
-                "Flight reservation with a live PNR plus confirmed accommodation for every night &mdash; $%d per traveller." % PRICE_BOTH))
+                "Flight reservation with a live PNR plus confirmed accommodation for every night &mdash; %s per traveller." % money(PRICE_BOTH)))
 
     product = {
         "@type": "Product",
         "name": "Flight and hotel booking package for visa application",
         "description": "Bundled flight reservation with live PNR and confirmed hotel booking, date-reconciled for visa applications.",
         "brand": {"@id": SITE_URL + "/#organization"},
-        "offers": {"@type": "Offer", "price": str(PRICE_BOTH), "priceCurrency": "USD",
+        "offers": {"@type": "Offer", "price": str(PRICE_BOTH), "priceCurrency": CURRENCY_CODE,
                    "availability": "https://schema.org/InStock", "url": abs_url("order")},
     }
     add_page(slug,
-             "Flight + Hotel Booking for Visa | Complete Pack $%d" % PRICE_BOTH,
-             "Flight reservation and hotel booking for your visa application, issued together and date-matched. $%d per traveller, delivered in %s." % (PRICE_BOTH, DELIVERY),
+             "Flight + Hotel Booking for Visa | Complete Pack %s" % money(PRICE_BOTH),
+             "Flight reservation and hotel booking for your visa application, issued together and date-matched. %s per traveller, delivered in %s." % (money(PRICE_BOTH), DELIVERY),
              body, schema=[c_schema, product, faq_schema(faqs)],
              priority="0.9", changefreq="weekly")
 
@@ -622,12 +623,12 @@ def onward_page():
   <div class="wrap">
     %s
     <div class="wrap--narrow" style="padding:0;margin:0">
-      <p class="eyebrow">$%d &middot; delivered in %s</p>
+      <p class="eyebrow">%s &middot; delivered in %s</p>
       <h1>Proof of onward travel</h1>
       <p class="lede">A dated onward or return booking with a live PNR &mdash; enough to satisfy an airline check-in agent
       or a border officer who wants to see that you intend to leave.</p>
       <div class="btn-row" style="margin-top:1.6rem">
-        <a class="btn btn--primary btn--lg" href="%s">Get onward proof &mdash; $%d</a>
+        <a class="btn btn--primary btn--lg" href="%s">Get onward proof &mdash; %s</a>
         <a class="btn btn--ghost btn--lg" href="%s">Read the full guide</a>
       </div>
       %s
@@ -657,15 +658,15 @@ def onward_page():
 </section>
 
 %s
-""" % (c_html, PRICE_FLIGHT, DELIVERY, url("order"), PRICE_FLIGHT,
+""" % (c_html, money(PRICE_FLIGHT), DELIVERY, url("order"), money(PRICE_FLIGHT),
        url("blog/proof-of-onward-travel-explained"), TRUSTLINE,
        faq_block(faqs, "Onward travel FAQ"),
        cta_band("Board without the argument",
-                "A live onward booking for $%d, in your inbox within %s." % (PRICE_FLIGHT, DELIVERY)))
+                "A live onward booking for %s, in your inbox within %s." % (money(PRICE_FLIGHT), DELIVERY)))
 
     add_page(slug,
-             "Proof of Onward Travel | Onward Ticket from $%d" % PRICE_FLIGHT,
-             "Need proof of onward travel for check-in or immigration? Get a dated onward booking with a live PNR for $%d, delivered in %s." % (PRICE_FLIGHT, DELIVERY),
+             "Proof of Onward Travel | Onward Ticket from %s" % money(PRICE_FLIGHT),
+             "Need proof of onward travel for check-in or immigration? Get a dated onward booking with a live PNR for %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
              body, schema=[c_schema, faq_schema(faqs)],
              priority="0.8", changefreq="monthly")
 
@@ -679,7 +680,7 @@ def pricing_page():
         ("Is the price per person or per booking?",
          "<p>Per traveller. Four people on one itinerary is four times the per-traveller price, and each person receives a document in their own name.</p>"),
         ("Are there hidden fees?",
-         "<p>No. The price you see is the price charged. The only optional extra is priority handling at $%d, and you choose it deliberately at checkout.</p>" % PRICE_RUSH),
+         "<p>No. The price you see is the price charged. The only optional extra is priority handling at %s, and you choose it deliberately at checkout.</p>" % money(PRICE_RUSH)),
         ("What payment methods do you take?",
          "<p>Card, PayPal and UPI. Payment is processed by the payment provider &mdash; we never see or store your card details.</p>"),
         ("Do you offer agency or bulk rates?",
@@ -698,7 +699,7 @@ def pricing_page():
     </div>
     <div style="margin-top:3rem">%s</div>
     <p class="center" style="margin-top:1.8rem;color:var(--ink-3);font-size:.93rem">
-      Priority handling (delivery targeted inside 60 minutes, 24/7): <strong>+$%d</strong> per order.
+      Priority handling (delivery targeted inside 60 minutes, 24/7): <strong>+%s</strong> per order.
     </p>
     <div style="margin-top:2.8rem">%s</div>
   </div>
@@ -709,7 +710,7 @@ def pricing_page():
     <h2>What is included at every price point</h2>
     <div class="tbl-wrap" style="margin-top:1.6rem">
       <table>
-        <thead><tr><th>Included</th><th>Flight $%d</th><th>Hotel $%d</th><th>Bundle $%d</th></tr></thead>
+        <thead><tr><th>Included</th><th>Flight %s</th><th>Hotel %s</th><th>Bundle %s</th></tr></thead>
         <tbody>
           <tr><td>Real booking in a live reservation system</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
           <tr><td>Verifiable reference / PNR</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
@@ -726,7 +727,7 @@ def pricing_page():
 
 <section>
   <div class="wrap wrap--narrow">
-    <h2>Why this costs $%d and a real ticket costs $900</h2>
+    <h2>Why this costs %s and a real ticket costs &#8377;75,000</h2>
     <p>Because you are not buying a flight. You are paying for a booking to be created, held and documented in a live
     airline system, and for someone to check that the details on it will survive consular scrutiny. The seat is never
     purchased, so no fare is ever charged &mdash; to us or to you.</p>
@@ -740,14 +741,14 @@ def pricing_page():
 </section>
 
 %s
-""" % (c_html, DELIVERY, pricing_tickets(), PRICE_RUSH, trust_cards(heading=None),
-       PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, DELIVERY, PRICE_FLIGHT,
+""" % (c_html, DELIVERY, pricing_tickets(), money(PRICE_RUSH), trust_cards(heading=None),
+       money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH), DELIVERY, money(PRICE_FLIGHT),
        faq_block(faqs, "Pricing FAQ"),
        cta_band())
 
     add_page(slug,
-             "Pricing | Dummy Ticket from $%d, Hotel from $%d" % (PRICE_FLIGHT, PRICE_HOTEL),
-             "Flight reservation for visa $%d, hotel booking $%d, both for $%d per traveller. All prices include an embassy-ready PDF delivered in %s." % (PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, DELIVERY),
+             "Pricing | Dummy Ticket from %s, Hotel from %s" % (money(PRICE_FLIGHT), money(PRICE_HOTEL)),
+             "Flight reservation for visa %s, hotel booking %s, both for %s per traveller. All prices include an embassy-ready PDF delivered in %s." % (money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH), DELIVERY),
              body, schema=[c_schema, faq_schema(faqs)],
              priority="0.9", changefreq="weekly")
 
@@ -771,7 +772,7 @@ def how_it_works():
         "name": "How to get a verifiable flight reservation for a visa application",
         "description": "The end-to-end process for obtaining an airline-held flight reservation with a live PNR for a visa application.",
         "totalTime": "PT60M",
-        "estimatedCost": {"@type": "MonetaryAmount", "currency": "USD", "value": str(PRICE_FLIGHT)},
+        "estimatedCost": {"@type": "MonetaryAmount", "currency": "USD", "value": str(money(PRICE_FLIGHT))},
         "step": [{"@type": "HowToStep", "position": i, "name": t,
                   "text": __import__("re").sub(r"<[^>]+>", "", d),
                   "url": abs_url(slug) + "#step-%d" % i}
@@ -927,7 +928,7 @@ def verify_page():
 %s
 """ % (c_html, rows, faq_block(faqs, "Verification FAQ"),
        cta_band("Order a reservation you can verify in two minutes",
-                "Live PNR, checkable on the carrier&rsquo;s own site, $%d per traveller." % PRICE_FLIGHT))
+                "Live PNR, checkable on the carrier&rsquo;s own site, %s per traveller." % money(PRICE_FLIGHT)))
 
     add_page(slug, "How to Verify a Flight Reservation PNR | Step-by-Step",
              "Check whether a flight reservation for a visa is real: find the PNR, open the airline's manage-booking page, enter the code and surname. Four steps, two minutes.",
@@ -949,24 +950,25 @@ def order_page():
       <p class="lede">Two minutes. No account. Delivered to your inbox in %s.</p>
     </div>
     <div class="hero__grid" style="align-items:flex-start">
-      <form class="form" id="order-form" novalidate>
+      <form class="form" id="order-form" novalidate data-cur="%s"
+            data-p-flight="%d" data-p-hotel="%d" data-p-both="%d" data-p-rush="%d">
         <fieldset>
           <legend>1 &middot; What do you need?</legend>
           <label class="opt"><input type="radio" name="service" value="flight" checked>
-            <span><b>Flight reservation &mdash; $%d</b><small>Airline-held itinerary with a live PNR</small></span></label>
+            <span><b>Flight reservation &mdash; %s</b><small>Airline-held itinerary with a live PNR</small></span></label>
           <label class="opt"><input type="radio" name="service" value="hotel">
-            <span><b>Hotel booking &mdash; $%d</b><small>Confirmed accommodation with a reference number</small></span></label>
+            <span><b>Hotel booking &mdash; %s</b><small>Confirmed accommodation with a reference number</small></span></label>
           <label class="opt"><input type="radio" name="service" value="both">
-            <span><b>Flight + hotel &mdash; $%d</b><small>Both, with dates reconciled. Most popular.</small></span></label>
+            <span><b>Flight + hotel &mdash; %s</b><small>Both, with dates reconciled. Most popular.</small></span></label>
         </fieldset>
 
         <fieldset>
           <legend>2 &middot; Your trip</legend>
           <div class="row2">
             <div class="field"><label for="from">From (city or airport)</label>
-              <input id="from" name="from" type="text" placeholder="Delhi (DEL)" autocomplete="off" required></div>
+              <input id="from" name="from" type="text" placeholder="Delhi (DEL)" data-airport required></div>
             <div class="field"><label for="to">To (city or airport)</label>
-              <input id="to" name="to" type="text" placeholder="Paris (CDG)" autocomplete="off" required></div>
+              <input id="to" name="to" type="text" placeholder="Paris (CDG)" data-airport required></div>
           </div>
           <div class="row2">
             <div class="field"><label for="depart">Departure date</label>
@@ -1004,11 +1006,11 @@ def order_page():
             <textarea id="notes" name="notes" rows="3" placeholder="Appointment date, multi-city plan, extra travellers, preferred airline&hellip;"></textarea>
             <span class="hint">Additional travellers&rsquo; names can go here.</span></div>
           <label class="opt" style="margin-top:6px"><input type="checkbox" id="rush" name="rush">
-            <span><b>Priority handling &mdash; +$%d</b><small>Targeted inside 60 minutes, 24/7</small></span></label>
+            <span><b>Priority handling &mdash; +%s</b><small>Targeted inside 60 minutes, 24/7</small></span></label>
         </fieldset>
 
         <button class="btn btn--primary btn--lg btn--block" type="submit">
-          Continue to payment &mdash; <span id="price-out">$%d</span></button>
+          Continue to payment &mdash; <span id="price-out">%s</span></button>
         <p class="hint" style="text-align:center;margin-top:12px" id="price-line"></p>
 
         <div class="note note--ok" id="order-msg" hidden>
@@ -1044,12 +1046,14 @@ def order_page():
     </div>
   </div>
 </section>
-""" % (c_html, DELIVERY, PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, PRICE_RUSH,
-       PRICE_FLIGHT, EMAIL, EMAIL, DELIVERY, EMAIL, EMAIL)
+""" % (c_html, DELIVERY, CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, PRICE_RUSH,
+       money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH), money(PRICE_RUSH),
+       money(PRICE_FLIGHT), EMAIL, EMAIL, DELIVERY, EMAIL, EMAIL)
 
     add_page(slug, "Order a Flight Reservation or Hotel Booking for Your Visa",
-             "Order a verifiable flight reservation from $%d or a hotel booking from $%d. No account needed, delivered in %s." % (PRICE_FLIGHT, PRICE_HOTEL, DELIVERY),
-             body, schema=[c_schema], priority="0.9", changefreq="monthly")
+             "Order a verifiable flight reservation from %s or a hotel booking from %s. No account needed, delivered in %s." % (money(PRICE_FLIGHT), money(PRICE_HOTEL), DELIVERY),
+             body, schema=[c_schema], priority="0.9", changefreq="monthly",
+             extra_js=("assets/js/airports.js",))
 
 
 def thank_you():
@@ -1080,7 +1084,7 @@ def faq_page():
             ("Is a dummy ticket the same as a fake ticket?",
              "<p>No, and the distinction is the whole business. A dummy ticket is a real booking that has not been paid for. A fake ticket is a fabricated document with no booking behind it. The first is a normal part of visa filing; the second is fraud.</p>"),
             ("Why not just book a refundable ticket myself?",
-             "<p>You can. It ties up several hundred to a few thousand dollars for weeks, refunds take 7&ndash;30 days, and some &lsquo;refundable&rsquo; fares carry cancellation fees that exceed our entire price.</p>"),
+             "<p>You can. It ties up tens of thousands of rupees for weeks, refunds take 7&ndash;30 days, and some &lsquo;refundable&rsquo; fares carry cancellation fees that exceed our entire price.</p>"),
             ("Can I use a free reservation-hold from an airline?",
              "<p>Sometimes. A handful of carriers offer 24&ndash;72 hour holds on their own site, free or for a small fee. If your route is served by one of them and your appointment is imminent, that is a perfectly good option. It falls down when you need a longer window, a multi-city itinerary, or a route where no carrier offers holds.</p>"),
         ]),
@@ -1104,7 +1108,7 @@ def faq_page():
             ("Can I change the dates after delivery?",
              "<p>One free amendment per order. After that a small reissue fee applies.</p>"),
             ("Do you book hotels too?",
-             "<p>Yes &mdash; $%d alone, or $%d bundled with a flight reservation, with the dates cross-checked.</p>" % (PRICE_HOTEL, PRICE_BOTH)),
+             "<p>Yes &mdash; %s alone, or %s bundled with a flight reservation, with the dates cross-checked.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
             ("What if the PNR does not verify?",
              "<p>Email us and we reissue immediately, or refund in full. See the <a href=\"%s\">refund policy</a>.</p>" % url("refund-policy")),
         ]),
