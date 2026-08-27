@@ -8,7 +8,7 @@ from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
                    money, add_page, url, abs_url, ticket, faq_block, faq_schema,
                    crumbs, cta_band, pricing_tickets,
                    stat_bar, trust_cards, airline_strip, iata_badge,
-                   booking_widget, trust_section, highlights)
+                   booking_widget, trust_section, highlights, feature_cards)
 
 
 # ==========================================================================
@@ -126,6 +126,10 @@ def home():
   </div>
 </section>
 
+<section class="band tight">
+  <div class="wrap">%s</div>
+</section>
+
 <section class="tight">
   <div class="wrap">%s</div>
 </section>
@@ -207,10 +211,6 @@ def home():
   </div>
 </section>
 
-<section>
-  <div class="wrap">%s</div>
-</section>
-
 <section class="band">
   <div class="wrap">
     <h2>Visa-specific guides</h2>
@@ -228,13 +228,13 @@ def home():
 %s
 """ % (DELIVERY, money(PRICE_FLIGHT), url("order"), money(PRICE_FLIGHT), url("how-it-works"),
        iata_badge(), booking_widget(), highlights(), stat_bar(),
-       trust_section(),
+       feature_cards(),
+       airline_strip(),
        pricing_tickets(), money(PRICE_RUSH),
        url("verify-pnr"),
        steps_block(ORDER_STEPS, "From order to embassy-ready PDF"), url("order"),
        money(PRICE_FLIGHT), url("blog/flight-reservation-vs-confirmed-ticket"),
        ICON["shield"], ICON["doc"], ICON["globe"], ICON["clock"],
-       airline_strip(),
        _visa_pills(),
        faq_block(home_faqs, "Visa flight ticket: common questions"),
        cta_band())

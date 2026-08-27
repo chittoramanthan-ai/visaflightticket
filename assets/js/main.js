@@ -510,6 +510,23 @@
     window.addEventListener('load', function () { measureScta(); up = null; updateScta(); });
   }
 
+  // --- back to top ---------------------------------------------------------
+  var totop = document.getElementById('totop');
+  if (totop) {
+    var tShown = null;
+    function updateTop() {
+      var show = (window.pageYOffset || document.documentElement.scrollTop || 0) > 700;
+      if (show === tShown) return;
+      tShown = show;
+      totop.classList.toggle('is-on', show);
+    }
+    updateTop();
+    window.addEventListener('scroll', updateTop, { passive: true });
+    totop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  }
+
   // --- reading progress on articles ---------------------------------------
   var article = document.querySelector('.article');
   if (article && !reduce) {

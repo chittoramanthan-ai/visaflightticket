@@ -184,6 +184,11 @@ ICON = {
     "seal": _svg('<path d="m12 2 2.4 1.8 3-.2.9 2.9 2.4 1.8-1.1 2.8 1.1 2.8-2.4 1.8-.9 2.9-3-.2L12 20l-2.4-1.8-3 .2-.9-2.9L3.3 13.7 4.4 11 3.3 8.2l2.4-1.8.9-2.9 3 .2Z"/><path d="m9 11.5 2 2 4-4"/>'),
     "whatsapp": ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
                  '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.13h-.01a8.23 8.23 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.21-8.24 8.21Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.13-.56-1.35-.77-1.84-.2-.49-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.22.25-.86.84-.86 2.05s.88 2.38 1 2.54c.13.17 1.74 2.65 4.21 3.72.59.25 1.05.4 1.4.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29Z"/></svg>'),
+    "headset": _svg('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14h2.5a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M20 14h-2.5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1H19a1 1 0 0 0 1-1Z"/><path d="M18 20a3 3 0 0 1-3 2.5h-2"/>'),
+    "bulb": _svg('<path d="M9.5 17h5M10 21h4"/><path d="M12 2a6.5 6.5 0 0 0-3.8 11.8c.5.4.8 1 .8 1.6v.6h6v-.6c0-.6.3-1.2.8-1.6A6.5 6.5 0 0 0 12 2Z"/>'),
+    "cash": _svg('<rect x="2" y="6" width="20" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/><path d="M5.5 12h.01M18.5 12h.01"/>'),
+    "handshake": _svg('<path d="m11 17 2 2a1.4 1.4 0 0 0 2-2l-1-1"/><path d="m14 16 1.5 1.5a1.4 1.4 0 0 0 2-2L13 11"/><path d="M8.5 8.5 6 11a1.5 1.5 0 0 0 0 2.1l3 3a1.5 1.5 0 0 0 2.1 0l.9-.9"/><path d="M13 11 9.6 7.6a2 2 0 0 0-2.8 0L4 10.4"/><path d="M14.5 8.5 17 6a2 2 0 0 1 2.8 0L22 8.2"/>'),
+    "up": _svg('<path d="m6 15 6-6 6 6"/>'),
     "award": _svg('<circle cx="12" cy="9" r="6"/><path d="m8.2 13.8-1.4 7.4 5.2-2.8 5.2 2.8-1.4-7.4"/>'),
 }
 
@@ -367,6 +372,38 @@ def stat_bar():
         return ""
     inner = "".join('<div class="stat"><b>%s</b><span>%s</span></div>' % (a, b) for a, b in cells)
     return '<div class="stats">%s</div>' % inner
+
+
+FEATURES = [
+    ("bulb", "Live PNR",
+     "Every booking is real and held in an airline system. Verify the reference "
+     "on the carrier&rsquo;s own site before you file &mdash; takes two minutes."),
+    ("headset", "24&times;7 support",
+     "Appointment at six in the morning? Message us at any hour and a person "
+     "answers. Priority handling is included when it is urgent."),
+    ("cash", "Cheapest price",
+     "%s per traveller, all inclusive. No fare is ever purchased, so there is "
+     "no fare to recover &mdash; that is why it can be this cheap."),
+    ("handshake", "Money-back guarantee",
+     "If a reference does not verify, or we fail to deliver, you get a full "
+     "refund. Written down, not implied."),
+]
+
+
+def feature_cards():
+    """Numbered feature cards. Sits directly under the hero."""
+    out = ""
+    for i, (icon, title, body) in enumerate(FEATURES, 1):
+        text = body % money(PRICE_FLIGHT) if "%s" in body else body
+        out += """
+<article class="fc">
+  <span class="fc__n" aria-hidden="true">%02d</span>
+  <span class="fc__i">%s</span>
+  <h3>%s</h3>
+  <p>%s</p>
+</article>""" % (i, ICON[icon], title, text)
+    return ('<h2 class="sr">Why travellers choose %s</h2>'
+            '<div class="fc-grid">%s</div>' % (BRAND, out))
 
 
 def trust_cards(heading="Why travellers trust %s" % BRAND):
@@ -634,6 +671,7 @@ def sticky_cta(active):
     if active in ("order", "login"):
         return ""
     return """
+<button type="button" class="totop" id="totop" aria-label="Back to top">%s</button>
 <div class="scta" id="scta" data-hidden>
   <div class="wrap scta__in">
     <div class="scta__txt">
@@ -646,7 +684,7 @@ def sticky_cta(active):
       <a class="btn btn--wa scta__wa" href="https://wa.me/%s" aria-label="Chat on WhatsApp">%s</a>
     </div>
   </div>
-</div>""" % (ICON["check"], DELIVERY, money(PRICE_FLIGHT), url("order"),
+</div>""" % (ICON["up"], ICON["check"], DELIVERY, money(PRICE_FLIGHT), url("order"),
              re.sub(r"[^0-9]", "", WHATSAPP), ICON["whatsapp"])
 
 
