@@ -20,19 +20,18 @@
 
   // --- theme toggle (light / dark / system) -------------------------------
   var root = document.documentElement;
+  // Light is the default for everyone. The OS dark preference is deliberately
+  // NOT honoured -- dark only appears if the visitor asks for it here.
   var saved = null;
-  try { saved = localStorage.getItem('vft-theme'); } catch (e) {}
-  if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  try { saved = localStorage.getItem('vft-theme-v2'); } catch (e) {}
+  if (saved === 'dark') root.setAttribute('data-theme', 'dark');
 
   var toggle = document.querySelector('.theme-btn');
   if (toggle) {
     toggle.addEventListener('click', function () {
-      var isDark = root.getAttribute('data-theme') === 'dark' ||
-        (!root.getAttribute('data-theme') &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches);
-      var next = isDark ? 'light' : 'dark';
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
-      try { localStorage.setItem('vft-theme', next); } catch (e) {}
+      try { localStorage.setItem('vft-theme-v2', next); } catch (e) {}
       toggle.setAttribute('aria-label', 'Switch to ' + (next === 'dark' ? 'light' : 'dark') + ' theme');
     });
   }

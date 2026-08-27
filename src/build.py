@@ -84,8 +84,25 @@ def url(path=""):
     return BASE_PATH + "/" + path + "/"
 
 
-def asset(path):
-    return BASE_PATH + "/" + path.lstrip("/")
+_ASSET_V = {}
+
+
+def asset(path, bust=False):
+    """Web path for a local asset. bust=True appends a content hash so a
+    rebuilt stylesheet or script is never served from a stale cache."""
+    rel = path.lstrip("/")
+    out = BASE_PATH + "/" + rel
+    if not bust:
+        return out
+    if rel not in _ASSET_V:
+        full = os.path.join(ROOT, *rel.split("/"))
+        try:
+            with open(full, "rb") as fh:
+                import hashlib
+                _ASSET_V[rel] = hashlib.md5(fh.read()).hexdigest()[:8]
+        except OSError:
+            _ASSET_V[rel] = "0"
+    return out + "?v=" + _ASSET_V[rel]
 
 
 def abs_url(path=""):
@@ -615,8 +632,8 @@ PAGE_TPL = """<!doctype html>
 <title>{title}</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{canonical}">
-{robots}<meta name="theme-color" content="#0b7f49" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0b120f" media="(prefers-color-scheme: dark)">
+{robots}<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="{brand}">
 <meta property="og:title" content="{og_title}">
@@ -681,8 +698,8 @@ def write_pages(visa_links):
             fav=asset("assets/img/favicon.svg"),
             apple=asset("assets/img/apple-touch-icon.png"),
             manifest=asset("site.webmanifest"),
-            css=asset("assets/css/style.css"),
-            js=asset("assets/js/main.js"),
+            css=asset("assets/css/style.css", bust=True),
+            js=asset("assets/js/main.js", bust=True),
             schema=jsonld(*graph),
             header=header(active),
             body=p["body"],
@@ -767,8 +784,8 @@ def write_extras():
         canonical=abs_url("404"), robots='<meta name="robots" content="noindex,follow">\n',
         og_type="website", og_title="Page not found", brand=BRAND, site=SITE_URL, twitter=TWITTER,
         fav=asset("assets/img/favicon.svg"), apple=asset("assets/img/apple-touch-icon.png"),
-        manifest=asset("site.webmanifest"), css=asset("assets/css/style.css"),
-        js=asset("assets/js/main.js"), schema="", header=header(""), body=body,
+        manifest=asset("site.webmanifest"), css=asset("assets/css/style.css", bust=True),
+        js=asset("assets/js/main.js", bust=True), schema="", header=header(""), body=body,
         footer=footer(VISA_LINKS_CACHE))
     with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8") as fh:
         fh.write(html)
