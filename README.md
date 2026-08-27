@@ -64,8 +64,14 @@ remove them in one line, but you are responsible for their accuracy:
 2. **"Since 2017", "10 lakh+ flights booked", "50,000+ travellers"** — if the business cannot evidence
    these, blank them. Unverifiable statistics are exactly the pattern Google's spam and site-reputation
    systems penalise, and in most markets they are actionable under consumer-protection law.
-3. **Airline names** are shown as text wordmarks with a disclaimer, not logos. If you want the actual
-   logos, get written permission first — most carrier brand guidelines forbid use that implies partnership.
+3. **Airline logos.** The homepage marquee currently renders each carrier as a text wordmark. To swap in a
+   real logo, drop a file at `assets/img/airlines/<slug>.svg` (`.png`, `.webp` and `.jpg` also work) and
+   rebuild — `_logo_file()` picks it up automatically, no code change. The slug is the carrier name
+   lowercased with non-alphanumerics collapsed to `-`, so *Qatar Airways* → `qatar-airways.svg`,
+   *flydubai* → `flydubai.svg`, *Fly Jinnah* → `fly-jinnah.svg`. Carriers with no file keep the wordmark,
+   so you can add them a few at a time. **Only add marks you have written permission to display** — most
+   airline brand guidelines forbid use that implies partnership, and a logo wall on a booking site reads
+   as exactly that. Run `python src/build.py` to see the current list and slugs.
 4. **No testimonials or review counts are included.** Deliberately: fabricated reviews are the fastest
    way to lose a Google Business Profile and attract an FTC/ASA complaint. Add real ones once you have
    them, with `Review`/`AggregateRating` schema pointing at a real review platform.

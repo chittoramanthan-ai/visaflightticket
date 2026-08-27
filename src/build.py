@@ -47,13 +47,24 @@ IATA_ACCREDITED = True       # False removes the IATA badge everywhere
 IATA_NUMBER = ""             # your IATA / TIDS code, e.g. "96-1 2345 6" - shown on the badge
 AIRLINE_COUNT = "100+"
 
-# Carriers we book on. Names only -- drop logo SVGs into assets/img/airlines/
-# and extend airline_strip() if you have licence to display the marks.
+# Carriers we book on, in marquee order.
+# Drop a logo at assets/img/airlines/<slug>.svg (or .png) and the next build
+# swaps that carrier's wordmark for the image automatically -- no code change.
+# Slug = lowercase name, non-alphanumerics collapsed to "-" (see slugify()).
+# Only add files you have written permission to display: most carrier brand
+# guidelines forbid use that implies partnership or endorsement.
 AIRLINES = [
-    "Emirates", "Qatar Airways", "Turkish Airlines", "Lufthansa", "Air France",
-    "KLM", "British Airways", "SWISS", "LOT Polish Airlines", "Vietnam Airlines",
-    "Japan Airlines", "American Airlines", "AirAsia", "Singapore Airlines",
-    "Etihad Airways", "Air India", "IndiGo", "Thai Airways", "Cathay Pacific", "ANA",
+    "Malindo Air", "Malaysia Airlines", "Pegasus Airlines", "Air Indus",
+    "Turkish Airlines", "Etihad Airways", "FlyBaghdad", "Tajik Air",
+    "Oman Air", "Air Sial", "Emirates", "British Airways",
+    "Virgin Atlantic", "Qatar Airways", "SalamAir", "Iran Air",
+    "China Southern", "Saudia", "Thai Airways", "Air China",
+    "Pakistan International Airlines", "flydubai", "American Airlines", "flynas",
+    "Air Arabia", "Jazeera Airways", "SriLankan Airlines", "Gulf Air",
+    "Fly Jinnah", "SaudiGulf Airlines", "Kam Air", "Kuwait Airways",
+    "airblue", "Mahan Air", "Air Mauritius", "SereneAir",
+    "Cham Wings Airlines", "Taban Airlines", "Raki Airways", "Iraqi Airways",
+    "Uzbekistan Airways", "Safi Airways",
 ]
 
 TODAY = date.today().isoformat()
@@ -465,17 +476,46 @@ def trust_section(heading="Why travellers trust %s" % BRAND):
         url("order"), visitor_visa_panel())
 
 
-def airline_strip(heading=None):
+def _logo_file(name):
+    """Return the web path of a logo for `name` if one is on disk, else None."""
+    slug = slugify(name)
+    for ext in ("svg", "png", "webp", "jpg"):
+        rel = "assets/img/airlines/%s.%s" % (slug, ext)
+        if os.path.exists(os.path.join(ROOT, rel)):
+            return asset(rel)
+    return None
+
+
+def _mark(name):
+    """A logo tile: the real mark when we have the file, a wordmark otherwise."""
+    src = _logo_file(name)
+    if src:
+        return ('<span class="mq__item"><img src="%s" alt="%s" width="118" height="34" '
+                'loading="lazy" decoding="async"></span>' % (src, name))
+    return '<span class="mq__item"><b>%s</b></span>' % name
+
+
+def _row(names, variant=""):
+    """One marquee lane. Content is duplicated so the -50% keyframe wraps clean."""
+    tiles = "".join(_mark(n) for n in names)
+    return ('<div class="mq%s"><div class="mq__track">%s%s</div></div>'
+            % (variant, tiles, tiles))
+
+
+def airline_strip(heading=None, rows=3):
     if heading is None:
         heading = "Visa flight bookings with %s trusted airlines" % AIRLINE_COUNT
-    marks = "".join('<span class="mark">%s</span>' % a for a in AIRLINES)
+    per = -(-len(AIRLINES) // rows)          # ceil, so nothing is dropped
+    lanes = ""
+    for i, variant in zip(range(0, len(AIRLINES), per), ("", " mq--b", " mq--c", " mq--b")):
+        lanes += _row(AIRLINES[i:i + per], variant)
     return """
-<div class="center"><h2>%s</h2>
+<div class="center" style="margin-bottom:2.2rem"><h2>%s</h2>
 <p class="lede">We book on the carrier that actually operates your route, using live availability.</p></div>
-<div class="marks" role="list" aria-label="Airlines we book on">%s</div>
-<p class="center" style="margin-top:1rem;color:var(--ink-3);font-size:.85rem">
-Airline names are the trademarks of their respective owners and are shown to indicate carriers we book on.
-No endorsement or partnership is implied.</p>""" % (heading, marks)
+%s
+<p class="center" style="margin-top:1.4rem;color:var(--ink-3);font-size:.83rem">
+Airline names and marks are the trademarks of their respective owners, shown to indicate carriers we book on.
+No endorsement, partnership or affiliation is implied.</p>""" % (heading, lanes)
 
 
 # --------------------------------------------------------------------------

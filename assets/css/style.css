@@ -6,14 +6,14 @@
 /* --- tokens ------------------------------------------------------------- */
 :root{
   --bg:#ffffff;
-  --bg-alt:#f4f7f5;
+  --bg-alt:#f6f7f8;
   --surface:#ffffff;
-  --surface-2:#f7faf8;
-  --ink:#131a17;
-  --ink-2:#4c5a53;
-  --ink-3:#7b8a83;
-  --line:#e3e9e6;
-  --line-strong:#cbd6d1;
+  --surface-2:#f8f9fa;
+  --ink:#14181b;
+  --ink-2:#4b545c;
+  --ink-3:#79838c;
+  --line:#e6e8ea;
+  --line-strong:#ccd1d5;
   --brand:#0b7f49;
   --brand-ink:#086137;
   --brand-soft:#e6f4ec;
@@ -291,8 +291,7 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
 .hero{
   position:relative;padding:clamp(2.8rem,6vw,4.8rem) 0 clamp(3rem,6vw,5rem);
   background:
-    radial-gradient(900px 420px at 78% -8%,color-mix(in srgb,var(--brand) 15%,transparent),transparent 70%),
-    radial-gradient(700px 380px at 8% 105%,color-mix(in srgb,var(--brand) 9%,transparent),transparent 70%),
+    radial-gradient(820px 380px at 84% -10%,color-mix(in srgb,var(--brand) 6%,transparent),transparent 72%),
     var(--bg);
   overflow:hidden;
 }
@@ -479,6 +478,46 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
   box-shadow:var(--shadow-sm);white-space:nowrap;
 }
 .marks .mark:hover{border-color:var(--brand);color:var(--brand)}
+
+/* --- logo marquee ------------------------------------------------------- */
+.mq{
+  position:relative;overflow:hidden;padding:7px 0;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+}
+.mq+.mq{margin-top:12px}
+.mq__track{
+  display:flex;gap:13px;width:max-content;will-change:transform;
+  animation:mq-ltr 58s linear infinite;
+}
+.mq--b .mq__track{animation-duration:74s}
+.mq--c .mq__track{animation-duration:64s}
+/* content travels left -> right; the track is duplicated so -50% wraps seamlessly */
+@keyframes mq-ltr{
+  from{transform:translate3d(-50%,0,0)}
+  to{transform:translate3d(0,0,0)}
+}
+.mq:hover .mq__track,.mq:focus-within .mq__track{animation-play-state:paused}
+.mq__item{
+  flex:none;display:flex;align-items:center;justify-content:center;
+  height:62px;min-width:146px;padding:0 20px;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:12px;
+  box-shadow:0 1px 2px rgba(16,32,26,.06),0 4px 12px -6px rgba(16,32,26,.14);
+}
+.mq__item img{max-height:34px;max-width:118px;width:auto;object-fit:contain}
+.mq__item b{
+  font-size:.9rem;font-weight:700;letter-spacing:-.015em;color:var(--ink-2);
+  white-space:nowrap;text-align:center;
+}
+@media (prefers-reduced-motion:reduce){
+  .mq{mask-image:none;-webkit-mask-image:none;overflow-x:auto}
+  .mq__track{animation:none;transform:none}
+}
+@media (max-width:600px){
+  .mq__item{height:54px;min-width:124px;padding:0 15px}
+  .mq__item img{max-height:28px;max-width:98px}
+  .mq__item b{font-size:.82rem}
+}
 
 /* --- steps -------------------------------------------------------------- */
 .steps{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
