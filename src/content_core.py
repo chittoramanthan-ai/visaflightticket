@@ -117,7 +117,7 @@ def home():
           <a class="btn btn--primary btn--lg" href="%s">Get my flight ticket &mdash; %s</a>
           <a class="btn btn--ghost btn--lg" href="%s">See how it works</a>
         </div>
-        %s
+        <div class="hero__seal">%s</div>
       </div>
       <div>%s</div>
     </div>
@@ -227,7 +227,7 @@ def home():
 
 %s
 """ % (DELIVERY, money(PRICE_FLIGHT), url("order"), money(PRICE_FLIGHT), url("how-it-works"),
-       TRUSTLINE, booking_widget(), highlights(), stat_bar(),
+       iata_badge(), booking_widget(), highlights(), stat_bar(),
        trust_section(),
        pricing_tickets(), money(PRICE_RUSH),
        url("verify-pnr"),
@@ -449,6 +449,7 @@ def hotel_page():
 
 <section class="band">
   <div class="wrap">
+    <h2 class="sr">Hotel booking options</h2>
     <div class="grid g2">
       %s
       %s
@@ -553,7 +554,7 @@ def combo_page():
 </section>
 
 <section class="band">
-  <div class="wrap">%s</div>
+  <div class="wrap"><h2 class="sr">Package options and pricing</h2>%s</div>
 </section>
 
 <section>
@@ -697,6 +698,7 @@ def pricing_page():
       <h1>Simple, per-traveller pricing</h1>
       <p class="lede">No subscriptions, no account, no upsells at the end. Every price below includes delivery within %s.</p>
     </div>
+    <h2 class="sr">Plans and prices</h2>
     <div style="margin-top:3rem">%s</div>
     <p class="center" style="margin-top:1.8rem;color:var(--ink-3);font-size:.93rem">
       Priority handling (delivery targeted inside 60 minutes, 24/7): <strong>+%s</strong> per order.
@@ -806,7 +808,8 @@ def how_it_works():
 </section>
 
 <section class="band tight">
-  <div class="wrap"><div class="grid g3">%s</div></div>
+  <div class="wrap"><h2 class="sr">The process, step by step</h2>
+  <div class="grid g3">%s</div></div>
 </section>
 
 <section>
@@ -891,7 +894,8 @@ def verify_page():
 </section>
 
 <section class="band tight">
-  <div class="wrap"><div class="grid g4">%s</div></div>
+  <div class="wrap"><h2 class="sr">How to verify, step by step</h2>
+  <div class="grid g4">%s</div></div>
 </section>
 
 <section>
@@ -950,6 +954,7 @@ def order_page():
       <p class="lede">Two minutes. No account. Delivered to your inbox in %s.</p>
     </div>
     <div class="hero__grid" style="align-items:flex-start">
+      <h2 class="sr">Order form</h2>
       <form class="form" id="order-form" novalidate data-cur="%s"
             data-p-flight="%d" data-p-hotel="%d" data-p-both="%d" data-p-rush="%d">
         <fieldset>
@@ -1021,7 +1026,7 @@ def order_page():
         </div>
       </form>
 
-      <aside>
+      <aside class="order-aside">
         <div class="card">
           <h3>What happens next</h3>
           <ol style="font-size:.95rem;color:var(--ink-2);padding-left:1.1em">
@@ -1206,6 +1211,7 @@ def contact_page():
     <h1>Contact us</h1>
     <p class="lede">Real people, and we answer everything. If your appointment is imminent, say so in the first line
     and we will prioritise it.</p>
+    <h2 class="sr">How to reach us</h2>
     <div class="grid g2" style="margin-top:2.4rem">
       <div class="card"><div class="card__ico">%s</div><h3>Email</h3>
         <p>The fastest route for order questions, corrections and reissues.</p>

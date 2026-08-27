@@ -866,6 +866,7 @@ def _index():
       <p class="lede">No hype, no guaranteed-approval nonsense. What consulates ask for, why they ask for it, and
       where applications go wrong &mdash; written by people who prepare these documents every day.</p>
     </div>
+    <h2 class="sr">All articles</h2>
     <div class="grid g3">%s</div>
   </div>
 </section>

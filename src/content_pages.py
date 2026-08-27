@@ -160,6 +160,7 @@ def login_page():
       </div>
     </form>
 
+    <h2 class="sr">Common questions about an order</h2>
     <div class="grid g2" style="margin-top:2.2rem">
       <div class="card"><h3>Nothing arrived?</h3>
         <p style="font-size:.95rem;color:var(--ink-2)">Delivery is normally within %s. Check spam first &mdash;

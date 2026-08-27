@@ -390,7 +390,12 @@ def trust_cards(heading="Why travellers trust %s" % BRAND):
                   "refund. <a href=\"%s\">Read the policy</a>." % url("refund-policy")))
 
     inner = "".join('<div class="trust-card">%s<h3>%s</h3><p>%s</p></div>' % c for c in cards)
-    head = '<div class="center" style="margin-bottom:2.4rem"><h2>%s</h2></div>' % heading if heading else ""
+    if heading:
+        head = '<div class="center" style="margin-bottom:2.4rem"><h2>%s</h2></div>' % heading
+    else:
+        # No visible heading, but the h3s below still need an h2 above them or
+        # the document outline jumps h1 -> h3.
+        head = '<h2 class="sr">Why travellers trust %s</h2>' % BRAND
     return '%s<div class="trust-panel">%s</div>' % (head, inner)
 
 
@@ -622,6 +627,29 @@ def _wa_display():
     return "+%s %s %s" % (d[:2], d[2:7], d[7:]) if len(d) == 12 else WHATSAPP
 
 
+def sticky_cta(active):
+    """Persistent conversion bar. Appears once the hero scrolls away, so blog
+    and guide readers always have a route to the order form -- which they lost
+    when the header CTA came out of the nav."""
+    if active in ("order", "login"):
+        return ""
+    return """
+<div class="scta" id="scta" data-hidden>
+  <div class="wrap scta__in">
+    <div class="scta__txt">
+      <b>Verifiable flight reservation for your visa</b>
+      <span>%s Live PNR &middot; delivered in %s &middot; money-back guarantee</span>
+    </div>
+    <div class="scta__act">
+      <span class="scta__price"><em>from</em>%s</span>
+      <a class="btn btn--primary" href="%s">Get my ticket</a>
+      <a class="btn btn--wa scta__wa" href="https://wa.me/%s" aria-label="Chat on WhatsApp">%s</a>
+    </div>
+  </div>
+</div>""" % (ICON["check"], DELIVERY, money(PRICE_FLIGHT), url("order"),
+             re.sub(r"[^0-9]", "", WHATSAPP), ICON["whatsapp"])
+
+
 def header(active):
     links = ""
     for label, slug in NAV:
@@ -660,9 +688,9 @@ def footer(visa_links):
           <button class="theme-btn" type="button" aria-label="Switch colour theme">%s</button>
         </div>
       </div>
-      <div><h4>Services</h4><ul>%s</ul></div>
-      <div><h4>Visa guides</h4><ul>%s<li><a href="%s">All visa guides</a></li></ul></div>
-      <div><h4>Company</h4><ul>%s</ul></div>
+      <div><h2 class="ftr__h">Services</h2><ul>%s</ul></div>
+      <div><h2 class="ftr__h">Visa guides</h2><ul>%s<li><a href="%s">All visa guides</a></li></ul></div>
+      <div><h2 class="ftr__h">Company</h2><ul>%s</ul></div>
     </div>
     <div class="ftr__bottom">
       <span>&copy; <span class="js-year">%s</span> %s. All rights reserved.</span>
@@ -702,12 +730,15 @@ PAGE_TPL = """<!doctype html>
 <link rel="apple-touch-icon" href="{apple}">
 <link rel="manifest" href="{manifest}">
 <script>document.documentElement.className+=" js-anim"</script>
+<link rel="preload" as="font" type="font/woff2" href="{fjak}" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="{fint}" crossorigin>
 <link rel="preload" as="style" href="{css}">
 <link rel="stylesheet" href="{css}">
 {schema}
 </head>
 <body>
 {header}
+{scta}
 <main id="main">
 {body}
 </main>
@@ -750,12 +781,15 @@ def write_pages(visa_links):
             fav=asset("assets/img/favicon.svg"),
             apple=asset("assets/img/apple-touch-icon.png"),
             manifest=asset("site.webmanifest"),
+            fjak=asset("assets/fonts/jakarta-latin.woff2"),
+            fint=asset("assets/fonts/inter-latin.woff2"),
             css=asset("assets/css/style.css", bust=True),
             js=asset("assets/js/main.js", bust=True),
             extra_js="".join('<script src="%s" defer></script>' % asset(x, bust=True)
                              for x in p["extra_js"]),
             schema=jsonld(*graph),
             header=header(active),
+            scta=sticky_cta(active),
             body=p["body"],
             footer=footer(visa_links),
         )
@@ -849,9 +883,12 @@ def write_extras():
         canonical=abs_url("404"), robots='<meta name="robots" content="noindex,follow">\n',
         og_type="website", og_title="Page not found", brand=BRAND, site=SITE_URL, twitter=TWITTER,
         fav=asset("assets/img/favicon.svg"), apple=asset("assets/img/apple-touch-icon.png"),
-        manifest=asset("site.webmanifest"), css=asset("assets/css/style.css", bust=True),
+        manifest=asset("site.webmanifest"),
+        fjak=asset("assets/fonts/jakarta-latin.woff2"),
+        fint=asset("assets/fonts/inter-latin.woff2"),
+        css=asset("assets/css/style.css", bust=True),
         js=asset("assets/js/main.js", bust=True), extra_js="", schema="",
-        header=header(""), body=body, footer=footer(VISA_LINKS_CACHE))
+        header=header(""), scta="", body=body, footer=footer(VISA_LINKS_CACHE))
     with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8") as fh:
         fh.write(html)
 

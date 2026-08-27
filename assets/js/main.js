@@ -65,12 +65,59 @@
     form.addEventListener('input', recalc);
     recalc();
 
+    // Inline validation: tell people what is wrong next to the field, on
+    // submit and then live as they fix it -- not a browser tooltip that
+    // vanishes, and not a wall of errors at the top.
+    function badge(field, message) {
+      var wrap = field.closest('.field');
+      if (!wrap) return;
+      var err = wrap.querySelector('.field-err');
+      if (!err) {
+        err = document.createElement('span');
+        err.className = 'field-err';
+        wrap.appendChild(err);
+      }
+      err.textContent = message;
+      wrap.classList.add('is-bad');
+      field.setAttribute('aria-invalid', 'true');
+    }
+    function clearBadge(field) {
+      var wrap = field.closest('.field');
+      if (wrap) wrap.classList.remove('is-bad');
+      field.removeAttribute('aria-invalid');
+    }
+    function validate() {
+      var bad = null;
+      var required = form.querySelectorAll('[required]');
+      for (var i = 0; i < required.length; i++) {
+        var f = required[i];
+        var v = (f.value || '').trim();
+        var problem = '';
+        if (!v) problem = 'This one is required.';
+        else if (f.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v))
+          problem = 'That does not look like an email address.';
+        if (problem) { badge(f, problem); if (!bad) bad = f; }
+        else clearBadge(f);
+      }
+      return bad;
+    }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      var bad = validate();
+      if (bad) {
+        bad.focus();
+        bad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
       var msg = document.getElementById('order-msg');
       if (msg) {
         msg.hidden = false;
         msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+    form.addEventListener('input', function (e) {
+      if (e.target.getAttribute('aria-invalid')) {
+        if ((e.target.value || '').trim()) clearBadge(e.target);
       }
     });
 
@@ -411,7 +458,10 @@
         var m = el.textContent.match(/^([^\d]*)([\d,]+)(.*)$/);
         if (!m) continue;
         var target = parseInt(m[2].replace(/,/g, ''), 10);
+        // A year is not a quantity -- counting "Since 2017" up from zero
+        // reads as a bug, not an animation.
         if (!target || target > 5000000) continue;
+        if (target >= 1900 && target <= 2100 && /since/i.test(el.parentNode.textContent)) continue;
         (function (el, pre, post, target) {
           var t0 = null, dur = 1100;
           function step(ts) {
@@ -427,6 +477,67 @@
       }
     }, { threshold: 0.5 });
     for (var si = 0; si < statEls.length; si++) cio.observe(statEls[si]);
+  }
+
+
+  // --- sticky conversion bar ----------------------------------------------
+  // Layout values are measured once (and on resize), so the scroll handler
+  // only reads scrollY and toggles a class -- no per-frame layout reads, and
+  // therefore no need to defer through requestAnimationFrame.
+  var scta = document.getElementById('scta');
+  if (scta) {
+    var showAt = 0, endAt = Infinity, up = null;
+
+    function measureScta() {
+      var hero = document.querySelector('.hero');
+      showAt = hero ? hero.offsetTop + hero.offsetHeight - 120
+                    : Math.round(window.innerHeight * 0.6);
+      endAt = document.documentElement.scrollHeight - window.innerHeight - 40;
+    }
+    function updateScta() {
+      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var show = y > showAt && y < endAt;     // hide at the very bottom so the
+      if (show === up) return;                // footer CTA is never covered
+      up = show;
+      scta.classList.toggle('is-up', show);
+      document.body.classList.toggle('has-scta', show);
+    }
+    measureScta();
+    updateScta();
+    window.addEventListener('scroll', updateScta, { passive: true });
+    window.addEventListener('resize', function () { measureScta(); up = null; updateScta(); },
+                            { passive: true });
+    window.addEventListener('load', function () { measureScta(); up = null; updateScta(); });
+  }
+
+  // --- reading progress on articles ---------------------------------------
+  var article = document.querySelector('.article');
+  if (article && !reduce) {
+    var bar = document.createElement('div');
+    bar.className = 'rprog';
+    bar.setAttribute('role', 'progressbar');
+    bar.setAttribute('aria-label', 'Reading progress');
+    bar.setAttribute('aria-valuemin', '0');
+    bar.setAttribute('aria-valuemax', '100');
+    document.body.appendChild(bar);
+
+    var aTop = 0, aSpan = 1;
+    function measureProg() {
+      aTop = article.offsetTop;
+      aSpan = Math.max(1, article.offsetHeight - window.innerHeight);
+    }
+    function updateProg() {
+      var y = (window.pageYOffset || document.documentElement.scrollTop || 0) - aTop;
+      var pct = Math.max(0, Math.min(1, y / aSpan));
+      bar.style.width = (pct * 100).toFixed(1) + '%';
+      bar.setAttribute('aria-valuenow', Math.round(pct * 100));
+    }
+    measureProg();
+    updateProg();
+    window.addEventListener('scroll', updateProg, { passive: true });
+    window.addEventListener('resize', function () { measureProg(); updateProg(); },
+                            { passive: true });
+    window.addEventListener('load', function () { measureProg(); updateProg(); });
   }
 
   // --- current year in footer ---------------------------------------------

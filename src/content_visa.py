@@ -452,6 +452,7 @@ def _index():
       <p class="lede">What each consulate actually asks for, which rules are enforced at the airport rather than the
       counter, and the mistakes that get files returned. Written for people filing this month.</p>
     </div>
+    <h2 class="sr">All destination guides</h2>
     <div class="grid g3">%s</div>
   </div>
 </section>
