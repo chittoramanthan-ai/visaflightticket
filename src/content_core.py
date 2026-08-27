@@ -3,7 +3,7 @@
 
 from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, PRICE_RUSH,
-                   SINCE_YEAR, FLIGHTS_BOOKED, VISAS_HELPED, AIRLINE_COUNT,
+                   SINCE_YEAR, FLIGHTS_BOOKED, VISAS_HELPED, AIRLINE_COUNT, WHATSAPP,
                    IATA_ACCREDITED, IATA_NUMBER,
                    add_page, url, abs_url, ticket, faq_block, faq_schema,
                    crumbs, cta_band, pricing_tickets,
@@ -1226,7 +1226,7 @@ def contact_page():
     </div>
   </div>
 </section>""" % (c_html, ICON["mail"], EMAIL, EMAIL, ICON["chat"],
-                 __import__("re").sub(r"[^0-9]", "", "+10000000000"), "Message us on WhatsApp",
+                 __import__("re").sub(r"[^0-9]", "", WHATSAPP), "Message us on WhatsApp",
                  url("verify-pnr"), DELIVERY)
 
     contact_schema = {"@type": "ContactPage", "@id": abs_url("contact") + "#page",
