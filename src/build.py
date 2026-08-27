@@ -60,17 +60,17 @@ AIRLINE_COUNT = "100+"
 # Only add files you have written permission to display: most carrier brand
 # guidelines forbid use that implies partnership or endorsement.
 AIRLINES = [
-    "Malindo Air", "Malaysia Airlines", "Pegasus Airlines", "Air Indus",
-    "Turkish Airlines", "Etihad Airways", "FlyBaghdad", "Tajik Air",
+    "Batik Air Malaysia", "Malaysia Airlines", "Pegasus Airlines", "IndiGo",
+    "Turkish Airlines", "Etihad Airways", "FlyBaghdad", "Air India",
     "Oman Air", "Air Sial", "Emirates", "British Airways",
     "Virgin Atlantic", "Qatar Airways", "SalamAir", "Iran Air",
     "China Southern", "Saudia", "Thai Airways", "Air China",
     "Pakistan International Airlines", "flydubai", "American Airlines", "flynas",
     "Air Arabia", "Jazeera Airways", "SriLankan Airlines", "Gulf Air",
-    "Fly Jinnah", "SaudiGulf Airlines", "Kam Air", "Kuwait Airways",
+    "Fly Jinnah", "Singapore Airlines", "Kam Air", "Kuwait Airways",
     "airblue", "Mahan Air", "Air Mauritius", "SereneAir",
-    "Cham Wings Airlines", "Taban Airlines", "Raki Airways", "Iraqi Airways",
-    "Uzbekistan Airways", "Safi Airways",
+    "Cham Wings Airlines", "Taban Airlines", "SpiceJet", "Iraqi Airways",
+    "Uzbekistan Airways", "Lufthansa",
 ]
 
 TODAY = date.today().isoformat()
@@ -545,11 +545,13 @@ def _logo_file(name):
 
 
 def _mark(name):
-    """A logo tile: the real mark when we have the file, a wordmark otherwise."""
+    """A logo tile: brand mark plus name when we have the file, name alone
+    otherwise. Carriers without a logo sit in the same row without a gap."""
     src = _logo_file(name)
     if src:
-        return ('<span class="mq__item"><img src="%s" alt="%s" width="118" height="34" '
-                'loading="lazy" decoding="async"></span>' % (src, name))
+        return ('<span class="mq__item mq__item--logo">'
+                '<img src="%s" alt="" width="30" height="30" loading="lazy" decoding="async">'
+                '<b>%s</b></span>' % (src, name))
     return '<span class="mq__item"><b>%s</b></span>' % name
 
 

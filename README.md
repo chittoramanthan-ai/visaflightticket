@@ -64,14 +64,22 @@ remove them in one line, but you are responsible for their accuracy:
 2. **"Since 2017", "10 lakh+ flights booked", "50,000+ travellers"** — if the business cannot evidence
    these, blank them. Unverifiable statistics are exactly the pattern Google's spam and site-reputation
    systems penalise, and in most markets they are actionable under consumer-protection law.
-3. **Airline logos.** The homepage marquee currently renders each carrier as a text wordmark. To swap in a
-   real logo, drop a file at `assets/img/airlines/<slug>.svg` (`.png`, `.webp` and `.jpg` also work) and
-   rebuild — `_logo_file()` picks it up automatically, no code change. The slug is the carrier name
-   lowercased with non-alphanumerics collapsed to `-`, so *Qatar Airways* → `qatar-airways.svg`,
-   *flydubai* → `flydubai.svg`, *Fly Jinnah* → `fly-jinnah.svg`. Carriers with no file keep the wordmark,
-   so you can add them a few at a time. **Only add marks you have written permission to display** — most
-   airline brand guidelines forbid use that implies partnership, and a logo wall on a booking site reads
-   as exactly that. Run `python src/build.py` to see the current list and slugs.
+3. **Airline logos.** The marquee now ships real brand marks, downloaded by
+   `python src/fetch_logos.py` into `assets/img/airlines/<slug>.png` and picked up
+   automatically by `_logo_file()` at build time. Carriers with no file fall back to a
+   text wordmark, so partial coverage degrades cleanly and there are no 404s.
+   To change the roster: edit `AIRLINES` in `src/build.py`, add the IATA code to `CODES`
+   in `src/fetch_logos.py`, run the fetcher, rebuild.
+   **These are third-party trademarks.** Fetching them does not grant a licence to
+   display them, and most carrier brand guidelines prohibit use that implies
+   partnership — which is how a logo wall on a booking site reads. A disclaimer sits
+   under the strip, but that is mitigation, not permission. Confirm your position
+   (reseller/consolidator agreement, IATA accreditation terms) before going live. To
+   revert to names only, delete `assets/img/airlines/*.png` and rebuild.
+   **Keep the roster current** — it claims these are carriers you book on. Defunct or
+   rebranded airlines are a live accuracy risk: IATA reassigns codes, so a dead
+   carrier's slug can silently pull an unrelated logo.
+
 4. **No testimonials or review counts are included.** Deliberately: fabricated reviews are the fastest
    way to lose a Google Business Profile and attract an FTC/ASA complaint. Add real ones once you have
    them, with `Review`/`AggregateRating` schema pointing at a real review platform.
