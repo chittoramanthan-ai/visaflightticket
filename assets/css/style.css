@@ -128,7 +128,11 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
 .hdr__in{display:flex;align-items:center;gap:14px;min-height:66px}
 .logo{display:flex;align-items:center;gap:9px;font-weight:750;color:var(--ink);font-size:1.03rem;letter-spacing:-.02em;flex:none}
 .logo:hover{text-decoration:none}
-.logo svg,.logo__img{width:32px;height:32px;flex:none;object-fit:contain}
+.logo svg{width:32px;height:32px;flex:none}
+/* the brand artwork is a detailed illustration, so it needs more room
+   than a flat mark to stay legible */
+.logo__img{width:40px;height:40px;flex:none;object-fit:contain}
+.ftr .logo__img{width:46px;height:46px}
 .logo span b{color:var(--brand)}
 .nav{display:flex;align-items:center;gap:2px;margin-left:auto}
 .nav a:not(.btn){

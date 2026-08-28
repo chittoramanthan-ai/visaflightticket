@@ -178,4 +178,5 @@ def login_page():
     # noindex: a status lookup has no search value and would read as thin content
     add_page("login", "Check Your Order Status | " + BRAND,
              "Track a flight reservation or hotel booking order using your reference number.",
-             body, schema=[c_schema], noindex=True, priority="0.2")
+             body, schema=[c_schema], noindex=True, priority="0.2",
+             extra_js=("assets/js/checkout.js",))

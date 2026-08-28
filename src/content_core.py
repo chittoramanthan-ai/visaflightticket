@@ -1006,6 +1006,9 @@ def order_page():
             <div class="field"><label for="email">Email for delivery</label>
               <input id="email" name="email" type="email" autocomplete="email" required></div>
           </div>
+          <div class="field"><label for="phone">Phone or WhatsApp</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 ...">
+            <span class="hint">So we can reach you fast if something needs checking.</span></div>
           <div class="field"><label for="notes">Anything we should know?</label>
             <textarea id="notes" name="notes" rows="3" placeholder="Appointment date, multi-city plan, extra travellers, preferred airline&hellip;"></textarea>
             <span class="hint">Additional travellers&rsquo; names can go here.</span></div>
@@ -1013,16 +1016,11 @@ def order_page():
             <span><b>Priority handling, +%s</b><small>Targeted inside 60 minutes, 24/7</small></span></label>
         </fieldset>
 
-        <button class="btn btn--primary btn--lg btn--block" type="submit">
+        <button class="btn btn--primary btn--lg btn--block" type="submit" id="order-submit">
           Continue to payment. <span id="price-out">%s</span></button>
         <p class="hint" style="text-align:center;margin-top:12px" id="price-line"></p>
 
-        <div class="note note--ok" id="order-msg" hidden>
-          <strong>Almost there</strong>
-          <p>This demo build is not yet connected to a payment provider. Wire up your checkout in
-          <code>assets/js/main.js</code>, or point this button at your Stripe / PayPal / Razorpay link.
-          Until then, orders can be taken by email at <a href="mailto:%s">%s</a>.</p>
-        </div>
+        <div class="note" id="order-msg" hidden></div>
       </form>
 
       <aside class="order-aside">
@@ -1052,12 +1050,12 @@ def order_page():
 </section>
 """ % (c_html, DELIVERY, CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, PRICE_RUSH,
        money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH), money(PRICE_RUSH),
-       money(PRICE_FLIGHT), EMAIL, EMAIL, DELIVERY, EMAIL, EMAIL)
+       money(PRICE_FLIGHT), DELIVERY, EMAIL, EMAIL)
 
     add_page(slug, "Order a Flight Reservation or Hotel Booking for Your Visa",
              "Order a verifiable flight reservation from %s or a hotel booking from %s. No account needed, delivered in %s." % (money(PRICE_FLIGHT), money(PRICE_HOTEL), DELIVERY),
              body, schema=[c_schema], priority="0.9", changefreq="monthly",
-             extra_js=("assets/js/airports.js",))
+             extra_js=("assets/js/airports.js", "assets/js/checkout.js"))
 
 
 def thank_you():
@@ -1073,7 +1071,8 @@ def thank_you():
   </div>
 </div></section>""" % (DELIVERY, EMAIL, EMAIL, url("verify-pnr"), url())
     add_page("order/thank-you", "Thank you | " + BRAND,
-             "Your order has been received.", body, noindex=True, priority="0.1")
+             "Your order has been received.", body, noindex=True, priority="0.1",
+             extra_js=("assets/js/checkout.js",))
 
 
 # --------------------------------------------------------------------------

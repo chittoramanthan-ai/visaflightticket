@@ -1,0 +1,208 @@
+/* Visa Flight Ticket - checkout
+   Loaded only on /order/ and /login/. Talks to Supabase Edge Functions.
+   No secret ever lives here: the amount is priced server-side and the only
+   Razorpay key that reaches this file is the publishable key_id, returned
+   by create-order at request time. */
+(function () {
+  'use strict';
+
+  var CFG = window.VFT_CONFIG || {};
+  var FN = (CFG.supabaseUrl || '').replace(/\/$/, '') + '/functions/v1/';
+
+  function post(path, payload) {
+    return fetch(FN + path, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        // anon key is a public identifier, not a secret; RLS blocks everything
+        'authorization': 'Bearer ' + (CFG.supabaseAnonKey || ''),
+        'apikey': CFG.supabaseAnonKey || ''
+      },
+      body: JSON.stringify(payload)
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (b) {
+        if (!r.ok) throw new Error(b.error || ('http_' + r.status));
+        return b;
+      });
+    });
+  }
+
+  function loadScript(src) {
+    return new Promise(function (res, rej) {
+      var s = document.createElement('script');
+      s.src = src; s.onload = res; s.onerror = function () { rej(new Error('script_failed')); };
+      document.head.appendChild(s);
+    });
+  }
+
+  var MESSAGES = {
+    bad_email: 'That email address does not look right.',
+    name_required: 'We need the traveller name as printed in the passport.',
+    return_before_depart: 'The return date is before the departure date.',
+    payment_init_failed: 'The payment provider did not respond. Nothing has been charged.',
+    could_not_create_order: 'We could not save the order. Please try again.',
+    network: 'Could not reach our server. Check your connection and try again.'
+  };
+
+  // ---------------------------------------------------------------- order --
+  var form = document.getElementById('order-form');
+  if (form && CFG.supabaseUrl) {
+    var btn = document.getElementById('order-submit');
+    var msg = document.getElementById('order-msg');
+    var busy = false;
+
+    function say(kind, html) {
+      if (!msg) return;
+      msg.className = 'note note--' + (kind === 'ok' ? 'ok' : 'warn');
+      msg.innerHTML = html;
+      msg.hidden = false;
+      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    function setBusy(on, label) {
+      busy = on;
+      if (!btn) return;
+      btn.disabled = on;
+      btn.setAttribute('aria-busy', on ? 'true' : 'false');
+      if (on) { btn.dataset.label = btn.dataset.label || btn.innerHTML; btn.innerHTML = label; }
+      else if (btn.dataset.label) { btn.innerHTML = btn.dataset.label; }
+    }
+
+    function payload() {
+      var v = function (id) { var e = form.querySelector('#' + id); return e ? e.value.trim() : ''; };
+      var legs = [];
+      form.querySelectorAll('.bw__leg').forEach(function (leg) {
+        var i = leg.querySelectorAll('input');
+        if (i[0] && i[0].value) legs.push({ from: i[0].value, to: i[1] ? i[1].value : '', date: i[2] ? i[2].value : '' });
+      });
+      var svcEl = form.querySelector('input[name="service"]:checked');
+      var tripEl = form.querySelector('input[name="trip"]:checked');
+      return {
+        service: svcEl ? svcEl.value : 'flight',
+        trip: tripEl ? tripEl.value : 'oneway',
+        travellers: parseInt(v('travellers'), 10) || 1,
+        priority: !!(form.querySelector('#rush') && form.querySelector('#rush').checked),
+        origin: v('from'), destination: v('to'),
+        depart_date: v('depart'), return_date: v('return'),
+        legs: legs,
+        visa_type: v('visa'),
+        surname: v('surname'), given_name: v('given'),
+        dob: v('dob'), email: v('email'), phone: v('phone'),
+        notes: v('notes')
+      };
+    }
+
+    form.addEventListener('vft:submit', function () {
+      if (busy) return;
+      setBusy(true, 'Creating your order&hellip;');
+
+      post('create-order', payload()).then(function (res) {
+        if (!res.payment_configured) {
+          say('ok',
+            '<strong>Order ' + res.ref + ' saved</strong>' +
+            '<p>Payments are not switched on yet, so nothing has been charged. We have your details ' +
+            'and will email you at the address above. Quote <b>' + res.ref + '</b> if you get in touch.</p>');
+          setBusy(false);
+          return;
+        }
+        return loadScript('https://checkout.razorpay.com/v1/checkout.js').then(function () {
+          setBusy(false);
+          var rz = new window.Razorpay({
+            key: res.key_id,
+            order_id: res.provider_order_id,
+            amount: res.amount_minor,
+            currency: res.currency,
+            name: 'Visa Flight Ticket',
+            description: 'Order ' + res.ref,
+            prefill: {
+              name: payload().given_name + ' ' + payload().surname,
+              email: payload().email,
+              contact: payload().phone
+            },
+            theme: { color: '#0b7f49' },
+            handler: function () {
+              // The webhook is what actually marks this paid. This only moves
+              // the customer along, so a closed browser cannot lose an order.
+              window.location.href = (CFG.basePath || '') + '/order/thank-you/?ref=' +
+                encodeURIComponent(res.ref);
+            },
+            modal: {
+              ondismiss: function () {
+                say('warn',
+                  '<strong>Payment cancelled</strong>' +
+                  '<p>Order <b>' + res.ref + '</b> is saved but unpaid. Reload and try again, or email us ' +
+                  'the reference and we will send a payment link.</p>');
+              }
+            }
+          });
+          rz.on('payment.failed', function (e) {
+            say('warn', '<strong>Payment failed</strong><p>' +
+              ((e && e.error && e.error.description) || 'Your bank declined it.') +
+              ' Nothing has been charged. Order <b>' + res.ref + '</b> is saved.</p>');
+          });
+          rz.open();
+        });
+      }).catch(function (err) {
+        setBusy(false);
+        say('warn', '<strong>Something went wrong</strong><p>' +
+          (MESSAGES[err.message] || MESSAGES.network) + '</p>');
+      });
+    });
+  }
+
+  // --------------------------------------------------------------- status --
+  var statusForm = document.getElementById('status-form');
+  if (statusForm && CFG.supabaseUrl) {
+    statusForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var out = document.getElementById('status-msg');
+      var ref = (document.getElementById('ref') || {}).value || '';
+      var email = (document.getElementById('stat-email') || {}).value || '';
+      if (!ref.trim() || !email.trim()) return;
+
+      out.className = 'note';
+      out.innerHTML = '<p>Checking&hellip;</p>';
+      out.hidden = false;
+
+      fetch((CFG.supabaseUrl || '').replace(/\/$/, '') + '/rest/v1/rpc/order_status_lookup', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'apikey': CFG.supabaseAnonKey || '',
+          'authorization': 'Bearer ' + (CFG.supabaseAnonKey || '')
+        },
+        body: JSON.stringify({ p_ref: ref, p_email: email })
+      }).then(function (r) { return r.json(); }).then(function (rows) {
+        var o = Array.isArray(rows) ? rows[0] : null;
+        if (!o) {
+          out.className = 'note note--warn';
+          out.innerHTML = '<strong>No match</strong><p>Check the reference and that the email is the one ' +
+            'you ordered with. Still stuck? Email us and we will find it.</p>';
+          return;
+        }
+        var LABEL = {
+          pending: 'Received, awaiting payment',
+          paid: 'Paid. We are working on it now',
+          processing: 'Being issued',
+          delivered: 'Delivered to your inbox',
+          refunded: 'Refunded',
+          failed: 'Payment did not go through'
+        };
+        out.className = 'note note--ok';
+        out.innerHTML = '<strong>' + o.ref + ' &middot; ' + (LABEL[o.status] || o.status) + '</strong>' +
+          '<p>Ordered ' + new Date(o.created_at).toLocaleString() +
+          (o.delivered_at ? '. Delivered ' + new Date(o.delivered_at).toLocaleString() : '') + '.</p>';
+      }).catch(function () {
+        out.className = 'note note--warn';
+        out.innerHTML = '<strong>Could not check right now</strong><p>Please try again shortly.</p>';
+      });
+    });
+  }
+
+  // ------------------------------------------------------------ thank you --
+  var refOut = document.getElementById('ty-ref');
+  if (refOut) {
+    var q = new URLSearchParams(window.location.search).get('ref');
+    if (q) refOut.textContent = q;
+    else refOut.closest('[data-ref-wrap]').hidden = true;
+  }
+})();

@@ -109,8 +109,18 @@
         bad.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
+      // Validation passed. checkout.js takes it from here if a backend is
+      // configured; otherwise show the offline notice.
+      if (window.VFT_CONFIG && window.VFT_CONFIG.supabaseUrl) {
+        form.dispatchEvent(new CustomEvent('vft:submit'));
+        return;
+      }
       var msg = document.getElementById('order-msg');
       if (msg) {
+        msg.className = 'note note--ok';
+        msg.innerHTML = '<strong>Almost there</strong><p>No payment backend is configured yet. ' +
+          'Set SUPABASE_URL and SUPABASE_ANON_KEY in src/build.py and rebuild, or take this order ' +
+          'by email in the meantime.</p>';
         msg.hidden = false;
         msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }

@@ -3,3 +3,9 @@ __pycache__/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# secrets / local supabase
+.env
+.env.*
+supabase/.temp/
+supabase/.branches/

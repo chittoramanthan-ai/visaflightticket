@@ -53,6 +53,19 @@ IATA_ACCREDITED = True       # False removes the IATA badge everywhere
 IATA_NUMBER = ""             # your IATA / TIDS code, e.g. "96-1 2345 6" - shown on the badge
 AIRLINE_COUNT = "100+"
 
+# --------------------------------------------------------------------------
+# BACKEND (Supabase + Razorpay)
+# Both values below are PUBLIC by design: the anon key is an identifier, not
+# a secret, and RLS denies it every table. Secrets (service-role key,
+# Razorpay key_secret, webhook secret, Resend key) live only in the Edge
+# Function environment -- never here, never in the repo.
+# Leave SUPABASE_URL empty and the order form falls back to its offline
+# notice, so the site keeps working before the backend is switched on.
+# --------------------------------------------------------------------------
+SUPABASE_URL = ""          # https://xxxxxxxx.supabase.co
+SUPABASE_ANON_KEY = ""     # the anon / publishable key
+
+
 # Carriers we book on, in marquee order.
 # Drop a logo at assets/img/airlines/<slug>.svg (or .png) and the next build
 # swaps that carrier's wordmark for the image automatically -- no code change.
@@ -213,7 +226,7 @@ def brand_mark():
     for ext in ("svg", "png", "webp"):
         rel = "assets/img/logo-brand.%s" % ext
         if os.path.exists(os.path.join(ROOT, rel)):
-            return ('<img class="logo__img" src="%s" alt="" width="34" height="34" '
+            return ('<img class="logo__img" src="%s" alt="" width="40" height="40" '
                     'decoding="async">' % asset(rel))
     return LOGO_SVG
 
@@ -780,7 +793,7 @@ PAGE_TPL = """<!doctype html>
 <link rel="icon" href="{fav}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{apple}">
 <link rel="manifest" href="{manifest}">
-<script>document.documentElement.className+=" js-anim"</script>
+<script>document.documentElement.className+=" js-anim";window.VFT_CONFIG={{supabaseUrl:"{sb_url}",supabaseAnonKey:"{sb_key}",basePath:"{base}"}}</script>
 <link rel="preload" as="font" type="font/woff2" href="{fjak}" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="{fint}" crossorigin>
 <link rel="preload" as="style" href="{css}">
@@ -832,6 +845,7 @@ def write_pages(visa_links):
             fav=asset("assets/img/favicon.svg"),
             apple=asset("assets/img/apple-touch-icon.png"),
             manifest=asset("site.webmanifest"),
+            sb_url=SUPABASE_URL, sb_key=SUPABASE_ANON_KEY, base=BASE_PATH,
             fjak=asset("assets/fonts/jakarta-latin.woff2"),
             fint=asset("assets/fonts/inter-latin.woff2"),
             css=asset("assets/css/style.css", bust=True),
@@ -935,6 +949,7 @@ def write_extras():
         og_type="website", og_title="Page not found", brand=BRAND, site=SITE_URL, twitter=TWITTER,
         fav=asset("assets/img/favicon.svg"), apple=asset("assets/img/apple-touch-icon.png"),
         manifest=asset("site.webmanifest"),
+        sb_url=SUPABASE_URL, sb_key=SUPABASE_ANON_KEY, base=BASE_PATH,
         fjak=asset("assets/fonts/jakarta-latin.woff2"),
         fint=asset("assets/fonts/inter-latin.woff2"),
         css=asset("assets/css/style.css", bust=True),
