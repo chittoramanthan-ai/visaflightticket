@@ -62,8 +62,8 @@ AIRLINE_COUNT = "100+"
 # Leave SUPABASE_URL empty and the order form falls back to its offline
 # notice, so the site keeps working before the backend is switched on.
 # --------------------------------------------------------------------------
-SUPABASE_URL = ""          # https://xxxxxxxx.supabase.co
-SUPABASE_ANON_KEY = ""     # the anon / publishable key
+SUPABASE_URL = "https://jijnknqfampnmhyakxzz.supabase.co"
+SUPABASE_ANON_KEY = "sb_publishable_IcCbMYgZYZGt6Udh2LRTXQ_I38zJepI"
 
 
 # Carriers we book on, in marquee order.
@@ -793,7 +793,7 @@ PAGE_TPL = """<!doctype html>
 <link rel="icon" href="{fav}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{apple}">
 <link rel="manifest" href="{manifest}">
-<script>document.documentElement.className+=" js-anim";window.VFT_CONFIG={{supabaseUrl:"{sb_url}",supabaseAnonKey:"{sb_key}",basePath:"{base}"}}</script>
+<script>document.documentElement.className+=" js-anim";window.VFT_CONFIG={{supabaseUrl:"{sb_url}",supabaseAnonKey:"{sb_key}",basePath:"{base}",email:"{sb_mail}",whatsapp:"{sb_wa}"}}</script>
 <link rel="preload" as="font" type="font/woff2" href="{fjak}" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="{fint}" crossorigin>
 <link rel="preload" as="style" href="{css}">
@@ -846,6 +846,7 @@ def write_pages(visa_links):
             apple=asset("assets/img/apple-touch-icon.png"),
             manifest=asset("site.webmanifest"),
             sb_url=SUPABASE_URL, sb_key=SUPABASE_ANON_KEY, base=BASE_PATH,
+            sb_mail=EMAIL, sb_wa='https://wa.me/' + re.sub(r'[^0-9]', '', WHATSAPP),
             fjak=asset("assets/fonts/jakarta-latin.woff2"),
             fint=asset("assets/fonts/inter-latin.woff2"),
             css=asset("assets/css/style.css", bust=True),
@@ -950,6 +951,7 @@ def write_extras():
         fav=asset("assets/img/favicon.svg"), apple=asset("assets/img/apple-touch-icon.png"),
         manifest=asset("site.webmanifest"),
         sb_url=SUPABASE_URL, sb_key=SUPABASE_ANON_KEY, base=BASE_PATH,
+        sb_mail=EMAIL, sb_wa='https://wa.me/' + re.sub(r'[^0-9]', '', WHATSAPP),
         fjak=asset("assets/fonts/jakarta-latin.woff2"),
         fint=asset("assets/fonts/inter-latin.woff2"),
         css=asset("assets/css/style.css", bust=True),

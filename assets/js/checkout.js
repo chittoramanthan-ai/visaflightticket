@@ -21,7 +21,11 @@
       body: JSON.stringify(payload)
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (b) {
-        if (!r.ok) throw new Error(b.error || ('http_' + r.status));
+        if (!r.ok) {
+          var e = new Error(b.error || ('http_' + r.status));
+          e.status = r.status;
+          throw e;
+        }
         return b;
       });
     });
@@ -91,6 +95,28 @@
       };
     }
 
+    function mailtoFallback() {
+      var p = payload();
+      var lines = [
+        'Service: ' + p.service + (p.priority ? ' (PRIORITY)' : ''),
+        'Travellers: ' + p.travellers,
+        'Trip: ' + p.trip,
+        'From: ' + p.origin,
+        'To: ' + p.destination,
+        'Depart: ' + p.depart_date,
+        'Return: ' + p.return_date,
+        'Passenger: ' + p.surname + ', ' + p.given_name,
+        'Date of birth: ' + p.dob,
+        'Email: ' + p.email,
+        'Phone: ' + p.phone,
+        'Visa: ' + p.visa_type,
+        'Notes: ' + p.notes
+      ].filter(function (l) { return !/: $/.test(l); });
+      return 'mailto:' + (CFG.email || '') +
+        '?subject=' + encodeURIComponent('Order request') +
+        '&body=' + encodeURIComponent(lines.join(String.fromCharCode(10)));
+    }
+
     form.addEventListener('vft:submit', function () {
       if (busy) return;
       setBusy(true, 'Creating your order&hellip;');
@@ -143,6 +169,18 @@
         });
       }).catch(function (err) {
         setBusy(false);
+        // A missing or sleeping backend must not cost you the order. Hand the
+        // customer a pre-filled email so the enquiry still reaches you.
+        var down = err.status === 404 || err.status === 503 || !err.status;
+        if (down) {
+          say('warn',
+            '<strong>Our order system is not reachable right now</strong>' +
+            '<p>Nothing has been charged. Send us the details instead and we will ' +
+            'take it from there, usually within the hour.</p>' +
+            '<p><a class="btn btn--primary" href="' + mailtoFallback() + '">Email my order</a>' +
+            ' <a class="btn btn--wa" href="' + (CFG.whatsapp || '#') + '">WhatsApp us</a></p>');
+          return;
+        }
         say('warn', '<strong>Something went wrong</strong><p>' +
           (MESSAGES[err.message] || MESSAGES.network) + '</p>');
       });
