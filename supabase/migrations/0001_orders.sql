@@ -10,9 +10,18 @@ create extension if not exists pgcrypto;
 -- so the customer can quote it back to you without spelling a UUID.
 create sequence if not exists order_ref_seq start 1000;
 
-create type order_status as enum ('pending', 'paid', 'processing', 'delivered', 'refunded', 'failed');
-create type service_kind as enum ('flight', 'hotel', 'both');
-create type trip_kind    as enum ('oneway', 'round', 'multi');
+-- Guarded so the whole file is safe to run more than once.
+do $$ begin
+  create type order_status as enum ('pending','paid','processing','delivered','refunded','failed');
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create type service_kind as enum ('flight','hotel','both');
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create type trip_kind as enum ('oneway','round','multi');
+exception when duplicate_object then null; end $$;
 
 create table if not exists public.orders (
   id                uuid primary key default gen_random_uuid(),
