@@ -24,7 +24,39 @@ supabase db push                       # applies migrations/0001_orders.sql
 
 Or paste `migrations/0001_orders.sql` into the SQL editor.
 
-## 2. Secrets
+## 2. Choose how you take money
+
+Two modes. `PAYMENT_MODE` picks; `auto` (the default) uses UPI if `UPI_VPA` is
+set and no Razorpay key is.
+
+### Direct UPI, zero fees
+
+Customer scans a QR or taps into their UPI app, pays your VPA, then types the
+reference back. You check your bank feed and mark it paid.
+
+```bash
+supabase secrets set PAYMENT_MODE=upi   UPI_VPA=yourname@okhdfcbank   UPI_PAYEE_NAME="Visa Flight Ticket"
+```
+
+Costs nothing per transaction. Costs you a look at your bank feed per order.
+Fine at ten orders a day, painful at a hundred.
+
+**Nothing a customer types marks an order paid.** A submitted reference sets
+`awaiting_verification` and emails you. Match it against real money before you
+issue anything: a UTR box on a web page is a claim, not a payment, and someone
+will eventually type a made-up number. The unique index on `utr` stops the same
+reference being reused across two orders, but it cannot tell you the money
+arrived. Only your bank can.
+
+### Razorpay, automated
+
+~2% + GST, about Rs11.80 on a Rs499 order. Note that UPI's statutory zero MDR
+does not help here: MDR is the bank's cut, and Razorpay's 2% is its own
+platform fee, charged on UPI as well as cards. New merchants get 90 days at 0%.
+
+Worth it once reconciling by hand costs more of your time than the fee does.
+
+## 3. Secrets
 
 Never in this repo. Set them on the functions:
 
@@ -42,10 +74,11 @@ supabase secrets set \
 
 `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are injected automatically.
 
-## 3. Deploy the functions
+## 4. Deploy the functions
 
 ```bash
 supabase functions deploy create-order
+supabase functions deploy confirm-upi
 supabase functions deploy razorpay-webhook --no-verify-jwt
 ```
 
@@ -53,7 +86,7 @@ supabase functions deploy razorpay-webhook --no-verify-jwt
 the request is authenticated by its HMAC signature instead, which the function
 verifies before touching anything.
 
-## 4. Razorpay webhook
+## 5. Razorpay webhook (skip if you are on UPI)
 
 Dashboard → Settings → Webhooks → Add:
 
@@ -61,13 +94,13 @@ Dashboard → Settings → Webhooks → Add:
 - **Secret** the same string you set as `RAZORPAY_WEBHOOK_SECRET`
 - **Events** `payment.captured`, `payment.failed`, `order.paid`
 
-## 5. Email
+## 6. Email
 
 [Resend](https://resend.com) free tier is 3,000/month. Verify your sending
 domain, then set `RESEND_API_KEY` and `NOTIFY_EMAIL`. Without a verified domain,
 mail lands in spam. `NOTIFY_EMAIL` accepts a comma-separated list.
 
-## 6. Point the site at it
+## 7. Point the site at it
 
 In `src/build.py`:
 
@@ -79,7 +112,7 @@ SUPABASE_ANON_KEY = "eyJhbGciOi..."
 Then `python src/build.py`. Both values are public by design: the anon key is an
 identifier, not a secret, and RLS denies it every table.
 
-## 7. Test before going live
+## 8. Test before going live
 
 Razorpay test mode, card `4111 1111 1111 1111`, any future expiry, any CVV.
 

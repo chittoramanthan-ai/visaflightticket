@@ -1055,7 +1055,7 @@ def order_page():
     add_page(slug, "Order a Flight Reservation or Hotel Booking for Your Visa",
              "Order a verifiable flight reservation from %s or a hotel booking from %s. No account needed, delivered in %s." % (money(PRICE_FLIGHT), money(PRICE_HOTEL), DELIVERY),
              body, schema=[c_schema], priority="0.9", changefreq="monthly",
-             extra_js=("assets/js/airports.js", "assets/js/checkout.js"))
+             extra_js=("assets/js/airports.js", "assets/js/qr.js", "assets/js/checkout.js"))
 
 
 def thank_you():

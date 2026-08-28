@@ -117,11 +117,82 @@
         '&body=' + encodeURIComponent(lines.join(String.fromCharCode(10)));
     }
 
+    // ------------------------------------------------------------ UPI ----
+    function showUpi(res) {
+      var u = res.upi;
+      var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      say('ok',
+        '<strong>Order ' + res.ref + ' created. Now pay ' + CFG.currency + u.amount + '</strong>' +
+        '<div class="upi">' +
+          '<div class="upi__qr" id="upi-qr"></div>' +
+          '<div class="upi__side">' +
+            (isMobile
+              ? '<a class="btn btn--primary btn--block" href="' + u.uri + '">Open my UPI app</a>'
+              : '<p class="upi__scan">Scan with any UPI app, or pay to the ID below.</p>') +
+            '<dl class="upi__kv">' +
+              '<dt>UPI ID</dt><dd><code id="upi-vpa">' + u.vpa + '</code>' +
+                '<button type="button" class="upi__copy" data-copy="' + u.vpa + '">Copy</button></dd>' +
+              '<dt>Amount</dt><dd><b>' + CFG.currency + u.amount + '</b></dd>' +
+              '<dt>Reference</dt><dd><code>' + res.ref + '</code>' +
+                '<button type="button" class="upi__copy" data-copy="' + res.ref + '">Copy</button></dd>' +
+            '</dl>' +
+            '<p class="upi__note">Put the reference in the payment note so we can match it.</p>' +
+          '</div>' +
+        '</div>' +
+        '<div class="upi__confirm">' +
+          '<label for="utr">Paid? Enter the UPI reference number from your app</label>' +
+          '<div class="upi__row">' +
+            '<input id="utr" type="text" inputmode="numeric" autocomplete="off" ' +
+              'placeholder="12-digit reference" maxlength="24">' +
+            '<button type="button" class="btn btn--primary" id="utr-go">Confirm</button>' +
+          '</div>' +
+          '<span class="hint">Your app calls it UTR, transaction ID or reference number. ' +
+          'We check it against our account before issuing.</span>' +
+          '<p class="field-err" id="utr-err"></p>' +
+        '</div>');
+
+      try { drawQR(document.getElementById('upi-qr'), u.uri); }
+      catch (e) { document.getElementById('upi-qr').style.display = 'none'; }
+
+      msg.querySelectorAll('.upi__copy').forEach(function (b) {
+        b.addEventListener('click', function () {
+          navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+            var t = b.textContent; b.textContent = 'Copied';
+            setTimeout(function () { b.textContent = t; }, 1400);
+          });
+        });
+      });
+
+      var go = document.getElementById('utr-go');
+      go.addEventListener('click', function () {
+        var utr = (document.getElementById('utr').value || '').replace(/\s+/g, '');
+        var err = document.getElementById('utr-err');
+        if (!/^[A-Za-z0-9]{8,24}$/.test(utr)) {
+          err.textContent = 'That does not look like a reference number. Check your UPI app.';
+          err.style.display = 'block';
+          return;
+        }
+        err.style.display = 'none';
+        go.disabled = true; go.textContent = 'Checking...';
+        post('confirm-upi', { ref: res.ref, utr: utr }).then(function () {
+          window.location.href = (CFG.basePath || '') + '/order/thank-you/?ref=' +
+            encodeURIComponent(res.ref) + '&upi=1';
+        }).catch(function (e) {
+          go.disabled = false; go.textContent = 'Confirm';
+          err.textContent = e.message === 'utr_already_used'
+            ? 'That reference is already recorded against another order.'
+            : 'Could not record that. Try again, or email us the reference.';
+          err.style.display = 'block';
+        });
+      });
+    }
+
     form.addEventListener('vft:submit', function () {
       if (busy) return;
       setBusy(true, 'Creating your order&hellip;');
 
       post('create-order', payload()).then(function (res) {
+        if (res.method === 'upi') { setBusy(false); return showUpi(res); }
         if (!res.payment_configured) {
           say('ok',
             '<strong>Order ' + res.ref + ' saved</strong>' +

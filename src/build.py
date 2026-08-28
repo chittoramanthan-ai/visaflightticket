@@ -793,7 +793,7 @@ PAGE_TPL = """<!doctype html>
 <link rel="icon" href="{fav}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{apple}">
 <link rel="manifest" href="{manifest}">
-<script>document.documentElement.className+=" js-anim";window.VFT_CONFIG={{supabaseUrl:"{sb_url}",supabaseAnonKey:"{sb_key}",basePath:"{base}",email:"{sb_mail}",whatsapp:"{sb_wa}"}}</script>
+<script>document.documentElement.className+=" js-anim";window.VFT_CONFIG={{supabaseUrl:"{sb_url}",supabaseAnonKey:"{sb_key}",basePath:"{base}",email:"{sb_mail}",whatsapp:"{sb_wa}",currency:"{sb_cur}"}}</script>
 <link rel="preload" as="font" type="font/woff2" href="{fjak}" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="{fint}" crossorigin>
 <link rel="preload" as="style" href="{css}">
@@ -847,6 +847,7 @@ def write_pages(visa_links):
             manifest=asset("site.webmanifest"),
             sb_url=SUPABASE_URL, sb_key=SUPABASE_ANON_KEY, base=BASE_PATH,
             sb_mail=EMAIL, sb_wa='https://wa.me/' + re.sub(r'[^0-9]', '', WHATSAPP),
+            sb_cur=CURRENCY,
             fjak=asset("assets/fonts/jakarta-latin.woff2"),
             fint=asset("assets/fonts/inter-latin.woff2"),
             css=asset("assets/css/style.css", bust=True),
@@ -952,6 +953,7 @@ def write_extras():
         manifest=asset("site.webmanifest"),
         sb_url=SUPABASE_URL, sb_key=SUPABASE_ANON_KEY, base=BASE_PATH,
         sb_mail=EMAIL, sb_wa='https://wa.me/' + re.sub(r'[^0-9]', '', WHATSAPP),
+        sb_cur=CURRENCY,
         fjak=asset("assets/fonts/jakarta-latin.woff2"),
         fint=asset("assets/fonts/inter-latin.woff2"),
         css=asset("assets/css/style.css", bust=True),

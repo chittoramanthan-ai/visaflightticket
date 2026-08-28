@@ -13,6 +13,12 @@ const PRICE = { flight: 49900, hotel: 39900, both: 79900 } as const;
 const PRIORITY_FEE = 19900;
 const MAX_TRAVELLERS = 12;
 
+// "razorpay" | "upi" | "none".  upi = customer pays your VPA directly, you
+// verify by hand. Costs nothing per transaction; costs you reconciliation time.
+const PAYMENT_MODE = (Deno.env.get("PAYMENT_MODE") ?? "auto").toLowerCase();
+const UPI_VPA = Deno.env.get("UPI_VPA") ?? "";
+const UPI_NAME = Deno.env.get("UPI_PAYEE_NAME") ?? "Visa Flight Ticket";
+
 const ALLOWED_ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ??
   "https://visaflightticket.com,https://www.visaflightticket.com,http://127.0.0.1:8899,http://localhost:8899")
   .split(",").map((s) => s.trim());
@@ -125,6 +131,25 @@ Deno.serve(async (req) => {
     return json({ error: "could_not_create_order" }, 500, origin);
   }
 
+  // --- direct UPI: no gateway, no percentage ------------------------------
+  const wantUpi = PAYMENT_MODE === "upi" ||
+    (PAYMENT_MODE === "auto" && UPI_VPA && !Deno.env.get("RAZORPAY_KEY_ID"));
+
+  if (wantUpi && UPI_VPA) {
+    const rupees = (amount_minor / 100).toFixed(2);
+    // NPCI deep link. tn carries the reference so it lands in your statement.
+    const uri = "upi://pay?pa=" + encodeURIComponent(UPI_VPA) +
+      "&pn=" + encodeURIComponent(UPI_NAME) +
+      "&am=" + rupees + "&cu=INR" +
+      "&tn=" + encodeURIComponent(order.ref);
+    await supabase.from("orders").update({ provider: "upi" }).eq("id", order.id);
+    return json({
+      ref: order.ref, amount_minor, currency: "INR",
+      payment_configured: true, method: "upi",
+      upi: { uri, vpa: UPI_VPA, payee: UPI_NAME, amount: rupees },
+    }, 200, origin);
+  }
+
   // --- open the Razorpay order --------------------------------------------
   const keyId = Deno.env.get("RAZORPAY_KEY_ID");
   const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET");
@@ -166,6 +191,7 @@ Deno.serve(async (req) => {
     amount_minor,
     currency: "INR",
     payment_configured: true,
+    method: "razorpay",
     key_id: keyId,                 // publishable, safe in the browser
     provider_order_id: rpOrder.id,
   }, 200, origin);
