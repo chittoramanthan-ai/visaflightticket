@@ -205,6 +205,19 @@ LOGO_SVG = (
 )
 
 
+def brand_mark():
+    """The company logo. Drop your artwork at assets/img/logo-brand.(svg|png|webp)
+    and it is used automatically, at any size; otherwise the drawn ticket mark
+    below is the fallback. SVG is strongly preferred: the header renders it at
+    30px and a raster will look soft on high-density screens."""
+    for ext in ("svg", "png", "webp"):
+        rel = "assets/img/logo-brand.%s" % ext
+        if os.path.exists(os.path.join(ROOT, rel)):
+            return ('<img class="logo__img" src="%s" alt="" width="34" height="34" '
+                    'decoding="async">' % asset(rel))
+    return LOGO_SVG
+
+
 # --------------------------------------------------------------------------
 # navigation
 # --------------------------------------------------------------------------
@@ -704,7 +717,7 @@ def header(active):
       <a class="wa" href="https://wa.me/%s">%s<span>%s</span></a>
     </nav>
   </div>
-</header>""" % (url(), BRAND, LOGO_SVG, ICON["burger"], links,
+</header>""" % (url(), BRAND, brand_mark(), ICON["burger"], links,
                 re.sub(r"[^0-9]", "", WHATSAPP), ICON["whatsapp"], _wa_display())
 
 
@@ -735,7 +748,7 @@ def footer(visa_links):
       <span>We are a travel-documentation service. We are not a government body and we do not issue visas.</span>
     </div>
   </div>
-</footer>""" % (url(), LOGO_SVG, DELIVERY, iata_badge("sm"), "mailto:" + EMAIL,
+</footer>""" % (url(), brand_mark(), DELIVERY, iata_badge("sm"), "mailto:" + EMAIL,
                 ICON["mail"], ICON["sun"],
                 services, visas, url("visa"), company, date.today().year, BRAND)
 

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Visa / destination landing pages - the long-tail SEO engine."""
 
+import re
+
 from build import (ICON, BRAND, DELIVERY, SITE_URL, TODAY,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH,
                    money, add_page, url, abs_url, faq_block, faq_schema,
@@ -16,6 +18,20 @@ import content_core
 VISAS = [
     dict(
         slug="schengen-visa-flight-reservation",
+        official_src=('European Commission visa policy', 'https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy_en'),
+        fees=[('Adult applicant', '&euro;90', 'Up from &euro;80 in June 2026'),
+ ('Child aged 6 to 11', '&euro;45', ''),
+ ('Child under 6', 'Free', ''),
+ ('VFS or TLScontact service fee', '&euro;20 to &euro;40 equivalent', 'Charged on top, varies by country and centre'),
+ ('Travel medical insurance', 'From about &euro;20', '&euro;30,000 minimum cover is mandatory')],
+        steps=[('Work out which consulate is yours', 'Whichever country you sleep the most nights in. Equal split? Apply where you land first. Get this wrong and the file bounces before anyone reads it.'),
+ ('Book the appointment early',
+  'Slots in Delhi, Mumbai and Bengaluru vanish weeks out over summer. Book the slot first and gather papers second. Almost everyone does it the other way round and regrets it.'),
+ ('Fill in the application form', 'Online for most missions, printed and signed for the rest. Names exactly as the passport prints them, surname first.'),
+ ('Get the documents together', 'Passport, photos to spec, bank statements, employment letter, insurance, accommodation for every night, and the flight itinerary.'),
+ ('Order the flight reservation last', 'A day or two before the appointment, so the PNR is live when the officer opens your file rather than lapsed.'),
+ ('Attend and give biometrics', 'Fingerprints and a photo, valid for 59 months. If you gave them recently for another Schengen visa you may be able to skip this.'),
+ ('Wait', '15 calendar days is the norm. It stretches to 45 in peak season or if your file goes for consultation. Do not buy the fare yet.')],
         label="Schengen visa",
         short="Schengen",
         h1="Flight reservation for a Schengen visa",
@@ -56,6 +72,17 @@ VISAS = [
     ),
     dict(
         slug="us-visa-flight-itinerary",
+        official_src=('US Department of State', 'https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html'),
+        fees=[('MRV application fee, B1/B2', 'US$185', 'Non-refundable, paid before you can book an interview'),
+ ('Visa Integrity Fee', 'US$250', 'Signed into law in 2025; confirm whether it applies to your appointment date'),
+ ('Issuance or reciprocity fee', 'Varies', 'Depends on nationality; many applicants pay nothing')],
+        steps=[('Complete the DS-160', 'The long one. It asks for your intended arrival date and US address, which is exactly where an itinerary and hotel booking earn their keep. Save the confirmation barcode.'),
+ ('Pay the MRV fee', 'Keep the receipt number safe. No receipt, no interview slot.'),
+ ('Book two appointments', 'Biometrics at the visa application centre, then the consular interview. In India these are separate visits on separate days.'),
+ ('Prepare for the questions you will actually get', 'Nobody is going to admire your itinerary. They will ask what you do, who is paying, and why you will come back. Short, true answers.'),
+ ('Order the flight itinerary', "A day or two before the interview, matching the DS-160 dates exactly. A contradiction on the officer's screen is a question you did not need to invite."),
+ ('Attend the interview', 'Usually over in under three minutes. Take the DS-160 confirmation, appointment letter, passport and your supporting file.'),
+ ('Wait for the passport', 'Most decisions are given at the counter, then the passport is couriered back. Administrative processing can add weeks and no reason is given.')],
         label="US visa (B1/B2)",
         short="United States",
         h1="Flight itinerary for a US B1/B2 visa",
@@ -93,6 +120,19 @@ VISAS = [
     ),
     dict(
         slug="uk-visa-flight-reservation",
+        official_src=('GOV.UK Standard Visitor', 'https://www.gov.uk/standard-visitor'),
+        fees=[('Standard Visitor, up to 6 months', '&pound;135', 'Rose from &pound;127 in April 2026'),
+ ('Long-term, 2 years', '&pound;475', ''),
+ ('Long-term, 5 years', '&pound;848', ''),
+ ('Long-term, 10 years', '&pound;1,059', ''),
+ ('Priority service', 'From &pound;500', 'Optional, cuts the decision to about 5 working days')],
+        steps=[('Apply on GOV.UK', 'The official form is free to fill in. Plenty of agent sites charge you to type the same answers into the same form.'),
+ ('Pay and book biometrics', 'You will be sent to a VFS or TLScontact centre for fingerprints and a photo.'),
+ ('Upload clean evidence', 'Proper PDFs. A phone photo of a bank statement lying on a kitchen table reads as careless, and caseworkers see thousands of them.'),
+ ('Show you will leave', 'This is the whole test. Job, business, studies, family, property, and a dated return booking.'),
+ ('Order the flight reservation', 'Just before you submit, so it is live when the caseworker opens the file.'),
+ ('Attend the appointment', 'Passport and the printed confirmation.'),
+ ('Wait about three weeks', 'On standard service. Do not book the fare until the decision lands. UKVI advises this itself.')],
         label="UK visa",
         short="United Kingdom",
         h1="Flight reservation for a UK visitor visa",
@@ -129,6 +169,17 @@ VISAS = [
     ),
     dict(
         slug="canada-visa-flight-itinerary",
+        official_src=('IRCC visitor visa', 'https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/visitor-visa.html'),
+        fees=[('Visitor visa, TRV', 'CAD$100', 'Single or multiple entry, same price'),
+ ('Biometrics', 'CAD$85', 'CAD$170 cap for a family applying together'),
+ ('Medical exam', 'CAD$100 to CAD$300', 'Only when requested, usually for longer stays')],
+        steps=[('Create an IRCC secure account', 'Everything runs through the online portal.'),
+ ('Answer the eligibility questions', 'The portal builds your personal document checklist from your answers, so the checklist is only as correct as they are.'),
+ ('Upload the documents', 'Purpose of travel letter, funds, ties, and the travel plan. The letter and the itinerary have to agree on dates.'),
+ ('Pay and give biometrics', 'Book the collection appointment promptly. This is the step where timelines quietly slip.'),
+ ('Order the flight itinerary late', 'Canadian processing is unpredictable and a hold window is short, so there is nothing to gain by ordering early.'),
+ ('Watch the portal', 'Weeks to months depending on your country. IRCC may ask for more documents and the clock does not stop while you find them.'),
+ ('Send the passport for stamping', 'Once approved you post the passport in. Only now is it sensible to buy the fare.')],
         label="Canada visa",
         short="Canada",
         h1="Flight itinerary for a Canada visitor visa",
@@ -163,6 +214,18 @@ VISAS = [
     ),
     dict(
         slug="dubai-uae-visa-flight-ticket",
+        official_src=('UAE government portal', 'https://u.ae/en/information-and-services/visa-and-emirates-id'),
+        fees=[('30-day tourist visa', 'About AED 350', 'Varies by sponsor; airlines and hotels price differently'),
+ ('60-day tourist visa', 'About AED 650', ''),
+ ('Extension', 'About AED 600', 'Per 30 days, applied for before the current one expires'),
+ ('Overstay fine', 'AED 50 per day', 'Collected at departure. There is no negotiating it')],
+        steps=[('Check whether you need one at all', 'A long list of nationalities gets a visa on arrival. Check before you pay anybody.'),
+ ('Pick a sponsor', 'An airline, a hotel, or a licensed agent. Emirates and flydubai sponsor visas for their own passengers.'),
+ ('Send a passport scan and photo', 'Passport valid at least six months, photo to spec on a white background.'),
+ ('Wait two to four working days', 'Quicker than most places. The e-visa arrives by email.'),
+ ('Have onward travel ready', 'Checked at check-in and again at immigration. This one is enforced properly, not occasionally.'),
+ ('Carry accommodation details', "Hotel booking or the host's address. You will be asked at the counter."),
+ ('Watch the expiry date', 'Fines accrue daily and are collected before they let you fly out.')],
         label="Dubai / UAE visa",
         short="UAE",
         h1="Flight ticket for a Dubai or UAE tourist visa",
@@ -197,6 +260,18 @@ VISAS = [
     ),
     dict(
         slug="australia-visa-flight-reservation",
+        official_src=('Department of Home Affairs', 'https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/visitor-600'),
+        fees=[('Visitor visa, subclass 600', 'From AUD$250', 'Increased in July 2026'),
+ ('ETA, subclass 601', 'AUD$20', 'Eligible passports only, applied for in the app'),
+ ('eVisitor, subclass 651', 'Free', 'Most EU passports'),
+ ('Health examination', 'AUD$300 to AUD$500', 'Only when requested')],
+        steps=[('Check whether an ETA covers you', 'If your passport qualifies, it costs twenty dollars and takes minutes. Do not pay for a subclass 600 you do not need.'),
+ ('Create an ImmiAccount', 'The subclass 600 is lodged online.'),
+ ('Prove genuine temporary entry', 'This is the test that decides it. Funds, ties, a coherent plan, and a reason to come home.'),
+ ('Upload the documents', 'Bank statements, employment or study evidence, an invitation letter if you have one, and the travel plan.'),
+ ('Order the flight reservation', 'Home Affairs advises against booking real travel before the grant, which is precisely what a reservation is for.'),
+ ('Do health checks if asked', 'This can add weeks. Leave slack in your dates.'),
+ ('Read the grant notice properly', 'Check entries allowed and stay period before planning a side trip to New Zealand.')],
         label="Australia visa",
         short="Australia",
         h1="Flight reservation for an Australian visitor visa",
@@ -229,6 +304,17 @@ VISAS = [
     ),
     dict(
         slug="japan-visa-flight-itinerary",
+        official_src=('Ministry of Foreign Affairs of Japan', 'https://www.mofa.go.jp/j_info/visit/visa/index.html'),
+        fees=[('Single-entry visa', 'Revised in 2026', 'Japan raised visa fees during 2026. Confirm the current figure with your own mission before paying'),
+ ('Multiple-entry visa', 'Revised in 2026', 'As above'),
+ ('Agency handling fee', 'Varies', 'Many countries require you to apply through an accredited agency, which charges its own fee on top')],
+        steps=[('Check whether you need a visa', 'Plenty of passports are exempt for 90 days.'),
+ ('Find your accredited agency', 'In India and several other countries you cannot walk up to the consulate. Applications go through accredited travel agencies.'),
+ ('Build the Schedule of Stay', 'Day by day: date, city, hotel name, hotel phone number. This is the document Japan genuinely cares about and the one people get wrong.'),
+ ('Make the bookings match the schedule', 'Kyoto on day four means a Kyoto booking for that night. Officers do the arithmetic, every time.'),
+ ('Prepare financial evidence', 'Usually six months of bank statements plus employment proof.'),
+ ('Order flights and hotels together', 'So the dates reconcile with the schedule without you fixing anything by hand afterwards.'),
+ ('Submit and wait about a week', 'Often five working days once the agency lodges it. Visas usually carry a three-month entry window, so applying six months early wastes it.')],
         label="Japan visa",
         short="Japan",
         h1="Flight itinerary for a Japan tourist visa",
@@ -263,6 +349,15 @@ VISAS = [
     ),
     dict(
         slug="turkey-visa-flight-ticket",
+        official_src=('Republic of Turkiye e-Visa', 'https://www.evisa.gov.tr/en/'),
+        fees=[('e-Visa', 'US$20 to US$60', 'Depends on nationality. Some passports pay nothing'), ('Sticker visa at a consulate', 'Varies', 'For nationalities not eligible for the e-Visa')],
+        steps=[('Check e-Visa eligibility on evisa.gov.tr', 'That is the official site. Look-alike sites charge a markup for the identical thing.'),
+ ('Check passport validity', 'Turkey wants at least 150 days from entry for most e-Visa nationalities. Stricter than the usual six months, and regularly missed.'),
+ ('Apply online', 'Ten minutes. The visa lands by email, often within the hour.'),
+ ('Print it', 'Do not stake your holiday on airport wifi and a phone at five in the morning.'),
+ ('Have onward travel ready', 'Airline staff check this at check-in in your departure city, before Turkey gets any say in it.'),
+ ('Carry accommodation details', 'Immigration can and does ask where you are staying.'),
+ ('Keep the e-Visa with the passport', 'You will be asked for it again on the way out.')],
         label="Turkey visa",
         short="Turkey",
         h1="Flight ticket for a Turkey visa",
@@ -293,6 +388,17 @@ VISAS = [
     ),
     dict(
         slug="thailand-visa-flight-ticket",
+        official_src=('Thai e-Visa portal', 'https://www.thaievisa.go.th/'),
+        fees=[('Tourist visa, single entry', 'About THB 2,000', 'Roughly US$55, varies a little by embassy'),
+ ('Visa exemption', 'Free', 'Most Western passports, 30 or 60 days depending on nationality'),
+ ('Extension at an immigration office', 'THB 1,900', 'One extension, typically 30 days')],
+        steps=[('Check whether you need a visa at all', 'Many nationalities enter free under the exemption scheme. Do not buy something you do not need.'),
+ ('If you do need one, use the official e-Visa portal', 'thaievisa.go.th. Agent sites charge a fee to type the same form for you.'),
+ ('Sort proof of onward travel first', 'This is where Thailand catches people, and it happens at the check-in desk in your home city, not in Bangkok.'),
+ ('Check the onward date against your permitted stay', 'A 45-day onward flight on a 30-day exemption defeats the point, and staff do notice.'),
+ ('Have funds evidence to hand', '10,000 THB per person officially. Spot-checked rather than always checked.'),
+ ('Fill in the arrival card', 'It wants your accommodation address.'),
+ ('Extend locally if you stay longer', '1,900 THB at an immigration office. Straightforward.')],
         label="Thailand visa",
         short="Thailand",
         h1="Flight ticket and onward travel proof for Thailand",
@@ -326,6 +432,15 @@ VISAS = [
     ),
     dict(
         slug="south-korea-visa-flight-itinerary",
+        official_src=('Korea Visa Portal', 'https://www.visa.go.kr/'),
+        fees=[('C-3 short-term visit, single entry', 'US$40', ''), ('C-3 multiple entry', 'US$90', ''), ('K-ETA', 'KRW 10,000', 'Visa-waiver nationalities, applied for before travel')],
+        steps=[('Work out whether you need a visa or a K-ETA', 'Two different lists, and they change. Check before preparing anything else.'),
+ ('Apply through the Korea Visa Portal or your consulate', 'Some missions insist on an accredited agency.'),
+ ('Get the financial evidence right', 'Korean consulates weigh this heavily. A steady balance across months beats a large deposit that appeared last week.'),
+ ('Prepare accommodation and itinerary', 'Round trip with fixed dates, and somewhere to stay for the whole visit.'),
+ ('Order the flight itinerary near submission', 'Not weeks ahead.'),
+ ('Submit and wait a week or two', 'Usually quick, but it varies by mission and season.'),
+ ('Or apply for the K-ETA', 'At least 72 hours before departure, on the official site only.')],
         label="South Korea visa",
         short="South Korea",
         h1="Flight itinerary for a South Korea tourist visa",
@@ -357,6 +472,17 @@ VISAS = [
     ),
     dict(
         slug="singapore-visa-flight-ticket",
+        official_src=('ICA Singapore', 'https://www.ica.gov.sg/enter-transit-depart/entering-singapore'),
+        fees=[('Entry visa', 'SGD$30', 'Only for nationalities that require one'),
+ ('SG Arrival Card', 'Free', 'Mandatory for everyone, submitted online'),
+ ('Agent processing fee', 'SGD$30 to SGD$50', 'If you lodge through an authorised agent')],
+        steps=[('Check whether your passport needs a visa', 'Most do not. The Arrival Card, however, applies to everyone.'),
+ ('If you need one, go through an authorised agent or sponsor', 'Singapore does not take direct applications from most individuals.'),
+ ('Submit the SG Arrival Card', 'Within three days before you land. It asks for your accommodation address.'),
+ ('Have onward travel ready', 'Declared on the Arrival Card and checked at Changi.'),
+ ('Check passport validity', 'Six months minimum. No exceptions are made.'),
+ ('Carry funds evidence', 'Rarely asked for. Occasionally decisive.'),
+ ('Expect a stay length, not a guarantee', "How long you get is at the officer's discretion. Thirty days is common, not promised.")],
         label="Singapore visa",
         short="Singapore",
         h1="Flight ticket and onward travel proof for Singapore",
@@ -387,6 +513,17 @@ VISAS = [
     ),
     dict(
         slug="new-zealand-visa-flight-ticket",
+        official_src=('Immigration New Zealand', 'https://www.immigration.govt.nz/new-zealand-visas/visas/visa/visitor-visa'),
+        fees=[('Visitor visa', 'NZD$341', 'For nationalities that require a visa'),
+ ('NZeTA', 'NZD$17 to NZD$23', 'Visa-waiver nationalities. Cheaper in the app than on the website'),
+ ('International Visitor Levy', 'NZD$100', 'Charged alongside the NZeTA or visa')],
+        steps=[('Work out which route applies', 'Visa-waiver passports need an NZeTA, not a visa. Everyone else applies for a visitor visa.'),
+ ('Request the NZeTA early', 'It can take up to 72 hours. Use the app, it is cheaper than the website.'),
+ ('Budget for the levy', 'NZD$100 on top, and it catches people out.'),
+ ('Prove funds, or prepay accommodation', 'NZD$1,000 per month of stay, or NZD$400 if accommodation is already paid for. Prepaying lowers the bar.'),
+ ('Sort onward travel', 'You must hold an onward ticket or show you could buy one. A booking is far quicker to produce at a check-in desk than a pile of bank statements.'),
+ ('Apply online and upload evidence', 'Through the Immigration New Zealand portal.'),
+ ('Wait for the decision, then buy the fare', 'In that order.')],
         label="New Zealand visa",
         short="New Zealand",
         h1="Flight ticket and onward travel proof for New Zealand",
@@ -449,8 +586,8 @@ def _index():
     %s
     <div class="center" style="margin-bottom:2.6rem">
       <h1>Visa guides by destination</h1>
-      <p class="lede">What each consulate actually asks for, which rules are enforced at the airport rather than the
-      counter, and the mistakes that get files returned. Written for people filing this month.</p>
+      <p class="lede">Fees, the order to do things in, which rules bite at the airport rather than the counter, and the
+      mistakes that send files back. Written for people filing this month, not last year.</p>
     </div>
     <h2 class="sr">All destination guides</h2>
     <div class="grid g3">%s</div>
@@ -515,7 +652,23 @@ def _page(v):
   <div class="wrap">%s</div>
 </section>
 
+<section>
+  <div class="wrap wrap--narrow">
+    <h2 id="how-to-apply">How to apply, step by step</h2>
+    <p class="lede">The order matters more than people expect. Do these out of sequence and you end up
+    with a lapsed booking or an appointment you cannot fill.</p>
+    %s
+  </div>
+</section>
+
 <section class="band">
+  <div class="wrap wrap--narrow">
+    <h2 id="fees">What it costs</h2>
+    %s
+  </div>
+</section>
+
+<section>
   <div class="wrap wrap--narrow">
     <h2>What the application actually requires</h2>
     <ul>%s</ul>
@@ -526,15 +679,15 @@ def _page(v):
   </div>
 </section>
 
-<section>
+<section class="band">
   <div class="wrap">
     <h2>Four ways this application goes wrong</h2>
-    <p class="lede">None of these are exotic. All of them are avoidable in the ten minutes before you submit.</p>
+    <p class="lede">None of these are exotic. Every one of them is fixable in the ten minutes before you hit submit.</p>
     <div class="grid g2" style="margin-top:1.8rem">%s</div>
   </div>
 </section>
 
-<section class="band">
+<section>
   <div class="wrap">
     <div class="center" style="margin-bottom:2.4rem">
       <h2>Documents for your %s application</h2>
@@ -566,6 +719,7 @@ def _page(v):
        url("order"), money(PRICE_FLIGHT), url("flight-and-hotel-package"), money(PRICE_BOTH),
        content_core.TRUSTLINE, pass_art, stat_bar(),
        trust_cards(heading=None),
+       _steps_html(v), _fees_html(v),
        reqs, v["official"], traps,
        v["short"], DELIVERY, pricing_tickets(),
        faq_block(v["faqs"], "%s visa: flight and hotel questions" % v["short"]),
@@ -587,5 +741,45 @@ def _page(v):
     }
 
     add_page("visa/" + v["slug"], v["title"], v["desc"], body,
-             schema=[c_schema, webpage, faq_schema(v["faqs"])],
+             schema=[c_schema, webpage, _howto_schema(v), faq_schema(v["faqs"])],
              priority="0.8", changefreq="monthly")
+
+
+def _steps_html(v):
+    rows = ""
+    for i, (title, detail) in enumerate(v["steps"], 1):
+        rows += ("""
+<li class="vstep">
+  <span class="vstep__n">%d</span>
+  <div><h3>%s</h3><p>%s</p></div>
+</li>""" % (i, title, detail))
+    return '<ol class="vsteps">%s</ol>' % rows
+
+
+def _fees_html(v):
+    label, href = v["official_src"]
+    rows = ""
+    for item, amount, note in v["fees"]:
+        rows += ("<tr><td><b>%s</b>%s</td><td class=\"vfee\">%s</td></tr>"
+                 % (item, ("<small>%s</small>" % note) if note else "", amount))
+    return """
+<div class="tbl-wrap">
+  <table class="fees">
+    <thead><tr><th>What you pay</th><th>How much</th></tr></thead>
+    <tbody>%s</tbody>
+  </table>
+</div>
+<p class="fee-note">Checked %s. Government fees move, sometimes with a month&rsquo;s notice and sometimes
+with none. Treat this as a planning figure and confirm the number you will actually be charged at
+<a href="%s" rel="nofollow noopener" target="_blank">%s</a> before you pay.</p>""" % (rows, TODAY, href, label)
+
+
+def _howto_schema(v):
+    return {
+        "@type": "HowTo",
+        "name": "How to apply for a %s" % v["label"].lower(),
+        "description": "Step by step: the order to do things in when applying for a %s." % v["label"].lower(),
+        "step": [{"@type": "HowToStep", "position": i, "name": t,
+                  "text": re.sub(r"<[^>]+>", "", d)}
+                 for i, (t, d) in enumerate(v["steps"], 1)],
+    }

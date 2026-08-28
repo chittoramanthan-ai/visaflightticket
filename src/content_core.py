@@ -93,15 +93,15 @@ def home():
         ("What is a visa flight ticket?",
          "<p>A visa flight ticket. Also called a flight reservation, dummy ticket or flight itinerary. Is a genuine airline booking held in your name that has <strong>not been paid for</strong>. It carries a real booking reference (PNR) that a consulate can look up, and it proves your intended travel dates and route without forcing you to buy a ticket before your visa is decided.</p>"),
         ("Is it legal to use a flight reservation instead of a paid ticket?",
-         "<p>Yes, when the reservation is real. Embassies ask for <em>proof of intended travel</em>, not proof of purchase. The European Commission&rsquo;s own guidance tells applicants not to buy non-refundable tickets before a decision. What is <strong>not</strong> legal is submitting a forged or edited PDF that has no live booking behind it. That is document fraud. Every itinerary we issue is backed by an actual reservation you can verify.</p>"),
+         "<p>Yes, as long as the reservation is real. Embassies want <em>proof that you intend to travel</em>, not proof that you have paid. The European Commission&rsquo;s own guidance tells applicants not to buy non-refundable tickets before a decision. What is <strong>not</strong> legal is submitting a forged or edited PDF that has no live booking behind it. That is document fraud. Every itinerary we issue is backed by an actual reservation you can verify.</p>"),
         ("How fast will I get my ticket?",
-         "<p>Most orders are delivered within %s. If you are inside 24 hours of your appointment, add the priority option at checkout and tell us the appointment time.</p>" % DELIVERY),
+         "<p>Usually within %s. If your appointment is tomorrow morning, tick priority at checkout and put the time in the notes. We will work to it.</p>" % DELIVERY),
         ("How long does the reservation stay valid?",
          "<p>Airline hold periods vary by carrier and route, typically 48 hours to 14 days. We time your booking so it is live on the day you submit, and we will reissue it free of charge if your appointment moves.</p>"),
         ("Do you also provide hotel bookings?",
          "<p>Yes. A confirmed hotel booking in your name with a reference number, for %s, or bundled with your flight reservation for %s. Most consulates ask for both.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
         ("What if my visa is refused?",
-         "<p>Nothing happens to your money, which is the whole point of a reservation. You never paid the airline, so there is no ticket to cancel and no refund to chase. Our own fee is small and non-refundable once the booking is issued. See the <a href=\"%s\">refund policy</a>.</p>" % url("refund-policy")),
+         "<p>Nothing happens to your money, which is rather the point. You never paid the airline, so there is no ticket to cancel and nobody to chase for a refund. Our own fee is small and non-refundable once the booking is issued. See the <a href=\"%s\">refund policy</a>.</p>" % url("refund-policy")),
     ]
 
     body = """
@@ -138,7 +138,7 @@ def home():
   <div class="wrap">
     <div class="center" style="margin-bottom:2.6rem">
       <h2>Pick the proof your consulate asked for</h2>
-      <p class="lede">Same-day delivery on all three. Prices are per traveller, all taxes included.</p>
+      <p class="lede">All three land the same day. Prices are per traveller and that is the whole price.</p>
     </div>
     %s
     <p class="center" style="margin-top:1.6rem;color:var(--ink-3);font-size:.92rem">
@@ -148,7 +148,7 @@ def home():
 
 <section>
   <div class="wrap wrap--narrow">
-    <h2>What exactly is a &ldquo;dummy ticket&rdquo;?</h2>
+    <h2>So what is a &ldquo;dummy ticket&rdquo;, really?</h2>
     <p>A dummy ticket is a <strong>flight reservation that has been created in a real airline booking system but not
     paid for</strong>. The airline holds the seat for a fixed window and issues a booking reference. A six-character
     PNR such as <code>K7QX2M</code>. The document you receive shows exactly what a paid ticket shows: passenger name,
@@ -175,8 +175,8 @@ def home():
 
 <section>
   <div class="wrap">
-    <h2>Reservation, paid ticket, or fake PDF?</h2>
-    <p class="lede">Three things get confused constantly. Only one of them is both safe and affordable.</p>
+    <h2>Three things people confuse constantly</h2>
+    <p class="lede">Only one of them is both safe and cheap, and it is not the one most people reach for first.</p>
     <div class="tbl-wrap" style="margin-top:1.6rem">
       <table>
         <thead><tr><th>&nbsp;</th><th>Flight reservation<br><small>what we issue</small></th><th>Fully paid ticket</th><th>Edited / fake PDF</th></tr></thead>
@@ -198,8 +198,8 @@ def home():
 <section class="band">
   <div class="wrap">
     <div class="center" style="margin-bottom:2.4rem">
-      <h2>Built for the way consulates actually check</h2>
-      <p class="lede">Four things separate a document that passes from one that raises a question.</p>
+      <h2>The four things an officer actually looks at</h2>
+      <p class="lede">None of them are subjective. All four are things you can check yourself in ten minutes.</p>
     </div>
     <div class="grid g4">
       <div class="card"><div class="card__ico">%s</div><h3>Live, checkable PNR</h3><p>Not a screenshot. A reference the officer can type into the carrier&rsquo;s site while your file is open.</p></div>
@@ -213,7 +213,7 @@ def home():
 <section class="band">
   <div class="wrap">
     <h2>Visa-specific guides</h2>
-    <p class="lede">Requirements differ. Pick your destination for the exact document rules, hold periods and common refusal traps.</p>
+    <p class="lede">Fees, steps, hold periods and the specific ways each application goes wrong. Pick your destination.</p>
     <ul class="pills" style="margin-top:1.6rem">%s</ul>
   </div>
 </section>
@@ -800,8 +800,8 @@ def how_it_works():
     %s
     <div class="wrap--narrow" style="padding:0;margin:0">
       <h1>How it works</h1>
-      <p class="lede">Six steps between filling in a form and holding a document you have personally verified.
-      Most of it happens without you.</p>
+      <p class="lede">Six steps from filling in a form to holding something you have checked yourself. Five of them
+      happen without you.</p>
     </div>
   </div>
 </section>
@@ -813,8 +813,8 @@ def how_it_works():
 
 <section>
   <div class="wrap wrap--narrow">
-    <h2>What we are not doing</h2>
-    <p>It is worth being blunt about this, because the market is full of services that blur it.</p>
+    <h2>What we do not do</h2>
+    <p>Worth spelling out, because plenty of services in this market are deliberately vague about it.</p>
     <ul>
       <li><strong>We do not generate PDFs.</strong> Nothing is designed to look like a booking. A booking is created,
       and then documented.</li>
@@ -886,8 +886,8 @@ def verify_page():
     <div class="wrap--narrow" style="padding:0;margin:0">
       <p class="eyebrow">Two minutes &middot; free &middot; do this before you file</p>
       <h1>How to verify a flight reservation PNR</h1>
-      <p class="lede">The only test that matters: does the booking reference resolve on the airline&rsquo;s own website?
-      Here is how to run it on any reservation, from us or from anyone else.</p>
+      <p class="lede">One question decides whether a document is real: does the reference come back on the airline&rsquo;s
+      own site? Here is how to ask it, on any booking, whether it came from us or from anyone else.</p>
     </div>
   </div>
 </section>
@@ -1152,14 +1152,15 @@ def about_page():
   <div class="wrap wrap--narrow">
     %s
     <h1>About %s</h1>
-    <p class="lede">We issue one thing well: travel documentation that survives verification.</p>
+    <p class="lede">We do one thing, and we would rather do it properly than broadly: travel documents that hold up
+    when somebody checks them.</p>
     %s
 
     <h2>Why this service exists</h2>
-    <p>Visa applications create a circular problem. The consulate wants to see a flight itinerary. Buying the flight
-    before you have the visa risks a substantial non-refundable fare on an application that might be refused. So
-    consulates ask for a <em>reservation</em> instead, and then applicants discover that airlines rarely hold seats
-    for free, and rarely for long enough.</p>
+    <p>Visa applications hand you a small, annoying puzzle. The consulate wants a flight itinerary. Buying the flight
+    first means gambling a real fare on a decision nobody has made yet. So consulates ask for a <em>reservation</em>
+    instead, which sounds like the problem is solved, right up until you discover that airlines rarely hold seats for
+    free and almost never for long enough.</p>
     <p>That gap is what we fill. We create a genuine booking in a live reservation system, hold it across your
     submission window, and hand you a document you can verify yourself. For the price of a sandwich rather than
     the price of a fare.</p>

@@ -128,7 +128,7 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
 .hdr__in{display:flex;align-items:center;gap:14px;min-height:66px}
 .logo{display:flex;align-items:center;gap:9px;font-weight:750;color:var(--ink);font-size:1.03rem;letter-spacing:-.02em;flex:none}
 .logo:hover{text-decoration:none}
-.logo svg{width:30px;height:30px;flex:none}
+.logo svg,.logo__img{width:32px;height:32px;flex:none;object-fit:contain}
 .logo span b{color:var(--brand)}
 .nav{display:flex;align-items:center;gap:2px;margin-left:auto}
 .nav a:not(.btn){
@@ -821,6 +821,36 @@ body.has-scta .totop{bottom:88px}
 .step{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
 .step h3{font-size:1.06rem}
 .step p{font-size:.94rem;color:var(--ink-2);margin:0}
+
+/* --- visa: how to apply steps ------------------------------------------- */
+.vsteps{list-style:none;padding:0;margin:2rem 0 0;counter-reset:vs}
+.vstep{
+  display:flex;gap:18px;padding:0 0 26px 0;position:relative;margin:0;
+}
+.vstep:not(:last-child)::before{
+  content:"";position:absolute;left:17px;top:40px;bottom:4px;width:2px;
+  background:linear-gradient(var(--line-strong),color-mix(in srgb,var(--line-strong) 20%,transparent));
+}
+.vstep__n{
+  flex:none;width:36px;height:36px;border-radius:50%;background:var(--brand-soft);
+  color:var(--brand);display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:800;font-size:.95rem;z-index:1;
+  border:2px solid var(--surface);box-shadow:0 0 0 2px var(--brand-soft);
+}
+.vstep h3{font-size:1.09rem;margin:.35rem 0 .3rem}
+.vstep p{margin:0;color:var(--ink-2);font-size:.97rem}
+
+/* --- visa: fees table --------------------------------------------------- */
+table.fees{min-width:420px}
+table.fees td small{display:block;font-size:.8rem;color:var(--ink-3);margin-top:3px;font-weight:400}
+td.vfee{
+  font-family:var(--display);font-weight:800;font-size:1.05rem;white-space:nowrap;
+  color:var(--ink);text-align:right;font-feature-settings:'tnum' 1;
+}
+.fee-note{
+  font-size:.87rem;color:var(--ink-3);margin-top:1rem;padding-left:14px;
+  border-left:3px solid var(--accent);
+}
 
 /* --- comparison table --------------------------------------------------- */
 .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow-sm)}

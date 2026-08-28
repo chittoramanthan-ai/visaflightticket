@@ -22,13 +22,12 @@ dict(
     meta_title="What Is a Dummy Ticket for a Visa? Meaning, Legality, Cost",
     desc="A dummy ticket is a real airline reservation held without payment, carrying a live PNR. What it is, why embassies ask for one, what it costs and how to tell a genuine one from a forgery.",
     read=7,
-    lede="&lsquo;Dummy ticket&rsquo; is one of the worst-named products in travel. It is not a dummy, it is not fake, "
-         "and the confusion causes real damage. People either avoid a perfectly legitimate document or buy a "
-         "forged one by accident. Here is what the term actually means.",
+    lede="Somebody on a forum told you to get a dummy ticket. Somebody else said dummy tickets get you "
+         "banned. Both of them are talking about different things and neither said so. Here is the actual "
+         "distinction, in about four minutes.",
     sections=[
         ("The definition, precisely", """
-<p>A dummy ticket is a <strong>flight reservation that has been created inside a real airline reservation system and
-held without payment</strong>. The airline blocks the seat for a defined period and issues a booking reference. A
+<p>A dummy ticket is a <strong>real airline booking that nobody has paid for yet</strong>. The airline blocks the seat for a defined period and issues a booking reference. A
 six-character alphanumeric code known as a PNR (Passenger Name Record), such as <code>K7QX2M</code>.</p>
 <p>The document you receive shows everything a paid ticket shows:</p>
 <ul>
@@ -56,7 +55,7 @@ ticketed. It stuck, and it has been doing damage ever since, because it implies 
 is wanted.</p>"""),
 
         ("Why embassies ask for a reservation instead of a ticket", """
-<p>There is a circularity at the heart of visa applications. The consulate wants evidence you have planned a specific
+<p>There is a catch-22 sitting at the heart of every visa application. The consulate wants evidence you have planned a specific
 trip. But buying an international fare before approval means risking tens of thousands of rupees on an
 application that may be refused.</p>
 <p>Consulates resolved this years ago by asking for reservations. The European Commission's own visa guidance advises
@@ -66,7 +65,7 @@ Department all give substantially the same advice.</p>
 produce.</p>"""),
 
         ("Dummy ticket vs fake ticket. The only distinction that matters", """
-<p>Two documents can look identical on paper and be worlds apart legally.</p>
+<p>Two documents can look identical sitting side by side on a desk and be worlds apart legally.</p>
 <div class="tbl-wrap">
 <table>
 <thead><tr><th>&nbsp;</th><th>Genuine reservation</th><th>Fabricated document</th></tr></thead>
@@ -95,7 +94,7 @@ per traveller. The reason it can be that cheap is straightforward: no fare is ev
 recover. You are paying for the booking to be created, held, documented and checked.</p>""" % (money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH))),
 
         ("How long it stays live", """
-<p>Hold periods are set by the airline, not by whoever sells you the reservation. In practice they run from
+<p>The hold is the airline's decision, not the seller's. In practice they run from
 <strong>48 hours to about 14 days</strong>, varying by carrier, route, fare class and how far ahead you are travelling.
 High-demand routes hold for less time.</p>
 <p>This worries people more than it should. Consular officers check a PNR when they open your file, which is usually
@@ -128,8 +127,9 @@ dict(
     meta_title="Is a Dummy Ticket Legal? Visa Rules, Risks and Red Flags",
     desc="Unpaid flight reservations are legal and expected by consulates. Fabricated itineraries are document fraud. Where the line sits, what happens if you cross it, and how to stay on the right side.",
     read=8,
-    lede="The short answer: a genuine unpaid reservation is legal everywhere, and a fabricated itinerary is fraud "
-         "everywhere. The useful answer is about how to tell which one you have been sold.",
+    lede="Short version: an unpaid reservation is legal everywhere, a made-up PDF is fraud everywhere, and "
+         "the two look identical when they land in your inbox. The useful version is knowing which one you "
+         "just bought.",
     sections=[
         ("What is legal", """
 <p>Holding a seat without paying for it is a routine commercial transaction. Airlines built the functionality
@@ -158,7 +158,7 @@ valid PNR is exactly that.</p>"""),
 misrepresents a fact. That is the definition of deception in essentially every immigration system.</p>"""),
 
         ("What happens if you are caught", """
-<p>Not a warning. Consulates treat deception as a category apart from a weak application:</p>
+<p>Not a stern letter. Consulates put deception in a completely different box from a weak application:</p>
 <div class="tbl-wrap">
 <table>
 <thead><tr><th>Destination</th><th>Typical consequence of a deception finding</th></tr></thead>
@@ -182,7 +182,7 @@ the same as a fake one, the expected-value calculation is not close.</p>
 to, because carrier-liability fines land on the airline.</p>"""),
 
         ("How to tell a legitimate provider from a risky one", """
-<p>Six signals, in rough order of usefulness:</p>
+<p>Six things to look for, roughly in order of how much they tell you:</p>
 <ol>
   <li><strong>Can you verify the PNR yourself?</strong> A legitimate provider tells you how, and expects you to.
   This is the only test that cannot be faked.</li>
@@ -224,8 +224,8 @@ dict(
     meta_title="Flight Reservation vs Confirmed Ticket: What Visas Need",
     desc="Reservation, confirmed ticket, e-ticket, dummy ticket and itinerary explained side by side. What each one is, what it costs, and which one your visa application actually needs.",
     read=6,
-    lede="Five terms, heavily overlapping, used inconsistently by airlines, agencies and consulates. Here is what "
-         "each one actually means and which you need.",
+    lede="Reservation. Itinerary. Dummy ticket. Confirmed ticket. E-ticket. Five words, roughly two actual "
+         "things, and a consulate checklist that uses whichever one it feels like. Let us sort that out.",
     sections=[
         ("The five terms", """
 <div class="tbl-wrap">
@@ -306,8 +306,9 @@ dict(
     meta_title="Proof of Onward Travel: Rules, Countries and What Counts",
     desc="Why airlines refuse boarding on one-way tickets, which countries enforce onward travel requirements, what documents are accepted, and the cheapest legitimate way to satisfy the rule.",
     read=7,
-    lede="Most people meet this rule at a check-in desk rather than a border, and are baffled by it. The explanation "
-         "is not immigration policy. It is airline liability.",
+    lede="You have a visa. You have a hotel. You get to the check-in desk and a very polite person asks "
+         "how you plan to leave the country, and suddenly your holiday is a negotiation. Here is why that "
+         "happens, and why it is the airline asking rather than the country you are flying to.",
     sections=[
         ("Why the airline cares more than the border does", """
 <p>Under carrier-liability rules operated by most countries, an airline that carries a passenger who is subsequently
@@ -395,7 +396,8 @@ dict(
     meta_title="How Long Is a Flight Reservation Valid? Hold Times Explained",
     desc="Airline hold periods run from 48 hours to about 14 days. Why they vary, what happens when a reservation expires mid-application, and how to time yours around a consular appointment.",
     read=6,
-    lede="This is the question that worries applicants most, and it is usually worrying about the wrong thing.",
+    lede="Everyone asks this. Almost everyone is worried about the wrong half of it. Yes, the booking "
+         "expires. No, that is usually not the problem you think it is.",
     sections=[
         ("The typical range", """
 <p><strong>48 hours to roughly 14 days.</strong> Within that range, the hold period depends on:</p>
@@ -466,10 +468,12 @@ dict(
     meta_title="Do Embassies Verify Flight Bookings? What Officers Check",
     desc="How consular officers check a flight reservation, which missions verify routinely, what a failed check looks like on your record, and how to make sure yours passes.",
     read=6,
-    lede="Applicants assume nobody looks. Increasingly, somebody does, and the check takes about fifteen seconds.",
+    lede="The honest answer is: sometimes, and more often than they used to. The more useful answer is "
+         "that the check takes an officer about fifteen seconds, costs them nothing, and you cannot "
+         "predict which files get it.",
     sections=[
         ("How the check works", """
-<p>There is no special consular database. An officer does exactly what you can do: opens the operating airline's
+<p>There is no secret consular database. An officer does exactly what you can do from your sofa: opens the operating airline's
 &ldquo;manage booking&rdquo; page, types the six-character PNR and the surname, and reads what comes back.</p>
 <p>Three outcomes:</p>
 <ul>
@@ -535,11 +539,12 @@ dict(
     meta_title="Hotel Booking for Visa Application: Rules and Common Errors",
     desc="Why consulates ask for accommodation proof, what a valid hotel booking must show, how to cover multi-city trips without gaps, and when an invitation letter replaces a booking entirely.",
     read=6,
-    lede="Accommodation proof is the document applicants prepare last and get wrong most often. The failures are "
-         "almost always mechanical rather than substantive.",
+    lede="Accommodation proof is the document people throw together at eleven at night, the evening before "
+         "the appointment. It is also the one that fails on the most boring, most avoidable grounds. "
+         "Nobody is judging your taste in hotels. They are counting nights.",
     sections=[
         ("Why it is asked for", """
-<p>Two reasons, and neither is curiosity about your hotel.</p>
+<p>Two reasons, and neither of them is curiosity about your choice of hotel.</p>
 <p>First, <strong>it corroborates your itinerary</strong>. Anyone can claim a two-week trip to Italy. A booking for
 fourteen nights in Rome and Florence, with dates matching the flights, makes the claim concrete.</p>
 <p>Second, <strong>it demonstrates you have somewhere to be</strong>. Consulates are assessing whether you have
@@ -603,9 +608,9 @@ dict(
     meta_title="Visa Application Document Checklist: Complete 2026 Guide",
     desc="A universal document checklist for tourist visa applications: what every consulate wants, how the documents must agree with each other, and the order to prepare them in.",
     read=8,
-    lede="Individual consulates publish their own checklists. Underneath the variation, almost all tourist visa files "
-         "are assembled from the same eight components, and are assessed on whether those components agree with "
-         "each other.",
+    lede="Every consulate publishes its own list, and underneath the variation almost all of them are the "
+         "same eight things. The part nobody writes down is that your file is not eight documents. It is "
+         "one story told eight times, and the officer is checking whether the tellings agree.",
     sections=[
         ("The eight components", """
 <ol>
@@ -621,8 +626,8 @@ dict(
 </ol>"""),
 
         ("The principle nobody writes down: consistency", """
-<p>A file is not eight separate documents. It is one story told eight times, and the officer is checking whether the
-tellings agree.</p>
+<p>Read your own file the way an officer will: not as eight documents, but as one story told eight times. They are
+checking whether the tellings agree.</p>
 <p>Contradictions that sink otherwise strong applications:</p>
 <ul>
   <li>Flight arrival on the 12th, hotel check-in on the 10th.</li>
@@ -682,11 +687,12 @@ dict(
     meta_title="Common Visa Rejection Reasons and How to Avoid Them",
     desc="The refusal reasons consulates actually cite, ranked: weak ties, thin finances, inconsistent documents and travel-document errors. What each one means and how to address it.",
     read=8,
-    lede="Refusal letters are terse and formulaic, which leaves applicants guessing. The underlying reasons are "
-         "consistent across missions, and most are addressable before you apply.",
+    lede="Refusal letters are short, formulaic and maddeningly vague, which leaves you guessing at what "
+         "went wrong. The underlying reasons are actually pretty consistent across missions, and most of "
+         "them are fixable before you apply rather than after.",
     sections=[
         ("1. Insufficient ties to your home country", """
-<p>The largest category by a wide margin, and the one applicants under-prepare most.</p>
+<p>The biggest category by a mile, and the one people put the least work into.</p>
 <p>The officer is answering one question: <em>will this person go home?</em> The presumption in most systems, and explicitly so in US law, is that you will not, and it is your job to rebut it.</p>
 <p><strong>What helps:</strong> an employment letter stating role, tenure, salary and approved leave dates; property
 documents; business registration and tax filings if self-employed; enrolment records; evidence of dependants
@@ -694,7 +700,7 @@ remaining behind; a history of previous travel with timely returns.</p>
 <p><strong>What does not help:</strong> asserting that you intend to return. Everyone asserts that.</p>"""),
 
         ("2. Financial evidence that does not hold up", """
-<p>Not just &ldquo;too little money&rdquo;. Officers look at the <em>shape</em> of the account.</p>
+<p>It is rarely just &ldquo;not enough money&rdquo;. Officers look at the <em>shape</em> of the account.</p>
 <ul>
   <li>A large deposit shortly before applying, with no explanation, reads as borrowed funds.</li>
   <li>A balance that cannot support the itinerary described.</li>
@@ -705,21 +711,22 @@ remaining behind; a history of previous travel with timely returns.</p>
 sponsoring you, document it properly. Their letter, their statements, proof of the relationship.</p>"""),
 
         ("3. Documents that contradict each other", """
-<p>The most avoidable category, and the reason a cross-check pass is worth more than any additional document.</p>
+<p>The most avoidable category on this list, and the reason ten minutes of cross-checking beats adding another
+document to the pile.</p>
 <p>Flight dates against hotel dates. Leave granted against trip length. Insurance validity against return date. Form
 answers against supporting documents. Each contradiction on its own might be an oversight; two or three together read
 as a file assembled to pass rather than to describe a real trip.</p>
 <p>Ten minutes with a <a href="%s">checklist</a> resolves nearly all of it.</p>""" % url("blog/visa-application-document-checklist")),
 
         ("4. Travel documents that fail verification", """
-<p>Smaller in volume, catastrophic in consequence.</p>
+<p>Rarer than the others. Far worse when it happens.</p>
 <p>A missing or expired booking usually produces a request for an updated itinerary. A <em>fabricated</em> one
 produces a deception finding, which carries multi-year bans and, in the US, potentially permanent inadmissibility.</p>
 <p><strong>Fix:</strong> use a real reservation and <a href="%s">verify the PNR yourself</a> before submitting. It is
 the cheapest risk reduction available anywhere in the process.</p>""" % url("verify-pnr")),
 
         ("5. An itinerary that does not add up", """
-<p>Officers assess plausibility, and they see thousands of files.</p>
+<p>Officers read thousands of these. They develop a nose for a trip that does not quite add up.</p>
 <ul>
   <li>A six-week holiday on two weeks of annual leave.</li>
   <li>Eight countries in ten days.</li>
@@ -730,7 +737,7 @@ the cheapest risk reduction available anywhere in the process.</p>""" % url("ver
 ambitious one every time.</p>"""),
 
         ("6. Administrative errors", """
-<p>Unglamorous and entirely preventable: photographs to the wrong specification, an unsigned form, a passport with
+<p>Boring, and entirely preventable: photographs to the wrong specification, an unsigned form, a passport with
 under six months validity or no blank pages, a missing appointment confirmation, the wrong fee.</p>
 <p><strong>Fix:</strong> read the mission's own checklist, not a blog and not a forum, in the week before you
 submit. It is the authoritative source and it changes.</p>"""),
@@ -763,11 +770,12 @@ dict(
     meta_title="How to Choose a Dummy Ticket Service: 8 Checks Before Paying",
     desc="Eight checks to run before paying any flight reservation service, the claims that indicate a fabricated document, and why the cheapest option is not the risky one.",
     read=7,
-    lede="The market for visa travel documents is unregulated, and the difference between a legitimate provider and a "
-         "dangerous one is not visible from the homepage. It is visible from eight specific questions.",
+    lede="This market is unregulated, the sites all look the same, and the difference between a fine "
+         "provider and one that gets you a ten-year ban is invisible from the homepage. It is not "
+         "invisible from eight specific questions, though.",
     sections=[
         ("1. Can you verify the PNR yourself?", """
-<p>The only test that cannot be faked, and therefore the only one that finally matters.</p>
+<p>This is the only test that cannot be faked, which makes it the only one that finally matters.</p>
 <p>A legitimate provider tells you how to check, names the airline's manage-booking page, and expects you to use it.
 A provider that discourages verification. &ldquo;only the embassy can check this&rdquo;, &ldquo;checking may cancel your
 booking&rdquo;. Is telling you something important. Neither statement is true. PNR lookups are public and
