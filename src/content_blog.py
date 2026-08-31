@@ -449,7 +449,7 @@ using will reissue the reservation for the new date without charge. Ours does; i
 something about the underlying booking.</p>
 <div class="note note--ok"><strong>Our policy</strong>
 A reissue with a corrected name or new dates costs half the original price. Email us the order reference and what
-needs changing. If the airline released the booking earlier than expected, or the error was ours, the reissue is free.</div>"""),
+needs changing. Reissues are charged at half price whatever the reason.</div>"""),
     ],
     faqs=[
         ("What happens if my reservation expires before the decision?", "<p>Usually nothing. Officers check the PNR when they open the file, typically within days of submission. A lapse after that point has no effect.</p>"),

@@ -77,8 +77,7 @@ def b2b_page():
         <p>Documents carry no branding of ours by default. Partner accounts can carry your agency details
         instead.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>Corrections without quibble</h3>
-        <p>Name and date fixes at half price, and free when the fault is ours, however many come back from a
-        consulate in a busy week.</p></div>
+        <p>Name and date fixes at half price, however many come back from a consulate in a busy week.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>A named contact</h3>
         <p>One person who knows your account and answers directly, not a shared inbox and a ticket
         number.</p></div>
@@ -166,8 +165,8 @@ def login_page():
       <div class="card"><h3>Nothing arrived?</h3>
         <p style="font-size:.95rem;color:var(--ink-2)">Delivery is normally within %s. Check spam first.         PDFs from an unfamiliar sender get filtered more often than you would expect.</p></div>
       <div class="card"><h3>Need a correction?</h3>
-        <p style="font-size:.95rem;color:var(--ink-2)">A reissue costs half the original price, and nothing if
-        the error was ours. Send your reference and the exact corrected spelling to <a href="mailto:%s">%s</a>.</p></div>
+        <p style="font-size:.95rem;color:var(--ink-2)">A reissue costs half the original price. Send your
+        reference and the exact corrected spelling to <a href="mailto:%s">%s</a>.</p></div>
     </div>
 
     <p class="center" style="margin-top:2rem;color:var(--ink-3);font-size:.93rem">

@@ -98,7 +98,7 @@ def home():
         ("How fast will I get my ticket?",
          "<p>Usually within %s. If your appointment is tomorrow morning, say so in the notes and we will put you at the front of the queue.</p>" % DELIVERY),
         ("How long does the reservation stay valid?",
-         "<p>Airline hold periods vary by carrier and route, typically 48 hours to 14 days. We time your booking so it is live on the day you submit. If your appointment moves, a fresh booking is half the original price. If the airline releases it early, that one is on us.</p>"),
+         "<p>Airline hold periods vary by carrier and route, typically 48 hours to 14 days. We time your booking so it is live on the day you submit. If your appointment moves, a fresh booking is half the original price.</p>"),
         ("Do you also provide hotel bookings?",
          "<p>Yes. A confirmed hotel booking in your name with a reference number, for %s, or bundled with your flight reservation for %s. Most consulates ask for both.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
         ("What if my visa is refused?",
@@ -302,7 +302,7 @@ def flight_page():
         ("Can you do multi-city or one-way itineraries?",
          "<p>Yes. One-way, return, open-jaw and multi-city are all available at the same price. For a Schengen application you almost always want a return or onward leg; for <a href=\"%s\">proof of onward travel</a> at check-in, a one-way onward booking is usually what is required.</p>" % url("proof-of-onward-travel")),
         ("What if I spelled my name wrong?",
-         "<p>Tell us and we will reissue it at half the original price. If the typo was ours rather than yours, it is free. Names must match your passport exactly: surname and given names in the same order and spelling as the machine-readable zone. This is the single most common cause of a returned file.</p>"),
+         "<p>Tell us and we will reissue it at half the original price. Names must match your passport exactly: surname and given names in the same order and spelling as the machine-readable zone. This is the single most common cause of a returned file.</p>"),
         ("Do you cover every airline?",
          "<p>We book on the carrier that actually serves your route, using live availability. If a specific airline is required for your application, and some consulates do note a preferred national carrier, tell us in the order notes and we will match it where the route allows.</p>"),
     ]
@@ -430,7 +430,7 @@ def hotel_page():
         ("Will the dates match my flight reservation?",
          "<p>If you order the <a href=\"%s\">flight and hotel bundle</a> we cross-check them automatically: check-in on your arrival date, check-out on your departure date. Mismatched dates between the two documents is a classic avoidable refusal.</p>" % url("flight-and-hotel-package")),
         ("Can I change the hotel or the dates later?",
-         "<p>A reissue costs half the original price, however far along you are. If we got something wrong, or the airline released the booking earlier than expected, we redo it at no charge.</p>"),
+         "<p>A reissue costs half the original price, however far along you are and whatever the reason.</p>"),
     ]
 
     body = """
@@ -766,7 +766,7 @@ def how_it_works():
         ("Quality check", "Before anything is sent, we verify the name against passport conventions, confirm both directions of travel are present, and check the hold window will still be open on your submission date. Bundle orders also get flight-to-hotel date reconciliation."),
         ("Delivery", "The finished PDF is emailed to you, typically within %s. It is formatted as a standard agency itinerary: no watermark, no promotional branding, nothing that signals it came from a third-party service." % DELIVERY),
         ("You verify it", "Open the airline&rsquo;s &lsquo;Manage booking&rsquo; page, enter the PNR and your surname, and see your own itinerary come back. Now you know what the officer will see."),
-        ("Free corrections", "Spotted a typo, or has your appointment moved? One reissue is included at no charge. Email us with the order reference."),
+        ("Reissues", "Spotted a typo, or has your appointment moved? A fresh booking is half the original price. Email us with the order reference."),
     ]
 
     howto = {
@@ -1296,11 +1296,11 @@ outages and unusual routes can extend it. If we cannot deliver within 24 hours w
 <h2>6. Validity of reservations</h2>
 <p>Hold periods are set by airlines and accommodation providers, not by us, and typically run from 48 hours to
 14 days. We do not control early release of a held booking. Where a booking is released before your stated
-submission date, we will reissue at no charge.</p>
+submission date, a reissue is charged at half the original order value.</p>
 
 <h2>7. Amendments</h2>
-<p>A reissue with a corrected name or changed dates is charged at 50%% of the original order value. Where the error
-was ours, or the supplier released a held booking earlier than its stated window, the reissue is free of charge.</p>
+<p>A reissue with a corrected name or changed dates is charged at 50%% of the original order value. This applies to
+every reissue, whatever the reason for it.</p>
 
 <h2>8. Payment</h2>
 <p>Prices are shown in US dollars and charged per traveller. Payment is processed by third-party providers; we do
