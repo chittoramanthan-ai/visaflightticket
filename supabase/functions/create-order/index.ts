@@ -9,7 +9,13 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
 // --- prices, in minor units (paise). The single source of truth. ------------
 // Must match PRICE_* in src/build.py. If you change one, change both.
-const PRICE = { flight: 49900, hotel: 39900, both: 79900 } as const;
+// Per leg for flights. Must match PRICE_* in src/build.py.
+//   flight = FLIGHT * legs * travellers
+//   hotel  = HOTEL * travellers
+//   both   = (FLIGHT * legs + HOTEL - BUNDLE_SAVING) * travellers
+const P_FLIGHT = 49900;
+const P_HOTEL = 39900;
+const BUNDLE_SAVING = 9900;
 const MAX_TRAVELLERS = 12;
 
 // "razorpay" | "upi" | "none".  upi = customer pays your VPA directly, you
@@ -63,7 +69,9 @@ Deno.serve(async (req) => {
 
   // --- validate ------------------------------------------------------------
   const service = str(body.service, 10);
-  if (!(service in PRICE)) return json({ error: "bad_service" }, 400, origin);
+  if (!["flight", "hotel", "both"].includes(service)) {
+    return json({ error: "bad_service" }, 400, origin);
+  }
 
   const trip = ["oneway", "round", "multi"].includes(str(body.trip, 10))
     ? str(body.trip, 10) : "oneway";
@@ -98,12 +106,23 @@ Deno.serve(async (req) => {
   if (ret && !isDate(ret)) return json({ error: "bad_return" }, 400, origin);
   if (depart && ret && ret < depart) return json({ error: "return_before_depart" }, 400, origin);
 
-  let legs: unknown[] = [];
-  if (Array.isArray(body.legs)) legs = body.legs.slice(0, 4);
+  let legs_: unknown[] = [];
+  if (Array.isArray(body.legs)) legs_ = body.legs.slice(0, 4);
 
   // --- price it ourselves --------------------------------------------------
-  const amount_minor =
-    PRICE[service as keyof typeof PRICE] * travellers;
+  // Legs are derived from the itinerary we were sent, not from a leg count the
+  // browser supplies, for the same reason the total is not: otherwise a return
+  // could be submitted priced as a one way.
+  let legs = 1;
+  if (trip === "round" || (ret && ret !== depart)) legs = 2;
+  if (trip === "multi") legs = Math.min(1 + legs_.length, 5);
+
+  const unit = service === "hotel"
+    ? P_HOTEL
+    : service === "both"
+      ? P_FLIGHT * legs + P_HOTEL - BUNDLE_SAVING
+      : P_FLIGHT * legs;
+  const amount_minor = unit * travellers;
 
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
@@ -123,7 +142,7 @@ Deno.serve(async (req) => {
       destination: str(body.destination, 120),
       depart_date: depart || null,
       return_date: ret || null,
-      legs,
+      legs: legs_,
       visa_type: str(body.visa_type, 120),
       surname, given_name: given,
       passengers,

@@ -2,7 +2,7 @@
 """Core pages: home, services, pricing, process, trust, legal."""
 
 from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
-                   PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, CURRENCY, CURRENCY_CODE,
+                   PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, BUNDLE_SAVING, CURRENCY, CURRENCY_CODE,
                    SINCE_YEAR, FLIGHTS_BOOKED, VISAS_HELPED, AIRLINE_COUNT, WHATSAPP,
                    IATA_ACCREDITED, IATA_NUMBER,
                    money, add_page, url, abs_url, ticket, faq_block, faq_schema,
@@ -184,7 +184,7 @@ def home():
         <tbody>
           <tr><td><b>Exists in the airline system</b></td><td class="col-ours"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="no">No</span></td></tr>
           <tr><td><b>PNR verifies on the airline site</b></td><td class="col-ours"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="no">No</span></td></tr>
-          <tr><td><b>Typical cost</b></td><td class="col-ours"><b>%s</b></td><td>&#8377;35,000 &ndash; &#8377;1,50,000</td><td>&#8377;0 &ndash; &#8377;500</td></tr>
+          <tr><td><b>Typical cost</b></td><td class="col-ours"><b>%s</b> one way</td><td>&#8377;35,000 &ndash; &#8377;1,50,000</td><td>&#8377;0 &ndash; &#8377;500</td></tr>
           <tr><td><b>Money at risk if the visa is refused</b></td><td class="col-ours"><span class="yes">Nothing</span></td><td><span class="no">The full fare</span></td><td><span class="yes">Nothing</span></td></tr>
           <tr><td><b>Risk of a fraud finding</b></td><td class="col-ours"><span class="yes">None</span></td><td><span class="yes">Nothing</span></td><td><span class="no">Refusal, multi-year ban</span></td></tr>
           <tr><td><b>Accepted for visa filing</b></td><td class="col-ours"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="no">Until it is checked</span></td></tr>
@@ -410,7 +410,7 @@ def flight_page():
     }
     add_page(slug,
              "Flight Reservation for Visa | Verifiable Dummy Ticket %s" % money(PRICE_FLIGHT),
-             "Order a real flight reservation for your visa application. Live PNR verifiable on the airline site, embassy-ready PDF in %s, %s per traveller." % (DELIVERY, money(PRICE_FLIGHT)),
+             "Order a real flight reservation for your visa application. Live PNR verifiable on the airline site, embassy-ready PDF in %s, from %s per traveller one way." % (DELIVERY, money(PRICE_FLIGHT)),
              body, schema=[c_schema, product, faq_schema(faqs)],
              priority="0.9", changefreq="weekly")
 
@@ -548,7 +548,7 @@ def combo_page():
       <p class="eyebrow">Save %s &middot; the complete travel-proof pack</p>
       <h1>Flight + hotel package for visa applications</h1>
       <p class="lede">The two documents almost every consulate asks for, issued together and reconciled against each
-      other so the dates cannot contradict. %s per traveller, delivered in %s.</p>
+      other so the dates cannot contradict. From %s per traveller one way, delivered in %s.</p>
       <div class="btn-row" style="margin-top:1.6rem">
         <a class="btn btn--primary btn--lg" href="%s">Order the bundle at %s</a>
       </div>
@@ -590,7 +590,7 @@ def combo_page():
        steps_block(ORDER_STEPS, "How the bundle is produced"),
        faq_block(faqs, "Package FAQ"),
        cta_band("One order, both documents, zero contradictions",
-                "Flight reservation with a live PNR plus confirmed accommodation for every night. %s per traveller." % money(PRICE_BOTH)))
+                "Flight reservation with a live PNR plus confirmed accommodation for every night. From %s per traveller one way." % money(PRICE_BOTH)))
 
     product = {
         "@type": "Product",
@@ -602,7 +602,7 @@ def combo_page():
     }
     add_page(slug,
              "Flight + Hotel Booking for Visa | Complete Pack %s" % money(PRICE_BOTH),
-             "Flight reservation and hotel booking for your visa application, issued together and date-matched. %s per traveller, delivered in %s." % (money(PRICE_BOTH), DELIVERY),
+             "Flight reservation and hotel booking for your visa application, issued together and date-matched. From %s per traveller one way, delivered in %s." % (money(PRICE_BOTH), DELIVERY),
              body, schema=[c_schema, product, faq_schema(faqs)],
              priority="0.9", changefreq="weekly")
 
@@ -700,7 +700,8 @@ def pricing_page():
     %s
     <div class="center">
       <h1>Simple, per-traveller pricing</h1>
-      <p class="lede">No subscriptions, no account, no upsells at the end. Every price below includes delivery within %s.</p>
+      <p class="lede">No subscriptions, no account, no upsells at the end. Flights are priced per leg: a one way
+      is %s, a return is %s. Every price below includes delivery within %s.</p>
     </div>
     <h2 class="sr">Plans and prices</h2>
     <div style="margin-top:3rem">%s</div>
@@ -743,7 +744,8 @@ def pricing_page():
 </section>
 
 %s
-""" % (c_html, DELIVERY, pricing_tickets(), trust_cards(heading=None),
+""" % (c_html, money(PRICE_FLIGHT), money(PRICE_FLIGHT * 2), DELIVERY,
+       pricing_tickets(), trust_cards(heading=None),
        money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH), DELIVERY, money(PRICE_FLIGHT),
        faq_block(faqs, "Pricing FAQ"),
        cta_band())
@@ -956,7 +958,7 @@ def order_page():
     <div class="hero__grid" style="align-items:flex-start">
       <h2 class="sr">Order form</h2>
       <form class="form" id="order-form" novalidate data-cur="%s"
-            data-p-flight="%d" data-p-hotel="%d" data-p-both="%d">
+            data-p-flight="%d" data-p-hotel="%d" data-p-saving="%d">
         <fieldset>
           <legend>1 &middot; What do you need?</legend>
           <label class="opt"><input type="radio" name="service" value="flight" checked>
@@ -1047,7 +1049,7 @@ def order_page():
     </div>
   </div>
 </section>
-""" % (c_html, DELIVERY, CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH,
+""" % (c_html, DELIVERY, CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, BUNDLE_SAVING,
        money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH),
        money(PRICE_FLIGHT), DELIVERY)
 

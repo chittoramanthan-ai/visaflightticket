@@ -148,9 +148,23 @@ string rather than bailing on the first mismatched byte.
 
 ### Prices live in two places
 
-`PRICE` in `create-order/index.ts` must match `PRICE_*` in `src/build.py`.
-They are deliberately not shared: the server must not trust anything the site
-publishes. Change one, change the other, and re-run the test flow.
+`P_FLIGHT`, `P_HOTEL` and `BUNDLE_SAVING` in `create-order/index.ts` must match
+`PRICE_*` in `src/build.py`. They are deliberately not shared: the server must
+not trust anything the site publishes. Change one, change the other, and re-run
+the test flow.
+
+**Flights are priced per leg.** One way is one leg, a return is two, multi-city
+is one per flight:
+
+```
+flight = P_FLIGHT x legs x travellers
+hotel  = P_HOTEL x travellers
+both   = (P_FLIGHT x legs + P_HOTEL - BUNDLE_SAVING) x travellers
+```
+
+The server derives `legs` from the itinerary it was sent, not from a leg count
+the browser supplies, for the same reason it does not accept a total: otherwise
+a return could be submitted priced as a one way.
 
 ## Useful queries
 

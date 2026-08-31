@@ -32,9 +32,17 @@ TWITTER = "@visaflightticket"
 # whole site follows -- copy, tables, badges and structured data included.
 CURRENCY = "₹"          # rupee sign
 CURRENCY_CODE = "INR"
+# Flight pricing is PER LEG. One way is one leg, a return is two, multi-city
+# is one per flight. Hotel is per traveller regardless of the route.
+#   flight  = PRICE_FLIGHT x legs x travellers
+#   hotel   = PRICE_HOTEL x travellers
+#   both    = (PRICE_FLIGHT x legs + PRICE_HOTEL - BUNDLE_SAVING) x travellers
+# PRICE_BOTH below is the one-way headline, kept for copy that quotes a
+# starting price. Anything that charges money derives the total instead.
 PRICE_FLIGHT = 499
 PRICE_HOTEL = 399
-PRICE_BOTH = 799
+BUNDLE_SAVING = 99
+PRICE_BOTH = PRICE_FLIGHT + PRICE_HOTEL - BUNDLE_SAVING
 PRICE_ESIM = 399       # cheapest regional eSIM pack
 PRICE_INSURE = 599     # cheapest Schengen-compliant policy, per traveller
 DELIVERY = "30-60 minutes"
@@ -358,11 +366,13 @@ def pricing_tickets(featured="both"):
     return """<div class="grid g3">%s%s%s</div>""" % (
         ticket("Flight Reservation", "A real, airline-held itinerary with a live PNR you can verify yourself.",
                PRICE_FLIGHT,
-               ["Live PNR, verifiable on the airline site",
+               ["Priced per flight: one way %s, return %s" % (money(PRICE_FLIGHT), money(PRICE_FLIGHT * 2)),
+                "Live PNR, verifiable on the airline site",
                 "One-way, return or multi-city",
                 "Delivered as an embassy-ready PDF",
                 "Reissues at half price"],
-               "Order flight ticket", "order", code="FLIGHT", featured=(featured == "flight")),
+               "Order flight ticket", "order", code="FLIGHT",
+               price_note="per traveller, one way", featured=(featured == "flight")),
         ticket("Hotel Booking", "A confirmed accommodation booking in your name for the exact dates of your stay.",
                PRICE_HOTEL,
                ["Confirmed booking with a reference number",
@@ -372,11 +382,13 @@ def pricing_tickets(featured="both"):
                "Order hotel booking", "order", code="HOTEL", featured=(featured == "hotel")),
         ticket("Flight + Hotel", "The complete travel-proof bundle most consulates ask for. Best value.",
                PRICE_BOTH,
-               ["Everything in both plans above",
+               ["One way %s, return %s, per traveller" % (money(PRICE_BOTH), money(PRICE_BOTH + PRICE_FLIGHT)),
+             "Everything in both plans above",
                 "Dates cross-checked for consistency",
                 "One PDF pack, ready to upload",
                 "Reissues at half price"],
                "Order the bundle", "order", code="BUNDLE",
+               price_note="per traveller, one way",
                featured=(featured == "both"), badge="Most popular"),
     )
 
@@ -414,7 +426,8 @@ FEATURES = [
      "Appointment at six in the morning? Message us at any hour and a person "
      "answers, and we would rather you asked than guessed."),
     ("cash", "Cheapest price",
-     "%s per traveller, all inclusive. No fare is ever purchased, so there is "
+     "%s per traveller for a one-way leg, %s for a return. No fare is ever "
+     "purchased, so there is "
      "no fare to recover. That is why it can be this cheap."),
     ("handshake", "Money-back guarantee",
      "If a reference does not verify, or we fail to deliver, you get a full "
@@ -426,7 +439,13 @@ def feature_cards():
     """Numbered feature cards. Sits directly under the hero."""
     out = ""
     for i, (icon, title, body) in enumerate(FEATURES, 1):
-        text = body % money(PRICE_FLIGHT) if "%s" in body else body
+        n = body.count("%s")
+        if n == 2:
+            text = body % (money(PRICE_FLIGHT), money(PRICE_FLIGHT * 2))
+        elif n == 1:
+            text = body % money(PRICE_FLIGHT)
+        else:
+            text = body
         out += """
 <article class="fc">
   <span class="fc__n" aria-hidden="true">%02d</span>
@@ -543,7 +562,7 @@ def highlights(price=True):
                 % (kind, icon, title, sub))
     if price:
         out += ('<span class="hl__i hl__i--price">%s<b>%s <em>only</em></b>'
-                '<small>Per traveller, all in</small></span>'
+                '<small>Per traveller, one way</small></span>'
                 % (ICON["wallet"], money(PRICE_FLIGHT)))
     return '<div class="hl">%s</div>' % out
 
@@ -552,7 +571,7 @@ def booking_widget():
     """Hero search widget: service tabs, trip type, route, dates. GETs to /order/."""
     return """
 <form class="bw" id="bw" action="%s" method="get" data-cur="%s"
-      data-p-flight="%d" data-p-hotel="%d" data-p-both="%d">
+      data-p-flight="%d" data-p-hotel="%d" data-p-saving="%d">
   <div class="bw__tabs" role="tablist" aria-label="What do you need?">
     <button type="button" class="bw__tab is-on" data-svc="flight" role="tab" aria-selected="true">Flight</button>
     <button type="button" class="bw__tab" data-svc="hotel" role="tab" aria-selected="false">Hotel</button>
@@ -593,7 +612,7 @@ def booking_widget():
   <p class="bw__note">
     <b>%s Live PNR</b><b>%s No airline payment</b><b>%s In %s</b>
   </p>
-</form>""" % (url("order"), CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH,
+</form>""" % (url("order"), CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, BUNDLE_SAVING,
        money(PRICE_FLIGHT), ICON["check"], ICON["check"], ICON["check"], DELIVERY)
 
 

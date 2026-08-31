@@ -40,11 +40,20 @@
   var form = document.getElementById('order-form');
   if (form) {
     var CURO = form.getAttribute('data-cur') || '';
-    var PRICES = {
-      flight: +form.getAttribute('data-p-flight'),
-      hotel: +form.getAttribute('data-p-hotel'),
-      both: +form.getAttribute('data-p-both')
-    };
+    var P_FLIGHT = +form.getAttribute('data-p-flight');
+    var P_HOTEL = +form.getAttribute('data-p-hotel');
+    var BUNDLE_SAVING = +form.getAttribute('data-p-saving');
+
+    // Flights are priced per leg. A return date means a second leg.
+    function legCount() {
+      var ret = form.querySelector('#return');
+      return (ret && ret.value) ? 2 : 1;
+    }
+    function unitPrice(svc, legs) {
+      if (svc === 'hotel') return P_HOTEL;
+      if (svc === 'both') return P_FLIGHT * legs + P_HOTEL - BUNDLE_SAVING;
+      return P_FLIGHT * legs;
+    }
     function recalc() {
       // Resolved every time rather than cached: checkout.js rewrites the
       // button's innerHTML while submitting, which destroys this span. A held
@@ -54,11 +63,15 @@
       var lineOut = document.getElementById('price-line');
       var svc = (form.querySelector('input[name="service"]:checked') || {}).value || 'flight';
       var pax = form.querySelectorAll('#pax-list .pax').length || 1;
-      var total = PRICES[svc] * pax;
-      if (out) out.textContent = CURO + total;
+      var legs = legCount();
+      var unit = unitPrice(svc, legs);
+      if (out) out.textContent = CURO + (unit * pax);
       if (lineOut) {
-        lineOut.textContent = CURO + PRICES[svc] + ' x ' + pax +
-          ' traveller' + (pax > 1 ? 's' : '');
+        var bits = CURO + unit + ' x ' + pax + ' traveller' + (pax > 1 ? 's' : '');
+        if (svc !== 'hotel') {
+          bits += legs > 1 ? ' (return, 2 flights)' : ' (one way)';
+        }
+        lineOut.textContent = bits;
       }
     }
     window.vftRecalc = recalc;
@@ -210,11 +223,23 @@
     var retInput = document.getElementById('bw-ret');
     var fromLabel = document.getElementById('bw-from-label');
     var CUR = bw.getAttribute('data-cur') || '';
-    var PRICES = {
-      flight: +bw.getAttribute('data-p-flight'),
-      hotel: +bw.getAttribute('data-p-hotel'),
-      both: +bw.getAttribute('data-p-both')
-    };
+    var BW_FLIGHT = +bw.getAttribute('data-p-flight');
+    var BW_HOTEL = +bw.getAttribute('data-p-hotel');
+    var BW_SAVING = +bw.getAttribute('data-p-saving');
+
+    // one way = 1 leg, return = 2, multi-city = 1 per flight shown
+    function bwLegs() {
+      var t = tripValue();
+      if (t === 'round') return 2;
+      if (t === 'multi') return 1 + legCount();
+      return 1;
+    }
+    function bwPrice() {
+      var legs = bwLegs();
+      if (service === 'hotel') return BW_HOTEL;
+      if (service === 'both') return BW_FLIGHT * legs + BW_HOTEL - BW_SAVING;
+      return BW_FLIGHT * legs;
+    }
     var LABELS = {
       flight: 'Get my dummy ticket',
       hotel: 'Get my hotel booking',
@@ -266,6 +291,8 @@
         f[2].name = 'leg' + (i + 2) + '_date';
       }
       if (addLeg) addLeg.hidden = legs.length + 1 >= MAX_LEGS;
+      // legs are priced, so the button total has to follow the leg count
+      render();
     }
 
     if (addLeg) {
@@ -299,7 +326,7 @@
       if (fromLabel) fromLabel.textContent = multi ? 'From (flight 1)' : 'From';
       if (depLabel && multi) depLabel.textContent = 'Departure (flight 1)';
 
-      submit.innerHTML = LABELS[service] + ' at ' + CUR + PRICES[service];
+      submit.innerHTML = LABELS[service] + ' at ' + CUR + bwPrice();
     }
 
     for (var i = 0; i < tabs.length; i++) {
