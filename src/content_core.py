@@ -6,7 +6,7 @@ from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
                    SINCE_YEAR, FLIGHTS_BOOKED, VISAS_HELPED, AIRLINE_COUNT, WHATSAPP,
                    IATA_ACCREDITED, IATA_NUMBER,
                    money, add_page, url, abs_url, ticket, faq_block, faq_schema,
-                   crumbs, cta_band, pricing_tickets,
+                   crumbs, cta_band, pricing_tickets, doodles,
                    stat_bar, trust_cards, airline_strip, iata_badge,
                    booking_widget, trust_section, highlights, feature_cards,
                    flight_path, route_divider)
@@ -180,14 +180,14 @@ def home():
     <p class="lede">Only one of them is both safe and cheap, and it is not the one most people reach for first.</p>
     <div class="tbl-wrap" style="margin-top:1.6rem">
       <table>
-        <thead><tr><th>&nbsp;</th><th>Flight reservation<br><small>what we issue</small></th><th>Fully paid ticket</th><th>Edited / fake PDF</th></tr></thead>
+        <thead><tr><th>&nbsp;</th><th class="col-ours">Flight reservation<small>What we issue</small></th><th>Fully paid ticket</th><th>Edited / fake PDF</th></tr></thead>
         <tbody>
-          <tr><td><b>Exists in the airline system</b></td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No</td></tr>
-          <tr><td><b>PNR verifies on the airline site</b></td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No</td></tr>
-          <tr><td><b>Typical cost</b></td><td><b>%s</b></td><td>&#8377;35,000 &ndash; &#8377;1,50,000</td><td>&#8377;0 &ndash; &#8377;500</td></tr>
-          <tr><td><b>Money at risk if the visa is refused</b></td><td class="yes">None</td><td class="no">The full fare</td><td class="yes">None</td></tr>
-          <tr><td><b>Risk of a fraud finding</b></td><td class="yes">None</td><td class="yes">None</td><td class="no">Refusal + multi-year ban</td></tr>
-          <tr><td><b>Accepted for visa filing</b></td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">Until it is checked</td></tr>
+          <tr><td><b>Exists in the airline system</b></td><td class="col-ours"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="no">No</span></td></tr>
+          <tr><td><b>PNR verifies on the airline site</b></td><td class="col-ours"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="no">No</span></td></tr>
+          <tr><td><b>Typical cost</b></td><td class="col-ours"><b>%s</b></td><td>&#8377;35,000 &ndash; &#8377;1,50,000</td><td>&#8377;0 &ndash; &#8377;500</td></tr>
+          <tr><td><b>Money at risk if the visa is refused</b></td><td class="col-ours"><span class="yes">Nothing</span></td><td><span class="no">The full fare</span></td><td><span class="yes">Nothing</span></td></tr>
+          <tr><td><b>Risk of a fraud finding</b></td><td class="col-ours"><span class="yes">None</span></td><td><span class="yes">Nothing</span></td><td><span class="no">Refusal, multi-year ban</span></td></tr>
+          <tr><td><b>Accepted for visa filing</b></td><td class="col-ours"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="no">Until it is checked</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -216,6 +216,7 @@ def home():
     <h2>Visa-specific guides</h2>
     <p class="lede">Fees, steps, hold periods and the specific ways each application goes wrong. Pick your destination.</p>
     <ul class="pills" style="margin-top:1.6rem">%s</ul>
+    %s
   </div>
 </section>
 
@@ -238,6 +239,7 @@ def home():
        money(PRICE_FLIGHT), url("blog/flight-reservation-vs-confirmed-ticket"),
        ICON["shield"], ICON["doc"], ICON["globe"], ICON["clock"],
        _visa_pills(),
+       doodles("map", "ticket", "camera", "sunhat", "cloud", "globe"),
        faq_block(home_faqs, "Visa flight ticket: common questions"),
        cta_band())
 
@@ -713,12 +715,12 @@ def pricing_page():
       <table>
         <thead><tr><th>Included</th><th>Flight %s</th><th>Hotel %s</th><th>Bundle %s</th></tr></thead>
         <tbody>
-          <tr><td>Real booking in a live reservation system</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-          <tr><td>Verifiable reference / PNR</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-          <tr><td>Embassy-ready PDF, no watermark</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-          <tr><td>Delivery within %s</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-          <tr><td>One free name or date correction</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-          <tr><td>Flight and hotel dates reconciled</td><td>&ndash;</td><td>&ndash;</td><td class="yes">Yes</td></tr>
+          <tr><td>Real booking in a live reservation system</td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td></tr>
+          <tr><td>Verifiable reference / PNR</td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td></tr>
+          <tr><td>Embassy-ready PDF, no watermark</td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td></tr>
+          <tr><td>Delivery within %s</td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td></tr>
+          <tr><td>One free name or date correction</td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td></tr>
+          <tr><td>Flight and hotel dates reconciled</td><td>&ndash;</td><td>&ndash;</td><td><span class="yes">Yes</span></td></tr>
         </tbody>
       </table>
     </div>

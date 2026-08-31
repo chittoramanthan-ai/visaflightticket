@@ -3,12 +3,13 @@
 
 import re
 
-from build import (ICON, BRAND, DELIVERY, SITE_URL, TODAY,
+from build import (ICON, BRAND, DELIVERY, SITE_URL, TODAY, doodles,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH,
                    money, add_page, url, abs_url, faq_block, faq_schema,
                    crumbs, cta_band, pricing_tickets,
                    stat_bar, trust_cards, airline_strip)
 import content_core
+from visa_extra import EXTRA
 
 
 # --------------------------------------------------------------------------
@@ -18,6 +19,12 @@ import content_core
 VISAS = [
     dict(
         slug="schengen-visa-flight-reservation",
+        status='visa_required',
+        status_note='Full application, biometrics, 15 to 45 days',
+        tips=['Apply to the country you sleep the most nights in, not the one you land in. Officers check this and it is the commonest reason a Schengen file is rejected outright.',
+ 'Book appointment slots the moment they open. Delhi and Mumbai summer slots vanish within hours and agents hoard them.',
+ 'Carry printouts of everything even after uploading. VFS staff routinely ask for paper.',
+ 'Your first Schengen visa is usually issued for exactly your travel dates. Later ones get longer validity, so build a history with a short trip first.'],
         official_src=('European Commission visa policy', 'https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy_en'),
         fees=[('Adult applicant', '&euro;90', 'Up from &euro;80 in June 2026'),
  ('Child aged 6 to 11', '&euro;45', ''),
@@ -72,6 +79,12 @@ VISAS = [
     ),
     dict(
         slug="us-visa-flight-itinerary",
+        status='visa_required',
+        status_note='DS-160, interview, 214(b) test',
+        tips=['Interview slots move. Check the portal daily for the first week after paying, cancellations open up constantly.',
+ 'Answer in short sentences and stop. Officers decide in under three minutes and volunteering extra detail rarely helps.',
+ 'Take documents but do not push them across the counter. They will ask if they want them.',
+ 'A refusal under 214(b) is not a ban. You can reapply immediately, but only reapply once something material about your situation has changed.'],
         official_src=('US Department of State', 'https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html'),
         fees=[('MRV application fee, B1/B2', 'US$185', 'Non-refundable, paid before you can book an interview'),
  ('Visa Integrity Fee', 'US$250', 'Signed into law in 2025; confirm whether it applies to your appointment date'),
@@ -120,6 +133,12 @@ VISAS = [
     ),
     dict(
         slug="uk-visa-flight-reservation",
+        status='visa_required',
+        status_note='Online application, biometrics, about 3 weeks',
+        tips=['Upload proper PDFs, not phone photos. Caseworkers see thousands and a bad scan reads as a weak application.',
+ 'The priority service is worth it if your dates are tight, but it only speeds the decision, not the biometrics appointment.',
+ 'A refused UK visa must be declared on every future application anywhere, so do not submit a thin file to test the water.',
+ 'Bank statements should be stamped by the bank. Downloaded PDFs without a stamp get queried.'],
         official_src=('GOV.UK Standard Visitor', 'https://www.gov.uk/standard-visitor'),
         fees=[('Standard Visitor, up to 6 months', '&pound;135', 'Rose from &pound;127 in April 2026'),
  ('Long-term, 2 years', '&pound;475', ''),
@@ -169,6 +188,12 @@ VISAS = [
     ),
     dict(
         slug="canada-visa-flight-itinerary",
+        status='visa_required',
+        status_note='Online application, biometrics, weeks to months',
+        tips=['Biometrics are valid for ten years and reused across applications, so the second Canadian visa is faster than the first.',
+ 'Processing times published by IRCC are averages, not promises. Apply three months out if you have fixed dates.',
+ 'A strong purpose-of-travel letter does more work here than in most applications. Be specific about who, where and why.',
+ 'If you hold a valid US visa you may qualify for eTA rather than a full TRV on some routes. Check before applying.'],
         official_src=('IRCC visitor visa', 'https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/visitor-visa.html'),
         fees=[('Visitor visa, TRV', 'CAD$100', 'Single or multiple entry, same price'),
  ('Biometrics', 'CAD$85', 'CAD$170 cap for a family applying together'),
@@ -214,6 +239,12 @@ VISAS = [
     ),
     dict(
         slug="dubai-uae-visa-flight-ticket",
+        status='evisa',
+        status_note='e-visa via airline, hotel or agent, 30 to 60 days',
+        tips=['Emirates and flydubai sponsor visas for their own passengers, often cheaper than a standalone agent.',
+ 'Nol card for the metro, bought at any station. Dubai taxis are fine but the Red Line beats traffic to the airport.',
+ 'Ramadan changes everything: shorter hours, no eating in public during daylight, but spectacular nights. Check the dates.',
+ 'Overstay fines accrue daily and are collected at the airport before you fly. There is no appeal at the counter.'],
         official_src=('UAE government portal', 'https://u.ae/en/information-and-services/visa-and-emirates-id'),
         fees=[('30-day tourist visa', 'About AED 350', 'Varies by sponsor; airlines and hotels price differently'),
  ('60-day tourist visa', 'About AED 650', ''),
@@ -260,6 +291,12 @@ VISAS = [
     ),
     dict(
         slug="australia-visa-flight-reservation",
+        status='visa_required',
+        status_note='Subclass 600, online, weeks to months',
+        tips=['Domestic distances are enormous. Sydney to Perth is five hours flying, further than Delhi to Dubai.',
+ 'Declare all food, plant and wood items on the incoming card. Biosecurity fines are immediate and steep, and declaring costs nothing.',
+ 'The subclass 600 often grants multiple entry over 12 months. Read the grant notice, it is worth more than people realise.',
+ 'If your passport qualifies for an ETA, use it. Twenty dollars against two hundred and fifty.'],
         official_src=('Department of Home Affairs', 'https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/visitor-600'),
         fees=[('Visitor visa, subclass 600', 'From AUD$250', 'Increased in July 2026'),
  ('ETA, subclass 601', 'AUD$20', 'Eligible passports only, applied for in the app'),
@@ -304,6 +341,12 @@ VISAS = [
     ),
     dict(
         slug="japan-visa-flight-itinerary",
+        status='visa_required',
+        status_note='Via accredited agency, about 5 working days',
+        tips=['Buy the JR Pass before you arrive if you are covering long distances; it must be bought outside Japan for the best price.',
+ 'Get a Suica or Pasmo card at the airport for local trains, buses and konbini. Cash is still king in small restaurants.',
+ 'Cherry blossom dates move by a week or two each year and hotels price accordingly. Book flexible if you are chasing them.',
+ 'Vegetarian is genuinely hard: dashi fish stock is in almost everything. Learn the phrase, or use Happy Cow.'],
         official_src=('Ministry of Foreign Affairs of Japan', 'https://www.mofa.go.jp/j_info/visit/visa/index.html'),
         fees=[('Single-entry visa', 'Revised in 2026', 'Japan raised visa fees during 2026. Confirm the current figure with your own mission before paying'),
  ('Multiple-entry visa', 'Revised in 2026', 'As above'),
@@ -349,6 +392,12 @@ VISAS = [
     ),
     dict(
         slug="turkey-visa-flight-ticket",
+        status='evisa',
+        status_note='e-visa online, minutes to hours',
+        tips=['Istanbul has two airports far apart. Check whether you are flying into IST or SAW before booking a hotel.',
+ 'The Istanbul Card works on trams, ferries, buses and the metro, and the Bosphorus ferry is the best value sightseeing anywhere.',
+ 'Cappadocia balloons are cancelled often for wind. Give yourself three mornings there, not one.',
+ 'Bargaining is expected in the Grand Bazaar and nowhere else. Fixed prices in ordinary shops are fixed.'],
         official_src=('Republic of Turkiye e-Visa', 'https://www.evisa.gov.tr/en/'),
         fees=[('e-Visa', 'US$20 to US$60', 'Depends on nationality. Some passports pay nothing'), ('Sticker visa at a consulate', 'Varies', 'For nationalities not eligible for the e-Visa')],
         steps=[('Check e-Visa eligibility on evisa.gov.tr', 'That is the official site. Look-alike sites charge a markup for the identical thing.'),
@@ -388,6 +437,12 @@ VISAS = [
     ),
     dict(
         slug="thailand-visa-flight-ticket",
+        status='visa_free',
+        status_note='60 days visa free for Indians',
+        tips=['Thailand made visa-free entry for Indians permanent at 60 days. You still need proof of onward travel, and airlines check it in India.',
+ 'Grab and Bolt work in Bangkok and are cheaper than metered taxis from the airport, which often refuse the meter.',
+ 'The BTS and MRT do not accept notes at some machines. Keep coins or buy a Rabbit card.',
+ 'Songkran in mid-April shuts the country for a week of water fights. Either plan for it or avoid it entirely.'],
         official_src=('Thai e-Visa portal', 'https://www.thaievisa.go.th/'),
         fees=[('Tourist visa, single entry', 'About THB 2,000', 'Roughly US$55, varies a little by embassy'),
  ('Visa exemption', 'Free', 'Most Western passports, 30 or 60 days depending on nationality'),
@@ -432,6 +487,12 @@ VISAS = [
     ),
     dict(
         slug="south-korea-visa-flight-itinerary",
+        status='visa_required',
+        status_note='C-3 visa, or K-ETA for waiver nationals',
+        tips=['T-money card from any convenience store covers subway, bus and taxis nationwide.',
+ 'Korean immigration weighs bank statements heavily. A steady balance across six months beats a large recent deposit.',
+ 'Naver Map and KakaoMap work; Google Maps barely does in Korea because of mapping restrictions.',
+ 'Most museums close Mondays and many palaces close Tuesdays. Check before building an itinerary around them.'],
         official_src=('Korea Visa Portal', 'https://www.visa.go.kr/'),
         fees=[('C-3 short-term visit, single entry', 'US$40', ''), ('C-3 multiple entry', 'US$90', ''), ('K-ETA', 'KRW 10,000', 'Visa-waiver nationalities, applied for before travel')],
         steps=[('Work out whether you need a visa or a K-ETA', 'Two different lists, and they change. Check before preparing anything else.'),
@@ -472,6 +533,12 @@ VISAS = [
     ),
     dict(
         slug="singapore-visa-flight-ticket",
+        status='visa_required',
+        status_note='e-visa via authorised agent, SG Arrival Card for all',
+        tips=['The SG Arrival Card is separate from the visa and required for everyone, submitted within three days of arrival.',
+ 'Changi is worth arriving early for. Jewel, the canopy park and the free cinema are all landside.',
+ 'Chewing gum import is genuinely restricted and littering fines are enforced. This is not a myth.',
+ 'Hawker centres are the good food and cost a fraction of restaurants. Look for the queue of locals, not the sign.'],
         official_src=('ICA Singapore', 'https://www.ica.gov.sg/enter-transit-depart/entering-singapore'),
         fees=[('Entry visa', 'SGD$30', 'Only for nationalities that require one'),
  ('SG Arrival Card', 'Free', 'Mandatory for everyone, submitted online'),
@@ -513,6 +580,12 @@ VISAS = [
     ),
     dict(
         slug="new-zealand-visa-flight-ticket",
+        status='visa_required',
+        status_note='Visitor visa, or NZeTA for waiver nationals',
+        tips=['The NZeTA takes up to 72 hours, so request it before you book anything non-refundable.',
+ 'Biosecurity is the strictest anywhere. Boots, tents and anything with soil on it must be declared and will be inspected.',
+ 'Distances look small and take twice as long as the map suggests. South Island roads are winding and beautiful and slow.',
+ 'The International Visitor Levy is charged on top of the NZeTA and catches people out at the payment screen.'],
         official_src=('Immigration New Zealand', 'https://www.immigration.govt.nz/new-zealand-visas/visas/visa/visitor-visa'),
         fees=[('Visitor visa', 'NZD$341', 'For nationalities that require a visa'),
  ('NZeTA', 'NZD$17 to NZD$23', 'Visa-waiver nationalities. Cheaper in the app than on the website'),
@@ -555,6 +628,8 @@ VISAS = [
     ),
 ]
 
+VISAS += EXTRA
+
 
 # --------------------------------------------------------------------------
 def link_list():
@@ -567,45 +642,95 @@ def build():
         _page(v)
 
 
+STATUS = {
+    "visa_free":     ("Visa free", "vf", "No visa to apply for"),
+    "voa":           ("Visa on arrival", "voa", "Issued when you land"),
+    "evisa":         ("e-Visa", "ev", "Apply online before you fly"),
+    "visa_required": ("Visa required", "vr", "Full application before travel"),
+}
+
+
+def _badge(v, big=False):
+    label, cls, _ = STATUS[v["status"]]
+    return ('<span class="vstat vstat--%s%s">%s<b>%s</b>%s</span>'
+            % (cls, " vstat--lg" if big else "",
+               ICON["check"] if v["status"] == "visa_free" else "",
+               label, ('<small>%s</small>' % v["status_note"]) if big else ""))
+
+
+def _tips_html(v):
+    items = "".join('<li>%s</li>' % t for t in v["tips"])
+    return ('<div class="tips"><h2>Worth knowing before you go</h2>'
+            '<ul class="tips__list">%s</ul></div>' % items)
+
+
 def _index():
     c_html, c_schema = crumbs([("Visa guides", None)])
-    cards = ""
-    for v in VISAS:
-        cards += """
-<a class="card card--link post-card" href="%s">
-  <span class="tagline">%s</span>
-  <h3>%s</h3>
-  <p>%s</p>
-  <span class="more">Read the requirements &rarr;</span>
-</a>""" % (url("visa/" + v["slug"]), v["short"], v["h1"],
-           _strip(v["blurb"])[:145].rsplit(" ", 1)[0] + "&hellip;")
 
-    body = """
-<section>
+    ORDER = [("visa_free", "Visa free for Indians",
+              "Nothing to apply for. Turn up with the right paperwork and you are in."),
+             ("voa", "Visa on arrival",
+              "Issued at the airport, but only if you meet the conditions."),
+             ("evisa", "e-Visa, applied for online",
+              "No embassy visit. Usually decided in a few days."),
+             ("visa_required", "Full visa application",
+              "Appointment, documents, and a wait. Plan these first.")]
+
+    groups = ""
+    for status, heading, blurb in ORDER:
+        rows = [v for v in VISAS if v["status"] == status]
+        if not rows:
+            continue
+        cards = ""
+        for v in sorted(rows, key=lambda x: x["short"]):
+            cards += """
+<a class="card card--link vcard" href="%s">
+  <div class="vcard__hd"><span class="vcard__c">%s</span>%s</div>
+  <p>%s</p>
+  <span class="more">Requirements and fees &rarr;</span>
+</a>""" % (url("visa/" + v["slug"]), v["short"], _badge(v),
+           _strip(v["blurb"])[:118].rsplit(" ", 1)[0] + "&hellip;")
+        groups += """
+<section class="%s">
   <div class="wrap">
-    %s
-    <div class="center" style="margin-bottom:2.6rem">
-      <h1>Visa guides by destination</h1>
-      <p class="lede">Fees, the order to do things in, which rules bite at the airport rather than the counter, and the
-      mistakes that send files back. Written for people filing this month, not last year.</p>
+    <div class="center" style="margin-bottom:2rem">
+      <h2>%s</h2><p class="lede">%s</p>
     </div>
-    <h2 class="sr">All destination guides</h2>
     <div class="grid g3">%s</div>
   </div>
+</section>""" % ("band" if status in ("voa", "visa_required") else "", heading, blurb, cards)
+
+    free = sum(1 for v in VISAS if v["status"] in ("visa_free", "voa"))
+    body = """
+<section class="tight">
+  <div class="wrap">
+    %s
+    <div class="center">
+      <h1>Visa guides for Indian travellers</h1>
+      <p class="lede">%d destinations, sorted by what your passport actually needs. %d of them let an Indian
+      passport in without applying for anything in advance. For the rest: the steps, the fees and the traps.</p>
+      %s
+    </div>
+  </div>
 </section>
-%s""" % (c_html, cards, cta_band())
+%s
+%s""" % (c_html, len(VISAS), free,
+         doodles("globe", "passport", "map", "suitcase", "compass", "palm"),
+         groups, cta_band())
 
     itemlist = {
         "@type": "ItemList",
-        "name": "Visa document guides by destination",
+        "name": "Visa guides for Indian passport holders",
+        "numberOfItems": len(VISAS),
         "itemListElement": [
             {"@type": "ListItem", "position": i, "name": v["h1"], "url": abs_url("visa/" + v["slug"])}
             for i, v in enumerate(VISAS, 1)
         ],
     }
-    add_page("visa", "Visa Guides | Flight & Hotel Document Requirements by Country",
-             "Flight reservation and hotel booking requirements for Schengen, US, UK, Canada, UAE, Japan, Australia and more. What each consulate accepts, and the traps that get files returned.",
-             body, schema=[c_schema, itemlist], priority="0.8", changefreq="weekly")
+    add_page("visa", "Visa Guides for Indians | %d Countries, Fees & Rules 2026" % len(VISAS),
+             "Visa requirements for Indian passport holders across %d destinations. Which are visa free, "
+             "which need an e-visa, what each costs, and the step-by-step process." % len(VISAS),
+             body, schema=[c_schema, itemlist], priority="0.9", changefreq="weekly")
 
 
 def _strip(html):
@@ -634,6 +759,7 @@ def _page(v):
     <div class="hero__grid" style="align-items:flex-start">
       <div>
         <p class="eyebrow">%s &middot; from %s per traveller</p>
+        %s
         <h1>%s</h1>
         <p class="lede">%s</p>
         <div class="btn-row" style="margin-top:1.6rem">
@@ -703,7 +829,13 @@ def _page(v):
   </div>
 </section>
 
-<section class="band tight">
+<section class="band">
+  <div class="wrap wrap--narrow">
+    %s
+  </div>
+</section>
+
+<section class="tight">
   <div class="wrap">
     <h2>Other destinations</h2>
     <ul class="pills" style="margin-top:1.2rem">%s</ul>
@@ -715,14 +847,15 @@ def _page(v):
 </section>
 
 %s
-""" % (c_html, v["short"], money(PRICE_FLIGHT), v["h1"], v["blurb"],
+""" % (c_html, v["short"], money(PRICE_FLIGHT), _badge(v, big=True), v["h1"], v["blurb"],
        url("order"), money(PRICE_FLIGHT), url("flight-and-hotel-package"), money(PRICE_BOTH),
        content_core.TRUSTLINE, pass_art, stat_bar(),
        trust_cards(heading=None),
        _steps_html(v), _fees_html(v),
        reqs, v["official"], traps,
        v["short"], DELIVERY, pricing_tickets(),
-       faq_block(v["faqs"], "%s visa: flight and hotel questions" % v["short"]),
+       faq_block(v["faqs"], "%s: your questions" % v["short"]),
+       _tips_html(v),
        others,
        url("blog/what-is-a-dummy-ticket"), url("blog/is-a-dummy-ticket-legal"), url("verify-pnr"),
        cta_band("Documents for your %s application" % v["short"],

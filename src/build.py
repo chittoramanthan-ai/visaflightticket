@@ -236,6 +236,7 @@ def brand_mark():
 # Top menu is deliberately short. Every other page stays reachable from the
 # footer and from in-page links, so crawl depth is unaffected.
 NAV = [
+    ("Visa Guides", "visa"),
     ("B2B", "b2b"),
     ("Blog", "blog"),
     ("FAQs", "faq"),
@@ -461,6 +462,32 @@ def trust_cards(heading="Why travellers trust %s" % BRAND):
         # the document outline jumps h1 -> h3.
         head = '<h2 class="sr">Why travellers trust %s</h2>' % BRAND
     return '%s<div class="trust-panel">%s</div>' % (head, inner)
+
+
+# Hand-drawn-feeling travel doodles, single stroke, no fills. Used as light
+# decoration only, never to carry meaning.
+DOODLE = {
+ "globe":   '<circle cx="24" cy="24" r="15"/><path d="M9 24h30M24 9c4.5 5 4.5 25 0 30-4.5-5-4.5-25 0-30"/><path d="M24 39v5M18 44h12"/>',
+ "passport":'<rect x="12" y="8" width="24" height="32" rx="3"/><circle cx="24" cy="20" r="6"/><path d="M18 20h12M24 14c2.5 3 2.5 9 0 12-2.5-3-2.5-9 0-12"/><path d="M19 31h10"/>',
+ "suitcase":'<rect x="8" y="17" width="32" height="22" rx="3"/><path d="M18 17v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4M8 26h32"/>',
+ "camera":  '<path d="M7 17h7l3-4h14l3 4h7a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V19a2 2 0 0 1 2-2z"/><circle cx="24" cy="27" r="7"/>',
+ "map":     '<path d="M6 13 18 9v26L6 39zM18 9l12 4v26l-12-4zM30 13l12-4v26l-12 4z"/><path d="M18 9v26M30 13v26"/>',
+ "palm":    '<path d="M24 20v20M24 20c-6-6-14-5-17 1 5-3 10-2 13 2M24 20c6-6 14-5 17 1-5-3-10-2-13 2M24 20c-2-8 2-14 8-15-4 4-5 9-4 13M24 20c2-8-2-14-8-15 4 4 5 9 4 13"/><path d="M18 40h12"/>',
+ "ticket":  '<path d="M6 16h36v8a4 4 0 0 0 0 8v8H6v-8a4 4 0 0 0 0-8z"/><path d="M28 16v4M28 26v4M28 36v4"/>',
+ "compass": '<circle cx="24" cy="24" r="16"/><path d="m30 18-4 10-10 4 4-10z"/>',
+ "sunhat":  '<path d="M14 28c-5 1-8 3-8 5 0 3 8 5 18 5s18-2 18-5c0-2-3-4-8-5"/><path d="M14 28c0-9 4-15 10-15s10 6 10 15c-3 1-6 1.4-10 1.4S17 29 14 28z"/>',
+ "cloud":   '<path d="M14 32a7 7 0 0 1 0-14 10 10 0 0 1 19-3 8 8 0 0 1 1 17z"/>',
+}
+
+
+def doodles(*names):
+    """A light scatter of line-art travel icons. Decorative, aria-hidden."""
+    out = ""
+    for i, n in enumerate(names):
+        out += ('<span class="dood dood--%d"><svg viewBox="0 0 48 48" fill="none" '
+                'stroke="currentColor" stroke-width="1.7" stroke-linecap="round" '
+                'stroke-linejoin="round">%s</svg></span>' % (i % 6, DOODLE[n]))
+    return '<div class="doods" aria-hidden="true">%s</div>' % out
 
 
 def flight_path():

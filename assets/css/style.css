@@ -904,6 +904,68 @@ td.vfee{
   border-left:3px solid var(--accent);
 }
 
+/* --- travel doodles ----------------------------------------------------- */
+.doods{
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+  gap:clamp(20px,4vw,46px);margin:1.8rem 0 .4rem;color:var(--brand);
+  opacity:.3;pointer-events:none;
+}
+.doods svg{width:46px;height:46px;display:block}
+.dood{display:block}
+/* a little rotation so the row reads as sketched, not stamped */
+.dood--0{transform:rotate(-7deg)}
+.dood--1{transform:rotate(5deg) translateY(-4px)}
+.dood--2{transform:rotate(-3deg) translateY(3px)}
+.dood--3{transform:rotate(8deg)}
+.dood--4{transform:rotate(-5deg) translateY(-3px)}
+.dood--5{transform:rotate(4deg) translateY(2px)}
+@media (max-width:640px){
+  .doods{gap:18px}
+  .doods svg{width:34px;height:34px}
+  .dood--4,.dood--5{display:none}
+}
+
+/* --- visa status badge -------------------------------------------------- */
+.vstat{
+  display:inline-flex;align-items:center;gap:.4rem;border-radius:999px;
+  padding:.32rem .7rem;font-size:.76rem;font-weight:700;letter-spacing:.02em;
+  border:1.5px solid;white-space:nowrap;
+}
+.vstat svg{width:14px;height:14px;flex:none}
+.vstat--vf {color:#0f7a4a;background:#e7f6ee;border-color:#a9dcc3}
+.vstat--voa{color:#0b6ea8;background:#e6f3fb;border-color:#a7d3ec}
+.vstat--ev {color:#8a5a06;background:#fdf3de;border-color:#e8cf98}
+.vstat--vr {color:#7a2e2e;background:#fbeceb;border-color:#e8bdb9}
+.vstat--lg{
+  display:inline-flex;flex-direction:column;align-items:flex-start;gap:.1rem;
+  border-radius:12px;padding:.55rem .95rem;font-size:.86rem;margin-bottom:1rem;
+}
+.vstat--lg svg{display:none}
+.vstat--lg small{font-weight:500;font-size:.75rem;opacity:.85;letter-spacing:0}
+
+/* --- visa index cards --------------------------------------------------- */
+.vcard{display:flex;flex-direction:column;height:100%}
+.vcard__hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:.7rem}
+.vcard__c{line-height:1.2}
+.vcard__hd .vstat{margin-top:2px}
+.vcard__c{font-family:var(--display);font-size:1.16rem;font-weight:750;letter-spacing:-.02em;color:var(--ink)}
+.vcard p{font-size:.92rem;color:var(--ink-2);flex:1;margin-bottom:.7rem}
+.vcard .more{font-size:.87rem;font-weight:650;color:var(--brand)}
+
+/* --- travel tips -------------------------------------------------------- */
+.tips__list{list-style:none;padding:0;margin:1.4rem 0 0;counter-reset:tip}
+.tips__list li{
+  position:relative;padding:0 0 0 44px;margin:0 0 1.1rem;color:var(--ink-2);
+  font-size:.99rem;line-height:1.6;
+}
+.tips__list li::before{
+  counter-increment:tip;content:counter(tip);
+  position:absolute;left:0;top:-1px;width:30px;height:30px;border-radius:9px;
+  background:var(--accent-soft);color:#8a5a06;border:1px solid #e8cf98;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:800;font-size:.85rem;
+}
+
 /* --- comparison table --------------------------------------------------- */
 .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow-sm)}
 table{border-collapse:collapse;width:100%;min-width:560px;font-size:.94rem}
@@ -911,8 +973,28 @@ th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);vert
 thead th{background:var(--surface-2);font-size:.76rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:650;white-space:nowrap}
 tbody tr:last-child td{border-bottom:0}
 td b{font-weight:650}
-.yes{color:var(--ok);font-weight:700}
-.no{color:var(--danger);font-weight:700}
+.yes,.no{display:inline-flex;align-items:center;gap:.4rem;font-weight:650}
+.yes::before,.no::before{
+  content:"";width:17px;height:17px;flex:none;border-radius:50%;
+  background-position:center;background-repeat:no-repeat;background-size:11px;
+}
+.yes{color:#0f7a4a}
+.yes::before{background-color:#e7f6ee;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f7a4a' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")}
+.no{color:#a33228}
+.no::before{background-color:#fbeceb;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a33228' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E")}
+
+/* the column that is ours: tinted, bordered, and labelled */
+table th.col-ours,table td.col-ours{
+  background:color-mix(in srgb,var(--brand-soft) 60%,transparent);
+  border-left:2px solid var(--brand);border-right:2px solid var(--brand);
+}
+thead th.col-ours{border-top:2px solid var(--brand);border-radius:10px 10px 0 0;color:var(--brand)}
+tbody tr:last-child td.col-ours{border-bottom:2px solid var(--brand);border-radius:0 0 10px 10px}
+th.col-ours small{display:block;font-size:.68rem;font-weight:700;letter-spacing:.1em;color:var(--brand);opacity:.75;margin-top:2px}
+tbody tr:hover td{background:color-mix(in srgb,var(--surface-2) 70%,transparent)}
+tbody tr:hover td.col-ours{background:color-mix(in srgb,var(--brand-soft) 80%,transparent)}
 
 /* --- FAQ / details ------------------------------------------------------ */
 .faq{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);overflow:hidden;box-shadow:var(--shadow-sm)}
