@@ -247,7 +247,7 @@ def brand_mark():
 # footer and from in-page links, so crawl depth is unaffected.
 NAV = [
     ("Visa Guides", "visa"),
-    ("B2B", "b2b"),
+    ("Bulk Orders", "bulk-orders"),
     ("Blog", "blog"),
     ("FAQs", "faq"),
     ("Login", "login"),

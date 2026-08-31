@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Pages reached from the top menu: B2B and order status."""
+"""Pages reached from the top menu: bulk orders and order status."""
 
 import re
 
@@ -12,13 +12,13 @@ WA_DIGITS = re.sub(r"[^0-9]", "", WHATSAPP)
 
 
 def build():
-    b2b_page()
+    bulk_page()
     login_page()
 
 
 # --------------------------------------------------------------------------
-def b2b_page():
-    c_html, c_schema = crumbs([("B2B", None)])
+def bulk_page():
+    c_html, c_schema = crumbs([("Bulk Orders", None)])
 
     faqs = [
         ("What volume qualifies for trade pricing?",
@@ -42,12 +42,12 @@ def b2b_page():
     <div class="hero__grid" style="align-items:flex-start">
       <div>
         <p class="eyebrow">Partner accounts</p>
-        <h1>B2B: visa travel documents at volume</h1>
+        <h1>Bulk orders: visa travel documents at volume</h1>
         <p class="lede">If you file visa applications for other people. As an agency, a consultancy, a
         university or an employer. You should not be paying retail, and you should not be re-keying the same
         traveller details into a form twenty times a week.</p>
         <div class="btn-row" style="margin-top:1.6rem">
-          <a class="btn btn--primary btn--lg" href="mailto:%s?subject=B2B%%20account%%20enquiry">Request trade pricing</a>
+          <a class="btn btn--primary btn--lg" href="mailto:%s?subject=Bulk%%20order%%20enquiry">Request trade pricing</a>
           <a class="btn btn--wa btn--lg" href="https://wa.me/%s">%s Talk on WhatsApp</a>
         </div>
         %s
@@ -115,14 +115,14 @@ def b2b_page():
 %s
 """ % (c_html, EMAIL, WA_DIGITS, ICON["whatsapp"], content_core.TRUSTLINE, content_core.BOARDING_PASS,
        ICON["wallet"], ICON["doc"], ICON["refresh"], ICON["shield"], ICON["clock"], ICON["users"],
-       faq_block(faqs, "B2B questions"),
+       faq_block(faqs, "Bulk order questions"),
        cta_band("Tell us your monthly volume",
                 "We come back with a rate, a submission method and a named contact, usually the same day.",
-                primary=("Email the B2B team", "contact"),
+                primary=("Email the bulk desk", "contact"),
                 secondary=("See retail pricing", "pricing")))
 
-    add_page("b2b", "B2B | Trade Pricing for Agencies & Visa Consultants",
-             "Partner accounts for travel agencies, immigration consultants, universities and employers: tiered pricing, batch submission, monthly invoicing and a named contact.",
+    add_page("bulk-orders", "Bulk Orders | Trade Pricing for Agencies & Visa Consultants",
+             "Bulk flight reservations and hotel bookings for travel agencies, immigration consultants, universities and employers: tiered pricing, batch submission, monthly invoicing and a named contact.",
              body, schema=[c_schema, faq_schema(faqs)],
              priority="0.7", changefreq="monthly")
 
