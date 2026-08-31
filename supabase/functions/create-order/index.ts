@@ -10,7 +10,6 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 // --- prices, in minor units (paise). The single source of truth. ------------
 // Must match PRICE_* in src/build.py. If you change one, change both.
 const PRICE = { flight: 49900, hotel: 39900, both: 79900 } as const;
-const PRIORITY_FEE = 19900;
 const MAX_TRAVELLERS = 12;
 
 // "razorpay" | "upi" | "none".  upi = customer pays your VPA directly, you
@@ -86,7 +85,6 @@ Deno.serve(async (req) => {
     Math.max(passengers.length || parseInt(String(body.travellers ?? 1), 10) || 1, 1),
     MAX_TRAVELLERS,
   );
-  const priority = body.priority === true;
 
   const surname = passengers[0]?.surname || str(body.surname, 80);
   const given = passengers[0]?.given_name || str(body.given_name, 80);
@@ -105,7 +103,7 @@ Deno.serve(async (req) => {
 
   // --- price it ourselves --------------------------------------------------
   const amount_minor =
-    PRICE[service as keyof typeof PRICE] * travellers + (priority ? PRIORITY_FEE : 0);
+    PRICE[service as keyof typeof PRICE] * travellers;
 
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
@@ -120,7 +118,7 @@ Deno.serve(async (req) => {
   const { data: order, error } = await supabase
     .from("orders")
     .insert({
-      service, trip, travellers, priority,
+      service, trip, travellers,
       origin: str(body.origin, 120),
       destination: str(body.destination, 120),
       depart_date: depart || null,

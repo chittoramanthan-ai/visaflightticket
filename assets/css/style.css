@@ -35,13 +35,13 @@
   --ink-3:#77828f;
   --line:#e4e8ee;
   --line-strong:#c9d1dc;
-  --brand:#0057b8;
-  --brand-ink:#003d80;
-  --brand-soft:#e7f0fb;
+  --brand:#193b92;
+  --brand-ink:#0f2861;
+  --brand-soft:#e9edf8;
   --accent:#b8860d;
   --accent-soft:#fdf4dc;
-  --ok:#0057b8;
-  --ok-soft:#e7f0fb;
+  --ok:#193b92;
+  --ok-soft:#e9edf8;
   --danger:#c0392b;
   --shadow-sm:0 1px 2px rgba(16,32,26,.05),0 2px 6px rgba(16,32,26,.04);
   --shadow-md:0 2px 6px rgba(16,32,26,.05),0 12px 28px -12px rgba(16,32,26,.15);
@@ -60,9 +60,9 @@
   --bg:#0a0f18; --bg-alt:#0f1521; --surface:#131a27; --surface-2:#19212f;
   --ink:#e8eef7; --ink-2:#aebbcd; --ink-3:#818ea2;
   --line:#232c3c; --line-strong:#313c50;
-  --brand:#6aa8ff; --brand-ink:#96c3ff; --brand-soft:#122a4d;
+  --brand:#8aa6ea; --brand-ink:#adc2f2; --brand-soft:#16213f;
   --accent:#e3b04b; --accent-soft:#2e2512;
-  --ok:#6aa8ff; --ok-soft:#122a4d; --danger:#ff8a7a;
+  --ok:#8aa6ea; --ok-soft:#16213f; --danger:#ff8a7a;
   --shadow-sm:0 1px 2px rgba(0,0,0,.45);
   --shadow-md:0 2px 6px rgba(0,0,0,.35),0 12px 28px -12px rgba(0,0,0,.6);
   --shadow-lg:0 4px 12px rgba(0,0,0,.4),0 24px 56px -20px rgba(0,0,0,.7);
@@ -235,7 +235,7 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
 .ticket__list li{display:flex;gap:.6rem;align-items:flex-start;margin:.45rem 0;color:var(--ink-2)}
 .ticket__list li::before{
   content:"";flex:none;width:17px;height:17px;margin-top:.2rem;border-radius:50%;
-  background:var(--ok-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230057b8' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/11px no-repeat;
+  background:var(--ok-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23193b92' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/11px no-repeat;
 }
 .ticket__route{
   display:flex;align-items:center;gap:12px;margin:0 0 1rem;padding-bottom:1rem;
@@ -290,6 +290,62 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
   .ticket__stub::before{left:-13px;clip-path:inset(0 0 0 13px round 0 12px 12px 0)}
   .ticket__stub::after{left:auto;right:-13px;clip-path:inset(0 13px 0 0 round 12px 0 0 12px)}
 }
+
+/* --- decorative flight path --------------------------------------------- */
+.hero{position:relative}
+.hero > .wrap{position:relative;z-index:1}
+.fpath{
+  /* Anchored to the bottom at its natural aspect rather than stretched to fill,
+     so the origin dot and the plane stay round instead of becoming ovals. */
+  position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;
+  z-index:0;pointer-events:none;color:var(--brand);opacity:.16;
+}
+.fpath__line{
+  stroke-dashoffset:0;
+  animation:fp-draw 2.2s cubic-bezier(.4,0,.2,1) both;
+}
+@keyframes fp-draw{from{stroke-dasharray:1 13;stroke-dashoffset:420}to{stroke-dashoffset:0}}
+.fpath__dot{fill:var(--brand);opacity:.9}
+.fpath__ring{fill:none;stroke:currentColor;stroke-width:2;opacity:.55}
+.fpath__plane{animation:fp-float 6s ease-in-out infinite;opacity:1}
+@keyframes fp-float{0%,100%{transform:translate(1064px,66px) rotate(-18deg)}
+                    50%{transform:translate(1070px,60px) rotate(-18deg)}}
+@media (max-width:920px){.fpath{opacity:.09}}
+@media (prefers-reduced-motion:reduce){
+  .fpath__line,.fpath__plane{animation:none}
+}
+
+/* --- route divider ------------------------------------------------------ */
+.rdiv{
+  display:flex;align-items:center;gap:16px;max-width:520px;
+  margin:2.6rem auto .4rem;color:var(--ink-3);
+}
+.rdiv__code{
+  font-family:var(--mono);font-size:.82rem;font-weight:700;letter-spacing:.16em;
+  color:var(--ink-3);flex:none;
+}
+.rdiv__line{
+  position:relative;flex:1;height:2px;
+  background-image:linear-gradient(90deg,var(--line-strong) 0 6px,transparent 6px 12px);
+  background-size:12px 2px;
+}
+.rdiv__plane{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:30px;height:30px;border-radius:50%;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;color:var(--brand);
+}
+.band .rdiv__plane{background:var(--bg-alt)}
+.rdiv__plane svg{width:17px;height:17px}
+
+
+/* --- boarding-pass texture on banded sections --------------------------- */
+.band{
+  background-color:var(--bg-alt);
+  background-image:radial-gradient(color-mix(in srgb,var(--line-strong) 55%,transparent) 1px,transparent 1px);
+  background-size:28px 28px;
+  background-position:-14px -14px;
+}
+.band::before,.band::after{z-index:1}
 
 /* --- hero refinements --------------------------------------------------- */
 .hero__seal{margin-top:1.5rem}
@@ -598,7 +654,7 @@ body.has-scta .ftr{padding-bottom:96px}
 /* --- visitor visa flag panel -------------------------------------------- */
 .vv{
   position:relative;border-radius:var(--radius-lg);overflow:hidden;
-  background:linear-gradient(165deg,#0a63c4,#003d80 62%,#00305f);
+  background:linear-gradient(165deg,#2952b8,#193b92 62%,#0f2861);
   padding:32px 20px 30px;text-align:center;box-shadow:var(--shadow-lg);height:100%;
   display:flex;flex-direction:column;justify-content:center;
 }
@@ -624,8 +680,8 @@ body.has-scta .ftr{padding-bottom:96px}
   text-align:center;background:rgba(0,0,0,.55);color:#fff;padding:2px 0;
 }
 .vv .btn{align-self:center}
-.vv__cta{background:#fff;color:#003d80;border-color:transparent}
-.vv__cta:hover{background:#eaf6f0;color:#003d80}
+.vv__cta{background:#fff;color:#0f2861;border-color:transparent}
+.vv__cta:hover{background:#eaf6f0;color:#0f2861}
 @media (max-width:520px){.vv__win{width:48px;height:66px}}
 
 /* --- boarding pass hero art -------------------------------------------- */
@@ -906,13 +962,13 @@ td b{font-weight:650}
 
 /* --- CTA band ----------------------------------------------------------- */
 .cta{
-  background:linear-gradient(135deg,#003d80,#0057b8 55%,#00478f);
+  background:linear-gradient(135deg,#0f2861,#193b92 55%,#14316f);
   color:#fff;border-radius:var(--radius-lg);padding:clamp(2rem,5vw,3.2rem);text-align:center;box-shadow:var(--shadow-lg);
 }
 .cta h2{color:#fff;margin-bottom:.4rem}
 .cta p{color:rgba(255,255,255,.92);max-width:56ch;margin-inline:auto}
-.cta .btn--ghost{background:#fff;color:#003d80;border-color:transparent}
-.cta .btn--ghost:hover{background:#eaf6f0;color:#003d80}
+.cta .btn--ghost{background:#fff;color:#0f2861;border-color:transparent}
+.cta .btn--ghost:hover{background:#eaf6f0;color:#0f2861}
 
 /* --- forms -------------------------------------------------------------- */
 .form{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:clamp(20px,3vw,30px);box-shadow:var(--shadow-md)}

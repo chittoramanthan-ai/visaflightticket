@@ -99,7 +99,6 @@
         trip: tripEl ? tripEl.value : 'oneway',
         travellers: pax.length || 1,
         passengers: pax,
-        priority: !!(form.querySelector('#rush') && form.querySelector('#rush').checked),
         origin: v('from'), destination: v('to'),
         depart_date: v('depart'), return_date: v('return'),
         legs: legs,
@@ -113,7 +112,7 @@
     function mailtoFallback() {
       var p = payload();
       var lines = [
-        'Service: ' + p.service + (p.priority ? ' (PRIORITY)' : ''),
+        'Service: ' + p.service,
         'Travellers: ' + p.travellers,
         'Trip: ' + p.trip,
         'From: ' + p.origin,
@@ -230,7 +229,7 @@
               email: payload().email,
               contact: payload().phone
             },
-            theme: { color: '#0057b8' },
+            theme: { color: '#193b92' },
             handler: function () {
               // The webhook is what actually marks this paid. This only moves
               // the customer along, so a closed browser cannot lose an order.

@@ -45,20 +45,17 @@
       hotel: +form.getAttribute('data-p-hotel'),
       both: +form.getAttribute('data-p-both')
     };
-    var RUSH = +form.getAttribute('data-p-rush');
     var out = document.getElementById('price-out');
     var lineOut = document.getElementById('price-line');
 
     function recalc() {
       var svc = (form.querySelector('input[name="service"]:checked') || {}).value || 'flight';
       var pax = form.querySelectorAll('#pax-list .pax').length || 1;
-      var rush = form.querySelector('#rush') && form.querySelector('#rush').checked ? RUSH : 0;
-      var total = PRICES[svc] * pax + rush;
+      var total = PRICES[svc] * pax;
       if (out) out.textContent = CURO + total;
       if (lineOut) {
         lineOut.textContent = CURO + PRICES[svc] + ' x ' + pax +
-          ' traveller' + (pax > 1 ? 's' : '') +
-          (rush ? ' + ' + CURO + RUSH + ' priority' : '');
+          ' traveller' + (pax > 1 ? 's' : '');
       }
     }
     form.addEventListener('change', recalc);

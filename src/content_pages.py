@@ -30,7 +30,7 @@ def b2b_page():
         ("How does billing work?",
          "<p>One consolidated invoice per month with a per-file breakdown, on 14- or 30-day terms depending on volume. No prepaid credit to burn down, no minimum commitment.</p>"),
         ("What turnaround can we promise our clients?",
-         "<p>The same %s as retail, with priority handling included at no surcharge on partner accounts. For same-day appointment volume we can agree a tighter window in writing.</p>" % DELIVERY),
+         "<p>The same %s as retail. For same-day appointment volume we can agree a tighter window in writing.</p>" % DELIVERY),
         ("Who is this for?",
          "<p>Travel agencies, immigration consultants and visa-filing services, university international offices, relocation and mobility teams, and employers who sponsor visas at volume.</p>"),
     ]
@@ -76,8 +76,8 @@ def b2b_page():
       <div class="card"><div class="card__ico">%s</div><h3>Your branding, or none</h3>
         <p>Documents carry no branding of ours by default. Partner accounts can carry your agency details
         instead.</p></div>
-      <div class="card"><div class="card__ico">%s</div><h3>Priority as standard</h3>
-        <p>Partner files go to the front of the queue at no surcharge, including out of hours.</p></div>
+      <div class="card"><div class="card__ico">%s</div><h3>Corrections without quibble</h3>
+        <p>Name and date fixes reissued free, however many come back from a consulate in a busy week.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>A named contact</h3>
         <p>One person who knows your account and answers directly, not a shared inbox and a ticket
         number.</p></div>
@@ -122,7 +122,7 @@ def b2b_page():
                 secondary=("See retail pricing", "pricing")))
 
     add_page("b2b", "B2B | Trade Pricing for Agencies & Visa Consultants",
-             "Partner accounts for travel agencies, immigration consultants, universities and employers: tiered pricing, batch submission, monthly invoicing and priority turnaround.",
+             "Partner accounts for travel agencies, immigration consultants, universities and employers: tiered pricing, batch submission, monthly invoicing and a named contact.",
              body, schema=[c_schema, faq_schema(faqs)],
              priority="0.7", changefreq="monthly")
 

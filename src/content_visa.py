@@ -255,7 +255,7 @@ VISAS = [
             ("Is a hotel booking required for a UAE tourist visa?",
              "<p>You need to show where you are staying. A hotel booking or a host's address. Sponsors and immigration both ask.</p>"),
             ("How quickly can I get the documents?",
-             "<p>Within %s. UAE trips are often booked at short notice, so priority handling is available if you are travelling the same day.</p>" % DELIVERY),
+             "<p>Within %s. UAE trips are often booked at short notice, so tell us if you are travelling the same day.</p>" % DELIVERY),
         ],
     ),
     dict(

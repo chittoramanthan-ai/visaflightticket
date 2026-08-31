@@ -51,7 +51,6 @@ async function notify(order: Record<string, unknown>) {
         ${row("Amount claimed", money)}
         ${row("Service", order.service)}
         ${row("Travellers", order.travellers)}
-        ${row("Priority", order.priority ? "YES" : "")}
         ${row("Route", [order.origin, order.destination].filter(Boolean).join(" to "))}
         ${row("Depart", order.depart_date)}
         ${row("Return", order.return_date)}

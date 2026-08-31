@@ -35,7 +35,6 @@ CURRENCY_CODE = "INR"
 PRICE_FLIGHT = 499
 PRICE_HOTEL = 399
 PRICE_BOTH = 799
-PRICE_RUSH = 199
 DELIVERY = "30-60 minutes"
 
 # --------------------------------------------------------------------------
@@ -210,7 +209,7 @@ LOGO_SVG = (
     '<rect x="1" y="6" width="30" height="20" rx="4" fill="currentColor" opacity=".1"/>'
     '<rect x="1.6" y="6.6" width="28.8" height="18.8" rx="3.4" stroke="currentColor" stroke-opacity=".28" stroke-width="1.2"/>'
     '<path d="M21 6.5v19" stroke="currentColor" stroke-opacity=".45" stroke-width="1.2" stroke-dasharray="2.4 2.4"/>'
-    '<path d="M17.4 20.6 16 14.5l2.6-2.6a1.55 1.55 0 0 0-2.2-2.2l-2.6 2.6-6.1-1.4a.37.37 0 0 0-.36.6l2.36 2.36-1.48 1.48-1.33-.3a.37.37 0 0 0-.37.6l1.06 1.06 1.06 1.06a.37.37 0 0 0 .6-.37l-.3-1.33 1.48-1.48 2.36 2.36a.37.37 0 0 0 .6-.37Z" fill="#0057b8"/>'
+    '<path d="M17.4 20.6 16 14.5l2.6-2.6a1.55 1.55 0 0 0-2.2-2.2l-2.6 2.6-6.1-1.4a.37.37 0 0 0-.36.6l2.36 2.36-1.48 1.48-1.33-.3a.37.37 0 0 0-.37.6l1.06 1.06 1.06 1.06a.37.37 0 0 0 .6-.37l-.3-1.33 1.48-1.48 2.36 2.36a.37.37 0 0 0 .6-.37Z" fill="#193b92"/>'
     '<circle cx="25.6" cy="12.5" r="1.1" fill="currentColor" opacity=".3"/>'
     '<circle cx="25.6" cy="16" r="1.1" fill="currentColor" opacity=".3"/>'
     '<circle cx="25.6" cy="19.5" r="1.1" fill="currentColor" opacity=".3"/>'
@@ -369,7 +368,7 @@ def pricing_tickets(featured="both"):
                ["Everything in both plans above",
                 "Dates cross-checked for consistency",
                 "One PDF pack, ready to upload",
-                "Priority support until your appointment"],
+                "Free reissue if your appointment moves"],
                "Order the bundle", "order", code="BUNDLE",
                featured=(featured == "both"), badge="Most popular"),
     )
@@ -406,7 +405,7 @@ FEATURES = [
      "on the carrier&rsquo;s own site before you file. Takes two minutes."),
     ("headset", "24&times;7 support",
      "Appointment at six in the morning? Message us at any hour and a person "
-     "answers. Priority handling is included when it is urgent."),
+     "answers, and we would rather you asked than guessed."),
     ("cash", "Cheapest price",
      "%s per traveller, all inclusive. No fare is ever purchased, so there is "
      "no fare to recover. That is why it can be this cheap."),
@@ -460,6 +459,33 @@ def trust_cards(heading="Why travellers trust %s" % BRAND):
         # the document outline jumps h1 -> h3.
         head = '<h2 class="sr">Why travellers trust %s</h2>' % BRAND
     return '%s<div class="trust-panel">%s</div>' % (head, inner)
+
+
+def flight_path():
+    """Decorative dotted route arcing across the hero. Purely visual, so it is
+    aria-hidden and sits behind everything at low opacity."""
+    return """
+<svg class="fpath" viewBox="0 0 1200 420" fill="none" aria-hidden="true"
+     preserveAspectRatio="xMidYMax meet">
+  <path class="fpath__line" d="M-20 372 C 250 372, 430 250, 620 186 C 810 122, 1010 96, 1230 60"
+        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="1 13"/>
+  <circle class="fpath__dot" cx="128" cy="345" r="7"/>
+  <circle class="fpath__ring" cx="128" cy="345" r="14"/>
+  <g class="fpath__plane" transform="translate(1064 66) rotate(-18)">
+    <path d="M26 9 1.5 17.5a1 1 0 0 1-1.3-1.2L3 9 .2 1.7A1 1 0 0 1 1.5.5Z" fill="currentColor"/>
+  </g>
+</svg>"""
+
+
+def route_divider(from_code="DEL", to_code="CDG"):
+    """A boarding-pass style rule between sections: two stops, a dotted leg
+    and a plane. Reads as a divider, not as content."""
+    return """
+<div class="rdiv" aria-hidden="true">
+  <span class="rdiv__code">%s</span>
+  <span class="rdiv__line"><span class="rdiv__plane">%s</span></span>
+  <span class="rdiv__code">%s</span>
+</div>""" % (from_code, ICON["plane"], to_code)
 
 
 def highlights(price=True):
@@ -920,7 +946,7 @@ def write_extras():
     manifest = {
         "name": BRAND, "short_name": "VisaFlightTicket",
         "description": TAGLINE, "start_url": url(), "display": "standalone",
-        "background_color": "#ffffff", "theme_color": "#0057b8",
+        "background_color": "#ffffff", "theme_color": "#193b92",
         "icons": [
             {"src": asset("assets/img/favicon.svg"), "sizes": "any", "type": "image/svg+xml"},
             {"src": asset("assets/img/apple-touch-icon.png"), "sizes": "180x180", "type": "image/png"},

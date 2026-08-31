@@ -2,13 +2,14 @@
 """Core pages: home, services, pricing, process, trust, legal."""
 
 from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
-                   PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, PRICE_RUSH, CURRENCY, CURRENCY_CODE,
+                   PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, CURRENCY, CURRENCY_CODE,
                    SINCE_YEAR, FLIGHTS_BOOKED, VISAS_HELPED, AIRLINE_COUNT, WHATSAPP,
                    IATA_ACCREDITED, IATA_NUMBER,
                    money, add_page, url, abs_url, ticket, faq_block, faq_schema,
                    crumbs, cta_band, pricing_tickets,
                    stat_bar, trust_cards, airline_strip, iata_badge,
-                   booking_widget, trust_section, highlights, feature_cards)
+                   booking_widget, trust_section, highlights, feature_cards,
+                   flight_path, route_divider)
 
 
 # ==========================================================================
@@ -95,7 +96,7 @@ def home():
         ("Is it legal to use a flight reservation instead of a paid ticket?",
          "<p>Yes, as long as the reservation is real. Embassies want <em>proof that you intend to travel</em>, not proof that you have paid. The European Commission&rsquo;s own guidance tells applicants not to buy non-refundable tickets before a decision. What is <strong>not</strong> legal is submitting a forged or edited PDF that has no live booking behind it. That is document fraud. Every itinerary we issue is backed by an actual reservation you can verify.</p>"),
         ("How fast will I get my ticket?",
-         "<p>Usually within %s. If your appointment is tomorrow morning, tick priority at checkout and put the time in the notes. We will work to it.</p>" % DELIVERY),
+         "<p>Usually within %s. If your appointment is tomorrow morning, say so in the notes and we will put you at the front of the queue.</p>" % DELIVERY),
         ("How long does the reservation stay valid?",
          "<p>Airline hold periods vary by carrier and route, typically 48 hours to 14 days. We time your booking so it is live on the day you submit, and we will reissue it free of charge if your appointment moves.</p>"),
         ("Do you also provide hotel bookings?",
@@ -106,6 +107,7 @@ def home():
 
     body = """
 <section class="hero">
+  %s
   <div class="wrap">
     <div class="hero__grid">
       <div>
@@ -141,8 +143,6 @@ def home():
       <p class="lede">All three land the same day. Prices are per traveller and that is the whole price.</p>
     </div>
     %s
-    <p class="center" style="margin-top:1.6rem;color:var(--ink-3);font-size:.92rem">
-      Need it inside the hour? Priority handling is +%s at checkout.</p>
   </div>
 </section>
 
@@ -166,6 +166,7 @@ def home():
 
 <section class="band">
   <div class="wrap">
+    %s
     %s
     <div class="center" style="margin-top:2.4rem">
       <a class="btn btn--primary btn--lg" href="%s">Start my order</a>
@@ -225,13 +226,15 @@ def home():
 </section>
 
 %s
-""" % (DELIVERY, money(PRICE_FLIGHT), url("order"), money(PRICE_FLIGHT), url("how-it-works"),
+""" % (flight_path(),
+       DELIVERY, money(PRICE_FLIGHT), url("order"), money(PRICE_FLIGHT), url("how-it-works"),
        iata_badge(), booking_widget(), highlights(), stat_bar(),
        feature_cards(),
        airline_strip(),
-       pricing_tickets(), money(PRICE_RUSH),
+       pricing_tickets(),
        url("verify-pnr"),
-       steps_block(ORDER_STEPS, "From order to embassy-ready PDF"), url("order"),
+       steps_block(ORDER_STEPS, "From order to embassy-ready PDF"),
+       route_divider("DEL", "CDG"), url("order"),
        money(PRICE_FLIGHT), url("blog/flight-reservation-vs-confirmed-ticket"),
        ICON["shield"], ICON["doc"], ICON["globe"], ICON["clock"],
        _visa_pills(),
@@ -680,7 +683,7 @@ def pricing_page():
         ("Is the price per person or per booking?",
          "<p>Per traveller. Four people on one itinerary is four times the per-traveller price, and each person receives a document in their own name.</p>"),
         ("Are there hidden fees?",
-         "<p>No. The price you see is the price charged. The only optional extra is priority handling at %s, and you choose it deliberately at checkout.</p>" % money(PRICE_RUSH)),
+         "<p>No. The price you see is the price charged. No optional extras, no surcharge at the end.</p>"),
         ("What payment methods do you take?",
          "<p>Card, PayPal and UPI. Payment is processed by the payment provider. We never see or store your card details.</p>"),
         ("Do you offer agency or bulk rates?",
@@ -699,9 +702,6 @@ def pricing_page():
     </div>
     <h2 class="sr">Plans and prices</h2>
     <div style="margin-top:3rem">%s</div>
-    <p class="center" style="margin-top:1.8rem;color:var(--ink-3);font-size:.93rem">
-      Priority handling (delivery targeted inside 60 minutes, 24/7): <strong>+%s</strong> per order.
-    </p>
     <div style="margin-top:2.8rem">%s</div>
   </div>
 </section>
@@ -719,7 +719,6 @@ def pricing_page():
           <tr><td>Delivery within %s</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
           <tr><td>One free name or date correction</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
           <tr><td>Flight and hotel dates reconciled</td><td>&ndash;</td><td>&ndash;</td><td class="yes">Yes</td></tr>
-          <tr><td>Priority support until your appointment</td><td>&ndash;</td><td>&ndash;</td><td class="yes">Yes</td></tr>
         </tbody>
       </table>
     </div>
@@ -742,7 +741,7 @@ def pricing_page():
 </section>
 
 %s
-""" % (c_html, DELIVERY, pricing_tickets(), money(PRICE_RUSH), trust_cards(heading=None),
+""" % (c_html, DELIVERY, pricing_tickets(), trust_cards(heading=None),
        money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH), DELIVERY, money(PRICE_FLIGHT),
        faq_block(faqs, "Pricing FAQ"),
        cta_band())
@@ -955,7 +954,7 @@ def order_page():
     <div class="hero__grid" style="align-items:flex-start">
       <h2 class="sr">Order form</h2>
       <form class="form" id="order-form" novalidate data-cur="%s"
-            data-p-flight="%d" data-p-hotel="%d" data-p-both="%d" data-p-rush="%d">
+            data-p-flight="%d" data-p-hotel="%d" data-p-both="%d">
         <fieldset>
           <legend>1 &middot; What do you need?</legend>
           <label class="opt"><input type="radio" name="service" value="flight" checked>
@@ -1017,8 +1016,6 @@ def order_page():
 
           <div class="field" style="margin-top:16px"><label for="notes">Anything we should know?</label>
             <textarea id="notes" name="notes" rows="3" placeholder="Appointment date, multi-city plan, preferred airline&hellip;"></textarea></div>
-          <label class="opt" style="margin-top:6px"><input type="checkbox" id="rush" name="rush">
-            <span><b>Priority handling, +%s</b><small>Targeted inside 60 minutes, 24/7</small></span></label>
         </fieldset>
 
         <button class="btn btn--primary btn--lg btn--block" type="submit" id="order-submit">
@@ -1046,15 +1043,15 @@ def order_page():
         </div>
         <div class="card" style="margin-top:20px">
           <h3>Appointment in under 24 hours?</h3>
-          <p style="font-size:.95rem;color:var(--ink-2)">Tick priority handling and put the appointment time in the
-          notes. Or email <a href="mailto:%s">%s</a> directly.</p>
+          <p style="font-size:.95rem;color:var(--ink-2)">Put the appointment time in the notes and we will
+          work to it. Or email <a href="mailto:%s">%s</a> directly.</p>
         </div>
       </aside>
     </div>
   </div>
 </section>
-""" % (c_html, DELIVERY, CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, PRICE_RUSH,
-       money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH), money(PRICE_RUSH),
+""" % (c_html, DELIVERY, CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH,
+       money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH),
        money(PRICE_FLIGHT), DELIVERY, EMAIL, EMAIL)
 
     add_page(slug, "Order a Flight Reservation or Hotel Booking for Your Visa",
@@ -1108,7 +1105,7 @@ def faq_page():
         ]),
         ("Practical details", [
             ("How quickly do I get it?",
-             "<p>Usually within %s. Priority handling targets under 60 minutes at any hour.</p>" % DELIVERY),
+             "<p>Usually within %s, at any hour. Tell us if your appointment is imminent and we will prioritise it.</p>" % DELIVERY),
             ("How long does the booking stay live?",
              "<p>48 hours to 14 days, depending on carrier and route. We time it to your submission date and reissue free if the date changes.</p>"),
             ("Do you need my passport number?",

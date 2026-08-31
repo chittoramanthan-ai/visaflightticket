@@ -48,7 +48,6 @@ async function notify(order: Record<string, unknown>) {
       <table style="border-collapse:collapse">
         ${row("Service", order.service)}
         ${row("Travellers", order.travellers)}
-        ${row("Priority", order.priority ? "YES - deliver first" : "")}
         ${row("Route", [order.origin, order.destination].filter(Boolean).join(" to "))}
         ${row("Depart", order.depart_date)}
         ${row("Return", order.return_date)}
@@ -77,7 +76,7 @@ async function notify(order: Record<string, unknown>) {
       from: `Visa Flight Ticket <${from}>`,
       to: to.split(",").map((s) => s.trim()),
       reply_to: String(order.email ?? ""),
-      subject: `${order.priority ? "[PRIORITY] " : ""}New order ${order.ref} - ${money}`,
+      subject: `New order ${order.ref} - ${money}`,
       html,
     }),
   });
