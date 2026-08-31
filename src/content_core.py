@@ -283,8 +283,8 @@ def home():
 
 def _visa_pills():
     import content_visa
-    return "".join('<li><a href="%s">%s</a></li>' % (url("visa/" + s), l)
-                   for l, s in content_visa.link_list())
+    return "".join('<li><a href="%s">%s</a></li>' % (url("visa/" + sl), l)
+                   for l, sl, _ in content_visa.link_list())
 
 
 # --------------------------------------------------------------------------
@@ -1021,7 +1021,7 @@ def order_page():
         </fieldset>
 
         <button class="btn btn--primary btn--lg btn--block" type="submit" id="order-submit">
-          Continue to payment. <span id="price-out">%s</span></button>
+          Continue to payment &middot; <span id="price-out">%s</span></button>
         <p class="hint" style="text-align:center;margin-top:12px" id="price-line"></p>
 
         <div class="note" id="order-msg" hidden></div>
@@ -1043,18 +1043,13 @@ def order_page():
           from the passport data page. A mismatch is the most common reason a visa file is returned, and the
           easiest to avoid.</p>
         </div>
-        <div class="card" style="margin-top:20px">
-          <h3>Appointment in under 24 hours?</h3>
-          <p style="font-size:.95rem;color:var(--ink-2)">Put the appointment time in the notes and we will
-          work to it. Or email <a href="mailto:%s">%s</a> directly.</p>
-        </div>
       </aside>
     </div>
   </div>
 </section>
 """ % (c_html, DELIVERY, CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH,
        money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH),
-       money(PRICE_FLIGHT), DELIVERY, EMAIL, EMAIL)
+       money(PRICE_FLIGHT), DELIVERY)
 
     add_page(slug, "Order a Flight Reservation or Hotel Booking for Your Visa",
              "Order a verifiable flight reservation from %s or a hotel booking from %s. No account needed, delivered in %s." % (money(PRICE_FLIGHT), money(PRICE_HOTEL), DELIVERY),

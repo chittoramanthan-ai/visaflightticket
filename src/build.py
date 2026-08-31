@@ -35,6 +35,8 @@ CURRENCY_CODE = "INR"
 PRICE_FLIGHT = 499
 PRICE_HOTEL = 399
 PRICE_BOTH = 799
+PRICE_ESIM = 399       # cheapest regional eSIM pack
+PRICE_INSURE = 599     # cheapest Schengen-compliant policy, per traveller
 DELIVERY = "30-60 minutes"
 
 # --------------------------------------------------------------------------
@@ -247,6 +249,8 @@ FOOTER_SERVICES = [
     ("Flight reservation for visa", "flight-reservation-for-visa"),
     ("Hotel booking for visa", "hotel-booking-for-visa"),
     ("Flight + hotel package", "flight-and-hotel-package"),
+    ("Travel insurance for visa", "travel-insurance-for-visa"),
+    ("Travel eSIM", "travel-esim"),
     ("Proof of onward travel", "proof-of-onward-travel"),
     ("Pricing", "pricing"),
     ("Verify a PNR", "verify-pnr"),
@@ -802,7 +806,11 @@ def header(active):
 def footer(visa_links):
     services = "".join('<li><a href="%s">%s</a></li>' % (url(s), l) for l, s in FOOTER_SERVICES)
     company = "".join('<li><a href="%s">%s</a></li>' % (url(s), l) for l, s in FOOTER_COMPANY)
-    visas = "".join('<li><a href="%s">%s</a></li>' % (url("visa/" + s), l) for l, s in visa_links[:8])
+    free = [(l, sl) for l, sl, st in visa_links if st == "visa_free"][:5]
+    rest = [(l, sl) for l, sl, st in visa_links if st != "visa_free"][:5]
+    visas = "".join('<li><a href="%s">%s</a></li>' % (url("visa/" + sl), l) for l, sl in free)
+    visas += ('<li class="ftr__sep">Need a visa</li>' +
+              "".join('<li><a href="%s">%s</a></li>' % (url("visa/" + sl), l) for l, sl in rest))
     return """
 <footer class="ftr">
   <div class="wrap">
@@ -818,7 +826,8 @@ def footer(visa_links):
         </div>
       </div>
       <div><h2 class="ftr__h">Services</h2><ul>%s</ul></div>
-      <div><h2 class="ftr__h">Visa guides</h2><ul>%s<li><a href="%s">All visa guides</a></li></ul></div>
+      <div><h2 class="ftr__h">Visa guides</h2><ul><li class="ftr__sep">Visa free for Indians</li>%s
+        <li><a href="%s"><b>All 31 guides</b></a></li></ul></div>
       <div><h2 class="ftr__h">Company</h2><ul>%s</ul></div>
     </div>
     <div class="ftr__bottom">
@@ -1044,12 +1053,14 @@ def main():
     import content_visa
     import content_blog
     import content_pages
+    import content_services
 
     global VISA_LINKS_CACHE
     VISA_LINKS_CACHE = content_visa.link_list()
 
     content_core.build()
     content_pages.build()
+    content_services.build()
     content_visa.build()
     content_blog.build()
 

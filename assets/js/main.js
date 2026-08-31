@@ -45,10 +45,13 @@
       hotel: +form.getAttribute('data-p-hotel'),
       both: +form.getAttribute('data-p-both')
     };
-    var out = document.getElementById('price-out');
-    var lineOut = document.getElementById('price-line');
-
     function recalc() {
+      // Resolved every time rather than cached: checkout.js rewrites the
+      // button's innerHTML while submitting, which destroys this span. A held
+      // reference would then be a detached node and the button would freeze
+      // on the last price it happened to show.
+      var out = document.getElementById('price-out');
+      var lineOut = document.getElementById('price-line');
       var svc = (form.querySelector('input[name="service"]:checked') || {}).value || 'flight';
       var pax = form.querySelectorAll('#pax-list .pax').length || 1;
       var total = PRICES[svc] * pax;
@@ -58,6 +61,7 @@
           ' traveller' + (pax > 1 ? 's' : '');
       }
     }
+    window.vftRecalc = recalc;
     form.addEventListener('change', recalc);
     form.addEventListener('input', recalc);
     recalc();
@@ -610,6 +614,40 @@
                             { passive: true });
     window.addEventListener('load', function () { measureProg(); updateProg(); });
   }
+
+  // --- date fields open the picker from anywhere in the box ---------------
+  // Native date inputs only respond to the little calendar glyph, which is a
+  // tiny target and not obviously the only one that works. Delegated from the
+  // document so dynamically added rows (extra travellers, multi-city legs)
+  // behave the same without being wired up individually.
+  (function () {
+    if (!('showPicker' in HTMLInputElement.prototype)) return;   // older Safari, Firefox
+
+    function open(e) {
+      var el = e.target;
+      if (!el || el.tagName !== 'INPUT') return;
+      var t = el.type;
+      if (t !== 'date' && t !== 'month' && t !== 'time') return;
+      if (el.disabled || el.readOnly) return;
+      try {
+        el.showPicker();
+      } catch (_) {
+        // Chrome throws if the picker is already open, which happens when the
+        // click landed on the native glyph. Nothing to do, it is open.
+      }
+    }
+
+    document.addEventListener('click', open);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        var el = e.target;
+        if (el && el.tagName === 'INPUT' && el.type === 'date') {
+          e.preventDefault();
+          open(e);
+        }
+      }
+    });
+  })();
 
   // --- current year in footer ---------------------------------------------
   var y = document.querySelectorAll('.js-year');

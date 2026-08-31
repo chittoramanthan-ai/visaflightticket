@@ -68,7 +68,11 @@
       btn.disabled = on;
       btn.setAttribute('aria-busy', on ? 'true' : 'false');
       if (on) { btn.dataset.label = btn.dataset.label || btn.innerHTML; btn.innerHTML = label; }
-      else if (btn.dataset.label) { btn.innerHTML = btn.dataset.label; }
+      else if (btn.dataset.label) {
+        btn.innerHTML = btn.dataset.label;
+        // the restored markup carries a stale total, so repaint it
+        if (window.vftRecalc) window.vftRecalc();
+      }
     }
 
     function payload() {

@@ -633,7 +633,8 @@ VISAS += EXTRA
 
 # --------------------------------------------------------------------------
 def link_list():
-    return [(v["label"], v["slug"]) for v in VISAS]
+    """(label, slug, status) so the footer can lead with visa-free ones."""
+    return [(v["label"], v["slug"], v["status"]) for v in VISAS]
 
 
 def build():
