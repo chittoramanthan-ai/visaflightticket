@@ -1,9 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- One shape, high contrast. A favicon is rendered at 16px in a browser
+       tab; the previous mark had a card, a perforation, a plane and three
+       dots, which at that size resolved to a blue smudge. -->
   <rect width="64" height="64" rx="14" fill="#193b92"/>
-  <rect x="8" y="18" width="48" height="28" rx="5" fill="#fff" opacity=".95"/>
-  <path d="M42 18v28" stroke="#193b92" stroke-width="2" stroke-dasharray="4 4" opacity=".55"/>
-  <path d="M35.4 39.6 33 30.4l3.9-3.9a2.3 2.3 0 0 0-3.3-3.3l-3.9 3.9-9.2-2.4a.55.55 0 0 0-.55.9l3.55 3.55-2.2 2.2-2-.45a.55.55 0 0 0-.55.9l1.6 1.6 1.6 1.6a.55.55 0 0 0 .9-.55l-.45-2 2.2-2.2 3.55 3.55a.55.55 0 0 0 .9-.55Z" fill="#193b92"/>
-  <circle cx="49" cy="26" r="1.8" fill="#193b92" opacity=".35"/>
-  <circle cx="49" cy="32" r="1.8" fill="#193b92" opacity=".35"/>
-  <circle cx="49" cy="38" r="1.8" fill="#193b92" opacity=".35"/>
+  <path fill="#fff" d="M32 7.5c2.1 0 3.8 1.7 3.8 3.8v11.9l20.7 12.2v5.4L35.8 34.4v12.4l6.5 4.8v4.2L32 52.9l-10.3 2.9v-4.2l6.5-4.8V34.4L7.5 40.8v-5.4l20.7-12.2V11.3c0-2.1 1.7-3.8 3.8-3.8z"/>
 </svg>

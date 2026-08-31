@@ -856,6 +856,7 @@ PAGE_TPL = """<!doctype html>
 <meta name="twitter:description" content="{description}">
 <meta name="twitter:image" content="{site}/assets/img/og-default.png">
 <link rel="icon" href="{fav}" type="image/svg+xml">
+<link rel="icon" href="{fav32}" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="{apple}">
 <link rel="manifest" href="{manifest}">
 <script>document.documentElement.className+=" js-anim";window.VFT_CONFIG={{supabaseUrl:"{sb_url}",supabaseAnonKey:"{sb_key}",basePath:"{base}",email:"{sb_mail}",whatsapp:"{sb_wa}",currency:"{sb_cur}"}}</script>
@@ -907,8 +908,9 @@ def write_pages(visa_links):
             brand=BRAND,
             site=SITE_URL,
             twitter=TWITTER,
-            fav=asset("assets/img/favicon.svg"),
-            apple=asset("assets/img/apple-touch-icon.png"),
+            fav=asset("assets/img/favicon.svg", bust=True),
+            fav32=asset("assets/img/favicon-32.png", bust=True),
+            apple=asset("assets/img/apple-touch-icon.png", bust=True),
             manifest=asset("site.webmanifest"),
             sb_url=SUPABASE_URL, sb_key=SUPABASE_ANON_KEY, base=BASE_PATH,
             sb_mail=EMAIL, sb_wa='https://wa.me/' + re.sub(r'[^0-9]', '', WHATSAPP),
@@ -988,6 +990,7 @@ def write_extras():
         "background_color": "#ffffff", "theme_color": "#193b92",
         "icons": [
             {"src": asset("assets/img/favicon.svg"), "sizes": "any", "type": "image/svg+xml"},
+            {"src": asset("assets/img/favicon-32.png"), "sizes": "32x32", "type": "image/png"},
             {"src": asset("assets/img/apple-touch-icon.png"), "sizes": "180x180", "type": "image/png"},
         ],
     }
@@ -1014,7 +1017,9 @@ def write_extras():
         title="Page not found | " + BRAND, description="The page you requested could not be found.",
         canonical=abs_url("404"), robots='<meta name="robots" content="noindex,follow">\n',
         og_type="website", og_title="Page not found", brand=BRAND, site=SITE_URL, twitter=TWITTER,
-        fav=asset("assets/img/favicon.svg"), apple=asset("assets/img/apple-touch-icon.png"),
+        fav=asset("assets/img/favicon.svg", bust=True),
+        fav32=asset("assets/img/favicon-32.png", bust=True),
+        apple=asset("assets/img/apple-touch-icon.png", bust=True),
         manifest=asset("site.webmanifest"),
         sb_url=SUPABASE_URL, sb_key=SUPABASE_ANON_KEY, base=BASE_PATH,
         sb_mail=EMAIL, sb_wa='https://wa.me/' + re.sub(r'[^0-9]', '', WHATSAPP),
