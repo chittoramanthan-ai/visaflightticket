@@ -743,6 +743,11 @@ def _page(v):
     c_html, c_schema = crumbs([("Visa guides", "visa"), (v["label"], None)])
     dep, arr = v["route"]
 
+    # Hand the order form the route this guide is about, so a reader who has
+    # just finished the Dubai page lands on a form that already says Dubai
+    # instead of an empty one. main.js expands the bare codes to "City (CODE)".
+    pf = "&from=%s&to=%s" % (dep, arr)
+
     reqs = "".join("<li>%s</li>" % r for r in v["requirements"])
     traps = ""
     for t, d in v["traps"]:
@@ -849,18 +854,19 @@ def _page(v):
 
 %s
 """ % (c_html, v["short"], money(PRICE_FLIGHT), _badge(v, big=True), v["h1"], v["blurb"],
-       url("order"), money(PRICE_FLIGHT), url("flight-and-hotel-package"), money(PRICE_BOTH),
+       url("order?service=flight" + pf), money(PRICE_FLIGHT), url("flight-and-hotel-package"), money(PRICE_BOTH),
        content_core.TRUSTLINE, pass_art, stat_bar(),
        trust_cards(heading=None),
        _steps_html(v), _fees_html(v),
        reqs, v["official"], traps,
-       v["short"], DELIVERY, pricing_tickets(),
+       v["short"], DELIVERY, pricing_tickets(prefill=pf),
        faq_block(v["faqs"], "%s: your questions" % v["short"]),
        _tips_html(v),
        others,
        url("blog/what-is-a-dummy-ticket"), url("blog/is-a-dummy-ticket-legal"), url("verify-pnr"),
        cta_band("Documents for your %s application" % v["short"],
-                "Verifiable flight reservation from %s, or the flight + hotel pack for %s." % (money(PRICE_FLIGHT), money(PRICE_BOTH))))
+                "Verifiable flight reservation from %s, or the flight + hotel pack for %s." % (money(PRICE_FLIGHT), money(PRICE_BOTH)),
+                primary=("Order your ticket", "order?service=flight" + pf)))
 
     webpage = {
         "@type": "WebPage",

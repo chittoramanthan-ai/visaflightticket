@@ -43,11 +43,32 @@ All of it lives in the top ~50 lines of `src/build.py`:
 |---|---|
 | `SITE_URL` | Canonical domain. Used by canonicals, OG tags, sitemap, JSON-LD. **Set this before launch.** |
 | `BASE_PATH` | Leave `""` for a custom domain. Set to `"/reponame"` only for a GitHub *project* page. |
-| `EMAIL`, `WHATSAPP` | Contact details — currently placeholders. |
-| `PRICE_FLIGHT` / `PRICE_HOTEL` / `PRICE_BOTH` / `PRICE_RUSH` | Prices, propagated to copy, tables and Product schema. |
+| `EMAIL`, `WHATSAPP` | Contact details. |
+| `PRICE_FLIGHT` / `PRICE_HOTEL` / `BUNDLE_SAVING` | Prices, propagated to copy, tables and Product schema. Flights are per leg: a return is `PRICE_FLIGHT * 2`. `PRICE_BOTH` is derived, not set. |
+| `ANALYTICS`, `ANALYTICS_ID` | `"plausible"`, `"cloudflare"`, `"ga4"` or `""`. Empty is the default and emits no third-party script at all. |
 | `SINCE_YEAR`, `FLIGHTS_BOOKED`, `VISAS_HELPED`, `AIRLINE_COUNT` | Trust statistics. Set any to `""` to hide it site-wide. |
 | `IATA_ACCREDITED`, `IATA_NUMBER` | IATA badge. Set `False` to remove it everywhere. |
 | `AIRLINES` | Carrier names shown in the "100+ airlines" strip. |
+
+### Analytics
+
+Set `ANALYTICS` and `ANALYTICS_ID` and the tag appears on every page. Leave
+`ANALYTICS` empty and the site makes zero third-party requests, which is the
+default.
+
+Custom events go through `window.vftTrack(name, props)` in `assets/js/main.js`,
+which forwards to whichever provider is configured and does nothing when none
+is. So switching provider never means re-instrumenting anything. Any element
+with `data-track="event_name"` reports itself on click, and `data-track-*`
+attributes ride along as properties.
+
+Already instrumented: `cta_order`, `cta_band_primary`, `cta_band_secondary`,
+`whatsapp_click`, `order_submitted`, `order_created`, `upi_reference_submitted`,
+`order_complete`.
+
+Note that Cloudflare Web Analytics has no custom-event API, so `vftTrack` calls
+go nowhere under that provider. Pageviews still work. GA4 sets cookies and
+therefore needs a consent banner, which is not shipped here.
 
 ---
 

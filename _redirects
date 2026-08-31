@@ -1,0 +1,22 @@
+# Netlify / Cloudflare Pages redirect rules. One rule per line:
+#   from   to   status
+#
+# Vercel reads vercel.json instead. GitHub Pages reads neither and will 404 on
+# the old paths below, so if you host there, keep the old URLs alive some other
+# way before you rename another page.
+
+# B2B became Bulk Orders. Kept because "b2b" is a term agencies search for and
+# may have been shared before the rename. 301 so any link equity follows.
+/b2b        /bulk-orders/   301!
+/b2b/*      /bulk-orders/   301!
+
+# Common near-misses people type or that get shared with a stripped path.
+/order/thankyou     /order/thank-you/   301
+/visa-guides        /visa/              301
+/visa-guide         /visa/              301
+/faq.html           /faq/               301
+/blog/index.html    /blog/              301
+
+# Everything unmatched falls through to the real 404 with the right status.
+# Without this some hosts serve a soft 404, which Google treats as a live page.
+/*          /404.html       404

@@ -2,6 +2,50 @@
 (function () {
   'use strict';
 
+  // --- analytics event layer ----------------------------------------------
+  // One call site for the whole site, so switching provider in src/build.py
+  // never means re-instrumenting anything. Silent when no provider is
+  // configured, which is the default.
+  //
+  // It swallows its own errors on purpose: an ad blocker eating the analytics
+  // script must not be able to take the order form down with it.
+  function track(name, props) {
+    try {
+      if (window.plausible) {
+        window.plausible(name, props ? { props: props } : undefined);
+      } else if (window.gtag) {
+        window.gtag('event', name, props || {});
+      }
+    } catch (e) { /* never worth an exception */ }
+  }
+  // The head ships a stub that queues calls, because checkout.js runs before
+  // this file does and the thank-you page reports its conversion from there.
+  // Replay whatever it caught, then take over.
+  var queued = window.vftTrack && window.vftTrack.q;
+  window.vftTrack = track;
+  if (queued) {
+    for (var qi = 0; qi < queued.length; qi++) {
+      track(queued[qi][0], queued[qi][1]);
+    }
+  }
+
+  // Anything with data-track="event_name" reports itself when clicked. Extra
+  // data-track-* attributes ride along as properties, so a CTA can say which
+  // page it was on without a per-page listener.
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest ? e.target.closest('[data-track]') : null;
+    if (!el) return;
+    var props = {};
+    for (var i = 0; i < el.attributes.length; i++) {
+      var a = el.attributes[i];
+      if (a.name.indexOf('data-track-') === 0) {
+        props[a.name.slice(11).replace(/-/g, '_')] = a.value;
+      }
+    }
+    props.page = location.pathname;
+    track(el.getAttribute('data-track'), props);
+  }, true);
+
   // --- mobile nav ---------------------------------------------------------
   var burger = document.querySelector('.burger');
   var nav = document.getElementById('nav');
@@ -366,7 +410,15 @@
       .forEach(function (pair) {
         var v = q.get(pair[0]);
         var el = form.querySelector('#' + pair[1]);
-        if (v && el) el.value = v;
+        if (!v || !el) return;
+        // Visa guides link in with a bare IATA code. Expand it to the same
+        // "City (CODE)" the autocomplete would have written, so a prefilled
+        // field is indistinguishable from one the reader filled themselves.
+        if ((pair[0] === 'from' || pair[0] === 'to') && /^[A-Za-z]{3}$/.test(v)) {
+          var hit = search(v, 1)[0];
+          if (hit && hit.code.toUpperCase() === v.toUpperCase()) v = label(hit);
+        }
+        el.value = v;
       });
     form.dispatchEvent(new Event('change'));
   }

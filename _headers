@@ -1,0 +1,48 @@
+# Netlify / Cloudflare Pages header rules. Ignored by hosts that do not read
+# this file (GitHub Pages), which is why nothing here is load-bearing: the site
+# works without it, it is just less well defended.
+#
+# Vercel reads vercel.json instead. If you deploy there, port these by hand.
+
+/*
+  # Clickjacking: nothing here is meant to be framed by anyone.
+  X-Frame-Options: DENY
+  # Stop browsers second-guessing a declared content type.
+  X-Content-Type-Options: nosniff
+  # Send the origin to other sites, the full path only to ourselves. Keeps
+  # order references out of third-party referer logs.
+  Referrer-Policy: strict-origin-when-cross-origin
+  # We ask for none of these, so refuse them all.
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  # HSTS. Two years, subdomains included. Do NOT add preload until you are
+  # certain every subdomain you will ever use can do HTTPS: preload is very
+  # hard to undo.
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  #
+  # CSP. The site is self-contained, so the baseline is "self and nothing else".
+  # Each exception below is there for one named thing:
+  #   script-src  'unsafe-inline'  the theme/config bootstrap in <head>
+  #               checkout.razorpay.com  Razorpay Checkout, loaded on demand
+  #   connect-src *.supabase.co    Edge Functions: create-order, confirm-upi
+  #   frame-src   razorpay         Checkout renders in an iframe
+  #   style-src   'unsafe-inline'  inline style attributes in the templates
+  # If you switch on ANALYTICS in src/build.py you MUST add that provider's
+  # host to script-src and connect-src or the tag will be blocked silently.
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.supabase.co https://api.razorpay.com; frame-src https://api.razorpay.com https://checkout.razorpay.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'
+
+# Content-hashed assets: safe to cache forever because the query string changes
+# whenever the bytes do.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML must revalidate, or a price change takes a week to reach anyone.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Not for indexing, and not for anyone's cache.
+/order/thank-you/*
+  X-Robots-Tag: noindex
+  Cache-Control: no-store
+/login/*
+  X-Robots-Tag: noindex
+  Cache-Control: no-store

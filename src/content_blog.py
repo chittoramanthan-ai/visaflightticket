@@ -5,6 +5,7 @@ from build import (BRAND, SITE_URL, TODAY, DELIVERY, EMAIL,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, SINCE_YEAR,
                    money, add_page, url, abs_url, faq_block, faq_schema,
                    crumbs, cta_band, slugify)
+from blog_extra import POSTS_EXTRA
 
 AUTHOR = "The %s editorial team" % BRAND
 
@@ -842,6 +843,10 @@ passport scans. Email answered by people. And the legality distinction is
 ),
 ]
 
+# The second wave lives in its own module purely to keep this file readable.
+# Same dicts, same builder, so ordering here is the only thing that changes.
+POSTS += POSTS_EXTRA
+
 
 # --------------------------------------------------------------------------
 def build():
@@ -963,7 +968,7 @@ def _post(p, index):
         "publisher": {"@id": SITE_URL + "/#organization"},
         "isPartOf": {"@id": abs_url("blog") + "#blog"},
         "mainEntityOfPage": {"@type": "WebPage", "@id": abs_url(slug)},
-        "image": SITE_URL + "/assets/img/og-default.png",
+        "image": SITE_URL + "/assets/img/og-default.jpg",
     }
 
     add_page(slug, p["meta_title"] + " | " + BRAND, p["desc"], body,

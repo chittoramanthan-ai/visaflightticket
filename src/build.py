@@ -74,6 +74,27 @@ AIRLINE_COUNT = "100+"
 SUPABASE_URL = "https://jijnknqfampnmhyakxzz.supabase.co"
 SUPABASE_ANON_KEY = "sb_publishable_IcCbMYgZYZGt6Udh2LRTXQ_I38zJepI"
 
+# --------------------------------------------------------------------------
+# ANALYTICS
+# Set the provider and paste one id. Empty provider = no analytics tag and the
+# site keeps its zero-external-request property, which is the default so a
+# fresh clone stays self-contained.
+#
+#   "plausible"   ANALYTICS_ID = "visaflightticket.com"   (your domain)
+#                 Cookieless, no consent banner needed. Paid, or self-host.
+#   "cloudflare"  ANALYTICS_ID = the beacon token from the CF dashboard
+#                 Free, cookieless, but no custom events (vftTrack goes nowhere).
+#   "ga4"         ANALYTICS_ID = "G-XXXXXXXXXX"
+#                 Free and detailed, but it sets cookies, so you owe visitors a
+#                 consent banner under GDPR. None is shipped here.
+#
+# Custom events fire through vftTrack() in main.js regardless of provider, so
+# switching provider never means re-instrumenting the site.
+# --------------------------------------------------------------------------
+ANALYTICS = ""                       # "plausible" | "cloudflare" | "ga4" | ""
+ANALYTICS_ID = ""
+PLAUSIBLE_HOST = "https://plausible.io"   # change if you self-host
+
 
 # Carriers we book on, in marquee order.
 # Drop a logo at assets/img/airlines/<slug>.svg (or .png) and the next build
@@ -105,11 +126,21 @@ PAGES = []          # populated by add_page(); consumed by the sitemap writer
 # helpers
 # --------------------------------------------------------------------------
 def url(path=""):
-    """Root-relative URL for an internal path."""
+    """Root-relative URL for an internal path.
+
+    A query string survives, and lands after the trailing slash where it
+    belongs: url("order?service=flight") -> "/order/?service=flight". Without
+    this the query would be swallowed into the directory name.
+
+    Separators come back as &amp; because every caller writes the result into
+    an href. Do not feed a query path to abs_url(): schema and canonicals are
+    JSON and header contexts where that escaping would be wrong, and no page
+    slug has a query anyway.
+    """
+    path, sep, query = path.partition("?")
     path = path.strip("/")
-    if not path:
-        return BASE_PATH + "/"
-    return BASE_PATH + "/" + path + "/"
+    out = BASE_PATH + "/" if not path else BASE_PATH + "/" + path + "/"
+    return out + "?" + query.replace("&", "&amp;") if query else out
 
 
 _ASSET_V = {}
@@ -289,7 +320,7 @@ def ticket(title, desc, price, features, cta_label, cta_href,
     <h3>%s</h3>
     <p class="ticket__desc">%s</p>
     <ul class="ticket__list">%s</ul>
-    <a class="btn btn--%s btn--block" href="%s">%s</a>
+    <a class="btn btn--%s btn--block" href="%s" data-track="cta_order" data-track-plan="%s">%s</a>
   </div>
   <div class="ticket__stub">
     <p class="ticket__price">%s<small>%s</small></p>
@@ -301,7 +332,7 @@ def ticket(title, desc, price, features, cta_label, cta_href,
         " ticket--featured" if featured else "",
         '<span class="tag-best">%s</span>' % badge if badge else "",
         title, desc, lis,
-        "primary" if featured else "ghost", url(cta_href), cta_label,
+        "primary" if featured else "ghost", url(cta_href), code.lower(), cta_label,
         money(price), price_note, code,
     )
 
@@ -355,14 +386,18 @@ def cta_band(title="Ready to complete your visa file?",
   <h2>%s</h2>
   <p>%s</p>
   <div class="btn-row" style="justify-content:center;margin-top:1.6rem">
-    <a class="btn btn--ghost btn--lg" href="%s">%s</a>
-    <a class="btn btn--lg" style="border-color:rgba(255,255,255,.55);color:#fff" href="%s">%s</a>
+    <a class="btn btn--ghost btn--lg" href="%s" data-track="cta_band_primary">%s</a>
+    <a class="btn btn--lg" style="border-color:rgba(255,255,255,.55);color:#fff" href="%s" data-track="cta_band_secondary">%s</a>
   </div>
 </div></div></section>""" % (flight_path(), title, text,
                               url(primary[1]), primary[0], url(secondary[1]), secondary[0])
 
 
-def pricing_tickets(featured="both"):
+def pricing_tickets(featured="both", prefill=""):
+    """prefill is an extra query fragment like "&from=DEL&to=DXB", so a visa
+    guide can hand the order form the route the reader was already reading
+    about. Each ticket always carries its own service= so the right plan is
+    selected however the reader arrived."""
     return """<div class="grid g3">%s%s%s</div>""" % (
         ticket("Flight Reservation", "A real, airline-held itinerary with a live PNR you can verify yourself.",
                PRICE_FLIGHT,
@@ -371,7 +406,7 @@ def pricing_tickets(featured="both"):
                 "One-way, return or multi-city",
                 "Delivered as an embassy-ready PDF",
                 "Reissues at half price"],
-               "Order flight ticket", "order", code="FLIGHT",
+               "Order flight ticket", "order?service=flight" + prefill, code="FLIGHT",
                price_note="per traveller, one way", featured=(featured == "flight")),
         ticket("Hotel Booking", "A confirmed accommodation booking in your name for the exact dates of your stay.",
                PRICE_HOTEL,
@@ -379,7 +414,7 @@ def pricing_tickets(featured="both"):
                 "Matches your flight dates automatically",
                 "Any city, any length of stay",
                 "Reissues at half price"],
-               "Order hotel booking", "order", code="HOTEL", featured=(featured == "hotel")),
+               "Order hotel booking", "order?service=hotel" + prefill, code="HOTEL", featured=(featured == "hotel")),
         ticket("Flight + Hotel", "The complete travel-proof bundle most consulates ask for. Best value.",
                PRICE_BOTH,
                ["One way %s, return %s, per traveller" % (money(PRICE_BOTH), money(PRICE_BOTH + PRICE_FLIGHT)),
@@ -387,7 +422,7 @@ def pricing_tickets(featured="both"):
                 "Dates cross-checked for consistency",
                 "One PDF pack, ready to upload",
                 "Reissues at half price"],
-               "Order the bundle", "order", code="BUNDLE",
+               "Order the bundle", "order?service=both" + prefill, code="BUNDLE",
                price_note="per traveller, one way",
                featured=(featured == "both"), badge="Most popular"),
     )
@@ -795,7 +830,7 @@ def sticky_cta(active):
     <div class="scta__act">
       <span class="scta__price"><em>from</em>%s</span>
       <a class="btn btn--primary" href="%s">Get my ticket</a>
-      <a class="btn btn--wa scta__wa" href="https://wa.me/%s" aria-label="Chat on WhatsApp">%s</a>
+      <a class="btn btn--wa scta__wa" href="https://wa.me/%s" aria-label="Chat on WhatsApp" data-track="whatsapp_click" data-track-where="sticky">%s</a>
     </div>
   </div>
 </div>""" % (ICON["up"], ICON["check"], DELIVERY, money(PRICE_FLIGHT), url("order"),
@@ -815,7 +850,7 @@ def header(active):
     <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">%s</button>
     <nav class="nav" id="nav" aria-label="Main">
       %s
-      <a class="wa" href="https://wa.me/%s">%s<span>%s</span></a>
+      <a class="wa" href="https://wa.me/%s" data-track="whatsapp_click" data-track-where="header">%s<span>%s</span></a>
     </nav>
   </div>
 </header>""" % (url(), BRAND, brand_mark(), ICON["burger"], links,
@@ -859,6 +894,34 @@ def footer(visa_links):
                 services, visas, url("visa"), company, date.today().year, BRAND)
 
 
+def analytics_tag():
+    """The one script tag the chosen provider needs, or nothing at all.
+
+    Everything here is deferred or async: analytics must never sit on the
+    critical path of a page whose whole selling point is that it loads fast.
+    """
+    if not ANALYTICS or not ANALYTICS_ID:
+        return ""
+
+    if ANALYTICS == "plausible":
+        return ('<script defer data-domain="%s" src="%s/js/script.outbound-links.js"></script>'
+                '<script>window.plausible=window.plausible||function(){'
+                '(window.plausible.q=window.plausible.q||[]).push(arguments)}</script>'
+                % (ANALYTICS_ID, PLAUSIBLE_HOST.rstrip("/")))
+
+    if ANALYTICS == "cloudflare":
+        return ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
+                'data-cf-beacon=\'{"token":"%s"}\'></script>' % ANALYTICS_ID)
+
+    if ANALYTICS == "ga4":
+        return ('<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>'
+                '<script>window.dataLayer=window.dataLayer||[];'
+                'function gtag(){dataLayer.push(arguments)}gtag("js",new Date());'
+                'gtag("config","%s")</script>' % (ANALYTICS_ID, ANALYTICS_ID))
+
+    raise ValueError("Unknown ANALYTICS provider: %r" % ANALYTICS)
+
+
 PAGE_TPL = """<!doctype html>
 <html lang="en">
 <head>
@@ -874,7 +937,7 @@ PAGE_TPL = """<!doctype html>
 <meta property="og:title" content="{og_title}">
 <meta property="og:description" content="{description}">
 <meta property="og:url" content="{canonical}">
-<meta property="og:image" content="{site}/assets/img/og-default.png">
+<meta property="og:image" content="{site}/assets/img/og-default.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
@@ -882,16 +945,17 @@ PAGE_TPL = """<!doctype html>
 <meta name="twitter:site" content="{twitter}">
 <meta name="twitter:title" content="{og_title}">
 <meta name="twitter:description" content="{description}">
-<meta name="twitter:image" content="{site}/assets/img/og-default.png">
+<meta name="twitter:image" content="{site}/assets/img/og-default.jpg">
 <link rel="icon" href="{fav}" type="image/svg+xml">
 <link rel="icon" href="{fav32}" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="{apple}">
 <link rel="manifest" href="{manifest}">
-<script>document.documentElement.className+=" js-anim";window.VFT_CONFIG={{supabaseUrl:"{sb_url}",supabaseAnonKey:"{sb_key}",basePath:"{base}",email:"{sb_mail}",whatsapp:"{sb_wa}",currency:"{sb_cur}"}}</script>
+<script>document.documentElement.className+=" js-anim";window.VFT_CONFIG={{supabaseUrl:"{sb_url}",supabaseAnonKey:"{sb_key}",basePath:"{base}",email:"{sb_mail}",whatsapp:"{sb_wa}",currency:"{sb_cur}"}};window.vftTrack=function(){{(window.vftTrack.q=window.vftTrack.q||[]).push(arguments)}}</script>
 <link rel="preload" as="font" type="font/woff2" href="{fjak}" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="{fint}" crossorigin>
 <link rel="preload" as="style" href="{css}">
 <link rel="stylesheet" href="{css}">
+{analytics}
 {schema}
 </head>
 <body>
@@ -926,6 +990,7 @@ def write_pages(visa_links):
         if p["slug"] == "":
             graph = [ORG_SCHEMA, WEBSITE_SCHEMA] + graph
         html = PAGE_TPL.format(
+            analytics=analytics_tag(),
             title=p["title"],
             description=p["description"].replace('"', "&quot;"),
             canonical=abs_url(p["slug"]),
@@ -1056,6 +1121,7 @@ def write_extras():
         fint=asset("assets/fonts/inter-latin.woff2"),
         css=asset("assets/css/style.css", bust=True),
         js=asset("assets/js/main.js", bust=True), extra_js="", schema="",
+        analytics=analytics_tag(),
         header=header(""), scta="", body=body, footer=footer(VISA_LINKS_CACHE))
     with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8") as fh:
         fh.write(html)

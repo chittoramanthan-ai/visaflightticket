@@ -1060,17 +1060,29 @@ def order_page():
 
 
 def thank_you():
+    # The reference block is filled by checkout.js from ?ref= and hides itself
+    # when there is no reference to show. Without it the page tells people to
+    # quote a reference it never showed them, and it is also the only copy they
+    # have until the confirmation email arrives.
     body = """
 <section><div class="wrap wrap--narrow center">
   <p class="eyebrow">Order received</p>
   <h1>Thank you. We are on it</h1>
   <p class="lede">Your documents will arrive at the email address you gave us within %s. If nothing has landed after
   that, check your spam folder first, then email <a href="mailto:%s">%s</a> with your order reference.</p>
+
+  <div class="note note--ok" data-ref-wrap style="text-align:left;max-width:30rem;margin:2rem auto 0">
+    <strong>Your order reference</strong>
+    <p style="font-size:1.5rem;font-weight:750;letter-spacing:.05em;margin:.3rem 0 .6rem"><span id="ty-ref"></span></p>
+    <p style="font-size:.94rem">Write it down. You need it to <a href="%s">check your order status</a>, and to
+    quote if you contact us. It is in your confirmation email too.</p>
+  </div>
+
   <div class="btn-row" style="justify-content:center;margin-top:2rem">
     <a class="btn btn--primary btn--lg" href="%s">How to verify your PNR</a>
     <a class="btn btn--ghost btn--lg" href="%s">Back to home</a>
   </div>
-</div></section>""" % (DELIVERY, EMAIL, EMAIL, url("verify-pnr"), url())
+</div></section>""" % (DELIVERY, EMAIL, EMAIL, url("login"), url("verify-pnr"), url())
     add_page("order/thank-you", "Thank you | " + BRAND,
              "Your order has been received.", body, noindex=True, priority="0.1",
              extra_js=("assets/js/checkout.js",))

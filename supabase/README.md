@@ -1,5 +1,19 @@
 # Backend setup: Supabase + Razorpay + email
 
+> ## Start here
+> The payment path is **not live yet**, and until it is, every order fails:
+> `create-order` writes a `passengers` column that does not exist until the
+> migration below is applied.
+>
+> 1. Paste **`migrations/APPLY_ME.sql`** into the SQL editor and run it. It is
+>    0002 and 0003 combined, idempotent, and ends with a SELECT that should
+>    return 5 rows.
+> 2. Run **`bash supabase/deploy.sh`** from the repo root for the rest. It
+>    checks you are on the right project before it touches anything, then walks
+>    through secrets and the three function deploys in the right order.
+>
+> The sections below are the reference for what those two steps do.
+
 The site stays static. Supabase Edge Functions are the only server, so hosting
 does not change.
 

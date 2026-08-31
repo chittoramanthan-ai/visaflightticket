@@ -193,6 +193,7 @@
         err.style.display = 'none';
         go.disabled = true; go.textContent = 'Checking...';
         post('confirm-upi', { ref: res.ref, utr: utr }).then(function () {
+          if (window.vftTrack) window.vftTrack('upi_reference_submitted', null);
           window.location.href = (CFG.basePath || '') + '/order/thank-you/?ref=' +
             encodeURIComponent(res.ref) + '&upi=1';
         }).catch(function (e) {
@@ -208,8 +209,17 @@
     form.addEventListener('vft:submit', function () {
       if (busy) return;
       setBusy(true, 'Creating your order&hellip;');
+      // Fired before the request, so a spike here with no matching
+      // order_created is the signal that create-order itself is failing.
+      if (window.vftTrack) window.vftTrack('order_submitted', { service: payload().service });
 
       post('create-order', payload()).then(function (res) {
+        if (window.vftTrack) {
+          window.vftTrack('order_created', {
+            method: res.method || 'none',
+            amount: String((res.amount_minor || 0) / 100)
+          });
+        }
         if (res.method === 'upi') { setBusy(false); return showUpi(res); }
         if (!res.payment_configured) {
           say('ok',
@@ -328,6 +338,13 @@
   // ------------------------------------------------------------ thank you --
   var refOut = document.getElementById('ty-ref');
   if (refOut) {
+    // Not proof of payment -- the webhook is. It is the end of the funnel the
+    // browser can actually see, which is what makes it worth counting.
+    if (window.vftTrack) {
+      window.vftTrack('order_complete', {
+        method: new URLSearchParams(window.location.search).get('upi') ? 'upi' : 'razorpay'
+      });
+    }
     var q = new URLSearchParams(window.location.search).get('ref');
     if (q) refOut.textContent = q;
     else refOut.closest('[data-ref-wrap]').hidden = true;
