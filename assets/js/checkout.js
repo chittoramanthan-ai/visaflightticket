@@ -230,7 +230,7 @@
               email: payload().email,
               contact: payload().phone
             },
-            theme: { color: '#0b7f49' },
+            theme: { color: '#0057b8' },
             handler: function () {
               // The webhook is what actually marks this paid. This only moves
               // the customer along, so a closed browser cannot lose an order.

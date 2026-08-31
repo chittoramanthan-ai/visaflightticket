@@ -29,6 +29,6 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       'aria-label="Scan to pay by UPI" shape-rendering="crispEdges" ' +
       'xmlns="http://www.w3.org/2000/svg">' +
       '<rect width="' + dim + '" height="' + dim + '" fill="#ffffff"/>' +
-      '<path d="' + path + '" fill="#14181b"/></svg>';
+      '<path d="' + path + '" fill="#111827"/></svg>';
   };
 })();
