@@ -98,7 +98,7 @@ def home():
         ("How fast will I get my ticket?",
          "<p>Usually within %s. If your appointment is tomorrow morning, say so in the notes and we will put you at the front of the queue.</p>" % DELIVERY),
         ("How long does the reservation stay valid?",
-         "<p>Airline hold periods vary by carrier and route, typically 48 hours to 14 days. We time your booking so it is live on the day you submit, and we will reissue it free of charge if your appointment moves.</p>"),
+         "<p>Airline hold periods vary by carrier and route, typically 48 hours to 14 days. We time your booking so it is live on the day you submit. If your appointment moves, a fresh booking is half the original price. If the airline releases it early, that one is on us.</p>"),
         ("Do you also provide hotel bookings?",
          "<p>Yes. A confirmed hotel booking in your name with a reference number, for %s, or bundled with your flight reservation for %s. Most consulates ask for both.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
         ("What if my visa is refused?",
@@ -206,7 +206,7 @@ def home():
       <div class="card"><div class="card__ico">%s</div><h3>Live, checkable PNR</h3><p>Not a screenshot. A reference the officer can type into the carrier&rsquo;s site while your file is open.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>Name matched to passport</h3><p>Surname and given names in passport order. A mismatch is one of the most common reasons a file gets returned.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>Entry and exit both shown</h3><p>Schengen and most tourist visas want a return or onward leg, not a one-way hope.</p></div>
-      <div class="card"><div class="card__ico">%s</div><h3>Timed to your appointment</h3><p>We set the booking window around your submission date, and reissue free if the date moves.</p></div>
+      <div class="card"><div class="card__ico">%s</div><h3>Timed to your appointment</h3><p>We set the booking window around your submission date. If the date moves, a fresh booking is half price.</p></div>
     </div>
   </div>
 </section>
@@ -302,7 +302,7 @@ def flight_page():
         ("Can you do multi-city or one-way itineraries?",
          "<p>Yes. One-way, return, open-jaw and multi-city are all available at the same price. For a Schengen application you almost always want a return or onward leg; for <a href=\"%s\">proof of onward travel</a> at check-in, a one-way onward booking is usually what is required.</p>" % url("proof-of-onward-travel")),
         ("What if I spelled my name wrong?",
-         "<p>Tell us and we will reissue it once, free. Names must match your passport exactly: surname and given names in the same order and spelling as the machine-readable zone. This is the single most common cause of a returned file.</p>"),
+         "<p>Tell us and we will reissue it at half the original price. If the typo was ours rather than yours, it is free. Names must match your passport exactly: surname and given names in the same order and spelling as the machine-readable zone. This is the single most common cause of a returned file.</p>"),
         ("Do you cover every airline?",
          "<p>We book on the carrier that actually serves your route, using live availability. If a specific airline is required for your application, and some consulates do note a preferred national carrier, tell us in the order notes and we will match it where the route allows.</p>"),
     ]
@@ -430,7 +430,7 @@ def hotel_page():
         ("Will the dates match my flight reservation?",
          "<p>If you order the <a href=\"%s\">flight and hotel bundle</a> we cross-check them automatically: check-in on your arrival date, check-out on your departure date. Mismatched dates between the two documents is a classic avoidable refusal.</p>" % url("flight-and-hotel-package")),
         ("Can I change the hotel or the dates later?",
-         "<p>One free amendment is included. Beyond that, a small reissue fee applies. If your appointment is rescheduled, just email us. We treat that as the free change.</p>"),
+         "<p>A reissue costs half the original price, however far along you are. If we got something wrong, or the airline released the booking earlier than expected, we redo it at no charge.</p>"),
     ]
 
     body = """
@@ -1104,11 +1104,11 @@ def faq_page():
             ("How quickly do I get it?",
              "<p>Usually within %s, at any hour. Tell us if your appointment is imminent and we will prioritise it.</p>" % DELIVERY),
             ("How long does the booking stay live?",
-             "<p>48 hours to 14 days, depending on carrier and route. We time it to your submission date and reissue free if the date changes.</p>"),
+             "<p>48 hours to 14 days, depending on carrier and route. We time it to your submission date. If the date changes, a fresh booking is half price.</p>"),
             ("Do you need my passport number?",
              "<p>No. Names and dates of birth are enough to make the booking. We do not ask for passport numbers or scans, which means we cannot lose them.</p>"),
             ("Can I change the dates after delivery?",
-             "<p>One free amendment per order. After that a small reissue fee applies.</p>"),
+             "<p>Yes. A reissue with new dates costs half the original price.</p>"),
             ("Do you book hotels too?",
              "<p>Yes. %s alone, or %s bundled with a flight reservation, with the dates cross-checked.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
             ("What if the PNR does not verify?",
@@ -1299,8 +1299,8 @@ outages and unusual routes can extend it. If we cannot deliver within 24 hours w
 submission date, we will reissue at no charge.</p>
 
 <h2>7. Amendments</h2>
-<p>One amendment (name correction or date change) is included per order. Further amendments may attract a reissue
-fee, notified before it is charged.</p>
+<p>A reissue with a corrected name or changed dates is charged at 50%% of the original order value. Where the error
+was ours, or the supplier released a held booking earlier than its stated window, the reissue is free of charge.</p>
 
 <h2>8. Payment</h2>
 <p>Prices are shown in US dollars and charged per traveller. Payment is processed by third-party providers; we do
@@ -1397,7 +1397,7 @@ is incurred at that point. In particular there is no refund for:</p>
 <ul>
   <li>A visa refusal or an application withdrawn for any reason.</li>
   <li>Cancelled travel plans, or a change of mind after delivery.</li>
-  <li>Details you supplied incorrectly, though your one free correction covers this.</li>
+  <li>Details you supplied incorrectly. We will reissue with the correction at half the original price.</li>
   <li>A booking released early by the airline where we have offered to reissue it.</li>
   <li>Refusal of the document by an authority for reasons unrelated to its validity.</li>
 </ul>

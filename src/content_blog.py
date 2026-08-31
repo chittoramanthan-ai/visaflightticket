@@ -100,7 +100,7 @@ High-demand routes hold for less time.</p>
 <p>This worries people more than it should. Consular officers check a PNR when they open your file, which is usually
 within days of submission, not months later. And by the time a decision is issued, you will normally have bought
 a real ticket anyway. The practical rule is to time the reservation so it is live on your submission date, and to use
-a provider who will reissue free if your appointment moves.</p>"""),
+a provider who will reissue cheaply if your appointment moves.</p>"""),
 
         ("When you need one", """
 <ul>
@@ -448,9 +448,8 @@ Ordering three weeks early does not help and can hurt.</p>"""),
 using will reissue the reservation for the new date without charge. Ours does; if yours does not, that tells you
 something about the underlying booking.</p>
 <div class="note note--ok"><strong>Our policy</strong>
-One free reissue per order, for a name correction or a date change. Email us with the order reference and the new
-date. If the airline releases a booking earlier than expected, that reissue is on us and does not count against your
-free change.</div>"""),
+A reissue with a corrected name or new dates costs half the original price. Email us the order reference and what
+needs changing. If the airline released the booking earlier than expected, or the error was ours, the reissue is free.</div>"""),
     ],
     faqs=[
         ("What happens if my reservation expires before the decision?", "<p>Usually nothing. Officers check the PNR when they open the file, typically within days of submission. A lapse after that point has no effect.</p>"),

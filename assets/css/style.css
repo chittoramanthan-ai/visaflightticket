@@ -756,17 +756,47 @@ body.has-scta .totop{bottom:88px}
 
 /* --- trust: stat bar ---------------------------------------------------- */
 .stats{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1px;
-  background:var(--line);border:1px solid var(--line);border-radius:var(--radius);
-  overflow:hidden;box-shadow:var(--shadow-sm);margin:2rem 0 0;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));
+  gap:0;border-radius:var(--radius-lg);overflow:hidden;margin:2rem 0 0;
+  background:linear-gradient(180deg,var(--brand-soft),color-mix(in srgb,var(--brand-soft) 35%,var(--surface)));
+  border:1px solid color-mix(in srgb,var(--brand) 22%,transparent);
+  box-shadow:0 1px 2px rgba(16,32,26,.05),0 14px 34px -22px color-mix(in srgb,var(--brand) 60%,transparent);
+  position:relative;
 }
-.stats .stat{background:var(--surface);padding:20px 18px;text-align:center}
+/* a thin brand rule across the top ties it to the buttons above it */
+.stats::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--brand),color-mix(in srgb,var(--brand) 55%,var(--accent)));
+}
+.stats .stat{
+  padding:22px 18px 20px;text-align:center;position:relative;
+}
+/* dividers drawn as insets so they stop short of the edges */
+.stats .stat+.stat::before{
+  content:"";position:absolute;left:0;top:18%;bottom:18%;width:1px;
+  background:color-mix(in srgb,var(--brand) 22%,transparent);
+}
 .stats .stat b{
-  display:block;font-family:var(--display);font-size:clamp(1.4rem,1.1rem + 1vw,1.85rem);font-weight:800;font-feature-settings:'tnum' 1;
-  letter-spacing:-.03em;color:var(--brand);line-height:1.1;margin-bottom:.3rem;
+  display:block;font-family:var(--display);
+  font-size:clamp(1.45rem,1.1rem + 1.1vw,1.95rem);font-weight:800;
+  letter-spacing:-.035em;color:var(--brand-ink);line-height:1.05;
+  margin-bottom:.35rem;font-feature-settings:'tnum' 1;
 }
-.stats .stat span{display:block;font-size:.82rem;color:var(--ink-3);line-height:1.35}
+.stats .stat span{
+  display:block;font-size:.83rem;line-height:1.4;color:var(--ink-2);font-weight:500;
+}
 .hero .stats{margin-top:2.2rem}
+@media (max-width:520px){
+  .stats{grid-template-columns:1fr 1fr}
+  .stats .stat{padding:18px 12px 16px}
+  /* on two columns the vertical rule is wrong for every other cell */
+  .stats .stat+.stat::before{display:none}
+  .stats .stat:nth-child(2n)::before{display:block}
+  .stats .stat:nth-child(n+3)::after{
+    content:"";position:absolute;top:0;left:12%;right:12%;height:1px;
+    background:color-mix(in srgb,var(--brand) 18%,transparent);
+  }
+}
 
 /* --- trust: three-up panel --------------------------------------------- */
 .trust-panel{
@@ -798,18 +828,52 @@ body.has-scta .totop{bottom:88px}
 .trust-card p{font-size:.9rem;color:var(--ink-2);margin:0}
 
 /* --- trust: IATA badge -------------------------------------------------- */
+/* Reads as a credential, not a tag. Gold rather than brand blue, because the
+   blue pills elsewhere on the page are navigation and this is not one of
+   them, and because gold is already the logo's second colour. */
 .badge{
-  display:inline-flex;align-items:center;gap:.55rem;background:var(--brand-soft);
-  border:1px solid color-mix(in srgb,var(--brand) 35%,transparent);
-  color:var(--brand);border-radius:999px;padding:.45rem .9rem .45rem .7rem;
+  display:inline-flex;align-items:center;gap:.7rem;position:relative;
+  padding:.6rem 1.05rem .6rem .8rem;border-radius:12px;
+  background:linear-gradient(135deg,#fffaf0,#fdf4dc);
+  border:1.5px solid #e3c988;
+  box-shadow:0 1px 2px rgba(90,66,10,.08),0 10px 24px -16px rgba(140,100,10,.55);
+  color:#7a5606;
 }
-.badge svg{width:20px;height:20px;flex:none;stroke-width:1.8}
-.badge__txt{display:flex;flex-direction:column;line-height:1.15;text-align:left}
-.badge__txt b{font-size:.83rem;font-weight:700;letter-spacing:-.01em}
-.badge__num{font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;color:var(--ink-3)}
-.badge--sm{padding:.3rem .7rem .3rem .55rem}
-.badge--sm svg{width:16px;height:16px}
-.badge--sm .badge__txt b{font-size:.74rem}
+.badge::before{
+  content:"";position:absolute;inset:-1.5px;border-radius:12px;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.9),transparent 45%);
+  opacity:.6;
+}
+.badge svg{
+  width:26px;height:26px;flex:none;color:#b8860d;stroke-width:1.7;
+  filter:drop-shadow(0 1px 1px rgba(120,86,6,.25));
+}
+.badge__txt{display:flex;flex-direction:column;line-height:1.2;text-align:left}
+.badge__txt b{
+  font-size:.87rem;font-weight:750;letter-spacing:-.01em;color:#6b4a05;
+  white-space:nowrap;
+}
+.badge__num{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;
+  color:#9a7415;margin-top:1px;
+}
+/* no accreditation number set: say what it means instead of showing a gap */
+.badge__txt b:only-child::after{
+  content:"Accredited travel agent";display:block;
+  font-family:var(--sans);font-size:.68rem;font-weight:500;letter-spacing:.04em;
+  color:#9a7415;margin-top:2px;
+}
+.badge--sm{padding:.42rem .8rem .42rem .6rem;gap:.5rem;border-radius:10px}
+.badge--sm svg{width:20px;height:20px}
+.badge--sm .badge__txt b{font-size:.76rem}
+.badge--sm .badge__txt b:only-child::after{font-size:.63rem}
+:root[data-theme="dark"] .badge{
+  background:linear-gradient(135deg,#2c2411,#231c0d);border-color:#4d3d17;color:#e0c179;
+}
+:root[data-theme="dark"] .badge__txt b{color:#f0dca8}
+:root[data-theme="dark"] .badge svg{color:#e3b04b}
+:root[data-theme="dark"] .badge__num,
+:root[data-theme="dark"] .badge__txt b:only-child::after{color:#bfa068}
 
 /* --- trust: airline wordmark strip -------------------------------------- */
 .marks{
