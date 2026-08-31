@@ -78,12 +78,27 @@
         var i = leg.querySelectorAll('input');
         if (i[0] && i[0].value) legs.push({ from: i[0].value, to: i[1] ? i[1].value : '', date: i[2] ? i[2].value : '' });
       });
+      var pax = [];
+      form.querySelectorAll('#pax-list .pax').forEach(function (row, i) {
+        if (i === 0) {
+          pax.push({ surname: v('surname'), given_name: v('given'), dob: v('dob') });
+          return;
+        }
+        var get = function (k) {
+          var e = row.querySelector('[data-pax="' + k + '"]');
+          return e ? e.value.trim() : '';
+        };
+        if (get('surname') || get('given')) {
+          pax.push({ surname: get('surname'), given_name: get('given'), dob: get('dob') });
+        }
+      });
       var svcEl = form.querySelector('input[name="service"]:checked');
       var tripEl = form.querySelector('input[name="trip"]:checked');
       return {
         service: svcEl ? svcEl.value : 'flight',
         trip: tripEl ? tripEl.value : 'oneway',
-        travellers: parseInt(v('travellers'), 10) || 1,
+        travellers: pax.length || 1,
+        passengers: pax,
         priority: !!(form.querySelector('#rush') && form.querySelector('#rush').checked),
         origin: v('from'), destination: v('to'),
         depart_date: v('depart'), return_date: v('return'),

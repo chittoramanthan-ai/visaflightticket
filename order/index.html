@@ -29,8 +29,8 @@
 <script>document.documentElement.className+=" js-anim";window.VFT_CONFIG={supabaseUrl:"https://jijnknqfampnmhyakxzz.supabase.co",supabaseAnonKey:"sb_publishable_IcCbMYgZYZGt6Udh2LRTXQ_I38zJepI",basePath:"",email:"support@visaflightticket.com",whatsapp:"https://wa.me/918619663455",currency:"₹"}</script>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/jakarta-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin.woff2" crossorigin>
-<link rel="preload" as="style" href="/assets/css/style.css?v=ebed0f59">
-<link rel="stylesheet" href="/assets/css/style.css?v=ebed0f59">
+<link rel="preload" as="style" href="/assets/css/style.css?v=9da3119e">
+<link rel="stylesheet" href="/assets/css/style.css?v=9da3119e">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://visaflightticket.com/"},{"@type":"ListItem","position":2,"name":"Order"}]}]}</script>
 </head>
 <body>
@@ -85,37 +85,42 @@
               <input id="return" name="return" type="date">
               <span class="hint">Leave empty for a one-way or onward-only booking.</span></div>
           </div>
-          <div class="row2">
-            <div class="field"><label for="travellers">Travellers</label>
-              <select id="travellers" name="travellers">
-                <option>1</option><option>2</option><option>3</option><option>4</option>
-                <option>5</option><option>6</option><option>7</option><option>8</option>
-              </select></div>
-            <div class="field"><label for="visa">Applying for which visa?</label>
-              <input id="visa" name="visa" type="text" placeholder="Schengen &ndash; France" autocomplete="off"></div>
-          </div>
+          <div class="field"><label for="visa">Applying for which visa?</label>
+            <input id="visa" name="visa" type="text" placeholder="Schengen, France" autocomplete="off">
+            <span class="hint">Helps us match the itinerary to what that consulate expects.</span></div>
         </fieldset>
 
         <fieldset>
-          <legend>3 &middot; Lead traveller</legend>
-          <div class="row2">
-            <div class="field"><label for="surname">Surname (as in passport)</label>
-              <input id="surname" name="surname" type="text" autocomplete="family-name" required></div>
-            <div class="field"><label for="given">Given name(s)</label>
-              <input id="given" name="given" type="text" autocomplete="given-name" required></div>
+          <legend>3 &middot; Travellers</legend>
+          <p class="hint" style="margin:-6px 0 14px">Everyone needs their own document, so we need each
+          name exactly as the passport prints it. Priced per traveller.</p>
+
+          <div id="pax-list">
+            <div class="pax" data-lead>
+              <div class="pax__hd"><span class="pax__n">Traveller 1</span>
+                <span class="pax__tag">Lead &middot; we email this person</span></div>
+              <div class="row2">
+                <div class="field"><label for="surname">Surname (as in passport)</label>
+                  <input id="surname" name="surname" type="text" autocomplete="family-name" required></div>
+                <div class="field"><label for="given">Given name(s)</label>
+                  <input id="given" name="given" type="text" autocomplete="given-name" required></div>
+              </div>
+              <div class="row2">
+                <div class="field"><label for="dob">Date of birth</label>
+                  <input id="dob" name="dob" type="date"></div>
+                <div class="field"><label for="email">Email for delivery</label>
+                  <input id="email" name="email" type="email" autocomplete="email" required></div>
+              </div>
+              <div class="field"><label for="phone">Phone or WhatsApp</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 ...">
+                <span class="hint">So we can reach you fast if something needs checking.</span></div>
+            </div>
           </div>
-          <div class="row2">
-            <div class="field"><label for="dob">Date of birth</label>
-              <input id="dob" name="dob" type="date"></div>
-            <div class="field"><label for="email">Email for delivery</label>
-              <input id="email" name="email" type="email" autocomplete="email" required></div>
-          </div>
-          <div class="field"><label for="phone">Phone or WhatsApp</label>
-            <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 ...">
-            <span class="hint">So we can reach you fast if something needs checking.</span></div>
-          <div class="field"><label for="notes">Anything we should know?</label>
-            <textarea id="notes" name="notes" rows="3" placeholder="Appointment date, multi-city plan, extra travellers, preferred airline&hellip;"></textarea>
-            <span class="hint">Additional travellers&rsquo; names can go here.</span></div>
+
+          <button type="button" class="pax__add" id="pax-add">+ Add another traveller</button>
+
+          <div class="field" style="margin-top:16px"><label for="notes">Anything we should know?</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Appointment date, multi-city plan, preferred airline&hellip;"></textarea></div>
           <label class="opt" style="margin-top:6px"><input type="checkbox" id="rush" name="rush">
             <span><b>Priority handling, +₹199</b><small>Targeted inside 60 minutes, 24/7</small></span></label>
         </fieldset>
@@ -178,6 +183,6 @@
     </div>
   </div>
 </footer>
-<script src="/assets/js/airports.js?v=281fe585" defer></script><script src="/assets/js/qr.js?v=125035d8" defer></script><script src="/assets/js/checkout.js?v=c815bbda" defer></script><script src="/assets/js/main.js?v=9301636b" defer></script>
+<script src="/assets/js/airports.js?v=281fe585" defer></script><script src="/assets/js/qr.js?v=125035d8" defer></script><script src="/assets/js/checkout.js?v=7af1edf4" defer></script><script src="/assets/js/main.js?v=8ff75fbc" defer></script>
 </body>
 </html>

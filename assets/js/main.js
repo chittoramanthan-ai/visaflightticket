@@ -51,7 +51,7 @@
 
     function recalc() {
       var svc = (form.querySelector('input[name="service"]:checked') || {}).value || 'flight';
-      var pax = parseInt(form.querySelector('#travellers').value, 10) || 1;
+      var pax = form.querySelectorAll('#pax-list .pax').length || 1;
       var rush = form.querySelector('#rush') && form.querySelector('#rush').checked ? RUSH : 0;
       var total = PRICES[svc] * pax + rush;
       if (out) out.textContent = CURO + total;
@@ -64,6 +64,53 @@
     form.addEventListener('change', recalc);
     form.addEventListener('input', recalc);
     recalc();
+
+    // ---- repeatable travellers -------------------------------------------
+    var paxList = document.getElementById('pax-list');
+    var paxAdd = document.getElementById('pax-add');
+    var MAX_PAX = 12;
+
+    function paxCount() { return paxList ? paxList.querySelectorAll('.pax').length : 1; }
+
+    function renumberPax() {
+      var all = paxList.querySelectorAll('.pax');
+      for (var i = 0; i < all.length; i++) {
+        all[i].querySelector('.pax__n').textContent = 'Traveller ' + (i + 1);
+      }
+      if (paxAdd) {
+        paxAdd.hidden = all.length >= MAX_PAX;
+        paxAdd.textContent = '+ Add another traveller';
+      }
+      recalc();
+    }
+
+    function addPax() {
+      if (paxCount() >= MAX_PAX) return;
+      var n = paxCount() + 1;
+      var el = document.createElement('div');
+      el.className = 'pax';
+      el.innerHTML =
+        '<div class="pax__hd"><span class="pax__n">Traveller ' + n + '</span>' +
+        '<button type="button" class="pax__rm">Remove</button></div>' +
+        '<div class="row2">' +
+          '<div class="field"><label>Surname (as in passport)</label>' +
+            '<input type="text" data-pax="surname" autocomplete="off" required></div>' +
+          '<div class="field"><label>Given name(s)</label>' +
+            '<input type="text" data-pax="given" autocomplete="off" required></div>' +
+        '</div>' +
+        '<div class="field" style="max-width:50%"><label>Date of birth</label>' +
+          '<input type="date" data-pax="dob"></div>';
+      el.querySelector('.pax__rm').addEventListener('click', function () {
+        el.parentNode.removeChild(el);
+        renumberPax();
+      });
+      paxList.appendChild(el);
+      renumberPax();
+      var first = el.querySelector('input');
+      if (first) first.focus();
+    }
+
+    if (paxAdd) paxAdd.addEventListener('click', addPax);
 
     // Inline validation: tell people what is wrong next to the field, on
     // submit and then live as they fix it -- not a browser tooltip that

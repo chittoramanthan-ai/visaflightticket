@@ -69,11 +69,27 @@ Deno.serve(async (req) => {
   const trip = ["oneway", "round", "multi"].includes(str(body.trip, 10))
     ? str(body.trip, 10) : "oneway";
 
-  const travellers = Math.min(Math.max(parseInt(String(body.travellers ?? 1), 10) || 1, 1), MAX_TRAVELLERS);
+  // Passengers drive the count, and the count drives the price. Derive it from
+  // the array we were given rather than trusting a separate number field: if
+  // those two could disagree, someone could send five names and pay for one.
+  const rawPax = Array.isArray(body.passengers) ? body.passengers : [];
+  const passengers = rawPax
+    .slice(0, MAX_TRAVELLERS)
+    .map((p: Record<string, unknown>) => ({
+      surname: str(p?.surname, 80),
+      given_name: str(p?.given_name, 80),
+      dob: isDate(str(p?.dob, 10)) ? str(p?.dob, 10) : null,
+    }))
+    .filter((p) => p.surname || p.given_name);
+
+  const travellers = Math.min(
+    Math.max(passengers.length || parseInt(String(body.travellers ?? 1), 10) || 1, 1),
+    MAX_TRAVELLERS,
+  );
   const priority = body.priority === true;
 
-  const surname = str(body.surname, 80);
-  const given = str(body.given_name, 80);
+  const surname = passengers[0]?.surname || str(body.surname, 80);
+  const given = passengers[0]?.given_name || str(body.given_name, 80);
   const email = str(body.email, 160).toLowerCase();
   if (!surname || !given) return json({ error: "name_required" }, 400, origin);
   if (!isEmail(email)) return json({ error: "bad_email" }, 400, origin);
@@ -112,6 +128,7 @@ Deno.serve(async (req) => {
       legs,
       visa_type: str(body.visa_type, 120),
       surname, given_name: given,
+      passengers,
       dob: isDate(str(body.dob, 10)) ? str(body.dob, 10) : null,
       email,
       phone: str(body.phone, 40),

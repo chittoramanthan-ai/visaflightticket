@@ -60,6 +60,11 @@ async function notify(order: Record<string, unknown>) {
         ${row("Visa", order.visa_type)}
         ${row("Payment id", order.provider_payment_id)}
       </table>
+      ${Array.isArray(order.passengers) && order.passengers.length > 1
+        ? `<p style="margin:18px 0 6px"><b>All travellers</b></p><ol style="margin:0;padding-left:20px">` +
+          (order.passengers as Array<Record<string, string>>).map((p) =>
+            `<li>${p.surname}, ${p.given_name}${p.dob ? ` (${p.dob})` : ""}</li>`).join("") + `</ol>`
+        : ""}
       ${order.notes ? `<p style="margin:18px 0 0"><b>Notes</b><br>${String(order.notes).replace(/</g, "&lt;")}</p>` : ""}
       ${Array.isArray(order.legs) && order.legs.length
         ? `<p style="margin:14px 0 0"><b>Extra legs</b><br><code>${JSON.stringify(order.legs)}</code></p>` : ""}
