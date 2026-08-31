@@ -338,13 +338,15 @@ def cta_band(title="Ready to complete your visa file?",
              secondary=("See pricing", "pricing")):
     return """
 <section class="tight"><div class="wrap"><div class="cta">
+  %s
   <h2>%s</h2>
   <p>%s</p>
   <div class="btn-row" style="justify-content:center;margin-top:1.6rem">
     <a class="btn btn--ghost btn--lg" href="%s">%s</a>
     <a class="btn btn--lg" style="border-color:rgba(255,255,255,.55);color:#fff" href="%s">%s</a>
   </div>
-</div></div></section>""" % (title, text, url(primary[1]), primary[0], url(secondary[1]), secondary[0])
+</div></div></section>""" % (flight_path(), title, text,
+                              url(primary[1]), primary[0], url(secondary[1]), secondary[0])
 
 
 def pricing_tickets(featured="both"):
@@ -462,30 +464,40 @@ def trust_cards(heading="Why travellers trust %s" % BRAND):
 
 
 def flight_path():
-    """Decorative dotted route arcing across the hero. Purely visual, so it is
-    aria-hidden and sits behind everything at low opacity."""
+    """Dashed route with a pin at the origin and a plane at the far end, the
+    way a travel graphic actually looks. Decorative, so aria-hidden."""
     return """
 <svg class="fpath" viewBox="0 0 1200 420" fill="none" aria-hidden="true"
      preserveAspectRatio="xMidYMax meet">
-  <path class="fpath__line" d="M-20 372 C 250 372, 430 250, 620 186 C 810 122, 1010 96, 1230 60"
-        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="1 13"/>
-  <circle class="fpath__dot" cx="128" cy="345" r="7"/>
-  <circle class="fpath__ring" cx="128" cy="345" r="14"/>
-  <g class="fpath__plane" transform="translate(1064 66) rotate(-18)">
-    <path d="M26 9 1.5 17.5a1 1 0 0 1-1.3-1.2L3 9 .2 1.7A1 1 0 0 1 1.5.5Z" fill="currentColor"/>
+  <path class="fpath__line"
+        d="M112 330 C 208 438, 344 424, 432 314 C 520 204, 628 176, 740 212
+           C 852 248, 938 228, 1068 112"
+        stroke="currentColor" stroke-width="3" stroke-linecap="round"
+        stroke-dasharray="9 13"/>
+  <g class="fpath__pin" transform="translate(112 330)">
+    <path d="M0 0c-6.6-8.5-9.7-12.7-9.7-17A9.7 9.7 0 1 1 9.7-17C9.7-12.7 6.6-8.5 0 0z"
+          fill="currentColor"/>
+    <circle cx="0" cy="-17" r="3.7" class="fpath__hole"/>
+  </g>
+  <g class="fpath__plane" transform="translate(1068 112) rotate(42)">
+    <path d="M0-17 3.6-4.9 21 7.2v4.9L3.6 7.2 3 17l5.4 4.9v2.4L0 21.9l-8.4 2.4v-2.4L-3 17
+             l-.6-9.8L-21 12.1V7.2L-3.6-4.9Z" fill="currentColor"/>
   </g>
 </svg>"""
 
 
 def route_divider(from_code="DEL", to_code="CDG"):
-    """A boarding-pass style rule between sections: two stops, a dotted leg
-    and a plane. Reads as a divider, not as content."""
+    """Boarding-pass rule between sections: a pin, a dashed wave, a plane."""
     return """
 <div class="rdiv" aria-hidden="true">
   <span class="rdiv__code">%s</span>
-  <span class="rdiv__line"><span class="rdiv__plane">%s</span></span>
+  <svg class="rdiv__svg" viewBox="0 0 320 44" fill="none" preserveAspectRatio="none">
+    <path d="M8 30 C 58 6, 104 6, 154 22 C 204 38, 250 38, 306 14"
+          stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+          stroke-dasharray="7 10"/>
+  </svg>
   <span class="rdiv__code">%s</span>
-</div>""" % (from_code, ICON["plane"], to_code)
+</div>""" % (from_code, to_code)
 
 
 def highlights(price=True):

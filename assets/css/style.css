@@ -294,22 +294,25 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
 /* --- decorative flight path --------------------------------------------- */
 .hero{position:relative}
 .hero > .wrap{position:relative;z-index:1}
+.cta{position:relative;overflow:hidden}
+.cta > *:not(.fpath){position:relative;z-index:1}
 .fpath{
-  /* Anchored to the bottom at its natural aspect rather than stretched to fill,
-     so the origin dot and the plane stay round instead of becoming ovals. */
-  position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;
-  z-index:0;pointer-events:none;color:var(--brand);opacity:.16;
+  /* Natural aspect, not stretched to fill: stretching turns the pin and the
+     plane into ovals. Sits inside the CTA slab, which has the room for it. */
+  position:absolute;left:0;right:0;bottom:-8%;width:100%;height:auto;
+  z-index:0;pointer-events:none;color:#fff;opacity:.28;
 }
 .fpath__line{
   stroke-dashoffset:0;
   animation:fp-draw 2.2s cubic-bezier(.4,0,.2,1) both;
 }
 @keyframes fp-draw{from{stroke-dasharray:1 13;stroke-dashoffset:420}to{stroke-dashoffset:0}}
-.fpath__dot{fill:var(--brand);opacity:.9}
-.fpath__ring{fill:none;stroke:currentColor;stroke-width:2;opacity:.55}
+.fpath__pin{opacity:.95}
+.fpath__hole{fill:#1b3f8f}
+
 .fpath__plane{animation:fp-float 6s ease-in-out infinite;opacity:1}
-@keyframes fp-float{0%,100%{transform:translate(1064px,66px) rotate(-18deg)}
-                    50%{transform:translate(1070px,60px) rotate(-18deg)}}
+@keyframes fp-float{0%,100%{transform:translate(1068px,112px) rotate(42deg)}
+                    50%{transform:translate(1074px,104px) rotate(42deg)}}
 @media (max-width:920px){.fpath{opacity:.09}}
 @media (prefers-reduced-motion:reduce){
   .fpath__line,.fpath__plane{animation:none}
@@ -324,18 +327,7 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
   font-family:var(--mono);font-size:.82rem;font-weight:700;letter-spacing:.16em;
   color:var(--ink-3);flex:none;
 }
-.rdiv__line{
-  position:relative;flex:1;height:2px;
-  background-image:linear-gradient(90deg,var(--line-strong) 0 6px,transparent 6px 12px);
-  background-size:12px 2px;
-}
-.rdiv__plane{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:30px;height:30px;border-radius:50%;background:var(--bg);
-  display:flex;align-items:center;justify-content:center;color:var(--brand);
-}
-.band .rdiv__plane{background:var(--bg-alt)}
-.rdiv__plane svg{width:17px;height:17px}
+.rdiv__svg{flex:1;height:44px;color:var(--line-strong)}
 
 
 /* --- boarding-pass texture on banded sections --------------------------- */
