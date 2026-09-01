@@ -66,7 +66,7 @@ ErrorDocument 404 /404.html
   # None of them contain secrets (those live in Edge Function env vars), but
   # none of them are anyone's business either. This is one thing Hostinger
   # does better than Cloudflare Pages, which cannot exclude paths at all.
-  RewriteRule ^(src|supabase|brand)/ - [R=404,L]
+  RewriteRule ^(src|supabase|brand|_dev)/ - [R=404,L]
 </IfModule>
 
 <FilesMatch "\.(py|ts|sql|sh|toml|md|log|bak)$">
