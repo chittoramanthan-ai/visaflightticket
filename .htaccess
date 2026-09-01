@@ -1,0 +1,165 @@
+# =============================================================================
+# Apache / LiteSpeed configuration. This is what Hostinger reads.
+#
+# It is the port of _headers and _redirects, which Hostinger ignores. If you
+# change a rule in one, change it in the other, or moving host later will
+# silently drop it. The three files are:
+#
+#   .htaccess    Hostinger, and any Apache or LiteSpeed host   <- live one
+#   _headers     Cloudflare Pages / Netlify
+#   _redirects   Cloudflare Pages / Netlify
+#
+# No domain is hardcoded anywhere below, so this keeps working whatever you
+# end up registering.
+#
+# After deploying, verify it actually took effect:
+#   curl -sI https://yourdomain.com/ | grep -i "content-security\|strict-transport"
+# LiteSpeed silently ignores directives from modules it does not load, so an
+# .htaccess that "looks right" proves nothing until you have seen the headers.
+# =============================================================================
+
+Options -Indexes
+DirectoryIndex index.html
+
+# 404s must return a real 404 status. A soft 404 gets treated by Google as a
+# live page with thin content, which is worse than the missing page.
+ErrorDocument 404 /404.html
+
+
+# --------------------------------------------------------------------------
+# 1. Canonical host and scheme
+# --------------------------------------------------------------------------
+# One URL per page or rankings get split across duplicates. This forces HTTPS
+# and strips www. SITE_URL in src/build.py has no www, so the canonical tags
+# already agree with this; if you ever switch to www you must change BOTH.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTPS. The X-Forwarded-Proto check is for when a proxy or CDN terminates
+  # TLS upstream, in which case %{HTTPS} is off even on a secure request.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Drop www.
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # ----------------------------------------------------------------------
+  # 2. Redirects (the _redirects file)
+  # ----------------------------------------------------------------------
+  # B2B became Bulk Orders. Kept because agencies search "b2b".
+  RewriteRule ^b2b/?$          /bulk-orders/  [R=301,L]
+  RewriteRule ^b2b/.*$         /bulk-orders/  [R=301,L]
+
+  # Near-misses people type or share with a mangled path.
+  RewriteRule ^order/thankyou/?$   /order/thank-you/  [R=301,L]
+  RewriteRule ^visa-guides?/?$     /visa/             [R=301,L]
+  RewriteRule ^faq\.html$          /faq/              [R=301,L]
+  RewriteRule ^blog/index\.html$   /blog/             [R=301,L]
+
+  # ----------------------------------------------------------------------
+  # 3. Keep the source tree out of the web root
+  # ----------------------------------------------------------------------
+  # The whole repo is the document root, so the generator, the Edge Function
+  # source and the brand originals are all publicly fetchable by default.
+  # None of them contain secrets (those live in Edge Function env vars), but
+  # none of them are anyone's business either. This is one thing Hostinger
+  # does better than Cloudflare Pages, which cannot exclude paths at all.
+  RewriteRule ^(src|supabase|brand)/ - [R=404,L]
+</IfModule>
+
+<FilesMatch "\.(py|ts|sql|sh|toml|md|log|bak)$">
+  Require all denied
+</FilesMatch>
+
+# Dotfiles, including this one.
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+
+# --------------------------------------------------------------------------
+# 4. Security headers (the _headers file)
+# --------------------------------------------------------------------------
+# "always" matters: without it these are dropped on error responses, so your
+# 404 page would serve with no CSP.
+<IfModule mod_headers.c>
+  Header always set X-Frame-Options "DENY"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+  # Two years, subdomains included. Do NOT add preload until you are certain
+  # every subdomain you will ever use can serve HTTPS. Preload is very hard to
+  # reverse and it is a browser-level commitment, not a DNS record.
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains"
+
+  # CSP. Baseline is "self and nothing else"; each exception is one named thing:
+  #   script-src 'unsafe-inline'      the theme/config bootstrap in <head>
+  #   checkout.razorpay.com           Razorpay Checkout, loaded on demand
+  #   connect-src *.supabase.co       create-order and confirm-upi
+  #   frame-src razorpay              Checkout renders in an iframe
+  #   style-src 'unsafe-inline'       inline style attributes in the templates
+  #
+  # IF YOU TURN ON ANALYTICS in src/build.py you must add that provider's host
+  # to script-src and connect-src, or the tag is blocked and you will collect
+  # nothing while the dashboard shows no error.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.supabase.co https://api.razorpay.com; frame-src https://api.razorpay.com https://checkout.razorpay.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'"
+
+  # ------------------------------------------------------------------------
+  # 5. Caching
+  # ------------------------------------------------------------------------
+  # Assets carry a content hash in the query string, so the URL changes
+  # whenever the bytes do and they can be cached forever.
+  SetEnvIf Request_URI "^/assets/" VFT_IMMUTABLE=1
+  Header always set Cache-Control "public, max-age=31536000, immutable" env=VFT_IMMUTABLE
+
+  # Order pages: never indexed, never cached.
+  SetEnvIf Request_URI "^/(order/thank-you|login)/" VFT_PRIVATE=1
+  Header always set X-Robots-Tag "noindex" env=VFT_PRIVATE
+  Header always set Cache-Control "no-store" env=VFT_PRIVATE
+
+  # HTML must revalidate or a price change takes a week to reach anyone.
+  # The env=!VFT_PRIVATE guard is what keeps this from fighting the no-store
+  # above. Relying on source order would not work: Apache merges <FilesMatch>
+  # sections after the plain directives in the same file, so this block runs
+  # last regardless of where it sits and would win by default.
+  <FilesMatch "\.html$">
+    Header always set Cache-Control "public, max-age=0, must-revalidate" env=!VFT_PRIVATE
+  </FilesMatch>
+</IfModule>
+
+
+# --------------------------------------------------------------------------
+# 6. Compression
+# --------------------------------------------------------------------------
+# Cloudflare did this automatically. Apache has to be told. The site is almost
+# entirely text, so this is the single largest transfer saving available.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/ld+json
+  AddOutputFilterByType DEFLATE application/xml application/rss+xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# LiteSpeed, which is what Hostinger actually runs, prefers brotli and enables
+# it itself. This is harmless if the module is absent.
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/xml
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
+  AddOutputFilterByType BROTLI_COMPRESS application/ld+json image/svg+xml
+</IfModule>
+
+
+# --------------------------------------------------------------------------
+# 7. MIME types
+# --------------------------------------------------------------------------
+# Fonts served with the wrong type get re-downloaded instead of cached, and a
+# manifest served as text/plain is ignored by the browser entirely.
+<IfModule mod_mime.c>
+  AddType application/manifest+json  .webmanifest
+  AddType font/woff2                 .woff2
+  AddType image/svg+xml              .svg
+</IfModule>

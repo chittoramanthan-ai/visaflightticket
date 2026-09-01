@@ -114,9 +114,51 @@ remove them in one line, but you are responsible for their accuracy:
 
 Any static host. The site is root-relative, so a custom domain is the intended setup.
 
-- **Cloudflare Pages / Netlify / Vercel** — connect the repo, no build command, publish directory `/`.
-- **GitHub Pages** — Settings → Pages → deploy from `main` / root. Add a `CNAME` file with your domain.
-  If you use `user.github.io/visaflightticket/` instead, set `BASE_PATH = "/visaflightticket"` and rebuild.
+**Host config lives in three files and they must be kept in sync.** Each host reads
+only its own, and silently ignores the others, so a rule added to one and not the
+rest disappears the day you move:
+
+| File | Read by |
+|---|---|
+| `.htaccess` | **Hostinger** (and any Apache / LiteSpeed host) |
+| `_headers` | Cloudflare Pages, Netlify |
+| `_redirects` | Cloudflare Pages, Netlify |
+
+They carry the CSP, HSTS and other security headers, the cache policy, the
+`/b2b/` → `/bulk-orders/` 301, and the block on serving `src/`, `supabase/` and
+`brand/` out of the web root.
+
+### Hostinger (current target)
+
+1. hPanel → **Websites → Git**, connect the repo, branch `main`, directory
+   `public_html`. Or upload over SFTP.
+2. **Make sure `.htaccess` actually transferred.** Many FTP clients hide
+   dotfiles by default, and without it you lose every security header, the
+   redirects and the HTTPS forcing, with no error to tell you.
+3. Point the domain and issue the free SSL certificate in hPanel.
+4. Verify the config is live, because LiteSpeed ignores directives from modules
+   it has not loaded rather than erroring:
+
+   ```bash
+   curl -sI https://yourdomain.com/ | grep -i "content-security\|strict-transport\|x-frame"
+   curl -sI https://yourdomain.com/b2b/ | grep -i "^location"        # expect /bulk-orders/
+   curl -so /dev/null -w '%{http_code}
+' https://yourdomain.com/src/build.py   # expect 404
+   ```
+
+There is no build step to configure: the HTML is committed, so whatever is in
+the repo is the site.
+
+### Other hosts
+
+- **Cloudflare Pages / Netlify** — connect the repo, no build command, publish directory `/`.
+  `_headers` and `_redirects` apply automatically; `.htaccess` is ignored.
+- **Vercel** — needs the rules ported to `vercel.json`. Note their free tier
+  excludes commercial use.
+- **GitHub Pages** — reads none of the three files, so you would lose the
+  headers and redirects entirely. Add a `CNAME` file with your domain. If you
+  use `user.github.io/visaflightticket/` instead, set
+  `BASE_PATH = "/visaflightticket"` and rebuild.
 
 Then:
 
