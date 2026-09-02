@@ -1424,3 +1424,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 @media (max-width: 640px) {
   .creed__lead { font-size: 1.05rem; }
 }
+
+/* Footer email line. Plain text you can select and copy, because a mailto
+   link is a dead end for anyone without a mail client registered. */
+.ftr__mail{margin:.9rem 0 0;font-size:.88rem;color:var(--ink-3)}
+.ftr__mail a{color:var(--ink-2);text-decoration:underline;text-underline-offset:2px}

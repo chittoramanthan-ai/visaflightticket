@@ -902,9 +902,14 @@ def footer(visa_links):
         references. Built for visa applications, delivered in %s.</p>
         <div style="margin-top:1.1rem">%s</div>
         <div class="btn-row" style="margin-top:1.2rem">
-          <a class="btn btn--ghost" href="%s">%s Email us</a>
+          <a class="btn btn--wa" href="%s" data-track="whatsapp_click" data-track-where="footer">%s WhatsApp us</a>
           <button class="theme-btn" type="button" aria-label="Switch colour theme">%s</button>
         </div>
+        <!-- The address as selectable text, not only as a mailto. A mailto
+             link does nothing at all on a desktop with no mail client
+             registered, which is most Windows browsers, so a button that
+             depends on it is a button that silently fails for many people. -->
+        <p class="ftr__mail">Prefer email? <a href="mailto:%s">%s</a></p>
       </div>
       <div><h2 class="ftr__h">Services</h2><ul>%s</ul></div>
       <div><h2 class="ftr__h">Visa guides</h2><ul><li class="ftr__sep">Visa free for Indians</li>%s
@@ -916,8 +921,9 @@ def footer(visa_links):
       <span>We are a travel-documentation service. We are not a government body and we do not issue visas.</span>
     </div>
   </div>
-</footer>""" % (url(), brand_mark(), DELIVERY, iata_badge("sm"), "mailto:" + EMAIL,
-                ICON["mail"], ICON["sun"],
+</footer>""" % (url(), brand_mark(), DELIVERY, iata_badge("sm"),
+                "https://wa.me/" + re.sub(r"[^0-9]", "", WHATSAPP),
+                ICON["whatsapp"], ICON["sun"], EMAIL, EMAIL,
                 services, visas, url("visa"), len(visa_links or []) or 31,
                 company, date.today().year, BRAND)
 
