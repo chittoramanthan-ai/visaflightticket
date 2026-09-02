@@ -169,8 +169,23 @@
           '<p class="field-err" id="utr-err"></p>' +
         '</div>');
 
-      try { drawQR(document.getElementById('upi-qr'), u.uri); }
-      catch (e) { document.getElementById('upi-qr').style.display = 'none'; }
+      // qr.js is 21 KB and only ever needed once the UPI panel exists, which
+      // is after a successful create-order. Loading it with the page taxed
+      // every order-form visitor for a file most of them never reach.
+      var qrBox = document.getElementById('upi-qr');
+      function paintQR() {
+        try { drawQR(qrBox, u.uri); }
+        catch (e) { qrBox.style.display = 'none'; }
+      }
+      if (window.drawQR) {
+        paintQR();
+      } else {
+        loadScript((CFG.basePath || '') + '/assets/js/qr.js')
+          .then(paintQR)
+          // No QR is survivable: the UPI id, amount and reference are all
+          // still on screen and copyable, so the customer can still pay.
+          .catch(function () { qrBox.style.display = 'none'; });
+      }
 
       msg.querySelectorAll('.upi__copy').forEach(function (b) {
         b.addEventListener('click', function () {

@@ -733,7 +733,9 @@ def trust_section(heading="Why travellers trust %s" % BRAND):
 def _logo_file(name):
     """Return the web path of a logo for `name` if one is on disk, else None."""
     slug = slugify(name)
-    for ext in ("svg", "png", "webp", "jpg"):
+    # webp before png: both exist for every carrier now, and the webp is a
+    # sixth of the size at the 30px these are actually drawn at.
+    for ext in ("svg", "webp", "png", "jpg"):
         rel = "assets/img/airlines/%s.%s" % (slug, ext)
         if os.path.exists(os.path.join(ROOT, rel)):
             return asset(rel)

@@ -1307,3 +1307,76 @@ legend{font-size:.75rem;letter-spacing:.11em;text-transform:uppercase;color:var(
 
 /* Priceless ticket stub: services quoted per request rather than listed. */
 .ticket__quote{font-size:1.35rem;letter-spacing:-.01em}
+
+/* ==========================================================================
+   UX pass. Targeted fixes, not a redesign: the visual language above is
+   settled and none of this changes how the site looks on a desktop at rest.
+   ========================================================================== */
+
+/* Anchor links landed underneath the sticky header. Every blog post has a
+   table of contents, so this was mis-scrolling on the most-read pages. */
+:target,
+h2[id], h3[id] { scroll-margin-top: 5.5rem; }
+
+/* Long pages are mostly below the fold. Letting the browser skip layout and
+   paint for offscreen sections is the single biggest rendering win available
+   on a 31-guide site, and it costs nothing visually.
+   contain-intrinsic-size is a height ESTIMATE that reserves space so the
+   scrollbar does not jump; it does not need to be exact. */
+@supports (content-visibility: auto) {
+  main > section:nth-of-type(n + 3) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+  }
+}
+
+/* iOS zooms the page when a focused input is under 16px. That zoom does not
+   reverse on blur, so a traveller filling the order form on an iPhone ends up
+   stranded at 1.3x with the layout cut off. */
+@media (max-width: 767px) {
+  input, select, textarea { font-size: 16px; }
+}
+
+/* Touch targets. WCAG asks for 44px; nav and footer links were smaller. */
+@media (pointer: coarse) {
+  .nav a, .ftr a, .crumbs a, .pills a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* The grey flash Android paints over a tapped link looks like a rendering
+   fault next to our own :active states, which already give feedback. */
+a, button, summary, label, .ticket, .card { -webkit-tap-highlight-color: transparent; }
+
+/* Stop iOS inflating text in landscape, which breaks the ticket layouts. */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* Scrolling the open mobile nav should not drag the page behind it. */
+.nav.open { overscroll-behavior: contain; }
+
+/* Wide tables scroll inside their own box. Without a hint that there is more
+   to the right, people simply do not find it on a phone. */
+.tbl-wrap { scrollbar-width: thin; }
+@media (max-width: 640px) {
+  .tbl-wrap { position: relative; }
+  .tbl-wrap::after {
+    content: "";
+    position: absolute; top: 0; right: 0; bottom: 0; width: 28px;
+    pointer-events: none;
+    background: linear-gradient(to right, transparent, var(--surface));
+  }
+}
+
+/* A disabled submit button should say so to the cursor as well as the eye. */
+.btn[disabled], .btn[aria-disabled="true"] { cursor: not-allowed; opacity: .62; }
+
+/* Printing a visa guide or an order confirmation is a real thing people do at
+   a consulate. Drop the furniture that wastes ink and page space. */
+@media print {
+  .hdr, .ftr, .scta, .totop, .mq, .doodle, .theme-btn { display: none !important; }
+  a[href^="/"]::after { content: " (visaflightticket.com" attr(href) ")"; font-size: .8em; }
+  .ticket, .card, .pass { break-inside: avoid; }
+  body { background: #fff; color: #000; }
+}
