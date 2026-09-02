@@ -31,14 +31,20 @@
   --surface:#ffffff;
   --surface-2:#f7f9fc;
   --ink:#111827;
-  --ink-2:#48525f;
-  --ink-3:#77828f;
+  --ink-2:#3f4855;   /* body copy. Darker than it needs to be for WCAG,
+                        because passing a ratio and being comfortable to
+                        read for a page are not the same thing. */
+  --ink-3:#5f6a77;   /* hints, captions, table headers. The old value was
+                        3.3:1 on our own tinted panels, i.e. below AA for
+                        body text on every surface the site actually uses. */
   --line:#e4e8ee;
   --line-strong:#c9d1dc;
   --brand:#193b92;
   --brand-ink:#0f2861;
   --brand-soft:#e9edf8;
-  --accent:#b8860d;
+  --accent:#7d5f10;  /* gold, but only ever used as TEXT here. The
+                        brighter original was 2.8:1 on tinted panels,
+                        which failed even the large-text threshold. */
   --accent-soft:#fdf4dc;
   /* Success is green, not brand blue. They used to be the same hex, so
      "verified", "delivered" and "payment received" looked identical to every
@@ -1400,8 +1406,12 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
    -------------------------------------------------------------------------- */
 .creed { max-width: 46rem; margin-inline: auto; }
 .creed h2 { margin-bottom: 1.1rem; }
-.creed p { color: var(--ink-2); line-height: 1.72; margin: 0 0 1rem; }
-.creed__lead { font-size: 1.12rem; color: var(--ink) !important; }
+/* Full-strength ink, not the secondary tone. This section is prose to be
+   read start to finish, and mixing --ink for the opening paragraph with
+   --ink-2 for the rest made everything after the first sentence look
+   faded, as though it mattered less. */
+.creed p { color: var(--ink); line-height: 1.75; margin: 0 0 1.05rem; }
+.creed__lead { font-size: 1.12rem; }
 
 .creed__list {
   list-style: none; padding: 0;
@@ -1409,7 +1419,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 }
 .creed__list li {
   position: relative; padding-left: 1.6rem;
-  color: var(--ink-2); font-size: .97rem;
+  color: var(--ink); font-size: .99rem;
 }
 /* An em dash would be the obvious mark here. The site does not use them, so
    a rule keeps the list feeling like a set of quiet asides instead. */
@@ -1422,7 +1432,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .creed__sign {
   margin-top: 1.8rem !important; padding-top: 1.4rem;
   border-top: 1px solid var(--line);
-  color: var(--ink) !important;
 }
 .creed__sign b { font-weight: 700; }
 
