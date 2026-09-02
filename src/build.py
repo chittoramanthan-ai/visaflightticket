@@ -104,8 +104,8 @@ SUPABASE_ANON_KEY = "sb_publishable_IcCbMYgZYZGt6Udh2LRTXQ_I38zJepI"
 # Custom events fire through vftTrack() in main.js regardless of provider, so
 # switching provider never means re-instrumenting the site.
 # --------------------------------------------------------------------------
-ANALYTICS = ""                       # "plausible" | "cloudflare" | "ga4" | ""
-ANALYTICS_ID = ""
+ANALYTICS = "ga4"                    # "plausible" | "cloudflare" | "ga4" | ""
+ANALYTICS_ID = "G-V682EE6VBB"
 PLAUSIBLE_HOST = "https://plausible.io"   # change if you self-host
 
 
