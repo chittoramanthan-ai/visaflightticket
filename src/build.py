@@ -462,13 +462,17 @@ FEATURES = [
     ("bulb", "Live PNR",
      "Every booking is real and held in an airline system. Verify the reference "
      "on the carrier&rsquo;s own site before you file. Takes two minutes."),
-    ("headset", "24&times;7 support",
-     "Appointment at six in the morning? Message us at any hour and a person "
-     "answers, and we would rather you asked than guessed."),
-    ("cash", "Cheapest price",
+    ("headset", "Answered by a person",
+     "Appointment at six in the morning? Message us and a person replies, "
+     "including at odd hours, and we would rather you asked than guessed."),
+    # "Cheapest price" was a comparative claim about a market we do not
+    # monitor. One competitor at a lower price makes it false, and in India
+    # that is a consumer-law exposure rather than just an awkward look. The
+    # reason underneath it needs no superlative to land.
+    ("cash", "Priced like what it is",
      "%s per traveller for a one-way leg, %s for a return. No fare is ever "
-     "purchased, so there is "
-     "no fare to recover. That is why it can be this cheap."),
+     "purchased, so there is no fare to recover. That is the whole reason it "
+     "costs so little."),
     ("handshake", "Money-back guarantee",
      "If a reference does not verify, or we fail to deliver, you get a full "
      "refund. Written down, not implied."),
@@ -771,7 +775,7 @@ def airline_strip(heading=None, rows=3):
 <div class="center" style="margin-bottom:2.2rem"><h2>%s</h2>
 <p class="lede">We book on the carrier that actually operates your route, using live availability.</p></div>
 %s
-<p class="center" style="margin-top:1.4rem;color:var(--ink-3);font-size:.83rem">
+<p class="center" style="margin-top:1.4rem;color:var(--ink-2);font-size:.88rem">
 Airline names and marks are the trademarks of their respective owners, shown to indicate carriers we book on.
 No endorsement, partnership or affiliation is implied.</p>""" % (heading, lanes)
 

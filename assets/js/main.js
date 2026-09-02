@@ -585,8 +585,12 @@
       document.documentElement.classList.remove('js-anim');
     }, 4000);
 
-    // count the stat numbers up when the bar first scrolls into view
-    var statEls = document.querySelectorAll('.stats .stat b');
+    // Count the stat numbers up when the bar first scrolls into view.
+    // Skipped entirely for anyone who has asked their OS for less motion:
+    // they keep the real numbers, immediately.
+    var noMotion = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var statEls = noMotion ? [] : document.querySelectorAll('.stats .stat b');
     var cio = new IntersectionObserver(function (entries) {
       for (var e = 0; e < entries.length; e++) {
         if (!entries[e].isIntersecting) continue;
@@ -608,7 +612,11 @@
             el.textContent = pre + v.toLocaleString('en-IN') + post;
             if (p < 1) requestAnimationFrame(step);
           }
-          el.textContent = pre + '0' + post;
+          // Deliberately NOT zeroed before the first frame. requestAnimationFrame
+          // does not run in a background tab, so pre-zeroing left anyone who
+          // opened the site in a new tab looking at "0 lakh+" until they
+          // focused it. The real number stays until an animation frame that
+          // will actually replace it arrives.
           requestAnimationFrame(step);
         })(el, m[1], m[3], target);
       }
