@@ -438,14 +438,14 @@ VISAS = [
     dict(
         slug="thailand-visa-flight-ticket",
         status='visa_free',
-        status_note='60 days visa free for Indians',
-        tips=['Thailand made visa-free entry for Indians permanent at 60 days. You still need proof of onward travel, and airlines check it in India.',
+        status_note='30 days visa free for Indians',
+        tips=['Indians enter visa free for 30 days. That allowance has moved more than once, so confirm it on the official portal before you book a longer trip. You still need proof of onward travel either way, and airlines check it in India.',
  'Grab and Bolt work in Bangkok and are cheaper than metered taxis from the airport, which often refuse the meter.',
  'The BTS and MRT do not accept notes at some machines. Keep coins or buy a Rabbit card.',
  'Songkran in mid-April shuts the country for a week of water fights. Either plan for it or avoid it entirely.'],
         official_src=('Thai e-Visa portal', 'https://www.thaievisa.go.th/'),
         fees=[('Tourist visa, single entry', 'About THB 2,000', 'Roughly US$55, varies a little by embassy'),
- ('Visa exemption', 'Free', 'Most Western passports, 30 or 60 days depending on nationality'),
+ ('Visa exemption', 'Free', 'Indians get 30 days. Other nationalities vary'),
  ('Extension at an immigration office', 'THB 1,900', 'One extension, typically 30 days')],
         steps=[('Check whether you need a visa at all', 'Many nationalities enter free under the exemption scheme. Do not buy something you do not need.'),
  ('If you do need one, use the official e-Visa portal', 'thaievisa.go.th. Agent sites charge a fee to type the same form for you.'),
@@ -464,7 +464,7 @@ VISAS = [
               "enforcement happens at the check-in desk in your departure city. Before you have any chance to "
               "explain your plans to a Thai official.",
         requirements=[
-            "<strong>Proof of onward travel</strong> within your permitted stay. 30, 60 or 90 days depending on entry type.",
+            "<strong>Proof of onward travel</strong> within your permitted stay. 30 days on the visa exemption Indians use, longer on a tourist visa.",
             "<strong>Accommodation details</strong> for the arrival card and for immigration questions.",
             "Proof of funds. Officially 10,000 THB per person, occasionally spot-checked.",
             "For a tourist visa applied for in advance, the itinerary and accommodation in the application pack.",
@@ -477,6 +477,8 @@ VISAS = [
             ("Land-border onward bookings", "Bus and train tickets to Malaysia or Laos are usually accepted, but airline staff read flight bookings faster."),
         ],
         faqs=[
+            ("How long can Indians stay in Thailand without a visa?",
+             "<p>30 days on the visa exemption. A tourist visa gets you longer, and a 30-day extension is available at an immigration office for THB 1,900. Thailand has changed this allowance more than once recently, so check the official portal before booking a long trip.</p>"),
             ("Do I really need proof of onward travel for Thailand?",
              "<p>Yes, and it is enforced at check-in in your departure city. Airlines are financially liable if you are refused entry, so they check before boarding.</p>"),
             ("Does a bus or train ticket count?",
