@@ -1304,3 +1304,6 @@ legend{font-size:.75rem;letter-spacing:.11em;text-transform:uppercase;color:var(
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+/* Priceless ticket stub: services quoted per request rather than listed. */
+.ticket__quote{font-size:1.35rem;letter-spacing:-.01em}

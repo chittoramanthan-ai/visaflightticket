@@ -38,7 +38,7 @@ def insurance():
   <div class="wrap">
     %s
     <div class="wrap--narrow" style="padding:0;margin:0">
-      <p class="eyebrow">From %s per traveller</p>
+      <p class="eyebrow">Visa-compliant cover</p>
       <h1>Travel insurance for your visa application</h1>
       <p class="lede">Schengen consulates want &euro;30,000 of medical cover, valid across the whole area, for
       the exact dates on your itinerary. Get the number or the dates wrong and the file comes back. We issue a
@@ -76,7 +76,7 @@ def insurance():
   <div class="wrap">
     <div class="center" style="margin-bottom:2.4rem">
       <h2>Cover that fits a visa file</h2>
-      <p class="lede">Priced per traveller for the length of the trip.</p>
+      <p class="lede">Quoted per traveller once we know your dates, ages and destination.</p>
     </div>
     <div class="grid g3">%s%s%s</div>
     <p class="center" style="margin-top:1.6rem;color:var(--ink-3);font-size:.9rem">
@@ -89,20 +89,20 @@ def insurance():
 </section>
 
 %s
-""" % (c_html, money(PRICE_INSURE), url("order"), url("visa/schengen-visa-flight-reservation"),
+""" % (c_html, url("order"), url("visa/schengen-visa-flight-reservation"),
        content_core.TRUSTLINE,
        ticket("Schengen compliant", "&euro;30,000 medical and repatriation, valid across all 29 states.",
-              PRICE_INSURE,
+              None,
               ["&euro;30,000 medical cover", "Repatriation and evacuation",
                "Certificate in euros, visa ready", "Dates matched to your itinerary"],
               "Get a quote", "order", code="SCHENGEN"),
        ticket("Worldwide", "For trips outside Europe, where cover is sensible rather than mandatory.",
-              PRICE_INSURE + 300,
+              None,
               ["Higher medical limit", "Baggage and delay cover",
                "Emergency evacuation", "Any destination"],
               "Get a quote", "order", code="GLOBAL", featured=True, badge="Most bought"),
        ticket("Insurance + flight + hotel", "The whole visa file in one order, with dates that agree.",
-              PRICE_BOTH + PRICE_INSURE,
+              None,
               ["Flight reservation with live PNR", "Hotel booking for every night",
                "Schengen-compliant insurance", "All three cross-checked"],
               "Order the pack", "order", code="FULLPACK"),
@@ -115,11 +115,12 @@ def insurance():
         "name": "Travel insurance for visa applications",
         "description": "Schengen-compliant travel medical insurance with EUR 30,000 cover, arranged through licensed insurers and matched to the applicant's flight dates.",
         "brand": {"@id": SITE_URL + "/#organization"},
-        "offers": {"@type": "Offer", "price": str(PRICE_INSURE), "priceCurrency": CURRENCY_CODE,
-                   "availability": "https://schema.org/InStock", "url": abs_url("order")},
+        # No Offer node: an Offer needs a price, and we are no longer
+        # publishing one. A priceless Offer is invalid structured data.
+        "url": abs_url("travel-insurance-for-visa"),
     }
-    add_page(slug, "Travel Insurance for Visa | Schengen &euro;30,000 Cover from %s" % money(PRICE_INSURE),
-             "Travel insurance that satisfies a Schengen visa file: %s30,000 medical cover, repatriation, valid across all 29 states, dates matched to your flight reservation. From %s." % ("&euro;", money(PRICE_INSURE)),
+    add_page(slug, "Travel Insurance for Visa | Schengen &euro;30,000 Medical Cover",
+             "Travel insurance that satisfies a Schengen visa file: %s30,000 medical cover, repatriation, valid across all 29 states, dates matched to your flight reservation." % "&euro;",
              body, schema=[c_schema, product, faq_schema(faqs)],
              priority="0.9", changefreq="weekly")
 
@@ -147,7 +148,7 @@ def esim():
   <div class="wrap">
     %s
     <div class="wrap--narrow" style="padding:0;margin:0">
-      <p class="eyebrow">From %s</p>
+      <p class="eyebrow">Data that works on landing</p>
       <h1>Travel eSIM, working before you land</h1>
       <p class="lede">Keep your Indian number for OTPs and UPI, and get local data the moment the plane doors
       open. No SIM counter, no passport photocopy, no hunting for a shop that takes cards.</p>
@@ -204,20 +205,20 @@ def esim():
 </section>
 
 %s
-""" % (c_html, money(PRICE_ESIM), url("order"), content_core.TRUSTLINE,
+""" % (c_html, url("order"), content_core.TRUSTLINE,
        ICON["shield"], ICON["clock"], ICON["wallet"], ICON["refresh"],
        ticket("Single country", "One destination, one price. The cheapest way if you are not moving around.",
-              PRICE_ESIM,
+              None,
               ["1GB to 20GB options", "7 to 30 days",
                "Instant QR delivery", "Top up in the app"],
               "Choose a pack", "order", code="LOCAL"),
        ticket("Regional", "One eSIM across a whole region. Europe, Southeast Asia, the Gulf.",
-              PRICE_ESIM + 400,
+              None,
               ["Works across the region", "No swapping at borders",
                "Ideal for multi-country visas", "Top up in the app"],
               "Choose a pack", "order", code="REGION", featured=True, badge="Most bought"),
        ticket("Global", "For long or multi-stop trips across continents.",
-              PRICE_ESIM + 1100,
+              None,
               ["120+ countries", "One install, one balance",
                "Good for open-jaw itineraries", "Top up in the app"],
               "Choose a pack", "order", code="GLOBAL"),
@@ -231,10 +232,10 @@ def esim():
         "name": "Travel eSIM data packs",
         "description": "Prepaid travel eSIM data packs for single countries, regions or worldwide, delivered by QR code and installed before departure.",
         "brand": {"@id": SITE_URL + "/#organization"},
-        "offers": {"@type": "Offer", "price": str(PRICE_ESIM), "priceCurrency": CURRENCY_CODE,
-                   "availability": "https://schema.org/InStock", "url": abs_url("order")},
+        # No Offer node: see the insurance page above.
+        "url": abs_url("travel-esim"),
     }
-    add_page(slug, "Travel eSIM for Indians | Data Packs from %s, Keep Your Number" % money(PRICE_ESIM),
-             "Travel eSIM data packs from %s. Keep your Indian number for OTPs and UPI, get local data the moment you land. Single country, regional and global packs." % money(PRICE_ESIM),
+    add_page(slug, "Travel eSIM for Indians | Data Packs That Keep Your Number",
+             "Travel eSIM data packs for Indian travellers. Keep your Indian number for OTPs and UPI, get local data the moment you land. Single country, regional and global packs.",
              body, schema=[c_schema, product, faq_schema(faqs)],
              priority="0.8", changefreq="weekly")

@@ -15,23 +15,69 @@ from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
 # ==========================================================================
 # shared fragments
 # ==========================================================================
-BOARDING_PASS = """
-<div class="pass" role="img" aria-label="Example of a flight reservation document showing passenger name, route, dates and a live PNR">
-  <div class="pass__top"><span>Flight reservation</span><span>Visa purposes</span></div>
+# Carriers that genuinely operate each route we illustrate. The pass used to
+# hardcode "Air France" for every destination, which read as nonsense on a
+# route like Delhi to Paro. Anything not listed here falls back to a status
+# line instead: naming an airline that does not fly the route is worse than
+# naming none, and the roster has already had to be corrected once for
+# carriers that no longer exist.
+ROUTE_CARRIER = {
+    "AKL": "Air New Zealand", "BAH": "Gulf Air",      "BKK": "Thai Airways",
+    "CAI": "EgyptAir",        "CDG": "Air France",    "CMB": "SriLankan Airlines",
+    "DOH": "Qatar Airways",   "DPS": "IndiGo",        "DXB": "Emirates",
+    "GYD": "Azerbaijan Airlines",                     "HKG": "Cathay Pacific",
+    "ICN": "Korean Air",      "IST": "Turkish Airlines",
+    "JFK": "Air India",       "KTM": "IndiGo",        "KUL": "Malaysia Airlines",
+    "KWI": "Kuwait Airways",  "LHR": "British Airways",
+    "MCT": "Oman Air",        "MLE": "IndiGo",        "MNL": "Philippine Airlines",
+    "MRU": "Air Mauritius",   "NBO": "Kenya Airways", "NRT": "Japan Airlines",
+    "PBH": "Drukair",         "RUH": "Saudia",        "SGN": "Vietnam Airlines",
+    "SIN": "Singapore Airlines",                      "SYD": "Air India",
+    "TAS": "Uzbekistan Airways",                      "YYZ": "Air Canada",
+}
+
+
+def boarding_pass(dep="DEL", arr="CDG", variant="flight"):
+    """The specimen document shown beside the copy.
+
+    variant="onward" is for destinations Indians enter without a visa. Heading
+    that card "flight reservation for visa purposes" is simply wrong there, and
+    it undersells what we actually solve: airlines still ask a one-way traveller
+    for proof of onward travel at check-in, visa or no visa.
+    """
+    carrier = ROUTE_CARRIER.get(arr)
+    # Third field is the carrier when we know it flies the route, otherwise a
+    # fact that is true of every reservation we issue.
+    third = ('<div class="pass__f"><span>Carrier</span><b>%s</b></div>' % carrier
+             if carrier else
+             '<div class="pass__f"><span>Status</span><b>Held</b></div>')
+
+    if variant == "onward":
+        top = "<span>Onward travel proof</span><span>Airline check-in</span>"
+        label = ("Example of an onward travel booking showing passenger name, route, "
+                 "dates and a live PNR")
+    else:
+        top = "<span>Flight reservation</span><span>Visa purposes</span>"
+        label = ("Example of a flight reservation document showing passenger name, "
+                 "route, dates and a live PNR")
+
+    return """
+<div class="pass" role="img" aria-label="%s">
+  <div class="pass__top">%s</div>
   <div class="pass__body">
     <div class="pass__row">
       <div class="pass__f"><span>Passenger</span><b>SURNAME / GIVEN NAME</b></div>
       <div class="pass__f"><span>Class</span><b>Economy</b></div>
     </div>
     <div class="pass__route">
-      <span class="ticket__iata">DEL</span>
+      <span class="ticket__iata">%s</span>
       <span class="ticket__plane">%s</span>
-      <span class="ticket__iata">CDG</span>
+      <span class="ticket__iata">%s</span>
     </div>
     <div class="pass__row" style="margin-bottom:0">
       <div class="pass__f"><span>Departure</span><b>14 Sep</b></div>
       <div class="pass__f"><span>Return</span><b>28 Sep</b></div>
-      <div class="pass__f"><span>Carrier</span><b>Air France</b></div>
+      %s
     </div>
   </div>
   <div class="pass__foot">
@@ -39,7 +85,11 @@ BOARDING_PASS = """
       <span class="pnr-chip">K7QX2M</span></div>
     <span class="verified">%s Verifiable on the airline site</span>
   </div>
-</div>""" % (ICON["plane"], ICON["check"])
+</div>""" % (label, top, dep, ICON["plane"], arr, third, ICON["check"])
+
+
+# Default specimen, for pages with no particular route in mind.
+BOARDING_PASS = boarding_pass()
 
 
 TRUSTLINE = """

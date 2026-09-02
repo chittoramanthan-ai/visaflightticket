@@ -756,7 +756,13 @@ def _page(v):
     others = "".join('<li><a href="%s">%s</a></li>' % (url("visa/" + o["slug"]), o["label"])
                      for o in VISAS if o["slug"] != v["slug"])
 
-    pass_art = content_core.BOARDING_PASS.replace(">DEL<", ">%s<" % dep).replace(">CDG<", ">%s<" % arr)
+    # Visa-free destinations get the onward-travel card instead of the
+    # visa-purposes one. A reader who needs no visa is not helped by a document
+    # headed "for visa purposes", and it invites the fair question of why we
+    # are selling them anything at all. Proof of onward travel is the thing
+    # airlines still ask them for.
+    pass_art = content_core.boarding_pass(
+        dep, arr, variant="onward" if v["status"] == "visa_free" else "flight")
 
     body = """
 <section>

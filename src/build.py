@@ -312,6 +312,10 @@ FOOTER_COMPANY = [
 # --------------------------------------------------------------------------
 def ticket(title, desc, price, features, cta_label, cta_href,
            code="ECONOMY", featured=False, badge=None, price_note="per traveller"):
+    """price=None prints "Quote" on the stub instead of a figure. Used where a
+    price genuinely depends on inputs we do not have yet: insurance varies by
+    age, duration and destination, eSIM by country and data. Publishing a
+    "from" number for those sets an expectation the real quote then breaks."""
     lis = "".join("<li>%s</li>" % f for f in features)
     return """
 <div class="ticket-slot">
@@ -333,7 +337,8 @@ def ticket(title, desc, price, features, cta_label, cta_href,
         '<span class="tag-best">%s</span>' % badge if badge else "",
         title, desc, lis,
         "primary" if featured else "ghost", url(cta_href), code.lower(), cta_label,
-        money(price), price_note, code,
+        money(price) if price is not None else '<span class="ticket__quote">Quote</span>',
+        price_note, code,
     )
 
 
@@ -819,6 +824,13 @@ def sticky_cta(active):
     when the header CTA came out of the nav."""
     if active in ("order", "login"):
         return ""
+
+    # Pages that deliberately publish no price must not carry a price chip.
+    # Insurance and eSIM are quoted per request, and a "from Rs499" floating
+    # over a priceless page reads as that page's price, not the flight one.
+    priceless = active in ("travel-insurance-for-visa", "travel-esim")
+    price_chip = "" if priceless else         '<span class="scta__price"><em>from</em>%s</span>' % money(PRICE_FLIGHT)
+
     return """
 <button type="button" class="totop" id="totop" aria-label="Back to top">%s</button>
 <div class="scta" id="scta" data-hidden>
@@ -828,12 +840,12 @@ def sticky_cta(active):
       <span>%s Live PNR &middot; delivered in %s &middot; money-back guarantee</span>
     </div>
     <div class="scta__act">
-      <span class="scta__price"><em>from</em>%s</span>
+      %s
       <a class="btn btn--primary" href="%s">Get my ticket</a>
       <a class="btn btn--wa scta__wa" href="https://wa.me/%s" aria-label="Chat on WhatsApp" data-track="whatsapp_click" data-track-where="sticky">%s</a>
     </div>
   </div>
-</div>""" % (ICON["up"], ICON["check"], DELIVERY, money(PRICE_FLIGHT), url("order"),
+</div>""" % (ICON["up"], ICON["check"], DELIVERY, price_chip, url("order"),
              re.sub(r"[^0-9]", "", WHATSAPP), ICON["whatsapp"])
 
 
@@ -881,7 +893,7 @@ def footer(visa_links):
       </div>
       <div><h2 class="ftr__h">Services</h2><ul>%s</ul></div>
       <div><h2 class="ftr__h">Visa guides</h2><ul><li class="ftr__sep">Visa free for Indians</li>%s
-        <li><a href="%s"><b>All 31 guides</b></a></li></ul></div>
+        <li><a href="%s"><b>All %d guides</b></a></li></ul></div>
       <div><h2 class="ftr__h">Company</h2><ul>%s</ul></div>
     </div>
     <div class="ftr__bottom">
@@ -891,7 +903,8 @@ def footer(visa_links):
   </div>
 </footer>""" % (url(), brand_mark(), DELIVERY, iata_badge("sm"), "mailto:" + EMAIL,
                 ICON["mail"], ICON["sun"],
-                services, visas, url("visa"), company, date.today().year, BRAND)
+                services, visas, url("visa"), len(visa_links or []) or 31,
+                company, date.today().year, BRAND)
 
 
 def analytics_tag():
