@@ -462,17 +462,13 @@ FEATURES = [
     ("bulb", "Live PNR",
      "Every booking is real and held in an airline system. Verify the reference "
      "on the carrier&rsquo;s own site before you file. Takes two minutes."),
-    ("headset", "Answered by a person",
-     "Appointment at six in the morning? Message us and a person replies, "
-     "including at odd hours, and we would rather you asked than guessed."),
-    # "Cheapest price" was a comparative claim about a market we do not
-    # monitor. One competitor at a lower price makes it false, and in India
-    # that is a consumer-law exposure rather than just an awkward look. The
-    # reason underneath it needs no superlative to land.
-    ("cash", "Priced like what it is",
+    ("headset", "24&times;7 support",
+     "Appointment at six in the morning? Message us at any hour and a person "
+     "answers, and we would rather you asked than guessed."),
+    ("cash", "Cheapest price",
      "%s per traveller for a one-way leg, %s for a return. No fare is ever "
-     "purchased, so there is no fare to recover. That is the whole reason it "
-     "costs so little."),
+     "purchased, so there is "
+     "no fare to recover. That is why it can be this cheap."),
     ("handshake", "Money-back guarantee",
      "If a reference does not verify, or we fail to deliver, you get a full "
      "refund. Written down, not implied."),
