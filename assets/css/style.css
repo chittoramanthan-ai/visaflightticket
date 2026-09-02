@@ -1435,12 +1435,24 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .ftr__mail{margin:.9rem 0 0;font-size:.88rem;color:var(--ink-3)}
 .ftr__mail a{color:var(--ink-2);text-decoration:underline;text-underline-offset:2px}
 
-/* Caret for the hero typing effect. Sized from the text so it matches
-   whatever the heading scales to. */
-.type-caret{
-  display:inline-block;width:.06em;height:.82em;margin-left:.06em;
-  background:var(--brand);vertical-align:-.06em;
+/* Hero typing effect.
+   Characters are laid out from the first frame and only made visible in
+   turn, so the block never reflows. visibility, not display or opacity:
+   display would collapse the layout we are trying to preserve, and opacity
+   would still be painted by some screen readers as visible text. */
+.tc{visibility:hidden}
+.tc--on{visibility:visible}
+
+/* Caret drawn off the current character. Absolutely positioned so it takes
+   no space and therefore cannot nudge the text along as it moves. */
+.tc--cur{position:relative}
+.tc--cur::after{
+  content:"";position:absolute;left:100%;top:.1em;
+  width:.055em;height:.82em;background:var(--brand);
   animation:type-blink 1s steps(1) infinite;
 }
 @keyframes type-blink{50%{opacity:0}}
-@media (prefers-reduced-motion:reduce){.type-caret{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .tc{visibility:visible}
+  .tc--cur::after{display:none}
+}

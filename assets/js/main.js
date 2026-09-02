@@ -51,6 +51,12 @@
   // over something that is correct without it: search engines index the
   // markup, a JS failure leaves the headline intact, and assistive tech reads
   // the whole string because aria-label carries it throughout.
+  //
+  // Every character is laid out from the start and merely made visible in
+  // turn. Typing by appending text instead makes a half-finished word wrap to
+  // the next line and then jump back as it completes, so the whole headline
+  // shuffles up and down while it types. Reserving the final layout up front
+  // is the only way to get a genuinely still block.
   (function () {
     var h = document.querySelector('h1[data-type]');
     if (!h) return;
@@ -62,30 +68,40 @@
     var text = h.textContent.trim();
     if (!text || text.length > 120) return;   // long headings look silly typed
 
-    // Lock the height BEFORE emptying, or the page below jumps up and then
-    // back down as the line count changes. Layout shift is the usual reason
-    // effects like this feel cheap.
-    var h0 = h.getBoundingClientRect().height;
-    h.style.minHeight = h0 + 'px';
     h.setAttribute('aria-label', text);
+    h.classList.add('is-typing');
 
-    var out = document.createElement('span');
-    var caret = document.createElement('span');
-    caret.className = 'type-caret';
-    caret.setAttribute('aria-hidden', 'true');
+    // Build the character spans. Line breaking still happens at the spaces in
+    // the text, exactly as it did before, because inline elements do not
+    // themselves create break opportunities.
+    var frag = document.createDocumentFragment();
+    var spans = [];
+    for (var i = 0; i < text.length; i++) {
+      var c = document.createElement('span');
+      c.className = 'tc';
+      c.textContent = text.charAt(i);
+      frag.appendChild(c);
+      spans.push(c);
+    }
     h.textContent = '';
-    h.appendChild(out);
-    h.appendChild(caret);
+    h.setAttribute('aria-hidden', 'false');
+    h.appendChild(frag);
 
-    var i = 0;
+    var n = 0, prev = null;
     function tick() {
-      out.textContent = text.slice(0, ++i);
-      if (i < text.length) {
-        // Slight pause at sentence breaks so it reads rather than rattles.
-        var c = text.charAt(i - 1);
-        setTimeout(tick, c === '.' ? 260 : 26);
+      if (prev) prev.classList.remove('tc--cur');
+      var el = spans[n];
+      el.classList.add('tc--on', 'tc--cur');
+      prev = el;
+      n++;
+      if (n < spans.length) {
+        // A beat at the sentence break, so it reads rather than rattles.
+        setTimeout(tick, text.charAt(n - 1) === '.' ? 300 : 24);
       } else {
-        setTimeout(function () { caret.remove(); h.style.minHeight = ''; }, 900);
+        setTimeout(function () {
+          el.classList.remove('tc--cur');
+          h.classList.remove('is-typing');
+        }, 900);
       }
     }
     setTimeout(tick, 260);
