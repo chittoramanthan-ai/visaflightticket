@@ -275,15 +275,15 @@ def home():
     <h2>Three things people confuse constantly</h2>
     <p class="lede">Only one of them is both safe and cheap, and it is not the one most people reach for first.</p>
     <div class="tbl-wrap" style="margin-top:1.6rem">
-      <table class="cmp">
+      <table>
         <thead><tr><th>&nbsp;</th><th class="col-ours">Flight reservation<small>What we issue</small></th><th>Fully paid ticket</th><th>Edited / fake PDF</th></tr></thead>
         <tbody>
-          <tr><td><b>Exists in the airline system</b></td><td data-col="Flight reservation" class="col-ours"><span class="yes">Yes</span></td><td data-col="Fully paid ticket"><span class="yes">Yes</span></td><td data-col="Edited / fake PDF"><span class="no">No</span></td></tr>
-          <tr><td><b>PNR verifies on the airline site</b></td><td data-col="Flight reservation" class="col-ours"><span class="yes">Yes</span></td><td data-col="Fully paid ticket"><span class="yes">Yes</span></td><td data-col="Edited / fake PDF"><span class="no">No</span></td></tr>
-          <tr><td><b>Typical cost</b></td><td data-col="Flight reservation" class="col-ours"><b>%s</b> one way</td><td data-col="Fully paid ticket">&#8377;35,000 &ndash; &#8377;1,50,000</td><td data-col="Edited / fake PDF">&#8377;0 &ndash; &#8377;500</td></tr>
-          <tr><td><b>Money at risk if the visa is refused</b></td><td data-col="Flight reservation" class="col-ours"><span class="yes">Nothing</span></td><td data-col="Fully paid ticket"><span class="no">The full fare</span></td><td data-col="Edited / fake PDF"><span class="yes">Nothing</span></td></tr>
-          <tr><td><b>Risk of a fraud finding</b></td><td data-col="Flight reservation" class="col-ours"><span class="yes">None</span></td><td data-col="Fully paid ticket"><span class="yes">Nothing</span></td><td data-col="Edited / fake PDF"><span class="no">Refusal, multi-year ban</span></td></tr>
-          <tr><td><b>Accepted for visa filing</b></td><td data-col="Flight reservation" class="col-ours"><span class="yes">Yes</span></td><td data-col="Fully paid ticket"><span class="yes">Yes</span></td><td data-col="Edited / fake PDF"><span class="no">Until it is checked</span></td></tr>
+          <tr><td><b>Exists in the airline system</b></td><td class="col-ours"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="no">No</span></td></tr>
+          <tr><td><b>PNR verifies on the airline site</b></td><td class="col-ours"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="no">No</span></td></tr>
+          <tr><td><b>Typical cost</b></td><td class="col-ours"><b>%s</b> one way</td><td>&#8377;35,000 &ndash; &#8377;1,50,000</td><td>&#8377;0 &ndash; &#8377;500</td></tr>
+          <tr><td><b>Money at risk if the visa is refused</b></td><td class="col-ours"><span class="yes">Nothing</span></td><td><span class="no">The full fare</span></td><td><span class="yes">Nothing</span></td></tr>
+          <tr><td><b>Risk of a fraud finding</b></td><td class="col-ours"><span class="yes">None</span></td><td><span class="yes">Nothing</span></td><td><span class="no">Refusal, multi-year ban</span></td></tr>
+          <tr><td><b>Accepted for visa filing</b></td><td class="col-ours"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="no">Until it is checked</span></td></tr>
         </tbody>
       </table>
     </div>

@@ -30,8 +30,8 @@
 <script>document.documentElement.className+=" js-anim";window.VFT_CONFIG={supabaseUrl:"https://jijnknqfampnmhyakxzz.supabase.co",supabaseAnonKey:"sb_publishable_IcCbMYgZYZGt6Udh2LRTXQ_I38zJepI",basePath:"",email:"support@visaflighttickets.com",whatsapp:"https://wa.me/918619663455",currency:"₹",orderMode:"whatsapp"};window.vftTrack=function(){(window.vftTrack.q=window.vftTrack.q||[]).push(arguments)}</script>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/jakarta-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin.woff2" crossorigin>
-<link rel="preload" as="style" href="/assets/css/style.css?v=a550d9b0">
-<link rel="stylesheet" href="/assets/css/style.css?v=a550d9b0">
+<link rel="preload" as="style" href="/assets/css/style.css?v=a6a04387">
+<link rel="stylesheet" href="/assets/css/style.css?v=a6a04387">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-V682EE6VBB"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-V682EE6VBB")</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://visaflighttickets.com/"},{"@type":"ListItem","position":2,"name":"Verify a PNR"}]},{"@type":"HowTo","name":"How to verify a flight reservation PNR on an airline website","description":"Four steps to confirm that a flight reservation for a visa application is real and live in the airline system.","totalTime":"PT2M","step":[{"@type":"HowToStep","position":1,"name":"Find the PNR on your itinerary","text":"It is a six-character alphanumeric code, printed near the top of the document, usually labelled &lsquo;Booking reference&rsquo;, &lsquo;PNR&rsquo;, &lsquo;Reservation code&rsquo; or &lsquo;Record locator&rsquo;. Example format: K7QX2M."},{"@type":"HowToStep","position":2,"name":"Open the operating airline&rsquo;s website","text":"Use the carrier shown on the first leg. Go to the section called &lsquo;Manage booking&rsquo;, &lsquo;My trips&rsquo; or &lsquo;Check-in&rsquo;. The wording differs, the function does not."},{"@type":"HowToStep","position":3,"name":"Enter the PNR and the surname","text":"Surname only, spelled exactly as on the itinerary. Most systems reject a full name in that field."},{"@type":"HowToStep","position":4,"name":"Read what comes back","text":"A valid reservation returns your itinerary: passenger name, flight numbers, dates, times. That is what a consular officer sees when they run the same check."}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"My PNR does not come up. What now?","acceptedAnswer":{"@type":"Answer","text":"Three ordinary explanations before you assume the worst. First, you may be checking the wrong carrier. On a codeshare, the booking sits with the operating airline, not the one whose flight number is printed. Second, some systems need a few minutes to propagate. Third, the surname field may need the surname alone. If it still fails, email us the order reference and we will reissue."}},{"@type":"Question","name":"Can a consulate see that the ticket is unpaid?","acceptedAnswer":{"@type":"Answer","text":"Yes, and that is fine. A reservation shows a booking status rather than a ticket number. Consulates know the difference and ask for reservations for exactly this reason. They do not want applicants buying fares before a decision."}},{"@type":"Question","name":"Does checking the booking cancel it?","acceptedAnswer":{"@type":"Answer","text":"No. Looking up a reservation is read-only. Just avoid clicking anything labelled cancel, and do not attempt online check-in."}},{"@type":"Question","name":"How can I tell a fake itinerary from a real one?","acceptedAnswer":{"@type":"Answer","text":"Run this exact check. A fabricated document fails at step four: either the code returns nothing, or it returns somebody else&rsquo;s trip. There is no other reliable test. A forged PDF can look perfect."}}]}]}</script>
 </head>
@@ -88,16 +88,16 @@
     <p>Every major carrier exposes the same lookup. Search the airline name plus &ldquo;manage booking&rdquo; and use the
     official domain, never a link forwarded to you by a third party.</p>
     <div class="tbl-wrap">
-      <table class="cmp">
+      <table>
         <thead><tr><th>Airline group</th><th>Where to look</th><th>Fields required</th></tr></thead>
         <tbody>
-          <tr><td><b>Emirates, Qatar, Etihad, Turkish</b></td><td data-col="Where to look">Manage booking / My trips</td><td data-col="Fields required">PNR + surname</td></tr>
-          <tr><td><b>Lufthansa, Swiss, Austrian, Brussels</b></td><td data-col="Where to look">My bookings</td><td data-col="Fields required">PNR + surname</td></tr>
-          <tr><td><b>Air France, KLM</b></td><td data-col="Where to look">My bookings</td><td data-col="Fields required">PNR + surname</td></tr>
-          <tr><td><b>British Airways, Iberia</b></td><td data-col="Where to look">Manage my booking</td><td data-col="Fields required">PNR + surname</td></tr>
-          <tr><td><b>Air India, IndiGo, Vistara</b></td><td data-col="Where to look">Manage booking / Edit booking</td><td data-col="Fields required">PNR + surname or email</td></tr>
-          <tr><td><b>United, Delta, American</b></td><td data-col="Where to look">My trips</td><td data-col="Fields required">Confirmation code + surname</td></tr>
-          <tr><td><b>Singapore, Thai, Cathay, ANA, JAL</b></td><td data-col="Where to look">Manage booking</td><td data-col="Fields required">PNR + surname</td></tr>
+          <tr><td><b>Emirates, Qatar, Etihad, Turkish</b></td><td>Manage booking / My trips</td><td>PNR + surname</td></tr>
+          <tr><td><b>Lufthansa, Swiss, Austrian, Brussels</b></td><td>My bookings</td><td>PNR + surname</td></tr>
+          <tr><td><b>Air France, KLM</b></td><td>My bookings</td><td>PNR + surname</td></tr>
+          <tr><td><b>British Airways, Iberia</b></td><td>Manage my booking</td><td>PNR + surname</td></tr>
+          <tr><td><b>Air India, IndiGo, Vistara</b></td><td>Manage booking / Edit booking</td><td>PNR + surname or email</td></tr>
+          <tr><td><b>United, Delta, American</b></td><td>My trips</td><td>Confirmation code + surname</td></tr>
+          <tr><td><b>Singapore, Thai, Cathay, ANA, JAL</b></td><td>Manage booking</td><td>PNR + surname</td></tr>
         </tbody>
       </table>
     </div>

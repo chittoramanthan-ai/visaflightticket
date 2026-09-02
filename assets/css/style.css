@@ -1513,48 +1513,21 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .ftr .btn-row { align-items: center; gap: .6rem; }
 }
 
+
+
 /* --------------------------------------------------------------------------
-   Comparison table on phones.
-   Four columns cannot fit 375px, and side-scrolling a comparison defeats the
-   point of it: you can never see two options at once, which is the only
-   reason the table exists. Each row becomes its own block, with the three
-   options listed under the thing being compared.
+   Grid and flex children default to min-width:auto, which means they refuse
+   to shrink below their own content and push out of the container instead.
+   That is what made the order form 295px wide inside a 265px column on a
+   320px phone, and it is the single most common cause of a page that scrolls
+   sideways by a few pixels for no visible reason.
    -------------------------------------------------------------------------- */
-@media (max-width: 700px) {
-  .tbl-wrap:has(.cmp) { overflow-x: visible; border: 0; background: none; box-shadow: none; }
-  .cmp, .cmp tbody, .cmp tr, .cmp td { display: block; width: auto; }
-  .cmp thead { display: none; }
-  .cmp { min-width: 0; }
+.grid > *, .hero__grid > *, .order-grid > *, .ftr__grid > *,
+.g2 > *, .g3 > *, .g4 > * { min-width: 0; }
 
-  .cmp tr {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    margin-bottom: .9rem;
-    padding: .2rem .1rem .35rem;
-    box-shadow: var(--shadow-sm);
-  }
-  /* first cell in a row is the thing being compared */
-  .cmp td:first-child {
-    border: 0;
-    padding: .7rem .9rem .55rem;
-    font-size: 1rem;
-  }
-  .cmp td:first-child b { font-weight: 750; }
-
-  .cmp td[data-col] {
-    display: flex; align-items: baseline; justify-content: space-between;
-    gap: 1rem; border: 0; border-top: 1px solid var(--line);
-    padding: .6rem .9rem; font-size: .95rem; text-align: right;
-  }
-  .cmp td[data-col]::before {
-    content: attr(data-col);
-    font-size: .78rem; font-weight: 650; color: var(--ink-3);
-    text-align: left; flex: 1 1 auto; min-width: 0;
-  }
-  /* our column stays visually distinct, as it does on desktop */
-  .cmp td.col-ours { background: var(--brand-soft); }
-  .cmp td.col-ours::before { color: var(--brand-ink); }
+/* Very narrow phones need the gutter back more than they need the padding. */
+@media (max-width: 359px) {
+  .wrap { padding-inline: 14px; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1572,22 +1545,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   }
   h2 { line-height: 1.18; }
   section > .wrap > .center { margin-bottom: 1.4rem; }
-  /* Stacked cards and tickets were inheriting desktop-sized gaps too. */
   .grid { gap: 1rem; }
   .ticket-slot + .ticket-slot { margin-top: 1rem; }
-}
-
-/* --------------------------------------------------------------------------
-   Grid and flex children default to min-width:auto, which means they refuse
-   to shrink below their own content and push out of the container instead.
-   That is what made the order form 295px wide inside a 265px column on a
-   320px phone, and it is the single most common cause of a page that scrolls
-   sideways by a few pixels for no visible reason.
-   -------------------------------------------------------------------------- */
-.grid > *, .hero__grid > *, .order-grid > *, .ftr__grid > *,
-.g2 > *, .g3 > *, .g4 > * { min-width: 0; }
-
-/* Very narrow phones need the gutter back more than they need the padding. */
-@media (max-width: 359px) {
-  .wrap { padding-inline: 14px; }
 }

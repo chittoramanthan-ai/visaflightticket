@@ -1,11 +1,25 @@
+import re
+from urllib.parse import quote
 # -*- coding: utf-8 -*-
 """Travel insurance and eSIM: the two things people buy right after the visa."""
 
 from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
                    PRICE_FLIGHT, PRICE_BOTH, PRICE_ESIM, PRICE_INSURE,
                    CURRENCY_CODE, money, add_page, url, abs_url,
-                   faq_block, faq_schema, crumbs, cta_band, ticket, doodles)
+                   faq_block, faq_schema, crumbs, cta_band, ticket, doodles,
+                   WHATSAPP)
 import content_core
+
+
+# Insurance is quoted, not priced on the site, so every "Get a quote" goes
+# straight to a chat with the enquiry already written. The message is defined
+# once here so the hero button and the three plan cards cannot drift apart.
+INSURE_WA = ("https://wa.me/" + re.sub(r"[^0-9]", "", WHATSAPP) +
+             "?text=" + quote("I want to buy travel insurance for my trip"))
+
+
+ESIM_WA = ("https://wa.me/" + re.sub(r"[^0-9]", "", WHATSAPP) +
+           "?text=" + quote("I want to buy a travel eSIM for my trip"))
 
 
 def build():
@@ -89,23 +103,23 @@ def insurance():
 </section>
 
 %s
-""" % (c_html, url("order"), url("visa/schengen-visa-flight-reservation"),
+""" % (c_html, INSURE_WA, url("visa/schengen-visa-flight-reservation"),
        content_core.TRUSTLINE,
        ticket("Schengen compliant", "&euro;30,000 medical and repatriation, valid across all 29 states.",
               None,
               ["&euro;30,000 medical cover", "Repatriation and evacuation",
                "Certificate in euros, visa ready", "Dates matched to your itinerary"],
-              "Get a quote", "order", code="SCHENGEN"),
+              "Get a quote", INSURE_WA, code="SCHENGEN"),
        ticket("Worldwide", "For trips outside Europe, where cover is sensible rather than mandatory.",
               None,
               ["Higher medical limit", "Baggage and delay cover",
                "Emergency evacuation", "Any destination"],
-              "Get a quote", "order", code="GLOBAL", featured=True, badge="Most bought"),
+              "Get a quote", INSURE_WA, code="GLOBAL", featured=True, badge="Most bought"),
        ticket("Insurance + flight + hotel", "The whole visa file in one order, with dates that agree.",
               None,
               ["Flight reservation with live PNR", "Hotel booking for every night",
                "Schengen-compliant insurance", "All three cross-checked"],
-              "Order the pack", "order", code="FULLPACK"),
+              "Order the pack", INSURE_WA, code="FULLPACK"),
        faq_block(faqs, "Travel insurance questions"),
        cta_band("One order, one set of dates",
                 "Insurance that matches the itinerary, because we issued the itinerary."))
@@ -205,23 +219,23 @@ def esim():
 </section>
 
 %s
-""" % (c_html, url("order"), content_core.TRUSTLINE,
+""" % (c_html, ESIM_WA, content_core.TRUSTLINE,
        ICON["shield"], ICON["clock"], ICON["wallet"], ICON["refresh"],
        ticket("Single country", "One destination, one price. The cheapest way if you are not moving around.",
               None,
               ["1GB to 20GB options", "7 to 30 days",
                "Instant QR delivery", "Top up in the app"],
-              "Choose a pack", "order", code="LOCAL"),
+              "Choose a pack", ESIM_WA, code="LOCAL"),
        ticket("Regional", "One eSIM across a whole region. Europe, Southeast Asia, the Gulf.",
               None,
               ["Works across the region", "No swapping at borders",
                "Ideal for multi-country visas", "Top up in the app"],
-              "Choose a pack", "order", code="REGION", featured=True, badge="Most bought"),
+              "Choose a pack", ESIM_WA, code="REGION", featured=True, badge="Most bought"),
        ticket("Global", "For long or multi-stop trips across continents.",
               None,
               ["120+ countries", "One install, one balance",
                "Good for open-jaw itineraries", "Top up in the app"],
-              "Choose a pack", "order", code="GLOBAL"),
+              "Choose a pack", ESIM_WA, code="GLOBAL"),
        doodles("globe", "map", "compass", "camera"),
        faq_block(faqs, "eSIM questions"),
        cta_band("Sorted before you take off",

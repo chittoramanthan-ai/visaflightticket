@@ -150,6 +150,12 @@ def url(path=""):
     JSON and header contexts where that escaping would be wrong, and no page
     slug has a query anyway.
     """
+    # An absolute or scheme URL passes straight through. Without this, a
+    # component that takes a link (ticket, cta_band) could only ever point at
+    # our own pages, and a WhatsApp or mailto destination came out mangled as
+    # "/https://wa.me/.../".
+    if re.match(r"^(https?:|mailto:|tel:|upi:)", path):
+        return path
     path, sep, query = path.partition("?")
     path = path.strip("/")
     out = BASE_PATH + "/" if not path else BASE_PATH + "/" + path + "/"
@@ -1017,56 +1023,12 @@ def add_page(slug, title, description, body, schema=None, og_type="website",
     ))
 
 
-def responsive_tables(html):
-    """Label every wide comparison table so it can restack on a phone.
-
-    Four columns cannot fit 375px. Side-scrolling a comparison also defeats
-    its own purpose, because you can never see two options at once, which is
-    the only reason the table exists. The CSS turns each row into a block on
-    small screens, and each cell needs to say which column it came from or the
-    values become meaningless once the header row is hidden.
-
-    Done here rather than by hand in the templates so it covers every table on
-    the site, including ones added later, and cannot be forgotten.
-    """
-    def fix(m):
-        table = m.group(0)
-        heads = re.findall(r"<th[^>]*>(.*?)</th>", table, re.S)
-        # 3 headers means a blank corner plus two options being compared, which
-        # already overflows a phone once the labels are real sentences. Only
-        # genuine two-column tables, like the visa fee lists, stay tables.
-        if len(heads) < 3:
-            return table
-        # drop the leading blank corner cell, strip any markup from the labels
-        labels = [re.sub(r"<[^>]+>", " ", h) for h in heads[1:]]
-        labels = [re.sub(r"\s+", " ", l).replace("&nbsp;", " ").strip() for l in labels]
-
-        def row(rm):
-            cells = re.findall(r"<td[^>]*>.*?</td>", rm.group(0), re.S)
-            if len(cells) != len(labels) + 1:
-                return rm.group(0)
-            out = cells[0]
-            for i, c in enumerate(cells[1:]):
-                if "data-col=" not in c:
-                    c = c.replace("<td", '<td data-col="%s"' % labels[i], 1)
-                out += c
-            return rm.group(0).replace("".join(cells), out, 1)
-
-        table = re.sub(r"<tr>.*?</tr>", row, table, flags=re.S)
-        if 'class="cmp"' not in table:
-            table = table.replace("<table", '<table class="cmp"', 1)
-        return table
-
-    return re.sub(r"<table[^>]*>.*?</table>", fix, html, flags=re.S)
-
-
 def write_pages(visa_links):
     for p in PAGES:
         active = p["slug"].split("/")[0]
         graph = list(p["schema"])
         if p["slug"] == "":
             graph = [ORG_SCHEMA, WEBSITE_SCHEMA] + graph
-        p["body"] = responsive_tables(p["body"])
         html = PAGE_TPL.format(
             analytics=analytics_tag(),
             title=p["title"],
