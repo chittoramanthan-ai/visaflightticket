@@ -313,17 +313,26 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
 .cta > *:not(.fpath){position:relative;z-index:1}
 .fpath{
   /* Natural aspect, not stretched to fill: stretching turns the pin and the
-     plane into ovals. Sits inside the CTA slab, which has the room for it. */
-  position:absolute;left:0;right:0;bottom:-8%;width:100%;height:auto;
-  z-index:0;pointer-events:none;color:#fff;opacity:.28;
+     plane into ovals. */
+  position:absolute;left:0;right:0;bottom:2%;width:100%;height:auto;
+  z-index:0;pointer-events:none;color:currentColor;opacity:.28;
 }
+/* The colour has to follow what it is drawn on. It used to be white
+   everywhere, which is correct inside the dark CTA slab and completely
+   invisible on the light hero, so the whole flourish only existed in dark
+   mode. */
+.cta .fpath{color:#fff;opacity:.30}
+.hero .fpath{color:var(--brand);opacity:.14;bottom:14%}
+:root[data-theme="dark"] .hero .fpath{color:#9fb6ee;opacity:.26}
 .fpath__line{
   stroke-dashoffset:0;
   animation:fp-draw 2.2s cubic-bezier(.4,0,.2,1) both;
 }
 @keyframes fp-draw{from{stroke-dasharray:1 13;stroke-dashoffset:420}to{stroke-dashoffset:0}}
 .fpath__pin{opacity:.95}
-.fpath__hole{fill:#1b3f8f}
+/* The pin's inner hole should read as a hole, so it takes the page behind it. */
+.fpath__hole{fill:var(--bg)}
+.cta .fpath__hole{fill:#1b3f8f}
 
 .fpath__plane{animation:fp-float 6s ease-in-out infinite;opacity:1}
 @keyframes fp-float{0%,100%{transform:translate(1068px,112px) rotate(42deg)}
@@ -395,6 +404,21 @@ section > .wrap > .center{margin-bottom:var(--sp-block)}
 .card--link{transition:transform .2s cubic-bezier(.22,.61,.36,1),box-shadow .2s ease,border-color .2s ease}
 .card--link:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--brand)}
 .card--link:hover .card__ico{transform:scale(1.08) rotate(-3deg)}
+
+/* A whole card is one anchor, so the global a:hover underline was striking
+   through the eyebrow, the description and the "read the guide" line all at
+   once, which reads as a rendering fault rather than a hover state. Only the
+   heading should respond, the way it would if the heading were the link. */
+.card--link:hover,
+.card--link:hover .tagline,
+.card--link:hover p,
+.card--link:hover .more{text-decoration:none}
+.card--link:hover h3{
+  text-decoration:underline;
+  text-decoration-thickness:1.5px;
+  text-underline-offset:.16em;
+  text-decoration-color:color-mix(in srgb,var(--brand) 45%,transparent);
+}
 .card__ico{
   width:44px;height:44px;border-radius:13px;background:var(--brand-soft);color:var(--brand);
   transition:transform .25s cubic-bezier(.22,.61,.36,1),background .2s ease;
