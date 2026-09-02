@@ -139,6 +139,51 @@ def build():
 
 
 # --------------------------------------------------------------------------
+def travellers_band():
+    """The "why we care" section, as opposed to the "why this exists" section
+    on the About page, which is mechanical.
+
+    Everything here is either a stance we choose to hold or a first-person
+    statement the owner can stand behind. Deliberately no invented founder
+    anecdote, no community size, no member count. The whole site's credibility
+    rests on not making claims it cannot support, and an emotional section is
+    the easiest place in the world to break that rule.
+    """
+    return """
+<section class="band">
+  <div class="wrap wrap--narrow">
+    <div class="creed">
+      <p class="eyebrow">By travellers, for travellers</p>
+      <h2>We have filled in these forms ourselves</h2>
+
+      <p class="creed__lead">Nobody sets out to become an expert in visa paperwork. You get there because a
+      trip matters to you. A sister&rsquo;s wedding. A first interview abroad. A place you have wanted to
+      see since you were small enough to find it on a map.</p>
+
+      <p>And then the folder starts. Bank statements going back six months. Insurance that has to say the
+      right number in the right currency. An employment letter on the right paper. And a flight booking you
+      cannot sensibly buy, for a trip nobody has approved yet.</p>
+
+      <p>We have been on that side of the counter. We have refreshed an appointment page at six in the
+      morning. We have rebuilt an itinerary the night before a submission because the dates had to match to
+      the day. That is why this exists, and it is why we are stubborn about the parts that actually
+      matter.</p>
+
+      <ul class="creed__list">
+        <li>We have had a file handed back over one letter in a name.</li>
+        <li>We have paid for a fare that a refusal turned into nothing.</li>
+        <li>We have been asked for onward travel at a check-in desk, with the gate already boarding.</li>
+      </ul>
+
+      <p class="creed__sign">So the rule we run this on is simple: <b>if we would not put it in our own
+      visa file, we do not sell it to you.</b> A real booking, a reference you can check yourself, and a
+      straight answer about what you are buying.</p>
+    </div>
+  </div>
+</section>"""
+
+
+# --------------------------------------------------------------------------
 def home():
     home_faqs = [
         ("What is a visa flight ticket?",
@@ -261,6 +306,8 @@ def home():
   </div>
 </section>
 
+%s
+
 <section class="band">
   <div class="wrap">
     <h2>Visa-specific guides</h2>
@@ -288,6 +335,7 @@ def home():
        route_divider("DEL", "CDG"), url("order"),
        money(PRICE_FLIGHT), url("blog/flight-reservation-vs-confirmed-ticket"),
        ICON["shield"], ICON["doc"], ICON["globe"], ICON["clock"],
+       travellers_band(),
        _visa_pills(),
        doodles("map", "ticket", "camera", "sunhat", "cloud", "globe"),
        faq_block(home_faqs, "Visa flight ticket: common questions"),

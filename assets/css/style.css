@@ -1380,3 +1380,39 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .ticket, .card, .pass { break-inside: avoid; }
   body { background: #fff; color: #000; }
 }
+
+/* --------------------------------------------------------------------------
+   "By travellers, for travellers". Quieter than the sales sections around it
+   on purpose: the copy is doing the work, so the styling stays out of its way.
+   -------------------------------------------------------------------------- */
+.creed { max-width: 46rem; margin-inline: auto; }
+.creed h2 { margin-bottom: 1.1rem; }
+.creed p { color: var(--ink-2); line-height: 1.72; margin: 0 0 1rem; }
+.creed__lead { font-size: 1.12rem; color: var(--ink) !important; }
+
+.creed__list {
+  list-style: none; padding: 0;
+  margin: 1.6rem 0; display: grid; gap: .55rem;
+}
+.creed__list li {
+  position: relative; padding-left: 1.6rem;
+  color: var(--ink-2); font-size: .97rem;
+}
+/* An em dash would be the obvious mark here. The site does not use them, so
+   a rule keeps the list feeling like a set of quiet asides instead. */
+.creed__list li::before {
+  content: ""; position: absolute; left: 0; top: .72em;
+  width: .85rem; height: 2px; border-radius: 2px;
+  background: var(--brand); opacity: .5;
+}
+
+.creed__sign {
+  margin-top: 1.8rem !important; padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink) !important;
+}
+.creed__sign b { font-weight: 700; }
+
+@media (max-width: 640px) {
+  .creed__lead { font-size: 1.05rem; }
+}
