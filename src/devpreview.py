@@ -38,7 +38,7 @@ STUB = r"""
    --------------------------------------------------------------------------- */
 (function () {
   var VPA   = 'yourbusiness@okhdfcbank';   // pretend merchant VPA
-  var PAYEE = 'Visa Flight Ticket';
+  var PAYEE = 'Visa Flight Tickets';
   var realFetch = window.fetch;
 
   function refFor() {

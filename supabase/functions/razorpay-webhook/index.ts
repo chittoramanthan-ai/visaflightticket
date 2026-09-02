@@ -73,7 +73,7 @@ async function notify(order: Record<string, unknown>) {
     method: "POST",
     headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
     body: JSON.stringify({
-      from: `Visa Flight Ticket <${from}>`,
+      from: `Visa Flight Tickets <${from}>`,
       to: to.split(",").map((s) => s.trim()),
       reply_to: String(order.email ?? ""),
       subject: `New order ${order.ref} - ${money}`,

@@ -62,7 +62,7 @@ cat <<'EOF'
     NOTIFY_FROM="orders@visaflighttickets.com" \
     PAYMENT_MODE="upi" \
     UPI_VPA="yourvpa@bank" \
-    UPI_PAYEE_NAME="Visa Flight Ticket" \
+    UPI_PAYEE_NAME="Visa Flight Tickets" \
     RESEND_API_KEY="re_..." \
     RAZORPAY_KEY_ID="rzp_live_..." \
     RAZORPAY_KEY_SECRET="..." \

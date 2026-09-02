@@ -1,6 +1,6 @@
 {
-  "name": "Visa Flight Ticket",
-  "short_name": "VisaFlightTicket",
+  "name": "Visa Flight Tickets",
+  "short_name": "VisaFlightTickets",
   "description": "Verifiable flight reservations & hotel bookings for visa applications",
   "start_url": "/",
   "display": "standalone",

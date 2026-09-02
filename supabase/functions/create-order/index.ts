@@ -22,7 +22,7 @@ const MAX_TRAVELLERS = 12;
 // verify by hand. Costs nothing per transaction; costs you reconciliation time.
 const PAYMENT_MODE = (Deno.env.get("PAYMENT_MODE") ?? "auto").toLowerCase();
 const UPI_VPA = Deno.env.get("UPI_VPA") ?? "";
-const UPI_NAME = Deno.env.get("UPI_PAYEE_NAME") ?? "Visa Flight Ticket";
+const UPI_NAME = Deno.env.get("UPI_PAYEE_NAME") ?? "Visa Flight Tickets";
 
 const ALLOWED_ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ??
   "https://visaflighttickets.com,https://www.visaflighttickets.com,http://127.0.0.1:8899,http://localhost:8899")

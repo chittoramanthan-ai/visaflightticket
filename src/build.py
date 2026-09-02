@@ -18,7 +18,7 @@ from datetime import date
 # --------------------------------------------------------------------------
 SITE_URL = "https://visaflighttickets.com"
 BASE_PATH = ""            # set to "/reponame" only if hosting on a GitHub *project* page
-BRAND = "Visa Flight Ticket"
+BRAND = "Visa Flight Tickets"
 TAGLINE = "Verifiable flight reservations & hotel bookings for visa applications"
 
 EMAIL = "support@visaflighttickets.com"
@@ -860,7 +860,7 @@ def header(active):
 <a class="skip" href="#main">Skip to content</a>
 <header class="hdr">
   <div class="wrap hdr__in">
-    <a class="logo" href="%s" aria-label="%s home">%s<span>Visa<b>Flight</b>Ticket</span></a>
+    <a class="logo" href="%s" aria-label="%s home">%s<span>Visa<b>Flight</b>Tickets</span></a>
     <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">%s</button>
     <nav class="nav" id="nav" aria-label="Main">
       %s
@@ -884,7 +884,7 @@ def footer(visa_links):
   <div class="wrap">
     <div class="ftr__grid">
       <div>
-        <a class="logo" href="%s">%s<span>Visa<b>Flight</b>Ticket</span></a>
+        <a class="logo" href="%s">%s<span>Visa<b>Flight</b>Tickets</span></a>
         <p class="ftr__note">Real, airline-held flight reservations and confirmed hotel bookings with verifiable
         references. Built for visa applications, delivered in %s.</p>
         <div style="margin-top:1.1rem">%s</div>
@@ -1093,7 +1093,7 @@ def write_airports():
 
 def write_extras():
     manifest = {
-        "name": BRAND, "short_name": "VisaFlightTicket",
+        "name": BRAND, "short_name": "VisaFlightTickets",
         "description": TAGLINE, "start_url": url(), "display": "standalone",
         "background_color": "#ffffff", "theme_color": "#193b92",
         "icons": [

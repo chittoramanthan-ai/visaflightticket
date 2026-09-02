@@ -1,4 +1,4 @@
-/* Visa Flight Ticket - minimal progressive enhancement (no dependencies) */
+/* Visa Flight Tickets - minimal progressive enhancement (no dependencies) */
 (function () {
   'use strict';
 

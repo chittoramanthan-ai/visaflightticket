@@ -17,7 +17,7 @@
     <circle cx="760" cy="300" r="22" fill="#0f2861"/>
 
     <text x="52" y="72" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#77828f" letter-spacing="4">FLIGHT RESERVATION &#183; VISA PURPOSES</text>
-    <text x="52" y="152" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="66" font-weight="700" fill="#111827" letter-spacing="-2">Visa Flight Ticket</text>
+    <text x="52" y="152" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="66" font-weight="700" fill="#111827" letter-spacing="-2">Visa Flight Tickets</text>
     <text x="52" y="205" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="30" fill="#48525f">Verifiable flight &amp; hotel bookings with a live PNR</text>
 
     <g transform="translate(52,240)">

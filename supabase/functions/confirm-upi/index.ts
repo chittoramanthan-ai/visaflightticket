@@ -67,7 +67,7 @@ async function notify(order: Record<string, unknown>) {
     method: "POST",
     headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
     body: JSON.stringify({
-      from: `Visa Flight Ticket <${Deno.env.get("NOTIFY_FROM") ?? "orders@visaflighttickets.com"}>`,
+      from: `Visa Flight Tickets <${Deno.env.get("NOTIFY_FROM") ?? "orders@visaflighttickets.com"}>`,
       to: to.split(",").map((s) => s.trim()),
       reply_to: String(order.email ?? ""),
       subject: `[VERIFY] ${order.ref} claims UPI payment of ${money}`,

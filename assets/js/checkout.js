@@ -1,4 +1,4 @@
-/* Visa Flight Ticket - checkout
+/* Visa Flight Tickets - checkout
    Loaded only on /order/ and /login/. Talks to Supabase Edge Functions.
    No secret ever lives here: the amount is priced server-side and the only
    Razorpay key that reaches this file is the publishable key_id, returned
@@ -251,7 +251,7 @@
             order_id: res.provider_order_id,
             amount: res.amount_minor,
             currency: res.currency,
-            name: 'Visa Flight Ticket',
+            name: 'Visa Flight Tickets',
             description: 'Order ' + res.ref,
             prefill: {
               name: payload().given_name + ' ' + payload().surname,

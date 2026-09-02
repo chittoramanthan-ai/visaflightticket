@@ -313,7 +313,7 @@ def home():
         "@type": "WebPage",
         "@id": abs_url() + "#webpage",
         "url": abs_url(),
-        "name": "Visa Flight Ticket - Verifiable Flight Reservation for Visa",
+        "name": "Visa Flight Tickets - Verifiable Flight Reservation for Visa",
         "isPartOf": {"@id": SITE_URL + "/#website"},
         "about": {"@id": SITE_URL + "/#service"},
         "datePublished": TODAY,
@@ -322,7 +322,7 @@ def home():
 
     add_page(
         "",
-        "Visa Flight Ticket | Verifiable Flight Reservation for Visa in %s" % DELIVERY,
+        "Visa Flight Tickets | Verifiable Flight Reservation for Visa in %s" % DELIVERY,
         "Get a verifiable flight ticket for your visa application from %s. Real airline-held reservation with a live PNR, hotel bookings from %s, delivered in %s." % (money(PRICE_FLIGHT), money(PRICE_HOTEL), DELIVERY),
         body,
         schema=[webpage, service, faq_schema(home_faqs)],
