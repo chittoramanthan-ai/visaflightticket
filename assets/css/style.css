@@ -1405,18 +1405,14 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* Scrolling the open mobile nav should not drag the page behind it. */
 .nav.open { overscroll-behavior: contain; }
 
-/* Wide tables scroll inside their own box. Without a hint that there is more
-   to the right, people simply do not find it on a phone. */
+/* The scroll-hint gradient that used to live here was removed. It was
+   absolutely positioned inside .tbl-wrap, which is the scrolling container,
+   so it anchored to the content box rather than the visible edge and drifted
+   into the middle of the table as you scrolled: a white band straight through
+   the middle of a word. The comparison table stacks on phones now, so there
+   is nothing left to hint at. */
 .tbl-wrap { scrollbar-width: thin; }
-@media (max-width: 640px) {
-  .tbl-wrap { position: relative; }
-  .tbl-wrap::after {
-    content: "";
-    position: absolute; top: 0; right: 0; bottom: 0; width: 28px;
-    pointer-events: none;
-    background: linear-gradient(to right, transparent, var(--surface));
-  }
-}
+
 
 /* A disabled submit button should say so to the cursor as well as the eye. */
 .btn[disabled], .btn[aria-disabled="true"] { cursor: not-allowed; opacity: .62; }
@@ -1515,4 +1511,83 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   /* "WhatsApp us" was breaking across two lines inside its own button. */
   .ftr .btn { white-space: nowrap; }
   .ftr .btn-row { align-items: center; gap: .6rem; }
+}
+
+/* --------------------------------------------------------------------------
+   Comparison table on phones.
+   Four columns cannot fit 375px, and side-scrolling a comparison defeats the
+   point of it: you can never see two options at once, which is the only
+   reason the table exists. Each row becomes its own block, with the three
+   options listed under the thing being compared.
+   -------------------------------------------------------------------------- */
+@media (max-width: 700px) {
+  .tbl-wrap:has(.cmp) { overflow-x: visible; border: 0; background: none; box-shadow: none; }
+  .cmp, .cmp tbody, .cmp tr, .cmp td { display: block; width: auto; }
+  .cmp thead { display: none; }
+  .cmp { min-width: 0; }
+
+  .cmp tr {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: .9rem;
+    padding: .2rem .1rem .35rem;
+    box-shadow: var(--shadow-sm);
+  }
+  /* first cell in a row is the thing being compared */
+  .cmp td:first-child {
+    border: 0;
+    padding: .7rem .9rem .55rem;
+    font-size: 1rem;
+  }
+  .cmp td:first-child b { font-weight: 750; }
+
+  .cmp td[data-col] {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 1rem; border: 0; border-top: 1px solid var(--line);
+    padding: .6rem .9rem; font-size: .95rem; text-align: right;
+  }
+  .cmp td[data-col]::before {
+    content: attr(data-col);
+    font-size: .78rem; font-weight: 650; color: var(--ink-3);
+    text-align: left; flex: 1 1 auto; min-width: 0;
+  }
+  /* our column stays visually distinct, as it does on desktop */
+  .cmp td.col-ours { background: var(--brand-soft); }
+  .cmp td.col-ours::before { color: var(--brand-ink); }
+}
+
+/* --------------------------------------------------------------------------
+   Vertical rhythm on phones.
+   --sp-section is clamp(3.5rem, 7vw, 6rem). At 375px the 7vw term is only
+   26px, so the 3.5rem floor wins and every section boundary spent 56px above
+   plus 56px below: 112px of empty screen between one block of content and the
+   next, on the device with the least screen to spare. The floor was chosen
+   for a desktop and never revisited for a phone.
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  :root {
+    --sp-section: 2.3rem;   /* ~74px per boundary instead of 112px */
+    --sp-block: 1.25rem;
+  }
+  h2 { line-height: 1.18; }
+  section > .wrap > .center { margin-bottom: 1.4rem; }
+  /* Stacked cards and tickets were inheriting desktop-sized gaps too. */
+  .grid { gap: 1rem; }
+  .ticket-slot + .ticket-slot { margin-top: 1rem; }
+}
+
+/* --------------------------------------------------------------------------
+   Grid and flex children default to min-width:auto, which means they refuse
+   to shrink below their own content and push out of the container instead.
+   That is what made the order form 295px wide inside a 265px column on a
+   320px phone, and it is the single most common cause of a page that scrolls
+   sideways by a few pixels for no visible reason.
+   -------------------------------------------------------------------------- */
+.grid > *, .hero__grid > *, .order-grid > *, .ftr__grid > *,
+.g2 > *, .g3 > *, .g4 > * { min-width: 0; }
+
+/* Very narrow phones need the gutter back more than they need the padding. */
+@media (max-width: 359px) {
+  .wrap { padding-inline: 14px; }
 }
