@@ -154,7 +154,7 @@ def travellers_band():
   <div class="wrap wrap--narrow">
     <div class="creed">
       <p class="eyebrow">30+ countries between us</p>
-      <h2>We have filled in these forms ourselves</h2>
+      <h2>By the community of travellers, for the community</h2>
 
       <p class="creed__lead">We are travellers before we are anything else. Between us we have been to
       more than thirty countries, and nearly every one of them began the same way: a folder of documents,
