@@ -604,9 +604,12 @@ body.has-scta .ftr{padding-bottom:96px}
 .js-anim section:not(.hero) .faq,
 .js-anim section:not(.hero) .note{
   opacity:0;transform:translateY(18px);
-  transition:opacity .6s cubic-bezier(.22,.61,.36,1) var(--rvd,0ms),
-             transform .6s cubic-bezier(.22,.61,.36,1) var(--rvd,0ms);
+  transition:opacity .35s cubic-bezier(.22,.61,.36,1) var(--rvd,0ms),
+             transform .35s cubic-bezier(.22,.61,.36,1) var(--rvd,0ms);
 }
+/* Above the fold on arrival: visible immediately, and explicitly with no
+   transition, so even a late frame snaps rather than fading in halfway. */
+.js-anim .rv-now{opacity:1!important;transform:none!important;transition:none!important}
 .js-anim .rv-in{opacity:1;transform:none}
 
 /* Hero animates on load, never on scroll -- and deliberately NOT the h1 or
@@ -1186,7 +1189,7 @@ legend{font-size:.75rem;letter-spacing:.11em;text-transform:uppercase;color:var(
 .article h3{margin-top:1.8rem}
 .article ul,.article ol{margin-bottom:1.2em}
 .meta{display:flex;flex-wrap:wrap;gap:8px 16px;color:var(--ink-3);font-size:.86rem;margin-bottom:1.6rem}
-.crumbs{font-size:.83rem;color:var(--ink-3);margin-bottom:1.2rem;display:flex;flex-wrap:wrap;gap:.4rem}
+.crumbs{font-size:.83rem;color:var(--ink-3);margin-bottom:1.2rem;display:flex;flex-wrap:wrap;gap:.15rem .4rem;align-items:center;line-height:1.9}
 .crumbs a{color:var(--ink-3)}
 .crumbs a:hover{color:var(--brand)}
 .toc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin:0 0 2rem}
@@ -1366,12 +1369,11 @@ h2[id], h3[id] { scroll-margin-top: 5.5rem; }
    on a 31-guide site, and it costs nothing visually.
    contain-intrinsic-size is a height ESTIMATE that reserves space so the
    scrollbar does not jump; it does not need to be exact. */
-@supports (content-visibility: auto) {
-  main > section:nth-of-type(n + 3) {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 600px;
-  }
-}
+/* content-visibility removed. contain-intrinsic-size is a GUESS at how tall
+   an unrendered section is, and every section that is not 600px tall left a
+   white gap that only closed once you scrolled into it. On a phone, where the
+   real heights vary from 200px to 2000px, that was constant. The rendering
+   saving was never worth a page that visibly reflows as you scroll it. */
 
 /* iOS zooms the page when a focused input is under 16px. That zoom does not
    reverse on blur, so a traveller filling the order form on an iPhone ends up
@@ -1382,7 +1384,11 @@ h2[id], h3[id] { scroll-margin-top: 5.5rem; }
 
 /* Touch targets. WCAG asks for 44px; nav and footer links were smaller. */
 @media (pointer: coarse) {
-  .nav a, .ftr a, .crumbs a, .pills a {
+  /* Breadcrumbs are excluded on purpose. Forcing them to 44px made each
+     link twice the height of the "/" between them, so the trail sat on two
+     different baselines and looked broken. They are a secondary aid, not a
+     primary tap target. */
+  .nav a, .ftr a, .pills a {
     min-height: 44px;
     display: inline-flex;
     align-items: center;
@@ -1488,4 +1494,25 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 @media (prefers-reduced-motion:reduce){
   .tc{visibility:visible}
   .tc--cur::after{display:none}
+}
+
+/* ==========================================================================
+   Mobile fixes
+   ========================================================================== */
+@media (max-width: 640px) {
+  /* The fees table is two columns. min-width:420px forced it to overflow a
+     375px phone and scroll sideways, so both edges were clipped and the
+     first column was unreadable. It fits perfectly well without the floor. */
+  table.fees { min-width: 0; }
+  table.fees td, table.fees th { padding-left: .7rem; padding-right: .7rem; }
+  table.fees td.vfee { white-space: nowrap; vertical-align: top; }
+
+  /* Wider comparison tables genuinely do need to scroll, since the point of
+     them is comparing columns side by side. Tighten them so less is lost. */
+  .tbl-wrap table { font-size: .88rem; }
+  .tbl-wrap th, .tbl-wrap td { padding-left: .65rem; padding-right: .65rem; }
+
+  /* "WhatsApp us" was breaking across two lines inside its own button. */
+  .ftr .btn { white-space: nowrap; }
+  .ftr .btn-row { align-items: center; gap: .6rem; }
 }

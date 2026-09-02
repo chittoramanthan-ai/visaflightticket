@@ -96,7 +96,7 @@
       n++;
       if (n < spans.length) {
         // A beat at the sentence break, so it reads rather than rattles.
-        setTimeout(tick, text.charAt(n - 1) === '.' ? 300 : 24);
+        setTimeout(tick, text.charAt(n - 1) === '.' ? 170 : 14);
       } else {
         setTimeout(function () {
           el.classList.remove('tc--cur');
@@ -104,7 +104,7 @@
         }, 900);
       }
     }
-    setTimeout(tick, 260);
+    setTimeout(tick, 160);
   })();
 
   // --- mobile nav ---------------------------------------------------------
@@ -622,13 +622,28 @@
     document.documentElement.classList.remove('js-anim');
   } else {
     var nodes = document.querySelectorAll(RV_SEL);
+    var vh = window.innerHeight || 800;
+    var deferred = [];
+
     for (var i = 0; i < nodes.length; i++) {
       var n = nodes[i];
+
+      // Anything already on screen when the page opens is shown at once, with
+      // no fade and no stagger. Animating what the reader is already looking
+      // at is what made a 200ms page feel like a slow one: the bytes had
+      // arrived, the content was simply still invisible.
+      if (n.getBoundingClientRect().top < vh * 0.95) {
+        n.classList.add('rv-now');
+        continue;
+      }
+
       // stagger siblings so a grid cascades instead of popping as one block
       var sibs = n.parentNode.children, idx = 0;
       for (var k = 0; k < sibs.length; k++) if (sibs[k] === n) { idx = k; break; }
-      n.style.setProperty('--rvd', Math.min(idx, 6) * 55 + 'ms');
+      n.style.setProperty('--rvd', Math.min(idx, 6) * 30 + 'ms');
+      deferred.push(n);
     }
+    nodes = deferred;
 
     var io = new IntersectionObserver(function (entries) {
       for (var e = 0; e < entries.length; e++) {
