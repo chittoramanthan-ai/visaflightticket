@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Core pages: home, services, pricing, process, trust, legal."""
 
-from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
+from build import (ORDER_MODE,ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, BUNDLE_SAVING, CURRENCY, CURRENCY_CODE,
                    SINCE_YEAR, FLIGHTS_BOOKED, VISAS_HELPED, AIRLINE_COUNT, WHATSAPP,
                    IATA_ACCREDITED, IATA_NUMBER,
@@ -1041,6 +1041,29 @@ def verify_page():
 
 
 # --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+def _order_cta():
+    """Button label. In whatsapp mode nothing is charged on the site, so
+    "Continue to payment" would be a lie about what the button does."""
+    if ORDER_MODE == "whatsapp":
+        return "Send my order on WhatsApp"
+    return "Continue to payment"
+
+
+def _order_steps():
+    """What happens after the button, which is genuinely different per mode."""
+    if ORDER_MODE == "whatsapp":
+        return ("<li>WhatsApp opens with your details already filled in. Press send.</li>"
+                "<li>We confirm the price and take payment in the chat.</li>"
+                "<li>We create the booking in a live reservation system.</li>"
+                "<li>The PDF reaches your inbox in %s, and you verify the PNR yourself.</li>"
+                % DELIVERY)
+    return ("<li>You pay the service fee, never an airfare.</li>"
+            "<li>We create the booking in a live reservation system.</li>"
+            "<li>The PDF reaches your inbox in %s.</li>"
+            "<li>You verify the PNR on the airline&rsquo;s site.</li>" % DELIVERY)
+
+
 def order_page():
     slug = "order"
     c_html, c_schema = crumbs([("Order", None)])
@@ -1121,7 +1144,7 @@ def order_page():
         </fieldset>
 
         <button class="btn btn--primary btn--lg btn--block" type="submit" id="order-submit">
-          Continue to payment &middot; <span id="price-out">%s</span></button>
+          %s &middot; <span id="price-out">%s</span></button>
         <p class="hint" style="text-align:center;margin-top:12px" id="price-line"></p>
 
         <div class="note" id="order-msg" hidden></div>
@@ -1130,12 +1153,7 @@ def order_page():
       <aside class="order-aside">
         <div class="card">
           <h3>What happens next</h3>
-          <ol style="font-size:.95rem;color:var(--ink-2);padding-left:1.1em">
-            <li>You pay the service fee, never an airfare.</li>
-            <li>We create the booking in a live reservation system.</li>
-            <li>The PDF reaches your inbox in %s.</li>
-            <li>You verify the PNR on the airline&rsquo;s site.</li>
-          </ol>
+          <ol style="font-size:.95rem;color:var(--ink-2);padding-left:1.1em">%s</ol>
         </div>
         <div class="card" style="margin-top:20px">
           <h3>Name spelling matters</h3>
@@ -1149,7 +1167,7 @@ def order_page():
 </section>
 """ % (c_html, DELIVERY, CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, BUNDLE_SAVING,
        money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH),
-       money(PRICE_FLIGHT), DELIVERY)
+       _order_cta(), money(PRICE_FLIGHT), _order_steps())
 
     add_page(slug, "Order a Flight Reservation or Hotel Booking for Your Visa",
              "Order a verifiable flight reservation from %s or a hotel booking from %s. No account needed, delivered in %s." % (money(PRICE_FLIGHT), money(PRICE_HOTEL), DELIVERY),

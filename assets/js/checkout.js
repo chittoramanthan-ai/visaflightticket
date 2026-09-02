@@ -113,12 +113,19 @@
       };
     }
 
-    function mailtoFallback() {
+    // One traveller line per row, so a four-person order does not collapse
+    // into a single name in the message you receive.
+    function summaryLines() {
       var p = payload();
       var lines = [
         'Service: ' + p.service,
         'Travellers: ' + p.travellers,
-        'Trip: ' + p.trip,
+        // Derived the same way the price is, not read off the radio. A
+        // customer who fills a return date without touching the trip selector
+        // was getting a message that said "oneway" next to a return price.
+        'Trip: ' + (p.trip === 'multi' ? 'multi-city'
+                  : (p.return_date && p.return_date !== p.depart_date) ? 'return'
+                  : 'one way'),
         'From: ' + p.origin,
         'To: ' + p.destination,
         'Depart: ' + p.depart_date,
@@ -129,10 +136,37 @@
         'Phone: ' + p.phone,
         'Visa: ' + p.visa_type,
         'Notes: ' + p.notes
-      ].filter(function (l) { return !/: $/.test(l); });
+      ];
+      (p.passengers || []).forEach(function (x, i) {
+        if (i === 0) return;                     // lead is already listed above
+        lines.push('Traveller ' + (i + 1) + ': ' + x.surname + ', ' +
+                   x.given_name + (x.dob ? ' (' + x.dob + ')' : ''));
+      });
+      (p.legs || []).forEach(function (l, i) {
+        lines.push('Flight ' + (i + 2) + ': ' + l.from + ' to ' + l.to + ' on ' + l.date);
+      });
+      return lines.filter(function (l) { return !/: $/.test(l); });
+    }
+
+    function mailtoFallback() {
       return 'mailto:' + (CFG.email || '') +
         '?subject=' + encodeURIComponent('Order request') +
-        '&body=' + encodeURIComponent(lines.join(String.fromCharCode(10)));
+        '&body=' + encodeURIComponent(summaryLines().join(String.fromCharCode(10)));
+    }
+
+    // WhatsApp order mode. The form still validates and still prices, then
+    // hands the customer a message already filled in. No backend involved,
+    // which is why this works with Supabase switched off entirely.
+    function whatsappOrder() {
+      var priceEl = document.getElementById('price-out');
+      var head = ['New order request', ''];
+      var tail = [''];
+      if (priceEl && priceEl.textContent) {
+        tail.push('Quoted on site: ' + priceEl.textContent);
+      }
+      var text = head.concat(summaryLines()).concat(tail).join(String.fromCharCode(10));
+      var base = (CFG.whatsapp || '').replace(/\/$/, '');
+      return base + (base.indexOf('?') > -1 ? '&' : '?') + 'text=' + encodeURIComponent(text);
     }
 
     // ------------------------------------------------------------ UPI ----
@@ -223,6 +257,24 @@
 
     form.addEventListener('vft:submit', function () {
       if (busy) return;
+
+      // ORDER_MODE = "whatsapp" in src/build.py. Send the order to chat and
+      // stop: no create-order call, no payment panel, nothing to deploy.
+      if ((CFG.orderMode || 'payment') === 'whatsapp') {
+        if (window.vftTrack) {
+          window.vftTrack('order_whatsapp', { service: payload().service });
+        }
+        var url = whatsappOrder();
+        say('ok',
+          '<strong>Your order is ready to send</strong>' +
+          '<p>WhatsApp should have opened with your details already filled in. ' +
+          'Just press send and we will confirm the price and payment there.</p>' +
+          '<p><a class="btn btn--wa" href="' + url + '" target="_blank" rel="noopener">' +
+          'Open WhatsApp</a></p>');
+        window.open(url, '_blank', 'noopener');
+        return;
+      }
+
       setBusy(true, 'Creating your order&hellip;');
       // Fired before the request, so a spike here with no matching
       // order_created is the signal that create-order itself is failing.
