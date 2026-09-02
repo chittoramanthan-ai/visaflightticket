@@ -153,26 +153,24 @@ def travellers_band():
 <section class="band">
   <div class="wrap wrap--narrow">
     <div class="creed">
-      <p class="eyebrow">By travellers, for travellers</p>
-      <h2>We have filled in these forms ourselves</h2>
+      <p class="eyebrow">30+ countries between us</p>
+      <h2>By the community of travellers, for the community</h2>
 
-      <p class="creed__lead">Nobody sets out to become an expert in visa paperwork. You get there because a
-      trip matters to you. A sister&rsquo;s wedding. A first interview abroad. A place you have wanted to
-      see since you were small enough to find it on a map.</p>
+      <p class="creed__lead">We are travellers before we are anything else. Between us we have been to
+      more than thirty countries, and nearly every one of them began the same way: a folder of documents,
+      and a form asking for a flight ticket we could not sensibly buy yet.</p>
 
-      <p>And then the folder starts. Bank statements going back six months. Insurance that has to say the
-      right number in the right currency. An employment letter on the right paper. And a flight booking you
-      cannot sensibly buy, for a trip nobody has approved yet.</p>
+      <p>So none of this is guesswork. We have refreshed an appointment page at six in the morning. We have
+      rebuilt an itinerary the night before a submission because the dates had to match to the day. We have
+      sat in a waiting room doing the mental arithmetic on what a refusal would cost us.</p>
 
-      <p>We have been on that side of the counter. We have refreshed an appointment page at six in the
-      morning. We have rebuilt an itinerary the night before a submission because the dates had to match to
-      the day. That is why this exists, and it is why we are stubborn about the parts that actually
-      matter.</p>
+      <p>This exists because the people building it kept walking into the same wall, and got tired of
+      watching friends walk into it too.</p>
 
       <ul class="creed__list">
         <li>We have had a file handed back over one letter in a name.</li>
         <li>We have paid for a fare that a refusal turned into nothing.</li>
-        <li>We have been asked for onward travel at a check-in desk, with the gate already boarding.</li>
+        <li>We have been asked for onward travel at check-in with the gate already boarding.</li>
       </ul>
 
       <p class="creed__sign">So the rule we run this on is simple: <b>if we would not put it in our own
@@ -207,7 +205,10 @@ def home():
     <div class="hero__grid">
       <div>
         <p class="eyebrow">Flight &amp; hotel proof for visa files</p>
-        <h1>A verifiable flight ticket for your visa. Without buying the flight</h1>
+        <!-- The real text stays in the markup: Google indexes it, it renders
+             with JS off, and screen readers get it whole. main.js types over
+             the top of it only when it can do so safely. -->
+        <h1 data-type>A verifiable flight ticket for your visa. Without buying the flight</h1>
         <p class="lede">We issue real, airline-held reservations with a live PNR that you and the consulate can
         check on the airline&rsquo;s own website. Embassy-ready PDF in %s, from %s.</p>
         <div class="btn-row">

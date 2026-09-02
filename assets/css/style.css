@@ -118,10 +118,15 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
 .g4{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
 .lede{font-size:clamp(1.05rem,1rem + .3vw,1.19rem);color:var(--ink-2);max-width:60ch;line-height:1.58;letter-spacing:-.01em}
 .center .lede{margin-inline:auto}
+/* Small mono type at wide tracking needs more weight and more contrast than
+   it looks like it does. The old version sat at --brand on --brand-soft, and
+   on a .band section that pill was almost the same colour as the background
+   behind it, so the whole label floated and read as disabled text. */
 .eyebrow{
-  display:inline-block;font-family:var(--mono);font-size:.72rem;font-weight:600;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--brand);
-  background:var(--brand-soft);padding:.4rem .7rem;border-radius:999px;margin-bottom:1rem;
+  display:inline-block;font-family:var(--mono);font-size:.75rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--brand-ink);
+  background:var(--brand-soft);border:1px solid color-mix(in srgb,var(--brand) 18%,transparent);
+  padding:.42rem .75rem;border-radius:999px;margin-bottom:1rem;
 }
 
 /* --- header ------------------------------------------------------------- */
@@ -1429,3 +1434,13 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
    link is a dead end for anyone without a mail client registered. */
 .ftr__mail{margin:.9rem 0 0;font-size:.88rem;color:var(--ink-3)}
 .ftr__mail a{color:var(--ink-2);text-decoration:underline;text-underline-offset:2px}
+
+/* Caret for the hero typing effect. Sized from the text so it matches
+   whatever the heading scales to. */
+.type-caret{
+  display:inline-block;width:.06em;height:.82em;margin-left:.06em;
+  background:var(--brand);vertical-align:-.06em;
+  animation:type-blink 1s steps(1) infinite;
+}
+@keyframes type-blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.type-caret{display:none}}

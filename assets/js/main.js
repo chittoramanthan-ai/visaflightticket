@@ -46,6 +46,51 @@
     track(el.getAttribute('data-track'), props);
   }, true);
 
+  // --- hero headline typing effect ----------------------------------------
+  // The heading already contains its real text, so this only ever animates
+  // over something that is correct without it: search engines index the
+  // markup, a JS failure leaves the headline intact, and assistive tech reads
+  // the whole string because aria-label carries it throughout.
+  (function () {
+    var h = document.querySelector('h1[data-type]');
+    if (!h) return;
+
+    var reduce = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;                       // leave it exactly as rendered
+
+    var text = h.textContent.trim();
+    if (!text || text.length > 120) return;   // long headings look silly typed
+
+    // Lock the height BEFORE emptying, or the page below jumps up and then
+    // back down as the line count changes. Layout shift is the usual reason
+    // effects like this feel cheap.
+    var h0 = h.getBoundingClientRect().height;
+    h.style.minHeight = h0 + 'px';
+    h.setAttribute('aria-label', text);
+
+    var out = document.createElement('span');
+    var caret = document.createElement('span');
+    caret.className = 'type-caret';
+    caret.setAttribute('aria-hidden', 'true');
+    h.textContent = '';
+    h.appendChild(out);
+    h.appendChild(caret);
+
+    var i = 0;
+    function tick() {
+      out.textContent = text.slice(0, ++i);
+      if (i < text.length) {
+        // Slight pause at sentence breaks so it reads rather than rattles.
+        var c = text.charAt(i - 1);
+        setTimeout(tick, c === '.' ? 260 : 26);
+      } else {
+        setTimeout(function () { caret.remove(); h.style.minHeight = ''; }, 900);
+      }
+    }
+    setTimeout(tick, 260);
+  })();
+
   // --- mobile nav ---------------------------------------------------------
   var burger = document.querySelector('.burger');
   var nav = document.getElementById('nav');

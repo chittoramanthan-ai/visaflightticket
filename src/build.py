@@ -294,7 +294,7 @@ NAV = [
     ("Bulk Orders", "bulk-orders"),
     ("Blog", "blog"),
     ("FAQs", "faq"),
-    ("Login", "login"),
+    ("Track my order", "login"),
 ]
 
 FOOTER_SERVICES = [
