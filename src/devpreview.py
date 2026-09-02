@@ -26,6 +26,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "order", "index.html")
 OUT_DIR = os.path.join(ROOT, "_dev")
 OUT = os.path.join(OUT_DIR, "upi-preview.html")
+OUT_AUTO = os.path.join(OUT_DIR, "pay.html")
 
 # A stubbed create-order response. Shaped exactly like the real one so the
 # preview exercises the real showUpi() path rather than a lookalike.
@@ -94,6 +95,38 @@ STUB = r"""
 </script>
 """
 
+# Fills a representative order and submits it, so the page opens directly on
+# the payment screen. Field ids are the real ones from the order form.
+AUTOFILL = r"""
+<script>
+window.addEventListener('load', function () {
+  setTimeout(function () {
+    var f = document.getElementById('order-form');
+    if (!f) return;
+    var set = function (id, v) { var e = document.getElementById(id); if (e) e.value = v; };
+    var svc = (new URLSearchParams(location.search).get('service')) || 'both';
+    var r = f.querySelector('input[name="service"][value="' + svc + '"]');
+    if (r) r.checked = true;
+    set('from', 'Mumbai (BOM)');      set('to', 'Dubai (DXB)');
+    set('depart', '2026-11-10');      set('return', '2026-11-20');
+    set('surname', 'SHARMA');         set('given', 'RAHUL');
+    set('dob', '1994-03-12');         set('visa', 'UAE tourist visa');
+    set('email', 'test@example.com'); set('phone', '9876543210');
+    f.dispatchEvent(new Event('change'));
+    // Straight to the handler. This skips the validation in main.js on
+    // purpose: the point is to look at the payment screen, not to retest
+    // the validator.
+    f.dispatchEvent(new CustomEvent('vft:submit'));
+    setTimeout(function () {
+      var m = document.getElementById('order-msg');
+      if (m && !m.hidden) m.scrollIntoView({ block: 'center' });
+    }, 900);
+  }, 300);
+});
+</script>
+"""
+
+
 BANNER = """
 <div style="position:sticky;top:0;z-index:9999;background:#7a1620;color:#fff;
             padding:10px 16px;font:600 14px/1.4 system-ui,sans-serif;text-align:center">
@@ -126,7 +159,16 @@ def main():
         os.makedirs(OUT_DIR)
     io.open(OUT, "w", encoding="utf-8", newline="\n").write(html)
     print("wrote %s (%.1f KB)" % (os.path.relpath(OUT, ROOT), len(html) / 1024.0))
-    print("open http://127.0.0.1:8899/_dev/upi-preview.html")
+
+    # Same page, but it fills a test order and submits itself, so opening it
+    # lands on the payment screen with nothing to type.
+    auto = html.replace("</body>", AUTOFILL + "</body>", 1)
+    io.open(OUT_AUTO, "w", encoding="utf-8", newline=chr(10)).write(auto)
+    print("wrote %s (%.1f KB)" % (os.path.relpath(OUT_AUTO, ROOT), len(auto) / 1024.0))
+    print("")
+    print("  straight to payment :  http://127.0.0.1:8899/_dev/pay.html")
+    print("  fill it yourself    :  http://127.0.0.1:8899/_dev/upi-preview.html")
+    print("  pick a plan         :  /_dev/pay.html?service=flight | hotel | both")
 
 
 if __name__ == "__main__":
