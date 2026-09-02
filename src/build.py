@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Static site generator for visaflightticket.com
+Static site generator for visaflighttickets.com
 
 Run:  python src/build.py
 Emits plain HTML into the repo root so the site can be served by GitHub Pages,
@@ -16,15 +16,15 @@ from datetime import date
 # --------------------------------------------------------------------------
 # CONFIG  -- change these three lines when the real domain / contacts are live
 # --------------------------------------------------------------------------
-SITE_URL = "https://visaflightticket.com"
+SITE_URL = "https://visaflighttickets.com"
 BASE_PATH = ""            # set to "/reponame" only if hosting on a GitHub *project* page
 BRAND = "Visa Flight Ticket"
 TAGLINE = "Verifiable flight reservations & hotel bookings for visa applications"
 
-EMAIL = "support@visaflightticket.com"
+EMAIL = "support@visaflighttickets.com"
 WHATSAPP = "+918619663455"          # E.164; digits are stripped for the wa.me link
 WHATSAPP_DISPLAY = "Chat on WhatsApp"
-TWITTER = "@visaflightticket"
+TWITTER = "@visaflighttickets"
 
 # --- currency & pricing ---------------------------------------------------
 # CURRENCY drives every price on the site, the JS calculators and the
@@ -80,7 +80,7 @@ SUPABASE_ANON_KEY = "sb_publishable_IcCbMYgZYZGt6Udh2LRTXQ_I38zJepI"
 # site keeps its zero-external-request property, which is the default so a
 # fresh clone stays self-contained.
 #
-#   "plausible"   ANALYTICS_ID = "visaflightticket.com"   (your domain)
+#   "plausible"   ANALYTICS_ID = "visaflighttickets.com"   (your domain)
 #                 Cookieless, no consent banner needed. Paid, or self-host.
 #   "cloudflare"  ANALYTICS_ID = the beacon token from the CF dashboard
 #                 Free, cookieless, but no custom events (vftTrack goes nowhere).

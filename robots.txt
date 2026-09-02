@@ -14,4 +14,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://visaflightticket.com/sitemap.xml
+Sitemap: https://visaflighttickets.com/sitemap.xml

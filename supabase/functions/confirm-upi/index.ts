@@ -11,7 +11,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
 const ALLOWED_ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ??
-  "https://visaflightticket.com,https://www.visaflightticket.com,http://127.0.0.1:8899,http://localhost:8899")
+  "https://visaflighttickets.com,https://www.visaflighttickets.com,http://127.0.0.1:8899,http://localhost:8899")
   .split(",").map((s) => s.trim());
 
 function cors(origin: string | null) {
@@ -67,7 +67,7 @@ async function notify(order: Record<string, unknown>) {
     method: "POST",
     headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
     body: JSON.stringify({
-      from: `Visa Flight Ticket <${Deno.env.get("NOTIFY_FROM") ?? "orders@visaflightticket.com"}>`,
+      from: `Visa Flight Ticket <${Deno.env.get("NOTIFY_FROM") ?? "orders@visaflighttickets.com"}>`,
       to: to.split(",").map((s) => s.trim()),
       reply_to: String(order.email ?? ""),
       subject: `[VERIFY] ${order.ref} claims UPI payment of ${money}`,

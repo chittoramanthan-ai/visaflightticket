@@ -56,10 +56,10 @@ cat <<'EOF'
   but neither breaks order creation.
 
   supabase secrets set \
-    ALLOWED_ORIGINS="https://visaflightticket.com,https://www.visaflightticket.com" \
+    ALLOWED_ORIGINS="https://visaflighttickets.com,https://www.visaflighttickets.com" \
     IP_SALT="$(openssl rand -hex 16)" \
     NOTIFY_EMAIL="you@yourdomain.com" \
-    NOTIFY_FROM="orders@visaflightticket.com" \
+    NOTIFY_FROM="orders@visaflighttickets.com" \
     PAYMENT_MODE="upi" \
     UPI_VPA="yourvpa@bank" \
     UPI_PAYEE_NAME="Visa Flight Ticket" \

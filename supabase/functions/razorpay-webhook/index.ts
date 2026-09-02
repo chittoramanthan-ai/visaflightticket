@@ -31,7 +31,7 @@ async function hmacHex(secret: string, payload: string) {
 async function notify(order: Record<string, unknown>) {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const to = Deno.env.get("NOTIFY_EMAIL");
-  const from = Deno.env.get("NOTIFY_FROM") ?? "orders@visaflightticket.com";
+  const from = Deno.env.get("NOTIFY_FROM") ?? "orders@visaflighttickets.com";
   if (!apiKey || !to) {
     console.log("email not configured, skipping notification");
     return;

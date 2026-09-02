@@ -25,7 +25,7 @@ const UPI_VPA = Deno.env.get("UPI_VPA") ?? "";
 const UPI_NAME = Deno.env.get("UPI_PAYEE_NAME") ?? "Visa Flight Ticket";
 
 const ALLOWED_ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ??
-  "https://visaflightticket.com,https://www.visaflightticket.com,http://127.0.0.1:8899,http://localhost:8899")
+  "https://visaflighttickets.com,https://www.visaflighttickets.com,http://127.0.0.1:8899,http://localhost:8899")
   .split(",").map((s) => s.trim());
 
 function cors(origin: string | null) {

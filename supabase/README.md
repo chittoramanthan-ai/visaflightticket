@@ -81,8 +81,8 @@ supabase secrets set \
   RAZORPAY_WEBHOOK_SECRET=whatever-you-set-in-razorpay \
   RESEND_API_KEY=re_xxxxxxxx \
   NOTIFY_EMAIL=you@yourdomain.com \
-  NOTIFY_FROM=orders@visaflightticket.com \
-  ALLOWED_ORIGINS=https://visaflightticket.com,https://www.visaflightticket.com \
+  NOTIFY_FROM=orders@visaflighttickets.com \
+  ALLOWED_ORIGINS=https://visaflighttickets.com,https://www.visaflighttickets.com \
   IP_SALT=$(openssl rand -hex 16)
 ```
 
