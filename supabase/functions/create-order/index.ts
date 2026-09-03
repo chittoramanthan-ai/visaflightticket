@@ -55,6 +55,135 @@ async function sha256Hex(input: string) {
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+// --- email ------------------------------------------------------------------
+// Both messages go out the moment the row is written, not on payment. An order
+// that exists but that nobody was told about is the worst failure mode here:
+// the customer thinks nothing happened and you never learn there was a sale.
+const RESEND = Deno.env.get("RESEND_API_KEY");
+const NOTIFY_TO = Deno.env.get("NOTIFY_EMAIL");
+const NOTIFY_FROM = Deno.env.get("NOTIFY_FROM") ?? "orders@visaflighttickets.com";
+const BRAND = "Visa Flight Tickets";
+
+function esc(v: unknown) {
+  return String(v ?? "").replace(/[<>&]/g, (c) =>
+    c === "<" ? "&lt;" : c === ">" ? "&gt;" : "&amp;");
+}
+
+async function send(to: string[], subject: string, html: string, replyTo?: string) {
+  if (!RESEND || !to.length) {
+    console.log("email skipped (no RESEND_API_KEY or no recipient):", subject);
+    return;
+  }
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { authorization: `Bearer ${RESEND}`, "content-type": "application/json" },
+    body: JSON.stringify({
+      from: `${BRAND} <${NOTIFY_FROM}>`,
+      to, subject, html,
+      ...(replyTo ? { reply_to: replyTo } : {}),
+    }),
+  });
+  if (!r.ok) console.error("resend failed", r.status, await r.text());
+}
+
+type MailCtx = {
+  ref: string; amount_minor: number; service: string; trip: string;
+  travellers: number; passengers: { surname: string; given_name: string; dob: string | null }[];
+  origin: string; destination: string; depart: string; ret: string;
+  email: string; phone: string; notes: string; legs: unknown[];
+};
+
+function rupees(minor: number) {
+  return "\u20b9" + (minor / 100).toLocaleString("en-IN");
+}
+
+function detailRows(c: MailCtx) {
+  const SERVICE: Record<string, string> = {
+    flight: "Flight reservation",
+    hotel: "Hotel booking",
+    both: "Flight + hotel",
+  };
+  // Derived from the itinerary, the same way the price is, so the email can
+  // never describe a one way while charging for a return.
+  const tripLabel = c.trip === "multi" ? "Multi-city"
+    : (c.ret && c.ret !== c.depart) ? "Return" : "One way";
+  const rows: [string, string][] = [
+    ["Order", c.ref],
+    ["Service", SERVICE[c.service] ?? c.service],
+    ["Trip", tripLabel],
+    ["Route", [c.origin, c.destination].filter(Boolean).join(" to ")],
+    ["Departure", c.depart],
+    ["Return", c.ret],
+    ["Travellers", String(c.travellers)],
+    ["Amount", rupees(c.amount_minor)],
+    ["Email", c.email],
+    ["Phone", c.phone],
+  ];
+  return rows
+    .filter(([, v]) => v)
+    .map(([k, v]) =>
+      `<tr><td style="padding:5px 16px 5px 0;color:#667;white-space:nowrap">${esc(k)}</td>` +
+      `<td style="padding:5px 0"><b>${esc(v)}</b></td></tr>`)
+    .join("");
+}
+
+function paxList(c: MailCtx) {
+  if (!c.passengers.length) return "";
+  const items = c.passengers
+    .map((p, i) =>
+      `<li>${esc(p.surname)}, ${esc(p.given_name)}` +
+      (p.dob ? ` <span style="color:#667">(${esc(p.dob)})</span>` : "") +
+      (i === 0 ? ' <span style="color:#667">- lead</span>' : "") + "</li>")
+    .join("");
+  return `<p style="margin:18px 0 6px"><b>Travellers</b></p>
+          <ol style="margin:0;padding-left:20px">${items}</ol>`;
+}
+
+async function emailCustomer(c: MailCtx) {
+  if (!c.email) return;
+  const html = `
+  <div style="font-family:system-ui,Segoe UI,Arial,sans-serif;font-size:15px;color:#14181b;max-width:560px">
+    <h2 style="margin:0 0 6px">We have your order</h2>
+    <p style="margin:0 0 18px;color:#667">Reference <b style="color:#14181b">${esc(c.ref)}</b>. Keep this,
+      you will need it if you contact us.</p>
+    <table style="border-collapse:collapse;margin-bottom:6px">${detailRows(c)}</table>
+    ${paxList(c)}
+    <div style="margin:22px 0;padding:12px 16px;background:#eef3ff;border-left:3px solid #193b92">
+      <b>What happens next</b>
+      <p style="margin:6px 0 0">We confirm the amount and take payment, then create the booking in a live
+      reservation system. Your documents arrive at this address, usually within 30 to 60 minutes of payment.</p>
+    </div>
+    <p style="margin:0 0 6px"><b>Check the spelling now, not later</b></p>
+    <p style="margin:0 0 18px;color:#445">Names must match the passport exactly. A mismatch is the most common
+      reason a visa file is returned. Reply to this email if anything above is wrong.</p>
+    <p style="margin:0;color:#667;font-size:13px">${BRAND} &middot; we are a travel-documentation service.
+      We are not a government body and we do not issue visas.</p>
+  </div>`;
+  await send([c.email], `Order ${c.ref} received - ${BRAND}`, html, NOTIFY_TO ?? undefined);
+}
+
+async function emailOwner(c: MailCtx) {
+  if (!NOTIFY_TO) return;
+  const legs = (c.legs || []).length
+    ? `<p style="margin:14px 0 0"><b>Extra legs</b><br>${esc(JSON.stringify(c.legs))}</p>` : "";
+  const html = `
+  <div style="font-family:system-ui,Segoe UI,Arial,sans-serif;font-size:15px;color:#14181b">
+    <h2 style="margin:0 0 4px">${esc(c.ref)} &middot; ${rupees(c.amount_minor)}</h2>
+    <p style="margin:0 0 16px;color:#667">New order. Nothing has been paid yet.</p>
+    <table style="border-collapse:collapse">${detailRows(c)}</table>
+    ${paxList(c)}
+    ${legs}
+    ${c.notes ? `<p style="margin:18px 0 0"><b>Notes</b><br>${esc(c.notes)}</p>` : ""}
+  </div>`;
+  await send(
+    NOTIFY_TO.split(",").map((s) => s.trim()),
+    `[ORDER] ${c.ref} - ${rupees(c.amount_minor)} - ${c.service}`,
+    html,
+    c.email || undefined,
+  );
+}
+
+
 Deno.serve(async (req) => {
   const origin = req.headers.get("origin");
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors(origin) });
@@ -163,6 +292,20 @@ Deno.serve(async (req) => {
   if (error || !order) {
     console.error("insert failed", error);
     return json({ error: "could_not_create_order" }, 500, origin);
+  }
+
+  // Tell both sides immediately. Failures are logged, never thrown: an email
+  // outage must not turn a saved order into an error for the customer.
+  const mailCtx = {
+    ref: order.ref, amount_minor, service, trip, travellers, passengers,
+    origin: str(body.origin, 120), destination: str(body.destination, 120),
+    depart, ret, email, phone: str(body.phone, 40), notes: str(body.notes, 2000),
+    legs: legs_,
+  };
+  try {
+    await Promise.all([emailCustomer(mailCtx), emailOwner(mailCtx)]);
+  } catch (e) {
+    console.error("notification email failed", e);
   }
 
   // --- direct UPI: no gateway, no percentage ------------------------------

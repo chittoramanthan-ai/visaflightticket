@@ -159,6 +159,47 @@
       if (svc === 'both') return P_FLIGHT * legs + P_HOTEL - BUNDLE_SAVING;
       return P_FLIGHT * legs;
     }
+    // ---- currency toggle -------------------------------------------------
+    // Rupees are what we charge. USD is a conversion shown for readers who
+    // think in dollars, which is why the note under the total keeps saying so
+    // rather than letting anyone believe they will be billed in dollars.
+    var USD_RATE = parseFloat(form.getAttribute('data-usd-rate')) || 0;
+    var curMode = 'INR';
+    try { curMode = localStorage.getItem('vft-cur') === 'USD' ? 'USD' : 'INR'; } catch (e) {}
+
+    function fmt(rupees) {
+      if (curMode === 'USD' && USD_RATE) {
+        var v = rupees / USD_RATE;
+        return '$' + (v < 100 ? v.toFixed(1).replace(/\.0$/, '') : Math.round(v));
+      }
+      return CURO + rupees.toLocaleString('en-IN');
+    }
+
+    var curBtns = form.querySelectorAll('[data-cur-set]');
+    function paintCur() {
+      for (var i = 0; i < curBtns.length; i++) {
+        var on = curBtns[i].getAttribute('data-cur-set') === curMode;
+        curBtns[i].classList.toggle('is-on', on);
+        curBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+      // The three service options quote a price too. Leaving them in rupees
+      // while the total switched to dollars is the sort of half-applied toggle
+      // that makes people distrust the number they are about to pay.
+      var opts = form.querySelectorAll('.optprice');
+      for (var o = 0; o < opts.length; o++) {
+        opts[o].textContent = fmt(parseInt(opts[o].getAttribute('data-inr'), 10));
+      }
+    }
+    for (var ci = 0; ci < curBtns.length; ci++) {
+      curBtns[ci].addEventListener('click', function () {
+        curMode = this.getAttribute('data-cur-set');
+        try { localStorage.setItem('vft-cur', curMode); } catch (e) {}
+        paintCur();
+        recalc();
+      });
+    }
+    paintCur();
+
     function recalc() {
       // Resolved every time rather than cached: checkout.js rewrites the
       // button's innerHTML while submitting, which destroys this span. A held
@@ -170,12 +211,14 @@
       var pax = form.querySelectorAll('#pax-list .pax').length || 1;
       var legs = legCount();
       var unit = unitPrice(svc, legs);
-      if (out) out.textContent = CURO + (unit * pax);
+      if (out) out.textContent = fmt(unit * pax);
       if (lineOut) {
-        var bits = CURO + unit + ' x ' + pax + ' traveller' + (pax > 1 ? 's' : '');
+        var bits = fmt(unit) + ' x ' + pax + ' traveller' + (pax > 1 ? 's' : '');
         if (svc !== 'hotel') {
           bits += legs > 1 ? ' (return, 2 flights)' : ' (one way)';
         }
+        // Say plainly which currency is actually charged, so a dollar figure
+        // is never mistaken for the billing currency.
         lineOut.textContent = bits;
       }
     }
@@ -324,6 +367,7 @@
     var retLabel = document.getElementById('bw-ret-label');
     var toInput = document.getElementById('bw-to');
     var submit = document.getElementById('bw-submit');
+    var BW_USD_RATE = parseFloat(bw.getAttribute('data-usd-rate')) || 0;
     var depInput = document.getElementById('bw-dep');
     var retInput = document.getElementById('bw-ret');
     var fromLabel = document.getElementById('bw-from-label');
@@ -431,7 +475,17 @@
       if (fromLabel) fromLabel.textContent = multi ? 'From (flight 1)' : 'From';
       if (depLabel && multi) depLabel.textContent = 'Departure (flight 1)';
 
-      submit.innerHTML = LABELS[service] + ' at ' + CUR + bwPrice();
+      // The server renders a dollar figure into this button; rewriting the
+      // label here threw it away, so the hero button showed both currencies
+      // and the widget button showed one. Rebuild both parts every time.
+      var rupees = bwPrice();
+      var alt = '';
+      if (BW_USD_RATE) {
+        var d = rupees / BW_USD_RATE;
+        alt = '<span class="usd-alt">$' +
+              (d < 100 ? d.toFixed(1).replace(/\.0$/, '') : Math.round(d)) + '</span>';
+      }
+      submit.innerHTML = LABELS[service] + ' at ' + CUR + rupees + alt;
     }
 
     for (var i = 0; i < tabs.length; i++) {

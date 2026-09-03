@@ -30,7 +30,7 @@ dict(
     slug="schengen-visa-appointment-flight-reservation",
     cat="Practical",
     title="Do You Need a Flight Reservation for the Schengen Appointment, or Only for the Application?",
-    meta_title="Flight Reservation for a Schengen Visa Appointment: When You Actually Need It",
+    meta_title="Flight Reservation for a Schengen Visa Appointment",
     desc="VFS and consulate appointments have different document rules from the application itself. When a flight reservation is needed to book the slot, when it is needed on the day, and how to time the booking so it is still valid.",
     read=8,
     lede="You cannot book the appointment without the documents, and you do not want to buy the documents "

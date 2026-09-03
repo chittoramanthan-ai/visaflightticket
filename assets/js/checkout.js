@@ -280,6 +280,32 @@
       // order_created is the signal that create-order itself is failing.
       if (window.vftTrack) window.vftTrack('order_submitted', { service: payload().service });
 
+      // ORDER_MODE = "email": record the order, let the server send the
+      // confirmation to the customer and the details to us, then stop. If the
+      // backend is unreachable we fall through to WhatsApp rather than losing
+      // the order, so switching this mode on can never strand anyone.
+      if ((CFG.orderMode || 'payment') === 'email') {
+        post('create-order', payload()).then(function (res) {
+          setBusy(false);
+          if (window.vftTrack) window.vftTrack('order_created', { method: 'email' });
+          say('ok',
+            '<strong>Order ' + res.ref + ' received</strong>' +
+            '<p>A confirmation is on its way to <b>' + (payload().email || 'your inbox') +
+            '</b> with everything you entered. Quote <b>' + res.ref + '</b> if you contact us.</p>' +
+            '<p>We will confirm the amount and take payment, then your documents follow within ' +
+            'the hour.</p>');
+        }).catch(function () {
+          setBusy(false);
+          var wa = whatsappOrder();
+          say('warn',
+            '<strong>We could not save that automatically</strong>' +
+            '<p>Nothing is lost. Send the same details on WhatsApp and we will pick it up from there.</p>' +
+            '<p><a class="btn btn--wa" href="' + wa + '" target="_blank" rel="noopener">' +
+            'Send on WhatsApp</a></p>');
+        });
+        return;
+      }
+
       post('create-order', payload()).then(function (res) {
         if (window.vftTrack) {
           window.vftTrack('order_created', {

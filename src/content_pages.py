@@ -137,7 +137,7 @@ def bulk_page():
                 primary=("Email the bulk desk", "contact"),
                 secondary=("See retail pricing", "pricing")))
 
-    add_page("bulk-orders", "Bulk Orders | Volume Pricing for Agencies and Visa Consultants",
+    add_page("bulk-orders", "Bulk Orders | Volume Pricing for Visa Agencies",
              "Bulk flight reservations and hotel bookings for travel agencies, immigration consultants, universities and employers: volume pricing, batch upload, monthly invoicing and a named contact.",
              body, schema=[c_schema, faq_schema(faqs)],
              priority="0.7", changefreq="monthly")

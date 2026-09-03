@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Core pages: home, services, pricing, process, trust, legal."""
 
-from build import (ORDER_MODE,ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
+from build import (ORDER_MODE, SHOW_USD, usd, USD_RATE, ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, BUNDLE_SAVING, CURRENCY, CURRENCY_CODE,
                    SINCE_YEAR, FLIGHTS_BOOKED, VISAS_HELPED, AIRLINE_COUNT, WHATSAPP,
                    IATA_ACCREDITED, IATA_NUMBER,
@@ -212,7 +212,7 @@ def home():
         <p class="lede">We issue real, airline-held reservations with a live PNR that you and the consulate can
         check on the airline&rsquo;s own website. Embassy-ready PDF in %s, from %s.</p>
         <div class="btn-row">
-          <a class="btn btn--primary btn--lg" href="%s">Get my flight ticket at %s</a>
+          <a class="btn btn--primary btn--lg" href="%s">Get my flight ticket at %s%s</a>
           <a class="btn btn--ghost btn--lg" href="%s">See how it works</a>
         </div>
         <div class="hero__seal">%s</div>
@@ -326,7 +326,9 @@ def home():
 
 %s
 """ % (flight_path(),
-       DELIVERY, money(PRICE_FLIGHT), url("order"), money(PRICE_FLIGHT), url("how-it-works"),
+       DELIVERY, money(PRICE_FLIGHT), url("order"), money(PRICE_FLIGHT),
+       ('<span class="usd-alt">%s</span>' % usd(PRICE_FLIGHT)) if SHOW_USD else "",
+       url("how-it-works"),
        iata_badge(), booking_widget(), highlights(), stat_bar(),
        feature_cards(),
        airline_strip(),
@@ -371,7 +373,7 @@ def home():
 
     add_page(
         "",
-        "Visa Flight Tickets | Verifiable Flight Reservation for Visa in %s" % DELIVERY,
+        "Verifiable Flight Reservation for Your Visa in %s" % DELIVERY,
         "Get a verifiable flight ticket for your visa application from %s. Real airline-held reservation with a live PNR, hotel bookings from %s, delivered in %s." % (money(PRICE_FLIGHT), money(PRICE_HOTEL), DELIVERY),
         body,
         schema=[webpage, service, faq_schema(home_faqs)],
@@ -1080,15 +1082,21 @@ def order_page():
     <div class="hero__grid" style="align-items:flex-start">
       <h2 class="sr">Order form</h2>
       <form class="form" id="order-form" novalidate data-cur="%s"
-            data-p-flight="%d" data-p-hotel="%d" data-p-saving="%d">
+            data-p-flight="%d" data-p-hotel="%d" data-p-saving="%d"
+            data-usd-rate="%s">
+        <div class="curswitch" role="group" aria-label="Show prices in">
+          <span class="curswitch__lbl">Show prices in</span>
+          <button type="button" class="curswitch__b is-on" data-cur-set="INR">%s INR</button>
+          <button type="button" class="curswitch__b" data-cur-set="USD">$ USD</button>
+        </div>
         <fieldset>
           <legend>1 &middot; What do you need?</legend>
           <label class="opt"><input type="radio" name="service" value="flight" checked>
-            <span><b>Flight reservation at %s</b><small>Airline-held itinerary with a live PNR</small></span></label>
+            <span><b>Flight reservation at <span class="optprice" data-inr="%d">%s</span></b><small>Airline-held itinerary with a live PNR</small></span></label>
           <label class="opt"><input type="radio" name="service" value="hotel">
-            <span><b>Hotel booking at %s</b><small>Confirmed accommodation with a reference number</small></span></label>
+            <span><b>Hotel booking at <span class="optprice" data-inr="%d">%s</span></b><small>Confirmed accommodation with a reference number</small></span></label>
           <label class="opt"><input type="radio" name="service" value="both">
-            <span><b>Flight + hotel at %s</b><small>Both, with dates reconciled. Most popular.</small></span></label>
+            <span><b>Flight + hotel at <span class="optprice" data-inr="%d">%s</span></b><small>Both, with dates reconciled. Most popular.</small></span></label>
         </fieldset>
 
         <fieldset>
@@ -1164,7 +1172,9 @@ def order_page():
   </div>
 </section>
 """ % (c_html, DELIVERY, CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, BUNDLE_SAVING,
-       money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_BOTH),
+       USD_RATE, CURRENCY,
+       PRICE_FLIGHT, money(PRICE_FLIGHT), PRICE_HOTEL, money(PRICE_HOTEL),
+       PRICE_BOTH, money(PRICE_BOTH),
        _order_cta(), money(PRICE_FLIGHT), _order_steps())
 
     add_page(slug, "Order a Flight Reservation or Hotel Booking for Your Visa",

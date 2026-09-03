@@ -72,7 +72,7 @@ dict(
     label="Indonesia / Bali", short="Indonesia",
     status="voa", status_note="Visa on arrival, 30 days, extendable once",
     h1="Bali and Indonesia visa on arrival for Indians",
-    title="Bali Visa on Arrival for Indians 2026 | Cost, e-VOA, Return Ticket",
+    title="Bali Visa on Arrival for Indians 2026 | Cost and e-VOA",
     desc="Indians get a 30-day visa on arrival for Indonesia at IDR 500,000, extendable once. Onward ticket required. Verifiable reservations from %s." % money(PRICE_FLIGHT),
     route=("DEL", "DPS"),
     blurb="Indonesia gives Indian passport holders a visa on arrival, and you can now buy it online beforehand "
@@ -117,7 +117,7 @@ dict(
     label="Vietnam", short="Vietnam",
     status="evisa", status_note="e-visa, 90 days, single or multiple entry",
     h1="Vietnam e-visa for Indian passport holders",
-    title="Vietnam e-Visa for Indians 2026 | Cost, Processing Time, Documents",
+    title="Vietnam e-Visa for Indians 2026 | Cost and Documents",
     desc="Vietnam's e-visa gives Indians up to 90 days, single or multiple entry, for USD 25 to 50. Applied for online in about three working days. Reservations from %s." % money(PRICE_FLIGHT),
     route=("DEL", "SGN"),
     blurb="Vietnam runs one of the easier e-visa systems in the region. Ninety days, single or multiple entry, "
@@ -798,7 +798,7 @@ dict(
     label="Azerbaijan", short="Azerbaijan",
     status="evisa", status_note="ASAN e-visa, 30 days single entry",
     h1="Azerbaijan e-visa for Indian passport holders",
-    title="Azerbaijan Visa for Indians 2026 | ASAN e-Visa Cost, 3-Day Process",
+    title="Azerbaijan Visa for Indians 2026 | ASAN e-Visa Cost",
     desc="Azerbaijan's ASAN e-visa gives Indians 30 days for about USD 26, issued in three working days. Requirements and what to know. Reservations from %s." % money(PRICE_FLIGHT),
     route=("DEL", "GYD"),
     blurb="Baku became a favourite short-haul European-feeling break for Indian travellers, helped by a genuinely "
@@ -889,7 +889,7 @@ dict(
     label="Uzbekistan", short="Uzbekistan",
     status="visa_free", status_note="Visa free for short tourist stays",
     h1="Uzbekistan visa rules for Indian passport holders",
-    title="Uzbekistan for Indians 2026 | Visa Free Entry, Rules, What to Carry",
+    title="Uzbekistan for Indians 2026 | Visa Free Entry and Rules",
     desc="Uzbekistan is visa free for Indian passport holders on short tourist stays. What immigration and airlines actually ask for, what the e-visa is still useful for, and the mistakes that get people stopped at check-in.",
     route=("DEL", "TAS"),
     blurb="Uzbekistan opened up to Indian travellers, and short tourist visits no longer need a visa applied "

@@ -43,6 +43,8 @@ PRICE_FLIGHT = 399
 PRICE_HOTEL = 299
 BUNDLE_SAVING = 99
 PRICE_BOTH = PRICE_FLIGHT + PRICE_HOTEL - BUNDLE_SAVING
+PRICE_CONSULT_ONLY = 799   # advice only: review, cover letter, itinerary
+PRICE_CONSULT = 1499       # advice plus the flight reservation and hotel booking
 PRICE_ESIM = 299       # cheapest regional eSIM pack
 PRICE_INSURE = 499     # cheapest Schengen-compliant policy, per traveller
 DELIVERY = "30-60 minutes"
@@ -84,6 +86,11 @@ AIRLINE_COUNT = "100+"
 #   "whatsapp"  the form collects everything, then hands the customer a
 #               prefilled WhatsApp message to you. No backend needed, no
 #               payment on site. You quote and collect payment in chat.
+#   "email"     create-order records the order, gives it a reference, and
+#               emails BOTH sides: a confirmation to the customer and the full
+#               details to NOTIFY_EMAIL. No payment step. Needs the Supabase
+#               migration applied and create-order deployed; if the call fails
+#               the form falls back to WhatsApp, so nothing is ever lost.
 #   "payment"   the full flow: create-order prices it server-side, writes a
 #               row, and shows UPI or Razorpay.
 #
@@ -171,6 +178,38 @@ def url(path=""):
 
 
 _ASSET_V = {}
+
+
+def page_title(headline, brand=True):
+    """Append the brand only when the result still fits a search result.
+
+    Google cuts a title around 60 characters. " | Visa Flight Tickets" costs
+    22 of them, so on a descriptive blog headline the brand was pushing the
+    actual subject out of view: an 99-character title is shown as about
+    "Flight Reservation for a Schengen Visa Appointment: When You Act...".
+    Better to lose the suffix than the sentence. Google appends the site name
+    itself in most result layouts anyway.
+    """
+    if brand and len(headline) + 3 + len(BRAND) <= 60:
+        return headline + " | " + BRAND
+    return headline
+
+
+def trim_desc(text, limit=158):
+    """Cut a meta description at the last complete sentence that fits.
+
+    A description truncated by the search engine ends mid-word with an
+    ellipsis, which reads as sloppy. Ending it ourselves, on a full stop,
+    reads as deliberate."""
+    text = text.strip()
+    if len(text) <= limit:
+        return text
+    cut = text[:limit]
+    for stop in (". ", "? ", "! "):
+        i = cut.rfind(stop)
+        if i > limit * 0.55:
+            return cut[:i + 1].strip()
+    return cut.rsplit(" ", 1)[0].rstrip(",;:") + "."
 
 
 def usd(rupees):
@@ -314,6 +353,7 @@ def brand_mark():
 # footer and from in-page links, so crawl depth is unaffected.
 NAV = [
     ("Visa Guides", "visa"),
+    ("Consultation", "visa-consultation"),
     ("Bulk Orders", "bulk-orders"),
     ("Blog", "blog"),
     ("FAQs", "faq"),
@@ -327,6 +367,7 @@ FOOTER_SERVICES = [
     ("Travel insurance for visa", "travel-insurance-for-visa"),
     ("Travel eSIM", "travel-esim"),
     ("Proof of onward travel", "proof-of-onward-travel"),
+    ("Visa consultation", "visa-consultation"),
     ("Pricing", "pricing"),
     ("Verify a PNR", "verify-pnr"),
 ]
@@ -505,10 +546,10 @@ FEATURES = [
      "Stuck at an airport and being asked for onward travel before they will "
      "board you? Appointment at six in the morning? Message us at any hour and "
      "a person answers, and we would rather you asked than guessed."),
-    ("cash", "Cheapest price",
+    ("cash", "Competitive pricing",
      "%s per traveller for a one-way leg, %s for a return. No fare is ever "
      "purchased, so there is "
-     "no fare to recover. That is why it can be this cheap."),
+     "no fare to recover. That is why it costs so little."),
     ("handshake", "Money-back guarantee",
      "If a reference does not verify, or we fail to deliver, you get a full "
      "refund. Written down, not implied."),
@@ -641,9 +682,10 @@ def highlights(price=True):
         out += ('<span class="hl__i hl__i--%s">%s<b>%s</b><small>%s</small></span>'
                 % (kind, icon, title, sub))
     if price:
-        out += ('<span class="hl__i hl__i--price">%s<b>%s <em>only</em></b>'
+        out += ('<span class="hl__i hl__i--price">%s<b>%s%s <em>only</em></b>'
                 '<small>Per traveller, one way</small></span>'
-                % (ICON["wallet"], money(PRICE_FLIGHT)))
+                % (ICON["wallet"], money(PRICE_FLIGHT),
+                   ('<span class="usd-alt">%s</span>' % usd(PRICE_FLIGHT)) if SHOW_USD else ""))
     return '<div class="hl">%s</div>' % out
 
 
@@ -651,7 +693,7 @@ def booking_widget():
     """Hero search widget: service tabs, trip type, route, dates. GETs to /order/."""
     return """
 <form class="bw" id="bw" action="%s" method="get" data-cur="%s"
-      data-p-flight="%d" data-p-hotel="%d" data-p-saving="%d">
+      data-p-flight="%d" data-p-hotel="%d" data-p-saving="%d" data-usd-rate="%s">
   <div class="bw__tabs" role="tablist" aria-label="What do you need?">
     <button type="button" class="bw__tab is-on" data-svc="flight" role="tab" aria-selected="true">Flight</button>
     <button type="button" class="bw__tab" data-svc="hotel" role="tab" aria-selected="false">Hotel</button>
@@ -688,12 +730,14 @@ def booking_widget():
   <button type="button" class="bw__add" id="bw-addleg" hidden>+ Add another city</button>
 
   <button class="btn btn--primary btn--lg btn--block" type="submit" id="bw-submit">
-    Get my dummy ticket at %s</button>
+    Get my dummy ticket at %s%s</button>
   <p class="bw__note">
     <b>%s Live PNR</b><b>%s No airline payment</b><b>%s In %s</b>
   </p>
-</form>""" % (url("order"), CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, BUNDLE_SAVING,
-       money(PRICE_FLIGHT), ICON["check"], ICON["check"], ICON["check"], DELIVERY)
+</form>""" % (url("order"), CURRENCY, PRICE_FLIGHT, PRICE_HOTEL, BUNDLE_SAVING, USD_RATE,
+       money(PRICE_FLIGHT),
+       ('<span class="usd-alt">%s</span>' % usd(PRICE_FLIGHT)) if SHOW_USD else "",
+       ICON["check"], ICON["check"], ICON["check"], DELIVERY)
 
 
 # --- simplified public-domain national flags, drawn for a 44x29 field -------
@@ -871,7 +915,10 @@ def sticky_cta(active):
     # Insurance and eSIM are quoted per request, and a "from Rs499" floating
     # over a priceless page reads as that page's price, not the flight one.
     priceless = active in ("travel-insurance-for-visa", "travel-esim")
-    price_chip = "" if priceless else         '<span class="scta__price"><em>from</em>%s</span>' % money(PRICE_FLIGHT)
+    price_chip = "" if priceless else (
+        '<span class="scta__price"><em>from</em>%s%s</span>'
+        % (money(PRICE_FLIGHT),
+           ('<span class="usd-alt">%s</span>' % usd(PRICE_FLIGHT)) if SHOW_USD else ""))
 
     return """
 <button type="button" class="totop" id="totop" aria-label="Back to top">%s</button>
@@ -1036,6 +1083,9 @@ def add_page(slug, title, description, body, schema=None, og_type="website",
              og_title=None, noindex=False, priority="0.7", changefreq="monthly",
              lastmod=TODAY, extra_js=()):
     """Queue a page for writing. Called by every content module."""
+    # Trimmed here rather than at each call site, so no page can ship a
+    # description that a search engine cuts off mid-word.
+    description = trim_desc(description)
     PAGES.append(dict(
         slug=slug, title=title, description=description, body=body,
         schema=schema or [], og_type=og_type, og_title=og_title or title,

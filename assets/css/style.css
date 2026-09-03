@@ -1567,9 +1567,114 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* Dollar figure sits beside the rupee one, on the same line, so the two read
    as one price in two currencies rather than as a second thing being charged.
    Quieter weight and colour keep the rupee figure the primary one. */
-.ticket__usd{
-  margin-left:.4rem;font-family:var(--mono);font-size:.62em;
-  font-weight:600;letter-spacing:.02em;color:var(--ink-3);
+
+
+/* Dollar figure next to a rupee one outside the ticket stubs. Same colour and
+   weight as the rupee price, just smaller, so the two read as one price in two
+   currencies rather than as two different numbers. */
+
+
+/* The WhatsApp button's label plus its icon is wide, and it was wrapping to
+   two and sometimes three lines inside its own pill. It reads as broken
+   rather than as a button. */
+.btn--wa { white-space: nowrap; }
+
+/* --------------------------------------------------------------------------
+   The dollar figure beside a rupee price. ONE rule for every placement, so a
+   button and a ticket stub cannot end up with different sizes, weights and
+   opacities, which is exactly what happened when they had separate rules.
+   Same colour and weight as the rupee price; only the size steps down.
+   -------------------------------------------------------------------------- */
+.ticket__usd, .usd-alt{
+  /* Identical to the rupee price in every respect: same family, same size,
+     same weight, same tracking, same colour. The two are one price written
+     twice, and anything that makes the dollar look like a footnote makes it
+     read as a different, lesser number. */
+  margin-left:.28rem;
+  font:inherit;
+  font-size:inherit;
+  font-weight:inherit;
+  letter-spacing:inherit;
+  color:inherit;
   white-space:nowrap;
 }
-.ticket__usd::before{content:"/ "}
+.ticket__usd::before, .usd-alt::before{
+  content:"/";
+  margin-right:.22rem;
+  opacity:.45;
+  font-weight:inherit;
+}
+
+/* Currency toggle on the order form. */
+.curswitch{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  margin:0 0 1.2rem;font-size:.86rem;
+}
+.curswitch__lbl{color:var(--ink-3);margin-right:2px}
+.curswitch__b{
+  border:1px solid var(--line-strong);background:var(--surface);
+  color:var(--ink-2);font:inherit;font-weight:650;
+  padding:.34rem .7rem;border-radius:999px;cursor:pointer;
+  transition:background .15s ease,border-color .15s ease,color .15s ease;
+}
+.curswitch__b:hover{border-color:var(--brand);color:var(--brand)}
+.curswitch__b.is-on{
+  background:var(--brand);border-color:var(--brand);color:#fff;
+}
+
+/* --------------------------------------------------------------------------
+   Consultation hero card. A file with its documents checked off, standing in
+   for the boarding pass, which advertises the wrong product on this page.
+   -------------------------------------------------------------------------- */
+.fcard{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-md);overflow:hidden;
+}
+.fcard__top{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--brand);color:#fff;padding:.8rem 1.15rem;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+}
+.fcard__list{list-style:none;margin:0;padding:.5rem .4rem}
+.fcard__row{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.62rem .8rem;border-radius:10px;
+}
+.fcard__row + .fcard__row{border-top:1px solid var(--line)}
+.fcard__tick{
+  flex:none;width:22px;height:22px;border-radius:50%;
+  background:var(--ok-soft);color:var(--ok);
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.fcard__tick svg{width:13px;height:13px}
+.fcard__tick--muted{background:var(--surface-2);color:var(--ink-3)}
+.fcard__lbl{flex:1;font-weight:650;font-size:.95rem;color:var(--ink)}
+.fcard__st{font-size:.8rem;color:var(--ink-3);text-align:right;white-space:nowrap}
+.fcard__foot{
+  display:flex;align-items:center;gap:.5rem;
+  border-top:1px dashed var(--line-strong);
+  padding:.8rem 1.15rem;background:var(--surface-2);
+  font-size:.85rem;color:var(--ink-2);
+}
+.fcard__foot svg{width:15px;height:15px;color:var(--ok);flex:none}
+@media (max-width:520px){
+  .fcard__st{display:none}
+}
+
+/* Every container holding a price is a flex box with its own gap, and each
+   gap differed: 8px in a button and a ticket stub, 4.8px in the sticky bar,
+   none at all in the hero chip. So the same markup rendered four different
+   spacings. Zero the gap where a dollar figure sits, and let one margin
+   define the spacing everywhere. */
+.ticket__price, .scta__price{ column-gap:0; }
+/* Zeroing the container gap also removed the space before the note that
+   follows the price, so "$4.5" and "PER TRAVELLER" collided. Give those
+   siblings their spacing back explicitly, rather than through a gap that
+   also lands between the two halves of one price. */
+.ticket__price small{ margin-left:.55rem; }
+.scta__price em{ margin-right:.34rem; }
+.btn:has(.usd-alt){ column-gap:0; }
+/* Fallback for browsers without :has(), which would otherwise keep the gap. */
+@supports not selector(:has(*)) {
+  .btn .usd-alt{ margin-left:calc(.28rem - .5rem); }
+}

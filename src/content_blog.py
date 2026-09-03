@@ -4,7 +4,7 @@
 from build import (BRAND, SITE_URL, TODAY, DELIVERY, EMAIL,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, SINCE_YEAR,
                    money, add_page, url, abs_url, faq_block, faq_schema,
-                   crumbs, cta_band, slugify)
+                   crumbs, cta_band, slugify, page_title, trim_desc)
 from blog_extra import POSTS_EXTRA
 
 AUTHOR = "The %s editorial team" % BRAND
@@ -971,7 +971,7 @@ def _post(p, index):
         "image": SITE_URL + "/assets/img/og-default.jpg",
     }
 
-    add_page(slug, p["meta_title"] + " | " + BRAND, p["desc"], body,
+    add_page(slug, page_title(p["meta_title"]), trim_desc(p["desc"]), body,
              schema=[c_schema, article, faq_schema(p["faqs"])],
              og_type="article", og_title=p["title"],
              priority="0.7", changefreq="monthly")
