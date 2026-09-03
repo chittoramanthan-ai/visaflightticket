@@ -363,7 +363,7 @@ def ticket(title, desc, price, features, cta_label, cta_href,
     <a class="btn btn--%s btn--block" href="%s" data-track="cta_order" data-track-plan="%s">%s</a>
   </div>
   <div class="ticket__stub">
-    <p class="ticket__price">%s<small>%s</small></p>%s
+    <p class="ticket__price">%s%s<small>%s</small></p>
     <div class="ticket__barcode"></div>
     <span class="ticket__code">%s</span>
   </div>
@@ -374,9 +374,9 @@ def ticket(title, desc, price, features, cta_label, cta_href,
         title, desc, lis,
         "primary" if featured else "ghost", url(cta_href), code.lower(), cta_label,
         money(price) if price is not None else '<span class="ticket__quote">Quote</span>',
-        price_note,
-        ('<span class="ticket__usd">about %s</span>' % usd(price))
+        ('<span class="ticket__usd">%s</span>' % usd(price))
         if (SHOW_USD and price is not None) else "",
+        price_note,
         code,
     )
 

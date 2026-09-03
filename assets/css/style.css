@@ -1564,9 +1564,12 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   #order-submit #price-out{font-size:.94em;opacity:.92}
 }
 
-/* Dollar figure under the rupee price. Deliberately quiet: it is an
-   indication for visitors thinking in dollars, not the amount charged. */
+/* Dollar figure sits beside the rupee one, on the same line, so the two read
+   as one price in two currencies rather than as a second thing being charged.
+   Quieter weight and colour keep the rupee figure the primary one. */
 .ticket__usd{
-  display:block;margin-top:3px;font-family:var(--mono);
-  font-size:.66rem;letter-spacing:.06em;color:var(--ink-3);
+  margin-left:.4rem;font-family:var(--mono);font-size:.62em;
+  font-weight:600;letter-spacing:.02em;color:var(--ink-3);
+  white-space:nowrap;
 }
+.ticket__usd::before{content:"/ "}
