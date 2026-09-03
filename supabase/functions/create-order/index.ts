@@ -13,8 +13,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 //   flight = FLIGHT * legs * travellers
 //   hotel  = HOTEL * travellers
 //   both   = (FLIGHT * legs + HOTEL - BUNDLE_SAVING) * travellers
-const P_FLIGHT = 49900;
-const P_HOTEL = 39900;
+const P_FLIGHT = 39900;
+const P_HOTEL = 29900;
 const BUNDLE_SAVING = 9900;
 const MAX_TRAVELLERS = 12;
 

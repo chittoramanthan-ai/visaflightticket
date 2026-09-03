@@ -39,13 +39,21 @@ CURRENCY_CODE = "INR"
 #   both    = (PRICE_FLIGHT x legs + PRICE_HOTEL - BUNDLE_SAVING) x travellers
 # PRICE_BOTH below is the one-way headline, kept for copy that quotes a
 # starting price. Anything that charges money derives the total instead.
-PRICE_FLIGHT = 499
-PRICE_HOTEL = 399
+PRICE_FLIGHT = 399
+PRICE_HOTEL = 299
 BUNDLE_SAVING = 99
 PRICE_BOTH = PRICE_FLIGHT + PRICE_HOTEL - BUNDLE_SAVING
-PRICE_ESIM = 399       # cheapest regional eSIM pack
-PRICE_INSURE = 599     # cheapest Schengen-compliant policy, per traveller
+PRICE_ESIM = 299       # cheapest regional eSIM pack
+PRICE_INSURE = 499     # cheapest Schengen-compliant policy, per traveller
 DELIVERY = "30-60 minutes"
+
+# --- second currency -------------------------------------------------------
+# Shown beside the rupee price, because a good share of visa applicants are
+# already abroad and think in dollars. One rate drives every USD figure so
+# they cannot drift apart. It is an INDICATION, not a conversion at checkout:
+# recheck it whenever the rupee moves materially.
+SHOW_USD = True
+USD_RATE = 88.7        # rupees per dollar. PRICE_FLIGHT lands on $4.5
 
 # --------------------------------------------------------------------------
 # TRUST / CREDENTIALS
@@ -163,6 +171,15 @@ def url(path=""):
 
 
 _ASSET_V = {}
+
+
+def usd(rupees):
+    """Rupees to a short dollar string: 399 -> $4.5. One decimal, because a
+    price like $4.49 reads as precision we are not actually offering."""
+    if isinstance(rupees, str):
+        rupees = int(rupees.replace(CURRENCY, "").replace(",", ""))
+    v = rupees / float(USD_RATE)
+    return "$%s" % (("%.1f" % v).rstrip("0").rstrip(".") if v < 100 else str(int(round(v))))
 
 
 def asset(path, bust=False):
@@ -346,7 +363,7 @@ def ticket(title, desc, price, features, cta_label, cta_href,
     <a class="btn btn--%s btn--block" href="%s" data-track="cta_order" data-track-plan="%s">%s</a>
   </div>
   <div class="ticket__stub">
-    <p class="ticket__price">%s<small>%s</small></p>
+    <p class="ticket__price">%s<small>%s</small></p>%s
     <div class="ticket__barcode"></div>
     <span class="ticket__code">%s</span>
   </div>
@@ -357,7 +374,10 @@ def ticket(title, desc, price, features, cta_label, cta_href,
         title, desc, lis,
         "primary" if featured else "ghost", url(cta_href), code.lower(), cta_label,
         money(price) if price is not None else '<span class="ticket__quote">Quote</span>',
-        price_note, code,
+        price_note,
+        ('<span class="ticket__usd">about %s</span>' % usd(price))
+        if (SHOW_USD and price is not None) else "",
+        code,
     )
 
 
@@ -482,8 +502,9 @@ FEATURES = [
      "Every booking is real and held in an airline system. Verify the reference "
      "on the carrier&rsquo;s own site before you file. Takes two minutes."),
     ("headset", "24&times;7 support",
-     "Appointment at six in the morning? Message us at any hour and a person "
-     "answers, and we would rather you asked than guessed."),
+     "Stuck at an airport and being asked for onward travel before they will "
+     "board you? Appointment at six in the morning? Message us at any hour and "
+     "a person answers, and we would rather you asked than guessed."),
     ("cash", "Cheapest price",
      "%s per traveller for a one-way leg, %s for a return. No fare is ever "
      "purchased, so there is "

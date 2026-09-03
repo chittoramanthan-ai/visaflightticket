@@ -1548,3 +1548,25 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .grid { gap: 1rem; }
   .ticket-slot + .ticket-slot { margin-top: 1rem; }
 }
+
+/* The order submit button carries a label and a live price. On a phone the
+   two do not fit one line, and the middot between them was being orphaned
+   onto the second line with the price hanging off to the right. Laid out as
+   flex so it wraps predictably, and stacked with the separator removed once
+   there is genuinely no room. */
+#order-submit{
+  display:flex;align-items:center;justify-content:center;
+  gap:.45rem;flex-wrap:wrap;line-height:1.3;
+}
+@media (max-width:430px){
+  #order-submit{flex-direction:column;gap:.1rem}
+  #order-submit .btn__sep{display:none}
+  #order-submit #price-out{font-size:.94em;opacity:.92}
+}
+
+/* Dollar figure under the rupee price. Deliberately quiet: it is an
+   indication for visitors thinking in dollars, not the amount charged. */
+.ticket__usd{
+  display:block;margin-top:3px;font-family:var(--mono);
+  font-size:.66rem;letter-spacing:.06em;color:var(--ink-3);
+}

@@ -54,7 +54,7 @@ STUB = r"""
 
       // Mirror the server's pricing so the preview shows a real total.
       // Kept in sync by hand with create-order/index.ts and src/build.py.
-      var F = 499, H = 399, SAVING = 99;
+      var F = 399, H = 299, SAVING = 99;
       var pax = Math.max(1, (body.passengers || []).length || 1);
       var legs = 1;
       if (body.trip === 'round' || (body.return_date && body.return_date !== body.depart_date)) legs = 2;

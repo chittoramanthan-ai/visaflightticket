@@ -1142,7 +1142,7 @@ def order_page():
         </fieldset>
 
         <button class="btn btn--primary btn--lg btn--block" type="submit" id="order-submit">
-          %s &middot; <span id="price-out">%s</span></button>
+          <span class="btn__lbl">%s</span><span class="btn__sep">&middot;</span><span id="price-out">%s</span></button>
         <p class="hint" style="text-align:center;margin-top:12px" id="price-line"></p>
 
         <div class="note" id="order-msg" hidden></div>
