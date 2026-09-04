@@ -679,13 +679,36 @@ def _index():
              ("visa_required", "Full visa application",
               "Appointment, documents, and a wait. Plan these first.")]
 
+    # Ordered by how many Indians actually travel there, not alphabetically.
+    # A visitor scanning the visa-free section wants Thailand and Dubai near
+    # the top, not Bhutan first because it begins with B. Anything not listed
+    # falls to the end of its own section, alphabetically, so adding a guide
+    # never needs this list updated to avoid looking broken.
+    POPULARITY = [
+        # visa free
+        "Thailand", "Malaysia", "Sri Lanka", "Maldives", "Nepal", "Hong Kong",
+        "Mauritius", "Philippines", "Kazakhstan", "Georgia", "Uzbekistan", "Bhutan",
+        # visa on arrival
+        "Indonesia", "Qatar",
+        # e-visa
+        "UAE", "Singapore", "Vietnam", "Turkey", "Saudi Arabia", "Oman", "Bahrain",
+        "Egypt", "Azerbaijan", "Cambodia", "Kenya", "South Africa", "Russia", "Morocco",
+        # full visa
+        "United States", "United Kingdom", "Schengen", "Canada", "Australia",
+        "Japan", "South Korea", "New Zealand", "Kuwait", "Brazil",
+    ]
+    RANK = {name: i for i, name in enumerate(POPULARITY)}
+
+    def by_popularity(v):
+        return (RANK.get(v["short"], len(POPULARITY)), v["short"])
+
     groups = ""
     for status, heading, blurb in ORDER:
         rows = [v for v in VISAS if v["status"] == status]
         if not rows:
             continue
         cards = ""
-        for v in sorted(rows, key=lambda x: x["short"]):
+        for v in sorted(rows, key=by_popularity):
             cards += """
 <a class="card card--link vcard" href="%s">
   <div class="vcard__hd"><span class="vcard__c">%s</span>%s</div>
