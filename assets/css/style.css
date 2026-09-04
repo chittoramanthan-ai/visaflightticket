@@ -1004,7 +1004,23 @@ body.has-scta .totop{bottom:88px}
 
 /* --- visa: fees table --------------------------------------------------- */
 table.fees{min-width:420px}
-table.fees td small{display:block;font-size:.8rem;color:var(--ink-3);margin-top:3px;font-weight:400}
+/* Any <small> inside a table cell is a sub-label under the bold line above
+   it, not a continuation of that sentence. It was rendering inline and
+   colliding: "Before the booking is createdUsually within 30 minutes". */
+.tbl-wrap td small, table.fees td small{
+  display:block;font-size:.8rem;color:var(--ink-3);margin-top:3px;font-weight:400;line-height:1.4;
+}
+/* The stub note must be allowed to wrap. Forcing white-space:nowrap here to
+   tidy "PER APPLICATION" gave the stub an unbreakable minimum width, which
+   widened every ticket, widened the grid, and pushed the pricing page 27px
+   past the viewport. A slightly awkward line break is cheaper than a page
+   that scrolls sideways. */
+.ticket__price small{
+  display:block;margin-top:2px;line-height:1.25;
+}
+/* Grid and flex children default to min-width:auto, so a long unbreakable
+   word in a ticket could still push the column out. */
+.ticket, .ticket__main, .ticket__stub, .ticket-slot{min-width:0}
 td.vfee{
   font-family:var(--display);font-weight:800;font-size:1.05rem;white-space:nowrap;
   color:var(--ink);text-align:right;font-feature-settings:'tnum' 1;

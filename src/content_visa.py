@@ -535,7 +535,7 @@ VISAS = [
     ),
     dict(
         slug="singapore-visa-flight-ticket",
-        status='visa_required',
+        status='evisa',
         status_note='e-visa via authorised agent, SG Arrival Card for all',
         tips=['The SG Arrival Card is separate from the visa and required for everyone, submitted within three days of arrival.',
  'Changi is worth arriving early for. Jewel, the canopy park and the free cinema are all landside.',

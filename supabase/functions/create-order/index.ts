@@ -61,7 +61,7 @@ async function sha256Hex(input: string) {
 // the customer thinks nothing happened and you never learn there was a sale.
 const RESEND = Deno.env.get("RESEND_API_KEY");
 const NOTIFY_TO = Deno.env.get("NOTIFY_EMAIL");
-const NOTIFY_FROM = Deno.env.get("NOTIFY_FROM") ?? "orders@visaflighttickets.com";
+const NOTIFY_FROM = Deno.env.get("NOTIFY_FROM") ?? "support@visaflighttickets.com";
 const BRAND = "Visa Flight Tickets";
 
 function esc(v: unknown) {

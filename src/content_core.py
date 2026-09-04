@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Core pages: home, services, pricing, process, trust, legal."""
 
-from build import (ORDER_MODE, SHOW_USD, usd, USD_RATE, ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
+from build import (ORDER_MODE, SHOW_USD, usd, USD_RATE, TRADE_NAME, legal_block, ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, BUNDLE_SAVING, CURRENCY, CURRENCY_CODE,
                    SINCE_YEAR, FLIGHTS_BOOKED, VISAS_HELPED, AIRLINE_COUNT, WHATSAPP,
                    IATA_ACCREDITED, IATA_NUMBER,
@@ -34,6 +34,8 @@ ROUTE_CARRIER = {
     "PBH": "Drukair",         "RUH": "Saudia",        "SGN": "Vietnam Airlines",
     "SIN": "Singapore Airlines",                      "SYD": "Air India",
     "TAS": "Uzbekistan Airways",                      "YYZ": "Air Canada",
+    "ALA": "Air Astana",      "TBS": "IndiGo",        "SVO": "Aeroflot",
+    "JNB": "South African Airways",                   "CMN": "Royal Air Maroc",
 }
 
 
@@ -92,6 +94,31 @@ def boarding_pass(dep="DEL", arr="CDG", variant="flight"):
 BOARDING_PASS = boarding_pass()
 
 
+def trustline(kind="flight"):
+    """Claims sized to the product on the page.
+
+    The default line promises a live PNR and no airline payment, which is
+    exactly right under a flight reservation and meaningless under an eSIM or
+    a consultation. Same layout, honest content."""
+    SETS = {
+        "flight": [("check", "Live PNR you can check yourself"),
+                   ("clock", "Delivered in %s" % DELIVERY),
+                   ("check", "No airline payment required"),
+                   ("shield", "Money-back guarantee")],
+        "esim":   [("check", "Keep your Indian number for OTPs"),
+                   ("clock", "QR delivered before you fly"),
+                   ("check", "No SIM counter, no passport copy"),
+                   ("shield", "Refund if it will not activate")],
+        "advice": [("check", "Read against your consulate's own checklist"),
+                   ("clock", "First response the same day"),
+                   ("check", "Documents built to survive checking"),
+                   ("shield", "No guaranteed-approval nonsense")],
+    }
+    rows = "".join('<b>%s %s</b>' % (ICON[i], t) for i, t in SETS.get(kind, SETS["flight"]))
+    return ('<div class="trustline">%s</div>'
+            '<div style="margin-top:1.2rem">%s</div>' % (rows, iata_badge()))
+
+
 TRUSTLINE = """
 <div class="trustline">
   <b>%s Live PNR you can check yourself</b>
@@ -136,6 +163,7 @@ def build():
     terms_page()
     privacy_page()
     refund_page()
+    cancellation_page()
 
 
 # --------------------------------------------------------------------------
@@ -1137,6 +1165,20 @@ def order_page():
                 <div class="field"><label for="email">Email for delivery</label>
                   <input id="email" name="email" type="email" autocomplete="email" required></div>
               </div>
+              <div class="row2">
+                <div class="field"><label for="passport">Passport number</label>
+                  <input id="passport" name="passport" type="text" autocomplete="off"
+                         inputmode="latin" maxlength="20" placeholder="As printed on the data page">
+                  <span class="hint">Copy it exactly. Airlines reject a booking on one wrong character.</span></div>
+                <div class="field"><label for="passport_issue">Passport issue date</label>
+                  <input id="passport_issue" name="passport_issue" type="date"></div>
+              </div>
+              <div class="row2">
+                <div class="field"><label for="passport_expiry">Passport expiry date</label>
+                  <input id="passport_expiry" name="passport_expiry" type="date">
+                  <span class="hint">Most consulates want six months left beyond your return.</span></div>
+                <div class="field"></div>
+              </div>
               <div class="field"><label for="phone">Phone or WhatsApp</label>
                 <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 ...">
                 <span class="hint">So we can reach you fast if something needs checking.</span></div>
@@ -1161,6 +1203,14 @@ def order_page():
           <h3>What happens next</h3>
           <ol style="font-size:.95rem;color:var(--ink-2);padding-left:1.1em">%s</ol>
         </div>
+        <div class="card" style="margin-top:20px">
+          <h3>Order it close to the date</h3>
+          <p style="font-size:.95rem;color:var(--ink-2)">A held booking does not last forever. Airlines
+          release unpaid seats after a set window, so the ideal time to order is <strong>one or two days
+          before you actually need it</strong>: the appointment, the check-in desk, or the upload deadline.
+          Order three weeks early and the reference can lapse before anyone looks at it.</p>
+        </div>
+
         <div class="card" style="margin-top:20px">
           <h3>Name spelling matters</h3>
           <p style="font-size:.95rem;color:var(--ink-2)">Copy your surname and given names character-for-character
@@ -1372,10 +1422,12 @@ def contact_page():
       We can tell you what document formats consulates typically accept. We cannot tell you whether your application
       will succeed, or advise on your immigration status. For that, speak to a licensed immigration adviser.
     </div>
+
+    %s
   </div>
 </section>""" % (c_html, ICON["mail"], EMAIL, EMAIL, ICON["chat"],
                  __import__("re").sub(r"[^0-9]", "", WHATSAPP), "Message us on WhatsApp",
-                 url("verify-pnr"), DELIVERY)
+                 url("verify-pnr"), DELIVERY, legal_block())
 
     contact_schema = {"@type": "ContactPage", "@id": abs_url("contact") + "#page",
                       "url": abs_url("contact"), "name": "Contact " + BRAND,
@@ -1401,13 +1453,11 @@ def _legal(slug, h1, title, desc, body_html):
 def terms_page():
     _legal("terms", "Terms of service", "Terms of Service | " + BRAND,
            "The terms governing use of our flight reservation and hotel booking service.", """
-<div class="note note--warn"><strong>Template notice</strong>
-These terms are a working draft written for a service of this type. Have them reviewed by a lawyer in your
-jurisdiction before you take live orders, and replace the bracketed items with your registered details.</div>
-
 <h2>1. Who we are</h2>
-<p>%s (&ldquo;we&rdquo;, &ldquo;us&rdquo;) operates this website and supplies travel-documentation services. Registered entity
-details: <em>[to be completed on incorporation]</em>. Contact: <a href="mailto:%s">%s</a>.</p>
+<p><strong>This website is operated by %s.</strong> We supply travel-documentation services:
+verifiable flight reservations, hotel bookings and related visa-application support.
+Contact: <a href="mailto:%s">%s</a>.</p>
+%s
 
 <h2>2. What we supply</h2>
 <p>We create genuine reservations in live airline and accommodation reservation systems on your instruction, and
@@ -1460,21 +1510,22 @@ cannot lawfully be excluded.</p>
 intended travel plans. We cooperate with lawful requests from authorities and reserve the right to refuse or cancel
 any order without explanation.</p>
 
-<h2>12. Governing law</h2>
-<p>These terms are governed by the laws of <em>[jurisdiction to be completed]</em>.</p>
+<h2>12. Governing law and jurisdiction</h2>
+<p>These terms are governed by the laws of <strong>India</strong>. Any dispute arising out of them is subject
+to the exclusive jurisdiction of the courts at <strong>Udaipur, Rajasthan</strong>, which is where the
+business is registered.</p>
+<p>Nothing here limits any right you have under the Consumer Protection Act 2019 that cannot be excluded by
+agreement.</p>
 
 <h2>13. Changes</h2>
 <p>We may update these terms. The version in force is the one published here on the date of your order.</p>
-""" % (BRAND, EMAIL, EMAIL, DELIVERY, url("refund-policy")))
+""" % (TRADE_NAME or BRAND, EMAIL, EMAIL, legal_block("Registered details"),
+       DELIVERY, url("refund-policy")))
 
 
 def privacy_page():
     _legal("privacy-policy", "Privacy policy", "Privacy Policy | " + BRAND,
            "What personal data we collect, why we collect it, how long we keep it and your rights over it.", """
-<div class="note note--warn"><strong>Template notice</strong>
-A working draft aligned to GDPR principles. Have it reviewed against your actual data flows and hosting
-arrangements before launch.</div>
-
 <h2>What we collect</h2>
 <ul>
   <li><strong>Traveller details</strong>: name and date of birth, needed to create the reservation.</li>
@@ -1483,8 +1534,9 @@ arrangements before launch.</div>
   <li><strong>Payment confirmation</strong>: a transaction reference from our payment provider. We never receive
   your full card number.</li>
 </ul>
-<p>We do <strong>not</strong> ask for passport numbers, passport scans or visa application content, and you should not send
-them to us.</p>
+<p><strong>Passport details</strong>: number, issue date and expiry date, where you provide them. Airlines
+require these to hold a booking against the right traveller. We do <strong>not</strong> ask for passport scans,
+photographs of the data page, or the content of your visa application, and you should not send them to us.</p>
 
 <h2>Why we collect it</h2>
 <p>To create and hold the reservation you ordered, to deliver the documents, to handle corrections and refunds, and
@@ -1553,3 +1605,74 @@ your bank.</p>
 Raising a chargeback on a delivered, verifiable booking will be contested with the delivery record and verification
 log.</p>
 """ % (EMAIL, EMAIL))
+
+
+# --------------------------------------------------------------------------
+def cancellation_page():
+    """A cancellation policy separate from the refund policy.
+
+    The refund page covered cancellation in a clause and described the window
+    as "typically a short window", which is not a duration. Payment
+    aggregators ask for a stated period, and so do the Consumer Protection
+    (E-Commerce) Rules. The numbers here are deliberately the ones the refund
+    page already implies, so the two documents cannot contradict each other.
+    """
+    _legal(
+        "cancellation-policy", "Cancellation policy",
+        "Cancellation Policy | " + BRAND,
+        "How and when an order can be cancelled, the cancellation window, and how long a refund takes to reach you.",
+        """
+<h2>The short version</h2>
+<p>You can cancel free of charge at any point <strong>before we create the booking</strong>. Because we work
+fast, that window is short: orders are usually fulfilled within %s of payment, so in practice you have
+<strong>about 30 minutes</strong>. Once a valid, verifiable booking has been delivered, the order cannot be
+cancelled, because the thing you paid for has been produced.</p>
+
+<h2>How to cancel</h2>
+<ol>
+  <li>Email <a href="mailto:%s">%s</a> or message us on WhatsApp.</li>
+  <li>Quote your <strong>order reference</strong> (it looks like VFT-001234 and is in your confirmation email).</li>
+  <li>Write &ldquo;cancel&rdquo; in the first line so it is not missed in a queue.</li>
+</ol>
+<p>We confirm the cancellation in writing. Until you have that confirmation, treat the order as live.</p>
+
+<h2>Cancellation windows</h2>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>When you cancel</th><th>What happens</th></tr></thead>
+  <tbody>
+    <tr><td><b>Before the booking is created</b><small>Usually within 30 minutes of ordering</small></td>
+        <td>Cancelled in full. Nothing is charged, or a full refund is issued.</td></tr>
+    <tr><td><b>After delivery of a working document</b></td>
+        <td>Cannot be cancelled. The document has been produced and the reference is live.</td></tr>
+    <tr><td><b>After delivery, but the reference does not verify</b></td>
+        <td>Not a cancellation. We reissue, or refund you in full. See the <a href="%s">refund policy</a>.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Refunds after a cancellation</h2>
+<ul>
+  <li>Refunds go back to <strong>the original payment method</strong>. We cannot redirect a refund to a
+  different card, account or UPI ID.</li>
+  <li>We initiate the refund <strong>within 2 business days</strong> of confirming the cancellation.</li>
+  <li>Your bank or card issuer then takes <strong>5 to 7 business days</strong> to post it. That part is outside
+  our control, and we will give you the reference so you can chase it if it is slow.</li>
+  <li>No cancellation fee is deducted.</li>
+</ul>
+
+<h2>If we cancel</h2>
+<p>We may cancel an order and refund you in full if we cannot source a booking on the route or dates you asked
+for, if the traveller details are incomplete and we cannot reach you, or if we believe the order is fraudulent.
+You are told why, in writing, and refunded on the same terms above.</p>
+
+<div class="note">
+  <strong>Changed your mind about the trip?</strong>
+  That is not a cancellation of our service. Once the booking exists and verifies, we have delivered what you
+  paid for. If a <em>detail</em> is wrong, we reissue at half price rather than leaving you with a broken
+  document.
+</div>
+
+<p style="margin-top:1.6rem">Read alongside the <a href="%s">refund policy</a> and the
+<a href="%s">terms of service</a>.</p>
+""" % (DELIVERY, EMAIL, EMAIL, url("refund-policy"), url("refund-policy"), url("terms")))

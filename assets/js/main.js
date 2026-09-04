@@ -260,8 +260,18 @@
           '<div class="field"><label>Given name(s)</label>' +
             '<input type="text" data-pax="given" autocomplete="off" required></div>' +
         '</div>' +
-        '<div class="field" style="max-width:50%"><label>Date of birth</label>' +
-          '<input type="date" data-pax="dob"></div>';
+        '<div class="row2">' +
+          '<div class="field"><label>Date of birth</label>' +
+            '<input type="date" data-pax="dob"></div>' +
+          '<div class="field"><label>Passport number</label>' +
+            '<input type="text" data-pax="passport" autocomplete="off" maxlength="20"></div>' +
+        '</div>' +
+        '<div class="row2">' +
+          '<div class="field"><label>Passport issue date</label>' +
+            '<input type="date" data-pax="passport_issue"></div>' +
+          '<div class="field"><label>Passport expiry date</label>' +
+            '<input type="date" data-pax="passport_expiry"></div>' +
+        '</div>';
       el.querySelector('.pax__rm').addEventListener('click', function () {
         el.parentNode.removeChild(el);
         renumberPax();

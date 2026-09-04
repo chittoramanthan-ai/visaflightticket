@@ -85,7 +85,12 @@
       var pax = [];
       form.querySelectorAll('#pax-list .pax').forEach(function (row, i) {
         if (i === 0) {
-          pax.push({ surname: v('surname'), given_name: v('given'), dob: v('dob') });
+          pax.push({
+            surname: v('surname'), given_name: v('given'), dob: v('dob'),
+            passport: v('passport'),
+            passport_issue: v('passport_issue'),
+            passport_expiry: v('passport_expiry'),
+          });
           return;
         }
         var get = function (k) {
@@ -93,7 +98,12 @@
           return e ? e.value.trim() : '';
         };
         if (get('surname') || get('given')) {
-          pax.push({ surname: get('surname'), given_name: get('given'), dob: get('dob') });
+          pax.push({
+            surname: get('surname'), given_name: get('given'), dob: get('dob'),
+            passport: get('passport'),
+            passport_issue: get('passport_issue'),
+            passport_expiry: get('passport_expiry'),
+          });
         }
       });
       var svcEl = form.querySelector('input[name="service"]:checked');
@@ -132,6 +142,9 @@
         'Return: ' + p.return_date,
         'Passenger: ' + p.surname + ', ' + p.given_name,
         'Date of birth: ' + p.dob,
+        'Passport: ' + (p.passengers[0] ? (p.passengers[0].passport || '') : ''),
+        'Passport issued: ' + (p.passengers[0] ? (p.passengers[0].passport_issue || '') : ''),
+        'Passport expires: ' + (p.passengers[0] ? (p.passengers[0].passport_expiry || '') : ''),
         'Email: ' + p.email,
         'Phone: ' + p.phone,
         'Visa: ' + p.visa_type,
@@ -140,7 +153,8 @@
       (p.passengers || []).forEach(function (x, i) {
         if (i === 0) return;                     // lead is already listed above
         lines.push('Traveller ' + (i + 1) + ': ' + x.surname + ', ' +
-                   x.given_name + (x.dob ? ' (' + x.dob + ')' : ''));
+                   x.given_name + (x.dob ? ' (' + x.dob + ')' : '') +
+                   (x.passport ? ' passport ' + x.passport : ''));
       });
       (p.legs || []).forEach(function (l, i) {
         lines.push('Flight ' + (i + 2) + ': ' + l.from + ' to ' + l.to + ' on ' + l.date);

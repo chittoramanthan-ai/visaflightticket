@@ -59,7 +59,7 @@ cat <<'EOF'
     ALLOWED_ORIGINS="https://visaflighttickets.com,https://www.visaflighttickets.com" \
     IP_SALT="$(openssl rand -hex 16)" \
     NOTIFY_EMAIL="you@yourdomain.com" \
-    NOTIFY_FROM="orders@visaflighttickets.com" \
+    NOTIFY_FROM="support@visaflighttickets.com" \
     PAYMENT_MODE="upi" \
     UPI_VPA="yourvpa@bank" \
     UPI_PAYEE_NAME="Visa Flight Tickets" \

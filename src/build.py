@@ -58,6 +58,29 @@ SHOW_USD = True
 USD_RATE = 88.7        # rupees per dollar. PRICE_FLIGHT lands on $4.5
 
 # --------------------------------------------------------------------------
+# LEGAL ENTITY
+# Required by payment aggregators (PayU, Razorpay) before they will approve a
+# merchant account, and by the Consumer Protection (E-Commerce) Rules 2020,
+# which oblige an online seller to publish who is behind the site and where
+# they are. Leave any value empty and the block that would show it is omitted
+# entirely rather than rendering a placeholder on a live page.
+#
+# TRADE_NAME    the name the business trades under, as registered
+# OWNER_NAME    the proprietor's full legal name, as on the Aadhaar/PAN
+# REG_ADDRESS   the registered address, as on the Aadhaar. Lines, in order.
+# --------------------------------------------------------------------------
+TRADE_NAME = "VISAFLIGHTTICKETS"
+OWNER_NAME = "Manthan Chittora"
+REG_ADDRESS = [
+    "S/O Sanjay Chittora",
+    "138, Road 7, Opposite ICICI Bank",
+    "Ashok Nagar, Shastri Circle",
+    "Girwa, Udaipur, Rajasthan 313001",
+    "India",
+]
+GSTIN = ""                # optional, shown only if set
+
+# --------------------------------------------------------------------------
 # TRUST / CREDENTIALS
 # Every value below is published as a factual claim on the live site.
 # Only fill these in with figures you can substantiate if challenged --
@@ -381,6 +404,7 @@ FOOTER_COMPANY = [
     ("Terms of service", "terms"),
     ("Privacy policy", "privacy-policy"),
     ("Refund policy", "refund-policy"),
+    ("Cancellation policy", "cancellation-policy"),
 ]
 
 
@@ -511,6 +535,31 @@ def pricing_tickets(featured="both", prefill=""):
                price_note="per traveller, one way",
                featured=(featured == "both"), badge="Most popular"),
     )
+
+
+def legal_block(heading="Business details"):
+    """Who operates this site and where. Payment aggregators check for this,
+    and the E-Commerce Rules require it. Renders nothing at all while the
+    values are unset, so an unfinished config never ships a placeholder."""
+    if not (TRADE_NAME or OWNER_NAME or REG_ADDRESS):
+        return ""
+    rows = []
+    if TRADE_NAME:
+        rows.append(("Trade name", TRADE_NAME))
+    if OWNER_NAME:
+        rows.append(("Proprietor", OWNER_NAME))
+    if REG_ADDRESS:
+        rows.append(("Registered address", "<br>".join(REG_ADDRESS)))
+    if GSTIN:
+        rows.append(("GSTIN", GSTIN))
+    rows.append(("Email", '<a href="mailto:%s">%s</a>' % (EMAIL, EMAIL)))
+    rows.append(("Phone", WHATSAPP))
+    body = "".join(
+        '<tr><td style="padding:6px 18px 6px 0;color:var(--ink-3);white-space:nowrap;'
+        'vertical-align:top">%s</td><td style="padding:6px 0"><b>%s</b></td></tr>' % (k, v)
+        for k, v in rows)
+    return ('<h2>%s</h2><div class="tbl-wrap" style="padding:.4rem 1rem">'
+            '<table style="margin:0"><tbody>%s</tbody></table></div>' % (heading, body))
 
 
 def iata_badge(size="md"):

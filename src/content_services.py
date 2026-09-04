@@ -223,7 +223,7 @@ def esim():
 </section>
 
 %s
-""" % (c_html, ESIM_WA, content_core.TRUSTLINE,
+""" % (c_html, ESIM_WA, content_core.trustline("esim"),
        ICON["shield"], ICON["clock"], ICON["wallet"], ICON["refresh"],
        ticket("Single country", "One destination, one price. The cheapest way if you are not moving around.",
               None,
@@ -426,7 +426,7 @@ def consultation():
 """ % (c_html, money(PRICE_CONSULT_ONLY),
        ('<span class="usd-alt">%s</span>' % usd(PRICE_CONSULT_ONLY)) if SHOW_USD else "",
        CONSULT_WA, ICON["whatsapp"], url("visa"),
-       content_core.TRUSTLINE, _file_card(),
+       content_core.trustline("advice"), _file_card(),
        ICON["globe"], ICON["doc"], ICON["wallet"], ICON["plane"], ICON["shield"], ICON["check"],
        ticket("Consultation only",
               "We read your file and tell you exactly what to fix. You assemble the documents.",
