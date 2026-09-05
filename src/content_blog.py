@@ -96,7 +96,8 @@ recover. You are paying for the booking to be created, held, documented and chec
 
         ("How long it stays live", """
 <p>The hold is the airline's decision, not the seller's. In practice they run from
-<strong>48 hours to about 14 days</strong>, varying by carrier, route, fare class and how far ahead you are travelling.
+<strong>3 to 4 days</strong>, and up to <strong>20 days</strong> on some carriers, varying by route, fare class
+and how far ahead you are travelling.
 High-demand routes hold for less time.</p>
 <p>This worries people more than it should. Consular officers check a PNR when they open your file, which is usually
 within days of submission, not months later. And by the time a decision is issued, you will normally have bought
@@ -395,13 +396,14 @@ dict(
     cat="Practical",
     title="How Long Is a Flight Reservation Valid?",
     meta_title="How Long Is a Flight Reservation Valid? Hold Times Explained",
-    desc="Airline hold periods run from 48 hours to about 14 days. Why they vary, what happens when a reservation expires mid-application, and how to time yours around a consular appointment.",
+    desc="Airline hold periods usually run 3 to 4 days, and up to 20 on some carriers. Why they vary, what happens when a reservation expires mid-application, and how to time yours around a consular appointment.",
     read=6,
     lede="Everyone asks this. Almost everyone is worried about the wrong half of it. Yes, the booking "
          "expires. No, that is usually not the problem you think it is.",
     sections=[
         ("The typical range", """
-<p><strong>48 hours to roughly 14 days.</strong> Within that range, the hold period depends on:</p>
+<p><strong>Usually 3 to 4 days, and up to 20 days on some carriers.</strong> Within that range, the hold period
+depends on:</p>
 <ul>
   <li><strong>The airline.</strong> Full-service carriers generally hold longer than low-cost ones, which frequently
   do not offer holds at all.</li>
@@ -409,8 +411,8 @@ dict(
   <li><strong>How far ahead you are travelling.</strong> Departures months out often permit longer holds.</li>
   <li><strong>Fare class.</strong> Restricted promotional fares are usually not held at all.</li>
 </ul>
-<p>A booking made three months before travel on a moderately busy route commonly holds for about a week. That is the
-realistic planning assumption.</p>"""),
+<p>A booking made three months before travel on a moderately busy route commonly holds for the longer end of that
+range. Three to four days is the safe planning assumption.</p>"""),
 
         ("Why nobody can promise 30 days", """
 <p>The hold is the airline's decision, not the provider's. Any service advertising &ldquo;valid for 30 days&rdquo; or
@@ -655,7 +657,7 @@ checking whether the tellings agree.</p>
 </tbody>
 </table>
 </div>
-<p>The flight reservation goes last deliberately. It has the shortest shelf life of anything in the file, <a href="%s">typically 48 hours to 14 days</a>, so ordering it first wastes the hold window.</p>""" % url("blog/how-long-is-a-flight-reservation-valid")),
+<p>The flight reservation goes last deliberately. It has the shortest shelf life of anything in the file, <a href="%s">typically 3 to 4 days</a>, so ordering it first wastes the hold window.</p>""" % url("blog/how-long-is-a-flight-reservation-valid")),
 
         ("The final cross-check", """
 <p>Ten minutes, before anything is submitted. Read the file as an officer would:</p>
@@ -782,8 +784,8 @@ booking&rdquo;. Is telling you something important. Neither statement is true. P
 read-only.</p>"""),
 
         ("2. Is the validity claim honest?", """
-<p>Hold periods are set by airlines. Honest ranges look like &ldquo;48 hours to 14 days, depending on the airline and
-route&rdquo;.</p>
+<p>Hold periods are set by airlines. Honest ranges look like &ldquo;3 to 4 days, sometimes up to 20, depending on the
+airline and route&rdquo;.</p>
 <p>Claims that should stop you: &ldquo;valid 30 days guaranteed&rdquo;, &ldquo;valid until your visa is approved&rdquo;,
 &ldquo;never expires&rdquo;. Airlines do not sell those terms. Something else is going on.</p>"""),
 
@@ -830,7 +832,7 @@ telling you something good.</p>"""),
 its own product and expects you to. A provider that avoids the topic, or insists everything is &ldquo;100%% legal&rdquo;
 without saying <em>why</em>, is hoping you do not ask.</p>
 <div class="note"><strong>Our own answers, for comparison</strong>
-Verify at the airline's own site. We tell you how. Hold periods 48 hours to 14 days, airline-dependent. No approval
+Verify at the airline's own site. We tell you how. Hold periods 3 to 4 days, up to 20 on some carriers. No approval
 guarantees, ever. %s per traveller. Full refund if a reference does not verify. Names and dates of birth only, no
 passport scans. Email answered by people. And the legality distinction is
 <a href="%s">set out in full here</a>.</div>""" % (money(PRICE_FLIGHT), url("blog/is-a-dummy-ticket-legal"))),

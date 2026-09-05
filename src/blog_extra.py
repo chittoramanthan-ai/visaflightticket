@@ -77,7 +77,7 @@ reservation with a live PNR satisfies the requirement.</p>
 </ul>"""),
 
         ("Timing it so the reservation is still valid", """
-<p>A held reservation does not last forever. Airline hold periods typically run from 24 hours to about 14 days
+<p>A held reservation does not last forever. Airline hold periods usually run 3 to 4 days, and up to 20 days on some carriers
 depending on carrier and fare class. If you order a reservation three weeks before your appointment, it can lapse
 before anyone looks at it.</p>
 <p>The sequence that works:</p>

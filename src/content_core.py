@@ -219,7 +219,7 @@ def home():
         ("How fast will I get my ticket?",
          "<p>Usually within %s. If your appointment is tomorrow morning, say so in the notes and we will put you at the front of the queue.</p>" % DELIVERY),
         ("How long does the reservation stay valid?",
-         "<p>Airline hold periods vary by carrier and route, typically 48 hours to 14 days. We time your booking so it is live on the day you submit. If your appointment moves, a fresh booking is half the original price.</p>"),
+         "<p>Airline hold periods vary by carrier and route, usually 3 to 4 days, and up to 20 days on some carriers. We time your booking so it is live on the day you submit. If your appointment moves, a fresh booking is half the original price.</p>"),
         ("Do you also provide hotel bookings?",
          "<p>Yes. A confirmed hotel booking in your name with a reference number, for %s, or bundled with your flight reservation for %s. Most consulates ask for both.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
         ("What if my visa is refused?",
@@ -427,7 +427,7 @@ def flight_page():
         ("Can I verify the PNR myself before I submit?",
          "<p>You should. Open the airline&rsquo;s &lsquo;Manage booking&rsquo; page, enter the six-character PNR and your surname, and the itinerary appears. Our <a href=\"%s\">step-by-step verification guide</a> covers the major carriers.</p>" % url("verify-pnr")),
         ("How long is the reservation held?",
-         "<p>Between 48 hours and 14 days depending on the airline, the route and how far ahead you are travelling. We schedule your booking so it is live on your submission date. If the consulate keeps your file for weeks, that is normal. Officers check the PNR when they open the file, not months later, and by then you will usually have bought a real ticket anyway.</p>"),
+         "<p>Usually 3 to 4 days, and up to 20 days on some carriers, depending on the airline, the route and how far ahead you are travelling. We schedule your booking so it is live on your submission date. If the consulate keeps your file for weeks, that is normal. Officers check the PNR when they open the file, not months later, and by then you will usually have bought a real ticket anyway.</p>"),
         ("Can you do multi-city or one-way itineraries?",
          "<p>Yes. One-way, return, open-jaw and multi-city are all available at the same price. For a Schengen application you almost always want a return or onward leg; for <a href=\"%s\">proof of onward travel</a> at check-in, a one-way onward booking is usually what is required.</p>" % url("proof-of-onward-travel")),
         ("What if I spelled my name wrong?",
@@ -1294,7 +1294,7 @@ def faq_page():
             ("How quickly do I get it?",
              "<p>Usually within %s, at any hour. Tell us if your appointment is imminent and we will prioritise it.</p>" % DELIVERY),
             ("How long does the booking stay live?",
-             "<p>48 hours to 14 days, depending on carrier and route. We time it to your submission date. If the date changes, a fresh booking is half price.</p>"),
+             "<p>Usually 3 to 4 days, and up to 20 days on some carriers and routes. We time it to your submission date. If the date changes, a fresh booking is half price.</p>"),
             ("Do you need my passport number?",
              "<p>No. Names and dates of birth are enough to make the booking. We do not ask for passport numbers or scans, which means we cannot lose them.</p>"),
             ("Can I change the dates after delivery?",
@@ -1484,8 +1484,8 @@ supported by our documents will succeed.</p>
 outages and unusual routes can extend it. If we cannot deliver within 24 hours we will refund you in full.</p>
 
 <h2>6. Validity of reservations</h2>
-<p>Hold periods are set by airlines and accommodation providers, not by us, and typically run from 48 hours to
-14 days. We do not control early release of a held booking. Where a booking is released before your stated
+<p>Hold periods are set by airlines and accommodation providers, not by us. They usually run 3 to 4 days, and can
+extend to around 20 days on some carriers and routes. We do not control early release of a held booking. Where a booking is released before your stated
 submission date, a reissue is charged at half the original order value.</p>
 
 <h2>7. Amendments</h2>
