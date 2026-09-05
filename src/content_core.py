@@ -402,7 +402,7 @@ def home():
     add_page(
         "",
         "Verifiable Flight Reservation for Your Visa in %s" % DELIVERY,
-        "Get a verifiable flight ticket for your visa application from %s. Real airline-held reservation with a live PNR, hotel bookings from %s, delivered in %s." % (money(PRICE_FLIGHT), money(PRICE_HOTEL), DELIVERY),
+        "Real airline-held flight reservations with a live PNR for visa applications, from %s and delivered in %s. Hotel bookings from %s." % (money(PRICE_FLIGHT), DELIVERY, money(PRICE_HOTEL)),
         body,
         schema=[webpage, service, faq_schema(home_faqs)],
         og_title="Verifiable flight ticket for your visa - live PNR, %s" % money(PRICE_FLIGHT),

@@ -218,6 +218,13 @@ def page_title(headline, brand=True):
     return headline
 
 
+TAIL_STOPWORDS = {
+    "in", "from", "with", "for", "to", "of", "and", "or", "the", "a", "an", "on", "at",
+    "by", "as", "is", "are", "was", "were", "be", "been", "that", "which", "not", "but",
+    "your", "our", "its", "it", "you", "we", "than", "into", "about",
+}
+
+
 def trim_desc(text, limit=158):
     """Cut a meta description at the last complete sentence that fits.
 
@@ -232,7 +239,17 @@ def trim_desc(text, limit=158):
         i = cut.rfind(stop)
         if i > limit * 0.55:
             return cut[:i + 1].strip()
-    return cut.rsplit(" ", 1)[0].rstrip(",;:") + "."
+    # No sentence boundary far enough in. Prefer a clause boundary, then whole
+    # words - and drop any trailing function word, because the old fallback
+    # chopped the last partial word and added a full stop, which produced
+    # "...delivered in." on the home page. A dangling preposition reads worse
+    # than an obviously shortened line.
+    j = cut.rfind(", ")
+    frag = cut[:j] if j > limit * 0.6 else cut.rsplit(" ", 1)[0]
+    words = frag.split(" ")
+    while words and words[-1].strip(",;:").lower() in TAIL_STOPWORDS:
+        words.pop()
+    return " ".join(words).rstrip(",;:") + "."
 
 
 def usd(rupees):
