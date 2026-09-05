@@ -278,7 +278,7 @@ def home():
     PNR such as <code>K7QX2M</code>. The document you receive shows exactly what a paid ticket shows: passenger name,
     airline, flight numbers, dates, times and that reference. The only thing missing is the payment.</p>
     <p>That is precisely what a visa officer wants to see. They need evidence that you have planned a specific trip,
-    entering and leaving on specific dates. They do <em>not</em> want you thousands of dollars out of pocket on a
+    entering and leaving on specific dates. They do <em>not</em> want you to spend tens of thousands of dollars on a
     non-refundable fare before they have made a decision.</p>
     <div class="note note--warn">
       <strong>The line that matters</strong>
@@ -905,7 +905,7 @@ def how_it_works():
         "name": "How to get a verifiable flight reservation for a visa application",
         "description": "The end-to-end process for obtaining an airline-held flight reservation with a live PNR for a visa application.",
         "totalTime": "PT60M",
-        "estimatedCost": {"@type": "MonetaryAmount", "currency": "USD", "value": str(money(PRICE_FLIGHT))},
+        "estimatedCost": {"@type": "MonetaryAmount", "currency": CURRENCY_CODE, "value": str(PRICE_FLIGHT)},
         "step": [{"@type": "HowToStep", "position": i, "name": t,
                   "text": __import__("re").sub(r"<[^>]+>", "", d),
                   "url": abs_url(slug) + "#step-%d" % i}
@@ -1493,7 +1493,7 @@ submission date, a reissue is charged at half the original order value.</p>
 every reissue, whatever the reason for it.</p>
 
 <h2>8. Payment</h2>
-<p>Prices are shown in US dollars and charged per traveller. Payment is processed by third-party providers; we do
+<p>Prices are quoted in <strong>Indian rupees (INR)</strong> and <strong>US dollars (USD)</strong>, and you are charged in the currency you select. Flights are priced per leg and per traveller. Payment is processed by third-party providers; we do
 not receive or store full card details.</p>
 
 <h2>9. Refunds</h2>

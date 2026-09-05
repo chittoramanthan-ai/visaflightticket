@@ -1594,6 +1594,14 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
    two and sometimes three lines inside its own pill. It reads as broken
    rather than as a button. */
 .btn--wa { white-space: nowrap; }
+/* The sticky bar's own button was breaking as "Get my / ticket" on a narrow
+   screen. It sits in a fixed row, so it should shrink its padding rather than
+   its line count. */
+.scta .btn{white-space:nowrap}
+@media (max-width:420px){
+  .scta .btn--primary{padding-left:.9rem;padding-right:.9rem}
+  .scta__price{font-size:1.15rem}
+}
 
 /* --------------------------------------------------------------------------
    The dollar figure beside a rupee price. ONE rule for every placement, so a
