@@ -81,7 +81,7 @@ def bulk_page():
         <p>Documents carry no branding of ours by default. Bulk accounts can carry your own agency details
         instead.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>Corrections without quibble</h3>
-        <p>Name and date fixes at half price, however many come back from a consulate in a busy week.</p></div>
+        <p>Name and date fixes at half price, however many come back from an embassy in a busy week.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>A named contact</h3>
         <p>One person who knows your account and answers directly, not a shared inbox and a ticket
         number.</p></div>

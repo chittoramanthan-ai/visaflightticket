@@ -39,13 +39,13 @@ six-character alphanumeric code known as a PNR (Passenger Name Record), such as 
 </ul>
 <p>What it does not show is a ticket number, because no fare has been paid. In airline systems the record exists in a
 <em>booked</em> state rather than a <em>ticketed</em> state. That distinction is invisible to almost everyone except
-airline staff, and entirely acceptable to consulates, who ask for reservations precisely because they do not want
+airline staff, and entirely acceptable to embassies, who ask for reservations precisely because they do not want
 applicants buying fares before a decision.</p>"""),
 
         ("Why the name is misleading", """
 <p>The word &ldquo;dummy&rdquo; entered the vocabulary through travel agents describing a booking that would never be
 ticketed. It stuck, and it has been doing damage ever since, because it implies the document is fake.</p>
-<p>Consulates and airlines use completely different words for the same thing:</p>
+<p>Embassies and airlines use completely different words for the same thing:</p>
 <ul>
   <li><strong>Flight reservation</strong>: the term on most Schengen checklists</li>
   <li><strong>Flight itinerary</strong>: common on US and Canadian documentation</li>
@@ -56,10 +56,10 @@ ticketed. It stuck, and it has been doing damage ever since, because it implies 
 is wanted.</p>"""),
 
         ("Why embassies ask for a reservation instead of a ticket", """
-<p>There is a catch-22 sitting at the heart of every visa application. The consulate wants evidence you have planned a specific
+<p>There is a catch-22 sitting at the heart of every visa application. The embassy wants evidence you have planned a specific
 trip. But buying an international fare before approval means risking tens of thousands of rupees on an
 application that may be refused.</p>
-<p>Consulates resolved this years ago by asking for reservations. The European Commission's own visa guidance advises
+<p>Embassies resolved this years ago by asking for reservations. The European Commission's own visa guidance advises
 applicants <em>not</em> to purchase non-refundable tickets before a decision is issued. UKVI, IRCC and the US State
 Department all give substantially the same advice.</p>
 <p>So the unpaid reservation is not a workaround anyone is tolerating. It is the outcome the system was designed to
@@ -99,7 +99,7 @@ recover. You are paying for the booking to be created, held, documented and chec
 <strong>3 to 4 days</strong>, and up to <strong>20 days</strong> on some carriers, varying by route, fare class
 and how far ahead you are travelling.
 High-demand routes hold for less time.</p>
-<p>This worries people more than it should. Consular officers check a PNR when they open your file, which is usually
+<p>This worries people more than it should. Visa officers check a PNR when they open your file, which is usually
 within days of submission, not months later. And by the time a decision is issued, you will normally have bought
 a real ticket anyway. The practical rule is to time the reservation so it is live on your submission date, and to use
 a provider who will reissue cheaply if your appointment moves.</p>"""),
@@ -116,7 +116,7 @@ a provider who will reissue cheaply if your appointment moves.</p>"""),
     faqs=[
         ("Is a dummy ticket legal?", "<p>Holding an unpaid airline reservation is a normal commercial transaction that travel agents perform constantly. What is illegal is submitting a fabricated document. The legality question is really a question about where your document came from. <a href=\"%s\">Covered in detail here</a>.</p>" % url("blog/is-a-dummy-ticket-legal")),
         ("Can I make one myself?", "<p>Some airlines offer a 24&ndash;72 hour hold on their own website, free or for a small fee. If your route is served by one of them and your appointment is imminent, that works. It falls down on longer windows, multi-city itineraries, and routes where no carrier offers holds.</p>"),
-        ("Will the embassy know it is unpaid?", "<p>Yes, and it does not matter. A reservation shows a booking status rather than a ticket number, and consulates ask for reservations for exactly this reason.</p>"),
+        ("Will the embassy know it is unpaid?", "<p>Yes, and it does not matter. A reservation shows a booking status rather than a ticket number, and embassies ask for reservations for exactly this reason.</p>"),
         ("Does a dummy ticket guarantee my visa?", "<p>No. It satisfies one line on a checklist. Decisions turn on finances, ties to your home country and immigration history.</p>"),
     ],
 ),
@@ -127,7 +127,7 @@ dict(
     cat="Legality",
     title="Is a Dummy Ticket Legal for a Visa Application?",
     meta_title="Is a Dummy Ticket Legal? Visa Rules, Risks and Red Flags",
-    desc="Unpaid flight reservations are legal and expected by consulates. Fabricated itineraries are document fraud. Where the line sits, what happens if you cross it, and how to stay on the right side.",
+    desc="Unpaid flight reservations are legal and expected by embassies. Fabricated itineraries are document fraud. Where the line sits, what happens if you cross it, and how to stay on the right side.",
     read=8,
     lede="Short version: an unpaid reservation is legal everywhere, a made-up PDF is fraud everywhere, and "
          "the two look identical when they land in your inbox. The useful version is knowing which one you "
@@ -135,7 +135,7 @@ dict(
     sections=[
         ("What is legal", """
 <p>Holding a seat without paying for it is a routine commercial transaction. Airlines built the functionality
-deliberately, travel agencies use it thousands of times a day, and consulates rely on it.</p>
+deliberately, travel agencies use it thousands of times a day, and embassies rely on it.</p>
 <p>Consider what the authorities themselves publish:</p>
 <ul>
   <li><strong>European Commission</strong>: Schengen visa guidance lists a flight itinerary among required documents
@@ -160,7 +160,7 @@ valid PNR is exactly that.</p>"""),
 misrepresents a fact. That is the definition of deception in essentially every immigration system.</p>"""),
 
         ("What happens if you are caught", """
-<p>Not a stern letter. Consulates put deception in a completely different box from a weak application:</p>
+<p>Not a stern letter. Embassies put deception in a completely different box from a weak application:</p>
 <div class="tbl-wrap">
 <table>
 <thead><tr><th>Destination</th><th>Typical consequence of a deception finding</th></tr></thead>
@@ -175,9 +175,9 @@ misrepresents a fact. That is the definition of deception in essentially every i
 </div>
 <p>These are life-shaping outcomes attached to a document that costs less than lunch when bought properly.</p>"""),
 
-        ("Do consulates actually check?", """
+        ("Do embassies actually check?", """
 <p>Sometimes, and increasingly. Verification is trivially easy: the PNR lookup is a public web form, and
-several consulates and visa application centres now check as routine on files that raise any other question.</p>
+several embassies and visa application centres now check as routine on files that raise any other question.</p>
 <p>The strategic point is that you cannot predict which files get checked. Since a genuine reservation costs roughly
 the same as a fake one, the expected-value calculation is not close.</p>
 <p>The same logic applies at check-in desks. Airline ground staff verify onward bookings far more often than they used
@@ -208,10 +208,10 @@ to, because carrier-liability fines land on the airline.</p>"""),
   <li>Never edit the document you receive. If something is wrong, ask for a reissue.</li>
   <li>Buy the real ticket once the visa is granted.</li>
 </ul>
-<p>Follow those six and you are doing exactly what the consulate expects.</p>"""),
+<p>Follow those six and you are doing exactly what the embassy expects.</p>"""),
     ],
     faqs=[
-        ("Can I be banned for using a dummy ticket?", "<p>Not for a genuine unpaid reservation. That is what consulates ask for. For a fabricated document, yes: deception findings carry multi-year and sometimes permanent bans.</p>"),
+        ("Can I be banned for using a dummy ticket?", "<p>Not for a genuine unpaid reservation. That is what embassies ask for. For a fabricated document, yes: deception findings carry multi-year and sometimes permanent bans.</p>"),
         ("Do embassies verify flight bookings?", "<p>Some do routinely, others spot-check. Since verification is free and instant for them, assume yours will be checked.</p>"),
         ("Is it legal to buy a dummy ticket from an agency?", "<p>Yes, provided the agency creates a real reservation. You are buying a booking service, which is what travel agents sell.</p>"),
         ("What if my reservation expires before the decision?", "<p>That is normal and not a problem. Officers check the PNR when they open your file. If yours lapses before then and the file is queried, a reissue solves it.</p>"),
@@ -227,7 +227,7 @@ dict(
     desc="Reservation, confirmed ticket, e-ticket, dummy ticket and itinerary explained side by side. What each one is, what it costs, and which one your visa application actually needs.",
     read=6,
     lede="Reservation. Itinerary. Dummy ticket. Confirmed ticket. E-ticket. Five words, roughly two actual "
-         "things, and a consulate checklist that uses whichever one it feels like. Let us sort that out.",
+         "things, and an embassy checklist that uses whichever one it feels like. Let us sort that out.",
     sections=[
         ("The five terms", """
 <div class="tbl-wrap">
@@ -250,10 +250,10 @@ banned.</p>"""),
 <strong>booked</strong>: the seat is held, the PNR exists, the passenger name is attached. When payment clears, the
 record becomes <strong>ticketed</strong> and acquires a 13-digit ticket number.</p>
 <p>A reservation stops at booked. Everything on it is real; it simply has not progressed to the payment stage. That is
-why the PNR resolves normally on the airline's website, and why a consular officer can confirm the itinerary exists.</p>"""),
+why the PNR resolves normally on the airline's website, and why a visa officer can confirm the itinerary exists.</p>"""),
 
         ("Which one does a visa application need?", """
-<p>Almost always the reservation. Consular checklists ask for a &ldquo;flight reservation&rdquo;, a &ldquo;flight
+<p>Almost always the reservation. Embassy checklists ask for a &ldquo;flight reservation&rdquo;, a &ldquo;flight
 itinerary&rdquo; or &ldquo;proof of intended travel&rdquo;. Wording chosen deliberately to avoid requiring a purchase.</p>
 <p>Narrow exceptions exist:</p>
 <ul>
@@ -261,7 +261,7 @@ itinerary&rdquo; or &ldquo;proof of intended travel&rdquo;. Wording chosen delib
   that comes after the decision, not before.</li>
   <li><strong>Some visa-on-arrival and e-visa systems</strong> ask for a confirmed onward ticket, checked at the border
   rather than in advance.</li>
-  <li><strong>A handful of consulates</strong> ask for confirmed tickets for specific categories. If yours does, it
+  <li><strong>A handful of embassies</strong> ask for confirmed tickets for specific categories. If yours does, it
   says so on the checklist, and if it does not say so, it does not.</li>
 </ul>"""),
 
@@ -277,7 +277,7 @@ itinerary&rdquo; or &ldquo;proof of intended travel&rdquo;. Wording chosen delib
 </tbody>
 </table>
 </div>
-<p>The refundable fare deserves a note. It works, but it locks up real money for the length of consular processing,
+<p>The refundable fare deserves a note. It works, but it locks up real money for the length of visa processing,
 refunds typically take 7&ndash;30 days to reach the card, and some &ldquo;refundable&rdquo; fares carry cancellation fees larger
 than the entire cost of a reservation.</p>""" % (money(PRICE_FLIGHT), DELIVERY)),
 
@@ -294,9 +294,9 @@ than the entire cost of a reservation.</p>""" % (money(PRICE_FLIGHT), DELIVERY))
 document.</p>"""),
     ],
     faqs=[
-        ("Is a flight reservation the same as a dummy ticket?", "<p>Yes. &lsquo;Dummy ticket&rsquo; is informal industry slang; &lsquo;flight reservation&rsquo; is the term consulates use for the same unpaid booking.</p>"),
+        ("Is a flight reservation the same as a dummy ticket?", "<p>Yes. &lsquo;Dummy ticket&rsquo; is informal industry slang; &lsquo;flight reservation&rsquo; is the term embassies use for the same unpaid booking.</p>"),
         ("Can I use a screenshot of an airline search?", "<p>No. A search result is a price quote, not a booking. There is no passenger name and no PNR. Officers can tell instantly.</p>"),
-        ("Do I need a confirmed ticket for a Schengen visa?", "<p>No. Schengen consulates ask for a reservation and EU guidance advises against buying tickets first. See the <a href=\"%s\">Schengen guide</a>.</p>" % url("visa/schengen-visa-flight-reservation")),
+        ("Do I need a confirmed ticket for a Schengen visa?", "<p>No. Schengen embassies ask for a reservation and EU guidance advises against buying tickets first. See the <a href=\"%s\">Schengen guide</a>.</p>" % url("visa/schengen-visa-flight-reservation")),
     ],
 ),
 
@@ -396,7 +396,7 @@ dict(
     cat="Practical",
     title="How Long Is a Flight Reservation Valid?",
     meta_title="How Long Is a Flight Reservation Valid? Hold Times Explained",
-    desc="Airline hold periods usually run 3 to 4 days, and up to 20 on some carriers. Why they vary, what happens when a reservation expires mid-application, and how to time yours around a consular appointment.",
+    desc="Airline hold periods usually run 3 to 4 days, and up to 20 on some carriers. Why they vary, what happens when a reservation expires mid-application, and how to time yours around a visa appointment.",
     read=6,
     lede="Everyone asks this. Almost everyone is worried about the wrong half of it. Yes, the booking "
          "expires. No, that is usually not the problem you think it is.",
@@ -424,7 +424,7 @@ booking at all.</p>"""),
         ("What actually happens when it expires", """
 <p>The airline releases the seat and the PNR stops resolving. The PDF in your inbox does not change, but the
 lookup behind it now returns nothing.</p>
-<p>Here is the part that calms most people down: <strong>consular officers check the PNR when they open your file,
+<p>Here is the part that calms most people down: <strong>visa officers check the PNR when they open your file,
 which is usually within a few days of submission.</strong> They do not re-check weeks later. If your reservation
 lapses after the officer has already looked, nothing has gone wrong.</p>
 <p>The risk case is narrow: a file that sits untouched for weeks and is then queried. Even then the fix is a free
@@ -468,14 +468,14 @@ dict(
     cat="Legality",
     title="Do Embassies Actually Verify Flight Bookings?",
     meta_title="Do Embassies Verify Flight Bookings? What Officers Check",
-    desc="How consular officers check a flight reservation, which missions verify routinely, what a failed check looks like on your record, and how to make sure yours passes.",
+    desc="How visa officers check a flight reservation, which missions verify routinely, what a failed check looks like on your record, and how to make sure yours passes.",
     read=6,
     lede="The honest answer is: sometimes, and more often than they used to. The more useful answer is "
          "that the check takes an officer about fifteen seconds, costs them nothing, and you cannot "
          "predict which files get it.",
     sections=[
         ("How the check works", """
-<p>There is no secret consular database. An officer does exactly what you can do from your sofa: opens the operating airline's
+<p>There is no secret embassy database. An officer does exactly what you can do from your sofa: opens the operating airline's
 &ldquo;manage booking&rdquo; page, types the six-character PNR and the surname, and reads what comes back.</p>
 <p>Three outcomes:</p>
 <ul>
@@ -527,9 +527,9 @@ visa. Answering that honestly is a permanent handicap; answering it dishonestly 
 </ol>""" % url("verify-pnr")),
     ],
     faqs=[
-        ("Can an embassy tell my ticket is unpaid?", "<p>Yes. A reservation shows a booking status with no ticket number. This is expected. Consulates ask for reservations precisely so applicants do not buy fares first.</p>"),
+        ("Can an embassy tell my ticket is unpaid?", "<p>Yes. A reservation shows a booking status with no ticket number. This is expected. Embassies ask for reservations precisely so applicants do not buy fares first.</p>"),
         ("Will an expired reservation be treated as fraud?", "<p>Not normally. An expired booking is a lapsed real booking, not a fabricated one. An officer may ask for an updated itinerary.</p>"),
-        ("Do visa application centres verify bookings?", "<p>VFS, TLScontact and similar centres check documents for completeness and increasingly verify references before passing the file to the consulate.</p>"),
+        ("Do visa application centres verify bookings?", "<p>VFS, TLScontact and similar centres check documents for completeness and increasingly verify references before passing the file to the embassy.</p>"),
     ],
 ),
 
@@ -537,9 +537,9 @@ visa. Answering that honestly is a permanent handicap; answering it dishonestly 
 dict(
     slug="hotel-booking-for-visa-application",
     cat="Practical",
-    title="Hotel Booking for a Visa Application: What Consulates Check",
+    title="Hotel Booking for a Visa Application: What Embassies Check",
     meta_title="Hotel Booking for Visa Application: Rules and Common Errors",
-    desc="Why consulates ask for accommodation proof, what a valid hotel booking must show, how to cover multi-city trips without gaps, and when an invitation letter replaces a booking entirely.",
+    desc="Why embassies ask for accommodation proof, what a valid hotel booking must show, how to cover multi-city trips without gaps, and when an invitation letter replaces a booking entirely.",
     read=6,
     lede="Accommodation proof is the document people throw together at eleven at night, the evening before "
          "the appointment. It is also the one that fails on the most boring, most avoidable grounds. "
@@ -549,7 +549,7 @@ dict(
 <p>Two reasons, and neither of them is curiosity about your choice of hotel.</p>
 <p>First, <strong>it corroborates your itinerary</strong>. Anyone can claim a two-week trip to Italy. A booking for
 fourteen nights in Rome and Florence, with dates matching the flights, makes the claim concrete.</p>
-<p>Second, <strong>it demonstrates you have somewhere to be</strong>. Consulates are assessing whether you have
+<p>Second, <strong>it demonstrates you have somewhere to be</strong>. Embassies are assessing whether you have
 planned a temporary visit. An applicant with no accommodation plan looks like someone whose plans do not end.</p>"""),
 
         ("The four mechanical checks", """
@@ -598,7 +598,7 @@ reconciled automatically.</p>""" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
         ("Do I need a hotel booking for every night?", "<p>Yes for Schengen and most tourist visas. Gaps get noticed because officers count nights.</p>"),
         ("Can I book on a travel site and cancel later?", "<p>Yes, if the rate is genuinely free-cancellation and you are honest about it. The booking must be real and live when your file is reviewed.</p>"),
         ("What if I am staying with family?", "<p>Submit an invitation letter with the host's details instead of a hotel booking. Some countries require an official sponsorship form.</p>"),
-        ("Does the booking need to be paid?", "<p>No. Consulates need to see accommodation arranged, not paid for.</p>"),
+        ("Does the booking need to be paid?", "<p>No. Embassies need to see accommodation arranged, not paid for.</p>"),
     ],
 ),
 
@@ -608,9 +608,9 @@ dict(
     cat="Practical",
     title="The Visa Application Document Checklist That Actually Works",
     meta_title="Visa Application Document Checklist: Complete 2026 Guide",
-    desc="A universal document checklist for tourist visa applications: what every consulate wants, how the documents must agree with each other, and the order to prepare them in.",
+    desc="A universal document checklist for tourist visa applications: what every embassy wants, how the documents must agree with each other, and the order to prepare them in.",
     read=8,
-    lede="Every consulate publishes its own list, and underneath the variation almost all of them are the "
+    lede="Every embassy publishes its own list, and underneath the variation almost all of them are the "
          "same eight things. The part nobody writes down is that your file is not eight documents. It is "
          "one story told eight times, and the officer is checking whether the tellings agree.",
     sections=[
@@ -687,7 +687,7 @@ dict(
     cat="Practical",
     title="Why Tourist Visas Get Refused, and What Fixes It",
     meta_title="Common Visa Rejection Reasons and How to Avoid Them",
-    desc="The refusal reasons consulates actually cite, ranked: weak ties, thin finances, inconsistent documents and travel-document errors. What each one means and how to address it.",
+    desc="The refusal reasons embassies actually cite, ranked: weak ties, thin finances, inconsistent documents and travel-document errors. What each one means and how to address it.",
     read=8,
     lede="Refusal letters are short, formulaic and maddeningly vague, which leaves you guessing at what "
          "went wrong. The underlying reasons are actually pretty consistent across missions, and most of "
@@ -875,7 +875,7 @@ def _index():
     %s
     <div class="center" style="margin-bottom:2.6rem">
       <h1>Visa travel documents, explained properly</h1>
-      <p class="lede">No hype, no guaranteed-approval nonsense. What consulates ask for, why they ask for it, and
+      <p class="lede">No hype, no guaranteed-approval nonsense. What embassies ask for, why they ask for it, and
       where applications go wrong. Written by people who prepare these documents every day.</p>
     </div>
     <h2 class="sr">All articles</h2>

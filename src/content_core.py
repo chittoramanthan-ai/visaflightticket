@@ -109,7 +109,7 @@ def trustline(kind="flight"):
                    ("clock", "QR delivered before you fly"),
                    ("check", "No SIM counter, no passport copy"),
                    ("shield", "Refund if it will not activate")],
-        "advice": [("check", "Read against your consulate's own checklist"),
+        "advice": [("check", "Read against your embassy's own checklist"),
                    ("clock", "First response the same day"),
                    ("check", "Documents built to survive checking"),
                    ("shield", "No guaranteed-approval nonsense")],
@@ -213,7 +213,7 @@ def travellers_band():
 def home():
     home_faqs = [
         ("What is a visa flight ticket?",
-         "<p>A visa flight ticket. Also called a flight reservation, dummy ticket or flight itinerary. Is a genuine airline booking held in your name that has <strong>not been paid for</strong>. It carries a real booking reference (PNR) that a consulate can look up, and it proves your intended travel dates and route without forcing you to buy a ticket before your visa is decided.</p>"),
+         "<p>A visa flight ticket. Also called a flight reservation, dummy ticket or flight itinerary. Is a genuine airline booking held in your name that has <strong>not been paid for</strong>. It carries a real booking reference (PNR) that an embassy can look up, and it proves your intended travel dates and route without forcing you to buy a ticket before your visa is decided.</p>"),
         ("Is it legal to use a flight reservation instead of a paid ticket?",
          "<p>Yes, as long as the reservation is real. Embassies want <em>proof that you intend to travel</em>, not proof that you have paid. The European Commission&rsquo;s own guidance tells applicants not to buy non-refundable tickets before a decision. What is <strong>not</strong> legal is submitting a forged or edited PDF that has no live booking behind it. That is document fraud. Every itinerary we issue is backed by an actual reservation you can verify.</p>"),
         ("How fast will I get my ticket?",
@@ -221,7 +221,7 @@ def home():
         ("How long does the reservation stay valid?",
          "<p>Airline hold periods vary by carrier and route, usually 3 to 4 days, and up to 20 days on some carriers. We time your booking so it is live on the day you submit. If your appointment moves, a fresh booking is half the original price.</p>"),
         ("Do you also provide hotel bookings?",
-         "<p>Yes. A confirmed hotel booking in your name with a reference number, for %s, or bundled with your flight reservation for %s. Most consulates ask for both.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
+         "<p>Yes. A confirmed hotel booking in your name with a reference number, for %s, or bundled with your flight reservation for %s. Most embassies ask for both.</p>" % (money(PRICE_HOTEL), money(PRICE_BOTH))),
         ("What if my visa is refused?",
          "<p>Nothing happens to your money, which is rather the point. You never paid the airline, so there is no ticket to cancel and nobody to chase for a refund. Our own fee is small and non-refundable once the booking is issued. See the <a href=\"%s\">refund policy</a>.</p>" % url("refund-policy")),
     ]
@@ -237,7 +237,7 @@ def home():
              with JS off, and screen readers get it whole. main.js types over
              the top of it only when it can do so safely. -->
         <h1 data-type>A verifiable flight ticket for your visa. Without buying the flight</h1>
-        <p class="lede">We issue real, airline-held reservations with a live PNR that you and the consulate can
+        <p class="lede">We issue real, airline-held reservations with a live PNR that you and the embassy can
         check on the airline&rsquo;s own website. Embassy-ready PDF in %s, from %s.</p>
         <div class="btn-row">
           <a class="btn btn--primary btn--lg" href="%s">Get my flight ticket at %s%s</a>
@@ -263,7 +263,7 @@ def home():
 <section class="band">
   <div class="wrap">
     <div class="center" style="margin-bottom:2.6rem">
-      <h2>Pick the proof your consulate asked for</h2>
+      <h2>Pick the proof your embassy asked for</h2>
       <p class="lede">All three land the same day. Prices are per traveller and that is the whole price.</p>
     </div>
     %s
@@ -283,7 +283,7 @@ def home():
     <div class="note note--warn">
       <strong>The line that matters</strong>
       A reservation that exists in an airline system is legitimate. A PDF that was designed in Photoshop to look like
-      one is forgery, and consulates check. Everything we send you can be verified on the carrier&rsquo;s own site.       <a href="%s">here is how to check it</a> before you submit.
+      one is forgery, and embassies check. Everything we send you can be verified on the carrier&rsquo;s own site.       <a href="%s">here is how to check it</a> before you submit.
     </div>
   </div>
 </section>
@@ -423,17 +423,17 @@ def flight_page():
 
     faqs = [
         ("Will the embassy accept a flight reservation that is not paid for?",
-         "<p>Yes. Consulates ask for a flight <em>reservation</em> or <em>itinerary</em> precisely so applicants do not have to buy tickets before a decision. Schengen, UK, Canadian, Australian and most other missions accept an unpaid reservation with a valid booking reference. The one thing they will not accept is a document that does not correspond to a real booking.</p>"),
+         "<p>Yes. Embassies ask for a flight <em>reservation</em> or <em>itinerary</em> precisely so applicants do not have to buy tickets before a decision. Schengen, UK, Canadian, Australian and most other missions accept an unpaid reservation with a valid booking reference. The one thing they will not accept is a document that does not correspond to a real booking.</p>"),
         ("Can I verify the PNR myself before I submit?",
          "<p>You should. Open the airline&rsquo;s &lsquo;Manage booking&rsquo; page, enter the six-character PNR and your surname, and the itinerary appears. Our <a href=\"%s\">step-by-step verification guide</a> covers the major carriers.</p>" % url("verify-pnr")),
         ("How long is the reservation held?",
-         "<p>Usually 3 to 4 days, and up to 20 days on some carriers, depending on the airline, the route and how far ahead you are travelling. We schedule your booking so it is live on your submission date. If the consulate keeps your file for weeks, that is normal. Officers check the PNR when they open the file, not months later, and by then you will usually have bought a real ticket anyway.</p>"),
+         "<p>Usually 3 to 4 days, and up to 20 days on some carriers, depending on the airline, the route and how far ahead you are travelling. We schedule your booking so it is live on your submission date. If the embassy keeps your file for weeks, that is normal. Officers check the PNR when they open the file, not months later, and by then you will usually have bought a real ticket anyway.</p>"),
         ("Can you do multi-city or one-way itineraries?",
          "<p>Yes. One-way, return, open-jaw and multi-city are all available at the same price. For a Schengen application you almost always want a return or onward leg; for <a href=\"%s\">proof of onward travel</a> at check-in, a one-way onward booking is usually what is required.</p>" % url("proof-of-onward-travel")),
         ("What if I spelled my name wrong?",
          "<p>Tell us and we will reissue it at half the original price. Names must match your passport exactly: surname and given names in the same order and spelling as the machine-readable zone. This is the single most common cause of a returned file.</p>"),
         ("Do you cover every airline?",
-         "<p>We book on the carrier that actually serves your route, using live availability. If a specific airline is required for your application, and some consulates do note a preferred national carrier, tell us in the order notes and we will match it where the route allows.</p>"),
+         "<p>We book on the carrier that actually serves your route, using live availability. If a specific airline is required for your application, and some embassies do note a preferred national carrier, tell us in the order notes and we will match it where the route allows.</p>"),
     ]
 
     body = """
@@ -444,7 +444,7 @@ def flight_page():
       <div>
         <p class="eyebrow">From %s per traveller</p>
         <h1>Flight reservation for visa applications</h1>
-        <p class="lede">A genuine airline-held itinerary in your name, with a live PNR the consulate can verify on
+        <p class="lede">A genuine airline-held itinerary in your name, with a live PNR the embassy can verify on
         the carrier&rsquo;s own website. Delivered as a print-ready PDF in %s.</p>
         <div class="btn-row" style="margin-top:1.6rem">
           <a class="btn btn--primary btn--lg" href="%s">Order at %s</a>
@@ -465,7 +465,7 @@ def flight_page():
 <section class="band">
   <div class="wrap wrap--narrow">
     <h2>What you receive</h2>
-    <p>One PDF, formatted the way consular officers expect to see an itinerary, containing:</p>
+    <p>One PDF, formatted the way visa officers expect to see an itinerary, containing:</p>
     <ul>
       <li><strong>Passenger name</strong> exactly as printed in your passport, surname first.</li>
       <li><strong>Booking reference (PNR)</strong>: a live six-character code, not a placeholder.</li>
@@ -551,7 +551,7 @@ def hotel_page():
 
     faqs = [
         ("Is a hotel booking really required?",
-         "<p>For most tourist visas, yes. Consulates want proof of accommodation for every night you are in the country. Schengen missions are explicit about it. If you are staying with family or friends you normally submit an invitation letter instead, and you do not need a hotel booking at all.</p>"),
+         "<p>For most tourist visas, yes. Embassies want proof of accommodation for every night you are in the country. Schengen missions are explicit about it. If you are staying with family or friends you normally submit an invitation letter instead, and you do not need a hotel booking at all.</p>"),
         ("Is the booking confirmed or just a hold?",
          "<p>It is a confirmed booking in your name with a reference number, made under a policy that allows free cancellation. That is what makes the price low and the risk zero: the property has the booking, you have the confirmation, and nothing is charged.</p>"),
         ("Can the booking cover several cities?",
@@ -592,7 +592,7 @@ def hotel_page():
 
 <section>
   <div class="wrap wrap--narrow">
-    <h2>What consulates check on an accommodation document</h2>
+    <h2>What embassies check on an accommodation document</h2>
     <p>Officers are not judging your taste in hotels. They are checking four mechanical things, and a booking fails
     on these far more often than on anything subjective:</p>
     <ol>
@@ -676,7 +676,7 @@ def combo_page():
     <div class="wrap--narrow" style="padding:0;margin:0">
       <p class="eyebrow">Save %s &middot; the complete travel-proof pack</p>
       <h1>Flight + hotel package for visa applications</h1>
-      <p class="lede">The two documents almost every consulate asks for, issued together and reconciled against each
+      <p class="lede">The two documents almost every embassy asks for, issued together and reconciled against each
       other so the dates cannot contradict. From %s per traveller one way, delivered in %s.</p>
       <div class="btn-row" style="margin-top:1.6rem">
         <a class="btn btn--primary btn--lg" href="%s">Order the bundle at %s</a>
@@ -861,7 +861,7 @@ def pricing_page():
   <div class="wrap wrap--narrow">
     <h2>Why this costs %s and a real ticket costs &#8377;75,000</h2>
     <p>Because you are not buying a flight. You are paying for a booking to be created, held and documented in a live
-    airline system, and for someone to check that the details on it will survive consular scrutiny. The seat is never
+    airline system, and for someone to check that the details on it will survive embassy scrutiny. The seat is never
     purchased, so no fare is ever charged. To us or to you.</p>
     <p>That is also why the service is genuinely low-risk. If your visa is refused, there is nothing to cancel, no
     airline refund process to fight, and no non-refundable fare written off. The most you have spent is the fee above.</p>
@@ -892,7 +892,7 @@ def how_it_works():
     c_html, c_schema = crumbs([("How it works", None)])
 
     detail = [
-        ("Submit your details", "You need three things: the route, the dates, and your name exactly as it appears in your passport. There is no account to create. If your consular appointment is already booked, tell us the date and we will time the reservation around it."),
+        ("Submit your details", "You need three things: the route, the dates, and your name exactly as it appears in your passport. There is no account to create. If your visa appointment is already booked, tell us the date and we will time the reservation around it."),
         ("We create a live booking", "Your itinerary is entered into a real airline reservation system using live availability on carriers that actually fly your route. The system returns a booking reference. The PNR. This is the same process a travel agent follows before a customer pays; we simply stop before the payment step."),
         ("Quality check", "Before anything is sent, we verify the name against passport conventions, confirm both directions of travel are present, and check the hold window will still be open on your submission date. Bundle orders also get flight-to-hotel date reconciliation."),
         ("Delivery", "The finished PDF is emailed to you, typically within %s. It is formatted as a standard agency itinerary: no watermark, no promotional branding, nothing that signals it came from a third-party service." % DELIVERY),
@@ -983,7 +983,7 @@ def verify_page():
         ("Find the PNR on your itinerary", "It is a six-character alphanumeric code, printed near the top of the document, usually labelled &lsquo;Booking reference&rsquo;, &lsquo;PNR&rsquo;, &lsquo;Reservation code&rsquo; or &lsquo;Record locator&rsquo;. Example format: <code>K7QX2M</code>."),
         ("Open the operating airline&rsquo;s website", "Use the carrier shown on the first leg. Go to the section called &lsquo;Manage booking&rsquo;, &lsquo;My trips&rsquo; or &lsquo;Check-in&rsquo;. The wording differs, the function does not."),
         ("Enter the PNR and the surname", "Surname only, spelled exactly as on the itinerary. Most systems reject a full name in that field."),
-        ("Read what comes back", "A valid reservation returns your itinerary: passenger name, flight numbers, dates, times. That is what a consular officer sees when they run the same check."),
+        ("Read what comes back", "A valid reservation returns your itinerary: passenger name, flight numbers, dates, times. That is what a visa officer sees when they run the same check."),
     ]
 
     howto = {
@@ -1003,8 +1003,8 @@ def verify_page():
     faqs = [
         ("My PNR does not come up. What now?",
          "<p>Three ordinary explanations before you assume the worst. First, you may be checking the wrong carrier. On a codeshare, the booking sits with the <em>operating</em> airline, not the one whose flight number is printed. Second, some systems need a few minutes to propagate. Third, the surname field may need the surname alone. If it still fails, email us the order reference and we will reissue.</p>"),
-        ("Can a consulate see that the ticket is unpaid?",
-         "<p>Yes, and that is fine. A reservation shows a booking status rather than a ticket number. Consulates know the difference and ask for reservations for exactly this reason. They do not want applicants buying fares before a decision.</p>"),
+        ("Can an embassy see that the ticket is unpaid?",
+         "<p>Yes, and that is fine. A reservation shows a booking status rather than a ticket number. Embassies know the difference and ask for reservations for exactly this reason. They do not want applicants buying fares before a decision.</p>"),
         ("Does checking the booking cancel it?",
          "<p>No. Looking up a reservation is read-only. Just avoid clicking anything labelled cancel, and do not attempt online check-in.</p>"),
         ("How can I tell a fake itinerary from a real one?",
@@ -1153,7 +1153,13 @@ def order_page():
             <div class="pax" data-lead>
               <div class="pax__hd"><span class="pax__n">Traveller 1</span>
                 <span class="pax__tag">Lead &middot; we email this person</span></div>
-              <div class="row2">
+              <div class="row3">
+                <div class="field"><label for="title">Title</label>
+                  <select id="title" name="title" autocomplete="honorific-prefix">
+                    <option value="">&mdash;</option>
+                    <option>Mr</option><option>Mrs</option><option>Ms</option>
+                    <option>Miss</option><option>Mstr</option><option>Dr</option>
+                  </select></div>
                 <div class="field"><label for="surname">Surname (as in passport)</label>
                   <input id="surname" name="surname" type="text" autocomplete="family-name" required></div>
                 <div class="field"><label for="given">Given name(s)</label>
@@ -1176,7 +1182,7 @@ def order_page():
               <div class="row2">
                 <div class="field"><label for="passport_expiry">Passport expiry date</label>
                   <input id="passport_expiry" name="passport_expiry" type="date">
-                  <span class="hint">Most consulates want six months left beyond your return.</span></div>
+                  <span class="hint">Most embassies want six months left beyond your return.</span></div>
                 <div class="field"></div>
               </div>
               <div class="field"><label for="phone">Phone or WhatsApp</label>
@@ -1272,7 +1278,7 @@ def faq_page():
     groups = [
         ("The basics", [
             ("What is a dummy ticket?",
-             "<p>A flight reservation created in a real airline system and held without payment. It carries a live booking reference (PNR) and shows the same details as a paid ticket: passenger, route, flight numbers and dates, everything except the purchase. &lsquo;Dummy ticket&rsquo; is industry slang; consulates call it a flight reservation or itinerary.</p>"),
+             "<p>A flight reservation created in a real airline system and held without payment. It carries a live booking reference (PNR) and shows the same details as a paid ticket: passenger, route, flight numbers and dates, everything except the purchase. &lsquo;Dummy ticket&rsquo; is industry slang; embassies call it a flight reservation or itinerary.</p>"),
             ("Is a dummy ticket the same as a fake ticket?",
              "<p>No, and the distinction is the whole business. A dummy ticket is a real booking that has not been paid for. A fake ticket is a fabricated document with no booking behind it. The first is a normal part of visa filing; the second is fraud.</p>"),
             ("Why not just book a refundable ticket myself?",
@@ -1282,7 +1288,7 @@ def faq_page():
         ]),
         ("Acceptance and legality", [
             ("Will my embassy accept this?",
-             "<p>Consulates ask for evidence of intended travel and explicitly warn against buying tickets before a decision. A reservation with a verifiable PNR meets that requirement. We cannot speak for any individual officer&rsquo;s discretion, and no honest provider can.</p>"),
+             "<p>Embassies ask for evidence of intended travel and explicitly warn against buying tickets before a decision. A reservation with a verifiable PNR meets that requirement. We cannot speak for any individual officer&rsquo;s discretion, and no honest provider can.</p>"),
             ("Is it legal?",
              "<p>Yes. Holding an unpaid airline reservation is a normal commercial transaction that travel agents perform thousands of times a day. What is illegal is submitting a forged document, which is why every itinerary we issue corresponds to a booking you can look up yourself.</p>"),
             ("Could using one hurt my application?",
@@ -1345,8 +1351,8 @@ def about_page():
     %s
 
     <h2>Why this service exists</h2>
-    <p>Visa applications hand you a small, annoying puzzle. The consulate wants a flight itinerary. Buying the flight
-    first means gambling a real fare on a decision nobody has made yet. So consulates ask for a <em>reservation</em>
+    <p>Visa applications hand you a small, annoying puzzle. The embassy wants a flight itinerary. Buying the flight
+    first means gambling a real fare on a decision nobody has made yet. So embassies ask for a <em>reservation</em>
     instead, which sounds like the problem is solved, right up until you discover that airlines rarely hold seats for
     free and almost never for long enough.</p>
     <p>That gap is what we fill. We create a genuine booking in a live reservation system, hold it across your
@@ -1364,14 +1370,14 @@ def about_page():
 
     <div class="note">
       <strong>Not a government service</strong>
-      %s is a private travel-documentation company. We are not affiliated with any embassy, consulate, visa
+      %s is a private travel-documentation company. We are not affiliated with any embassy, embassy, visa
       application centre or government agency, and we do not provide immigration advice.
     </div>
 
     <h2>Accreditation</h2>
     <p>We are an <strong>IATA certified travel agent</strong>. That accreditation is what lets us place bookings
     directly in live airline reservation systems rather than scraping a public search page, and it is why the
-    references we issue behave exactly like any other agency booking when a consular officer looks them up.
+    references we issue behave exactly like any other agency booking when a visa officer looks them up.
     Our accreditation number is published on this page and can be checked against IATA&rsquo;s own register.</p>
     <p>%s</p>
 
@@ -1419,7 +1425,7 @@ def contact_page():
     </ul>
     <div class="note note--warn">
       <strong>We cannot give immigration advice</strong>
-      We can tell you what document formats consulates typically accept. We cannot tell you whether your application
+      We can tell you what document formats embassies typically accept. We cannot tell you whether your application
       will succeed, or advise on your immigration status. For that, speak to a licensed immigration adviser.
     </div>
 
@@ -1466,7 +1472,7 @@ paid, no ticket number is issued, and the reservation is held only for the perio
 
 <h2>3. What we do not supply</h2>
 <p>We do not issue visas, influence visa decisions, or provide immigration or legal advice. We are not affiliated
-with any government, embassy, consulate or visa application centre. We make no representation that any application
+with any government, embassy, embassy or visa application centre. We make no representation that any application
 supported by our documents will succeed.</p>
 
 <h2>4. Your obligations</h2>

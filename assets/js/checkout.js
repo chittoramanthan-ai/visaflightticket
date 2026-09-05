@@ -86,6 +86,7 @@
       form.querySelectorAll('#pax-list .pax').forEach(function (row, i) {
         if (i === 0) {
           pax.push({
+            title: v('title'),
             surname: v('surname'), given_name: v('given'), dob: v('dob'),
             passport: v('passport'),
             passport_issue: v('passport_issue'),
@@ -99,6 +100,7 @@
         };
         if (get('surname') || get('given')) {
           pax.push({
+            title: get('title'),
             surname: get('surname'), given_name: get('given'), dob: get('dob'),
             passport: get('passport'),
             passport_issue: get('passport_issue'),
@@ -117,6 +119,7 @@
         depart_date: v('depart'), return_date: v('return'),
         legs: legs,
         visa_type: v('visa'),
+        title: v('title'),
         surname: v('surname'), given_name: v('given'),
         dob: v('dob'), email: v('email'), phone: v('phone'),
         notes: v('notes')
@@ -140,6 +143,7 @@
         'To: ' + p.destination,
         'Depart: ' + p.depart_date,
         'Return: ' + p.return_date,
+        'Title: ' + p.title,
         'Passenger: ' + p.surname + ', ' + p.given_name,
         'Date of birth: ' + p.dob,
         'Passport: ' + (p.passengers[0] ? (p.passengers[0].passport || '') : ''),
@@ -152,7 +156,7 @@
       ];
       (p.passengers || []).forEach(function (x, i) {
         if (i === 0) return;                     // lead is already listed above
-        lines.push('Traveller ' + (i + 1) + ': ' + x.surname + ', ' +
+        lines.push('Traveller ' + (i + 1) + ': ' + (x.title ? x.title + ' ' : '') + x.surname + ', ' +
                    x.given_name + (x.dob ? ' (' + x.dob + ')' : '') +
                    (x.passport ? ' passport ' + x.passport : ''));
       });
@@ -346,7 +350,7 @@
             name: 'Visa Flight Tickets',
             description: 'Order ' + res.ref,
             prefill: {
-              name: payload().given_name + ' ' + payload().surname,
+              name: (payload().title ? payload().title + ' ' : '') + payload().given_name + ' ' + payload().surname,
               email: payload().email,
               contact: payload().phone
             },

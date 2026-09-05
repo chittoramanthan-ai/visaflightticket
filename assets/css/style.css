@@ -1190,7 +1190,14 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand);b
 input[aria-invalid="true"]{border-color:var(--danger)}
 input[aria-invalid="true"]:focus{box-shadow:0 0 0 4px color-mix(in srgb,var(--danger) 18%,transparent)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media (max-width:560px){.row2{grid-template-columns:1fr}}
+.row3{display:grid;grid-template-columns:104px 1fr 1fr;gap:16px}
+@media (max-width:560px){
+  .row2{grid-template-columns:1fr}
+  /* Title stays beside Surname; a six-character select does not earn a
+     full-width row of its own on a phone. */
+  .row3{grid-template-columns:104px 1fr}
+  .row3>:last-child{grid-column:1/-1}
+}
 fieldset{border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:0 0 20px}
 legend{font-size:.75rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);font-weight:650;padding:0 8px}
 .opt{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line-strong);border-radius:11px;padding:14px;margin-bottom:10px;cursor:pointer;background:var(--surface-2)}
@@ -1434,7 +1441,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .btn[disabled], .btn[aria-disabled="true"] { cursor: not-allowed; opacity: .62; }
 
 /* Printing a visa guide or an order confirmation is a real thing people do at
-   a consulate. Drop the furniture that wastes ink and page space. */
+   an embassy. Drop the furniture that wastes ink and page space. */
 @media print {
   .hdr, .ftr, .scta, .totop, .mq, .doodle, .theme-btn { display: none !important; }
   a[href^="/"]::after { content: " (visaflightticket.com" attr(href) ")"; font-size: .8em; }

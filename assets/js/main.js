@@ -254,7 +254,12 @@
       el.innerHTML =
         '<div class="pax__hd"><span class="pax__n">Traveller ' + n + '</span>' +
         '<button type="button" class="pax__rm">Remove</button></div>' +
-        '<div class="row2">' +
+        '<div class="row3">' +
+          '<div class="field"><label>Title</label>' +
+            '<select data-pax="title">' +
+              '<option value="">&mdash;</option><option>Mr</option><option>Mrs</option>' +
+              '<option>Ms</option><option>Miss</option><option>Mstr</option><option>Dr</option>' +
+            '</select></div>' +
           '<div class="field"><label>Surname (as in passport)</label>' +
             '<input type="text" data-pax="surname" autocomplete="off" required></div>' +
           '<div class="field"><label>Given name(s)</label>' +

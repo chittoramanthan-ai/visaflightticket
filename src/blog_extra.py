@@ -31,7 +31,7 @@ dict(
     cat="Practical",
     title="Do You Need a Flight Reservation for the Schengen Appointment, or Only for the Application?",
     meta_title="Flight Reservation for a Schengen Visa Appointment",
-    desc="VFS and consulate appointments have different document rules from the application itself. When a flight reservation is needed to book the slot, when it is needed on the day, and how to time the booking so it is still valid.",
+    desc="VFS and embassy appointments have different document rules from the application itself. When a flight reservation is needed to book the slot, when it is needed on the day, and how to time the booking so it is still valid.",
     read=8,
     lede="You cannot book the appointment without the documents, and you do not want to buy the documents "
          "before you have the appointment. Almost everyone applying for a Schengen visa hits this loop, and "
@@ -42,7 +42,7 @@ dict(
 <p>There are two separate points where a Schengen application touches a flight reservation, and they have different
 rules:</p>
 <ol>
-  <li><strong>Booking the appointment slot.</strong> Done online through VFS Global, TLScontact, BLS or the consulate's
+  <li><strong>Booking the appointment slot.</strong> Done online through VFS Global, TLScontact, BLS or the embassy's
   own portal, sometimes weeks in advance.</li>
   <li><strong>The appointment itself.</strong> You physically hand over a document folder and give biometrics.</li>
 </ol>
@@ -50,9 +50,9 @@ rules:</p>
 need it, is different for each.</p>"""),
 
         ("Booking the slot: usually no reservation needed", """
-<p>For most Schengen consulates, booking the appointment slot requires your passport number, personal details and a
+<p>For most Schengen embassies, booking the appointment slot requires your passport number, personal details and a
 travel-date range. Not a flight reservation.</p>
-<p>This matters more than it sounds. Appointment slots at busy consulates are the genuine bottleneck. In peak season
+<p>This matters more than it sounds. Appointment slots at busy embassies are the genuine bottleneck. In peak season
 the wait for a slot can exceed the wait for a decision. If you believe you need a flight reservation before you can
 even book a slot, you delay the one step that is actually scarce.</p>
 <div class="note">
@@ -62,11 +62,11 @@ even book a slot, you delay the one step that is actually scarce.</p>
 </div>"""),
 
         ("The appointment itself: yes, bring it", """
-<p>On the day, the checklist applies in full, and every Schengen consulate's checklist includes evidence of transport.
+<p>On the day, the checklist applies in full, and every Schengen embassy's checklist includes evidence of transport.
 The standard wording is some variant of <em>&ldquo;round-trip flight reservation or other proof of intended
 transport&rdquo;</em>. What is being asked for is a reservation, not a purchased ticket.</p>
 <p>The European Commission's visa handbook is explicit that applicants should not be required to hold a paid ticket
-before a decision. Consulates follow this because the alternative is applicants losing airfare on refusals. A
+before a decision. Embassies follow this because the alternative is applicants losing airfare on refusals. A
 reservation with a live PNR satisfies the requirement.</p>
 <p>Two details on the day that cause avoidable problems:</p>
 <ul>
@@ -95,7 +95,7 @@ before anyone looks at it.</p>
 <p>Ordering a few days out is not cutting it fine. It is the point at which the document is freshest for the person
 who will actually read it.</p>"""),
 
-        ("What the consulate does with it", """
+        ("What the embassy does with it", """
 <p>Very little, usually. The reservation is a completeness check: does this applicant have a coherent itinerary that
 matches the dates and the accommodation they have declared?</p>
 <p>Where it stops being a formality is when something else in the file has already raised a question. A first-time
@@ -104,7 +104,7 @@ harder, and a reservation that cannot be verified turns a soft doubt into a docu
 <p>This is the entire argument for a real booking over a generated PDF. Not that anyone checks routinely. That the
 files where somebody does check are exactly the files that could not afford it.</p>"""),
 
-        ("Consulate-by-consulate quirks worth knowing", """
+        ("Embassy-by-embassy quirks worth knowing", """
 <p>The Schengen rules are common, but the centres implementing them are not identical:</p>
 <ul>
   <li><strong>France and Germany</strong> tend to be strict on date consistency across the form, insurance and
@@ -139,20 +139,20 @@ dict(
     cat="Legality",
     title="Will the Embassy Actually Call the Airline to Check Your Booking?",
     meta_title="Do Embassies Verify Flight Bookings by Calling the Airline?",
-    desc="What consulate verification of a flight reservation really looks like, who does it, how often, and why the answer to how often is the wrong question to be asking.",
+    desc="What embassy verification of a flight reservation really looks like, who does it, how often, and why the answer to how often is the wrong question to be asking.",
     read=7,
     lede="This is the question everyone actually wants answered before they order anything, and the honest "
          "answer has two halves. Routine phone calls to airlines are rare. And that fact should not change "
          "your decision at all. Here is why.",
     sections=[
         ("What verification actually looks like", """
-<p>Nobody picks up a phone. The mental image of a consular officer calling an airline switchboard is not how any of
+<p>Nobody picks up a phone. The mental image of a visa officer calling an airline switchboard is not how any of
 this works.</p>
 <p>What exists instead:</p>
 <ul>
   <li><strong>The airline's own site.</strong> Every major carrier has a manage-booking page that takes a PNR and a
   surname. It is public, instant, and anyone can use it, including you.</li>
-  <li><strong>GDS lookup.</strong> Consulates with travel-sector relationships, and airlines at check-in, can query
+  <li><strong>GDS lookup.</strong> Embassies with travel-sector relationships, and airlines at check-in, can query
   Amadeus, Sabre or Travelport directly. A reservation either exists in the system or it does not.</li>
   <li><strong>The eyeball test.</strong> Far more common than either. A reviewer who has read ten thousand
   itineraries recognises a template that does not match how the airline in question formats its documents.</li>
@@ -169,7 +169,7 @@ anyone testing a single document.</p>
   <li>Applications from countries with elevated refusal or overstay rates</li>
   <li>Files where something else already looks inconsistent</li>
   <li>Anything where the itinerary does not match the stated purpose of travel</li>
-  <li>Airlines or routes a particular consulate has seen forged before</li>
+  <li>Airlines or routes a particular embassy has seen forged before</li>
 </ul>
 <p>If you are in one of those groups, and most first-time applicants are, your personal probability is nothing like
 the headline average.</p>"""),
@@ -214,7 +214,7 @@ meal.</p>"""),
   <li>Enter the six-character booking reference and the surname exactly as printed.</li>
   <li>The itinerary should load, showing your flights.</li>
 </ol>
-<p>If it loads for you, it loads for anyone who tries. If it does not, you have learned that before a consulate did,
+<p>If it loads for you, it loads for anyone who tries. If it does not, you have learned that before an embassy did,
 which is the entire point of doing it.</p>
 <p>Any provider who cannot give you a reference that does this is not selling you a booking, whatever the PDF looks
 like.</p>"""),
@@ -223,13 +223,13 @@ like.</p>"""),
         ("Has an embassy ever actually called an airline?",
          "<p>Yes, though it is far less common than online or GDS verification, which achieve the same thing in seconds. The method matters less than the fact that a real booking survives all of them.</p>"),
         ("Can the airline tell the reservation was never paid for?",
-         "<p>Yes, and it is not a problem. Booked-but-unticketed is a completely normal state, and consulates ask for reservations precisely because they do not want you paying before a decision.</p>"),
+         "<p>Yes, and it is not a problem. Booked-but-unticketed is a completely normal state, and embassies ask for reservations precisely because they do not want you paying before a decision.</p>"),
         ("Will the airline cancel my reservation if the embassy looks at it?",
          "<p>No. A lookup is a read. What ends a reservation is the hold period expiring, which is why timing the order close to your appointment matters.</p>"),
         ("If checks are rare, why not use a cheap generated PDF?",
          "<p>Because the payoff is asymmetric. Identical outcome if nobody checks, and a deception finding that can follow you for a decade if somebody does, for a price difference of a few hundred rupees.</p>"),
         ("Do airlines report suspected fake bookings?",
-         "<p>Airlines and consulates share information about document fraud patterns, and a carrier that repeatedly sees forged versions of its own itineraries has an obvious interest in flagging it.</p>"),
+         "<p>Airlines and embassies share information about document fraud patterns, and a carrier that repeatedly sees forged versions of its own itineraries has an obvious interest in flagging it.</p>"),
     ],
 ),
 
@@ -246,7 +246,7 @@ dict(
          "not the one most people assume, and it is not mainly about the fee.",
     sections=[
         ("The three options, honestly stated", """
-<p>There are exactly three ways to put a credible itinerary in front of a consulate:</p>
+<p>There are exactly three ways to put a credible itinerary in front of an embassy:</p>
 <ol>
   <li><strong>Buy a normal ticket.</strong> Cheapest headline fare, zero flexibility. If the visa is refused you lose
   most or all of it.</li>
@@ -294,11 +294,11 @@ a few hundred rupees.</p>"""),
 <p>The genuinely bad option is the one most first-time applicants pick without thinking: buy the cheap
 non-refundable fare, because it is cheap, and hope the visa comes through.</p>
 <p>Schengen refusal rates for Indian applicants have run in the region of one in six in recent years, and vary a lot
-by consulate. On those odds, buying a non-refundable international fare before a decision is a straightforwardly bad
+by embassy. On those odds, buying a non-refundable international fare before a decision is a straightforwardly bad
 bet, and it is the single most expensive mistake in this whole process.</p>
 <div class="note">
   <strong>The rule that covers every case</strong>
-  Do not pay for a flight you cannot use until you hold a decision that lets you use it. Every consulate that asks
+  Do not pay for a flight you cannot use until you hold a decision that lets you use it. Every embassy that asks
   for a reservation rather than a ticket is telling you the same thing.
 </div>"""),
 
@@ -307,7 +307,7 @@ bet, and it is the single most expensive mistake in this whole process.</p>
 <table>
   <thead><tr><th></th><th>Non-refundable</th><th>Refundable</th><th>Held reservation</th></tr></thead>
   <tbody>
-    <tr><td>Accepted by consulates</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>Accepted by embassies</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
     <tr><td>Verifiable PNR</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
     <tr><td>Cost before decision</td><td>Full fare</td><td>Higher fare</td><td>{PRICE}</td></tr>
     <tr><td>Loss if refused</td><td>Most of the fare</td><td>Fees and delay</td><td>Nothing</td></tr>
@@ -317,7 +317,7 @@ bet, and it is the single most expensive mistake in this whole process.</p>
 </table>
 </div>
 <p>One row favours the paid fares: the seat. If that row is the one that matters for your trip, buy the ticket. If it
-is not, you are paying a large premium for a document the consulate treats the same way.</p>"""),
+is not, you are paying a large premium for a document the embassy treats the same way.</p>"""),
 
         ("The sequence that costs least", """
 <ol>
@@ -336,7 +336,7 @@ locked to the one you guessed at weeks earlier.</p>"""),
          "<p>Commonly 30 to 90 days to reach the original payment method, depending on carrier and how you paid. Plan on the longer end.</p>"),
         ("Can I use a 24-hour free cancellation window instead?",
          "<p>Only if your appointment falls inside it, which is rarely how the timing works. Cancel before the window closes and the booking stops verifying; leave it and you have bought the ticket.</p>"),
-        ("Does a consulate treat a paid ticket more favourably?",
+        ("Does an embassy treat a paid ticket more favourably?",
          "<p>No. Checklists ask for evidence of intended transport. A reservation with a live PNR meets that, and several immigration authorities actively advise against buying before a decision.</p>"),
         ("What if my visa is approved and the flight is now more expensive?",
          "<p>Possible, and usually still cheaper than the refundable fare premium plus the money you had tied up for two months. If a specific flight genuinely matters, that is the case for buying it.</p>"),

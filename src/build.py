@@ -174,6 +174,60 @@ PAGES = []          # populated by add_page(); consumed by the sitemap writer
 
 
 # --------------------------------------------------------------------------
+# lastmod tracking
+# --------------------------------------------------------------------------
+# The sitemap used to stamp today's date on all 73 URLs at every build, which
+# told Google that every page changes daily. Google devalues a lastmod it finds
+# unreliable, and an accurate one is the main way to ask for a re-crawl after an
+# edit - which matters most on a young domain still being evaluated.
+#
+# The fingerprint covers the page's own content, deliberately NOT the rendered
+# HTML: the asset cache-buster appears in every page, so hashing the output
+# would mark all 73 as changed whenever the stylesheet moved by a single byte,
+# which is the exact bug this exists to fix.
+LASTMOD_DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lastmod.json")
+
+
+def _load_lastmod():
+    try:
+        with open(LASTMOD_DB, encoding="utf-8") as fh:
+            return json.load(fh)
+    except (OSError, ValueError):
+        return {}
+
+
+_LASTMOD_OLD = _load_lastmod()
+_LASTMOD_NEW = {}
+
+
+def _content_date(slug, *parts):
+    """The date this page's content last actually changed."""
+    import hashlib
+    blob = '\x1f'.join("" if x is None else str(x) for x in parts)
+    # Blank out ISO dates before hashing. Several pages stamp today into a
+    # byline and into datePublished/dateModified, so leaving them in would
+    # make 56 of 75 pages "change" at every midnight - the exact daily churn
+    # this function exists to stop.
+    blob = re.sub(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", "", blob)
+    h = hashlib.sha1(blob.encode("utf-8")).hexdigest()[:16]
+    prev = _LASTMOD_OLD.get(slug)
+    when = prev["date"] if (prev and prev.get("hash") == h and prev.get("date")) else TODAY
+    _LASTMOD_NEW[slug] = {"hash": h, "date": when}
+    return when
+
+
+def save_lastmod():
+    """Persist the manifest. Pages that no longer exist fall out on their own,
+    because only what this build produced is written back."""
+    with open(LASTMOD_DB, "w", encoding="utf-8", newline='\n') as fh:
+        json.dump(_LASTMOD_NEW, fh, indent=1, sort_keys=True)
+        fh.write('\n')
+    changed = sum(1 for k, v in _LASTMOD_NEW.items()
+                  if _LASTMOD_OLD.get(k, {}).get("hash") != v["hash"])
+    return changed, len(_LASTMOD_NEW)
+
+
+# --------------------------------------------------------------------------
 # helpers
 # --------------------------------------------------------------------------
 def url(path=""):
@@ -541,7 +595,7 @@ def pricing_tickets(featured="both", prefill=""):
                 "Any city, any length of stay",
                 "Reissues at half price"],
                "Order hotel booking", "order?service=hotel" + prefill, code="HOTEL", featured=(featured == "hotel")),
-        ticket("Flight + Hotel", "The complete travel-proof bundle most consulates ask for. Best value.",
+        ticket("Flight + Hotel", "The complete travel-proof bundle most embassies ask for. Best value.",
                PRICE_BOTH,
                ["One way %s, return %s, per traveller" % (money(PRICE_BOTH), money(PRICE_BOTH + PRICE_FLIGHT)),
              "Everything in both plans above",
@@ -1147,11 +1201,15 @@ PAGE_TPL = """<!doctype html>
 
 def add_page(slug, title, description, body, schema=None, og_type="website",
              og_title=None, noindex=False, priority="0.7", changefreq="monthly",
-             lastmod=TODAY, extra_js=()):
+             lastmod=None, extra_js=()):
     """Queue a page for writing. Called by every content module."""
     # Trimmed here rather than at each call site, so no page can ship a
     # description that a search engine cuts off mid-word.
     description = trim_desc(description)
+    if lastmod is None:
+        lastmod = _content_date(
+            slug, title, description, body,
+            json.dumps(schema or [], sort_keys=True, default=str))
     PAGES.append(dict(
         slug=slug, title=title, description=description, body=body,
         schema=schema or [], og_type=og_type, og_title=og_title or title,
@@ -1332,7 +1390,9 @@ def main():
     n = write_pages(VISA_LINKS_CACHE)
     write_sitemap()
     write_extras()
+    changed, total = save_lastmod()
     print("Built %d pages -> %s" % (n, ROOT))
+    print("lastmod: %d of %d pages changed today" % (changed, total))
     for p in sorted(PAGES, key=lambda x: x["slug"]):
         print("   /%s" % p["slug"])
 

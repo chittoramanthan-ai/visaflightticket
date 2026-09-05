@@ -44,7 +44,7 @@ def insurance():
         ("What cover do I actually need?",
          "<p>For a Schengen file, &euro;30,000 medical and repatriation is the floor. In practice, look for medical evacuation, a sensible baggage limit, and trip cancellation if you have paid for anything non-refundable.</p>"),
         ("Can I buy it before my visa is approved?",
-         "<p>You have to. The consulate wants the certificate with the application. Buy a policy that starts on your intended departure date, and most insurers will refund or reissue if the visa is refused. Check that specific clause before paying.</p>"),
+         "<p>You have to. The embassy wants the certificate with the application. Buy a policy that starts on your intended departure date, and most insurers will refund or reissue if the visa is refused. Check that specific clause before paying.</p>"),
         ("Do you underwrite the policy?",
          "<p>No. We are not an insurer. We arrange cover through licensed insurance partners, and the policy is a contract between you and that insurer. The certificate comes from them, on their paper.</p>"),
         ("How fast do I get the certificate?",
@@ -58,7 +58,7 @@ def insurance():
     <div class="wrap--narrow" style="padding:0;margin:0">
       <p class="eyebrow">Visa-compliant cover</p>
       <h1>Travel insurance for your visa application</h1>
-      <p class="lede">Schengen consulates want &euro;30,000 of medical cover, valid across the whole area, for
+      <p class="lede">Schengen embassies want &euro;30,000 of medical cover, valid across the whole area, for
       the exact dates on your itinerary. Get the number or the dates wrong and the file comes back. We issue a
       certificate that matches your flight reservation, because we already have your dates.</p>
       <div class="btn-row" style="margin-top:1.6rem">
@@ -72,7 +72,7 @@ def insurance():
 
 <section class="band">
   <div class="wrap wrap--narrow">
-    <h2>What a consulate is checking</h2>
+    <h2>What an embassy is checking</h2>
     <p>Not the brand, not the premium. Four things, and all four are mechanical:</p>
     <ol>
       <li><strong>&euro;30,000 minimum medical cover</strong>, stated in euros on the certificate. A policy in
@@ -305,13 +305,13 @@ def consultation():
 
     faqs = [
         ("What does a consultation actually cover?",
-         "<p>We read the consulate's own checklist for your case, look at what you have, and tell you what is missing, what is weak and what will be read the wrong way. Then we help you assemble the parts we can legitimately produce: the flight reservation, the hotel booking and the cover letter.</p>"),
+         "<p>We read the embassy's own checklist for your case, look at what you have, and tell you what is missing, what is weak and what will be read the wrong way. Then we help you assemble the parts we can legitimately produce: the flight reservation, the hotel booking and the cover letter.</p>"),
         ("Can you write my cover letter?",
          "<p>Yes. You tell us the purpose of the trip, who is funding it and what ties you to home, and we turn that into a letter an officer can read in thirty seconds. What we will not do is invent a reason for travel or a sponsor who does not exist.</p>"),
         ("Do you prepare bank statements?",
          "<p>No, and nobody honest does. Statements come from your bank. What we do is tell you how many months to show, what an officer is looking for in them, how to explain a large recent deposit, and whether the balance you hold is likely to read as sufficient for the trip you have described.</p>"),
         ("Will this guarantee my visa?",
-         "<p>No. Anyone promising that is lying to you. The decision belongs to the consulate. What a well-assembled file removes is the avoidable reasons to refuse it, which is the only part anyone can influence.</p>"),
+         "<p>No. Anyone promising that is lying to you. The decision belongs to the embassy. What a well-assembled file removes is the avoidable reasons to refuse it, which is the only part anyone can influence.</p>"),
         ("How much does it cost?",
          "<p>It depends on the country and how much of the file you want help with, so we quote after a short conversation rather than publishing a number that would be wrong for most people.</p>"),
         ("Can you book my appointment slot?",
@@ -328,7 +328,7 @@ def consultation():
         <h1>Help getting your visa file right the first time</h1>
         <p class="lede">Most refusals are not close calls. They are avoidable ones: a missing document, a
         letter answering the wrong question, dates that do not agree with each other. We go through your
-        file before a consulate does, and tell you what an officer is going to see.</p>
+        file before an embassy does, and tell you what an officer is going to see.</p>
         <div class="btn-row" style="margin-top:1.6rem">
           <a class="btn btn--wa btn--lg" href="%s">%s Talk on WhatsApp</a>
           <a class="btn btn--ghost btn--lg" href="%s">Browse visa guides</a>
@@ -349,7 +349,7 @@ def consultation():
     <div class="grid g3">
       <div class="card"><div class="card__ico">%s</div><h3>Itinerary planning</h3>
         <p>A day-by-day plan that agrees with your flights, your hotels and the length of stay you have
-        declared. Consulates check those three against each other, and they often do not match.</p></div>
+        declared. Embassies check those three against each other, and they often do not match.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>Cover letter</h3>
         <p>Written around your real purpose of travel, who is funding it and what brings you home. One
         page, in the order an officer actually reads it.</p></div>
@@ -363,7 +363,7 @@ def consultation():
         <p>A confirmed booking covering every night you have declared, with the dates reconciled against
         the flights so the two cannot contradict each other.</p></div>
       <div class="card"><div class="card__ico">%s</div><h3>Checklist review</h3>
-        <p>We read the consulate's own list for your case and tell you what is missing, what is weak and
+        <p>We read the embassy's own list for your case and tell you what is missing, what is weak and
         what is likely to be queried, before you submit rather than after.</p></div>
     </div>
   </div>
@@ -379,11 +379,11 @@ def consultation():
       deception finding instead of a visa.</li>
       <li><strong>We do not invent a purpose of travel</strong>, a sponsor, an employer or a relationship.
       The cover letter is built around your circumstances as they actually are.</li>
-      <li><strong>We do not guarantee an outcome.</strong> The decision is the consulate's. What a good
-      file removes is the avoidable reasons to refuse it.</li>
-      <li><strong>We do not log into government portals as you.</strong> We will tell you exactly what to
-      do on them.</li>
     </ul>
+    <p style="margin-top:1.4rem"><strong>What we will do is improve your chances.</strong> A file with
+    nothing missing, nothing contradicting itself and every claim backed by evidence is far more likely to
+    be approved than the one most applicants hand over. Refusals overwhelmingly come from avoidable
+    mistakes, and removing those is the part anyone can actually influence. That is the work.</p>
     <div class="note">
       <strong>Why this matters more than it sounds</strong>
       A refusal is a setback. A finding that you submitted something false is a different category of
@@ -431,7 +431,7 @@ def consultation():
        ticket("Consultation only",
               "We read your file and tell you exactly what to fix. You assemble the documents.",
               PRICE_CONSULT_ONLY,
-              ["Checklist review against your consulate",
+              ["Checklist review against your embassy",
                "Cover letter written for your case",
                "Itinerary planned around your dates",
                "Guidance on what your finances need to show"],
@@ -458,11 +458,11 @@ def consultation():
         "name": "Visa application consultation",
         "serviceType": "Visa documentation advisory",
         "provider": {"@id": SITE_URL + "/#organization"},
-        "description": "Advisory help assembling a visa application file: itinerary planning, cover letter, guidance on financial documents, flight reservations and hotel bookings, and a review against the consulate's own checklist.",
+        "description": "Advisory help assembling a visa application file: itinerary planning, cover letter, guidance on financial documents, flight reservations and hotel bookings, and a review against the embassy's own checklist.",
         "areaServed": "IN",
         "url": abs_url(slug),
     }
     add_page(slug, "Visa Consultation | Cover Letter and Document Help",
-             "Help assembling a visa application: itinerary planning, cover letter, guidance on what your bank statements need to show, flight reservations and hotel bookings, and a review against the consulate checklist.",
+             "Help assembling a visa application: itinerary planning, cover letter, guidance on what your bank statements need to show, flight reservations and hotel bookings, and a review against the embassy checklist.",
              body, schema=[c_schema, service, faq_schema(faqs)],
              priority="0.8", changefreq="monthly")

@@ -31,7 +31,7 @@ VISAS = [
  ('Child under 6', 'Free', ''),
  ('VFS or TLScontact service fee', '&euro;20 to &euro;40 equivalent', 'Charged on top, varies by country and centre'),
  ('Travel medical insurance', 'From about &euro;20', '&euro;30,000 minimum cover is mandatory')],
-        steps=[('Work out which consulate is yours', 'Whichever country you sleep the most nights in. Equal split? Apply where you land first. Get this wrong and the file bounces before anyone reads it.'),
+        steps=[('Work out which embassy is yours', 'Whichever country you sleep the most nights in. Equal split? Apply where you land first. Get this wrong and the file bounces before anyone reads it.'),
  ('Book the appointment early',
   'Slots in Delhi, Mumbai and Bengaluru vanish weeks out over summer. Book the slot first and gather papers second. Almost everyone does it the other way round and regrets it.'),
  ('Fill in the application form', 'Online for most missions, printed and signed for the rest. Names exactly as the passport prints them, surname first.'),
@@ -59,14 +59,14 @@ VISAS = [
                  "tickets before a decision, and VFS Global centres across the network accept unpaid reservations "
                  "with a valid booking reference.",
         traps=[
-            ("Applying to the wrong consulate", "You apply to the country of your <em>main destination</em>. Where you spend the most nights. If nights are equal, apply to your country of first entry. Your flight reservation should make that obvious at a glance."),
+            ("Applying to the wrong embassy", "You apply to the country of your <em>main destination</em>. Where you spend the most nights. If nights are equal, apply to your country of first entry. Your flight reservation should make that obvious at a glance."),
             ("Gaps in accommodation", "A multi-city trip with one hotel booking is the classic error. Every night needs cover, and officers count."),
             ("Insurance that expires before the return flight", "Buy insurance after your itinerary is fixed, not before, and match the dates exactly."),
             ("Booking too far ahead", "A reservation for travel eight months out with a 48-hour hold window will have lapsed by the time your file is opened. Apply within the sensible window, typically 15 days to 6 months before travel."),
         ],
         faqs=[
-            ("Does the Schengen consulate accept an unpaid flight reservation?",
-             "<p>Yes. The requirement is for a flight <em>reservation</em> or itinerary, not proof of purchase. EU guidance explicitly warns applicants against buying non-refundable tickets before a visa decision, and consulates and VFS centres process unpaid reservations with valid booking references every day.</p>"),
+            ("Does the Schengen embassy accept an unpaid flight reservation?",
+             "<p>Yes. The requirement is for a flight <em>reservation</em> or itinerary, not proof of purchase. EU guidance explicitly warns applicants against buying non-refundable tickets before a visa decision, and embassies and VFS centres process unpaid reservations with valid booking references every day.</p>"),
             ("Do I need to show a return flight?",
              "<p>Yes. A Schengen tourist visa is issued on the basis that you will leave, so the itinerary must show both entry and exit. An onward flight out of the Schengen Area counts as an exit. It does not have to return you home.</p>"),
             ("Do I need a hotel booking for all 15 days?",
@@ -91,7 +91,7 @@ VISAS = [
  ('Issuance or reciprocity fee', 'Varies', 'Depends on nationality; many applicants pay nothing')],
         steps=[('Complete the DS-160', 'The long one. It asks for your intended arrival date and US address, which is exactly where an itinerary and hotel booking earn their keep. Save the confirmation barcode.'),
  ('Pay the MRV fee', 'Keep the receipt number safe. No receipt, no interview slot.'),
- ('Book two appointments', 'Biometrics at the visa application centre, then the consular interview. In India these are separate visits on separate days.'),
+ ('Book two appointments', 'Biometrics at the visa application centre, then the visa interview. In India these are separate visits on separate days.'),
  ('Prepare for the questions you will actually get', 'Nobody is going to admire your itinerary. They will ask what you do, who is paying, and why you will come back. Short, true answers.'),
  ('Order the flight itinerary', "A day or two before the interview, matching the DS-160 dates exactly. A contradiction on the officer's screen is a question you did not need to invite."),
  ('Attend the interview', 'Usually over in under three minutes. Take the DS-160 confirmation, appointment letter, passport and your supporting file.'),
@@ -103,7 +103,7 @@ VISAS = [
         desc="Flight itinerary for your US B1/B2 visa interview. Verifiable reservation with a live PNR, no ticket purchase before approval. %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("BOM", "JFK"),
         blurb="The US is the one major destination that explicitly tells you <em>not</em> to buy a ticket before your "
-              "interview. Consular officers care far more about your ties to home than about your itinerary, but "
+              "interview. Visa officers care far more about your ties to home than about your itinerary, but "
               "an itinerary still helps you answer the questions you will actually be asked.",
         requirements=[
             "The DS-160 asks for <strong>intended arrival date and address in the US</strong>. Your itinerary and hotel booking supply both.",
@@ -352,7 +352,7 @@ VISAS = [
  ('Multiple-entry visa', 'Revised in 2026', 'As above'),
  ('Agency handling fee', 'Varies', 'Many countries require you to apply through an accredited agency, which charges its own fee on top')],
         steps=[('Check whether you need a visa', 'Plenty of passports are exempt for 90 days.'),
- ('Find your accredited agency', 'In India and several other countries you cannot walk up to the consulate. Applications go through accredited travel agencies.'),
+ ('Find your accredited agency', 'In India and several other countries you cannot walk up to the embassy. Applications go through accredited travel agencies.'),
  ('Build the Schedule of Stay', 'Day by day: date, city, hotel name, hotel phone number. This is the document Japan genuinely cares about and the one people get wrong.'),
  ('Make the bookings match the schedule', 'Kyoto on day four means a Kyoto booking for that night. Officers do the arithmetic, every time.'),
  ('Prepare financial evidence', 'Usually six months of bank statements plus employment proof.'),
@@ -373,13 +373,13 @@ VISAS = [
             "<strong>Hotel bookings</strong> whose check-in and check-out dates match the schedule, city by city.",
             "Bank statements, usually for the last six months.",
         ],
-        official="Japanese embassies and consulates require a schedule of stay and supporting travel documents; "
+        official="Japanese embassies and embassies require a schedule of stay and supporting travel documents; "
                  "applications are typically lodged through an accredited travel agency.",
         traps=[
             ("Schedule that does not match the bookings", "The single most common Japan rejection. If the schedule says Kyoto on day 4, there must be a Kyoto booking for that night."),
             ("Missing internal moves", "Tokyo to Osaka on day 5 should appear in the schedule, not just in your head."),
             ("Applying too early", "Japanese visas are usually issued with a three-month entry window. Applying six months out wastes it."),
-            ("Assuming you can apply direct", "In many countries you must apply through an accredited agency, not at the consulate counter."),
+            ("Assuming you can apply direct", "In many countries you must apply through an accredited agency, not at the embassy counter."),
         ],
         faqs=[
             ("Does Japan require a confirmed flight booking?",
@@ -399,7 +399,7 @@ VISAS = [
  'Cappadocia balloons are cancelled often for wind. Give yourself three mornings there, not one.',
  'Bargaining is expected in the Grand Bazaar and nowhere else. Fixed prices in ordinary shops are fixed.'],
         official_src=('Republic of Turkiye e-Visa', 'https://www.evisa.gov.tr/en/'),
-        fees=[('e-Visa', 'US$20 to US$60', 'Depends on nationality. Some passports pay nothing'), ('Sticker visa at a consulate', 'Varies', 'For nationalities not eligible for the e-Visa')],
+        fees=[('e-Visa', 'US$20 to US$60', 'Depends on nationality. Some passports pay nothing'), ('Sticker visa at an embassy', 'Varies', 'For nationalities not eligible for the e-Visa')],
         steps=[('Check e-Visa eligibility on evisa.gov.tr', 'That is the official site. Look-alike sites charge a markup for the identical thing.'),
  ('Check passport validity', 'Turkey wants at least 150 days from entry for most e-Visa nationalities. Stricter than the usual six months, and regularly missed.'),
  ('Apply online', 'Ten minutes. The visa lands by email, often within the hour.'),
@@ -414,7 +414,7 @@ VISAS = [
         desc="Flight reservation and hotel booking for a Turkey e-visa or sticker visa. Verifiable PNR, delivered in %s from %s." % (DELIVERY, money(PRICE_FLIGHT)),
         route=("DEL", "IST"),
         blurb="Turkey's e-visa is quick for eligible nationalities, but the checks happen at the airport instead of "
-              "at a consulate: airline staff and Turkish immigration both ask for onward travel and accommodation.",
+              "at an embassy: airline staff and Turkish immigration both ask for onward travel and accommodation.",
         requirements=[
             "A <strong>return or onward flight booking</strong>: checked at check-in and on arrival.",
             "<strong>Hotel booking</strong> or host address for the duration of the stay.",
@@ -498,8 +498,8 @@ VISAS = [
         official_src=('Korea Visa Portal', 'https://www.visa.go.kr/'),
         fees=[('C-3 short-term visit, single entry', 'US$40', ''), ('C-3 multiple entry', 'US$90', ''), ('K-ETA', 'KRW 10,000', 'Visa-waiver nationalities, applied for before travel')],
         steps=[('Work out whether you need a visa or a K-ETA', 'Two different lists, and they change. Check before preparing anything else.'),
- ('Apply through the Korea Visa Portal or your consulate', 'Some missions insist on an accredited agency.'),
- ('Get the financial evidence right', 'Korean consulates weigh this heavily. A steady balance across months beats a large deposit that appeared last week.'),
+ ('Apply through the Korea Visa Portal or your embassy', 'Some missions insist on an accredited agency.'),
+ ('Get the financial evidence right', 'Korean embassies weigh this heavily. A steady balance across months beats a large deposit that appeared last week.'),
  ('Prepare accommodation and itinerary', 'Round trip with fixed dates, and somewhere to stay for the whole visit.'),
  ('Order the flight itinerary near submission', 'Not weeks ahead.'),
  ('Submit and wait a week or two', 'Usually quick, but it varies by mission and season.'),
@@ -510,7 +510,7 @@ VISAS = [
         title="Flight Itinerary for Korea Visa | C-3 Reservation %s" % money(PRICE_FLIGHT),
         desc="Flight itinerary and hotel bookings for a South Korean C-3 tourist visa or K-ETA entry. Verifiable PNR from %s, delivered in %s." % (money(PRICE_FLIGHT), DELIVERY),
         route=("DEL", "ICN"),
-        blurb="Korean consulates want a documented plan: a round-trip itinerary, accommodation for the stay, and "
+        blurb="Korean embassies want a documented plan: a round-trip itinerary, accommodation for the stay, and "
               "financial evidence. K-ETA travellers face a lighter process but the same onward-travel checks at the "
               "airport.",
         requirements=[
@@ -523,7 +523,7 @@ VISAS = [
                  "tourist visa applications.",
         traps=[
             ("K-ETA confusion", "Check whether your nationality needs a visa or a K-ETA before preparing a full file. The lists change."),
-            ("Thin financial evidence", "Korean consulates weigh finances heavily. Statements should show a stable balance, not a sudden deposit."),
+            ("Thin financial evidence", "Korean embassies weigh finances heavily. Statements should show a stable balance, not a sudden deposit."),
             ("Itinerary longer than the C-3 allowance", "Usually 90 days maximum. Keep the return leg inside it."),
         ],
         faqs=[

@@ -181,12 +181,12 @@ dict(
     ],
     steps=[
         ("Check whether the 14-day waiver applies to you", "Valid US, UK, Schengen, Japan, Australia or Canada visa in the passport."),
-        ("If not, apply for the e-visa", "Through the official Bureau of Immigration channel or your nearest consulate."),
+        ("If not, apply for the e-visa", "Through the official Bureau of Immigration channel or your nearest embassy."),
         ("Register on eTravel", "Within 72 hours before arrival. Free."),
         ("Have onward travel ready", "Within your permitted stay. Enforced firmly here."),
         ("Extend locally if you need longer", "At a Bureau of Immigration office, straightforward but not free."),
     ],
-    fees=[("e-visa", "About USD 30 to 40", "Varies by consulate"),
+    fees=[("e-visa", "About USD 30 to 40", "Varies by embassy"),
           ("14-day waiver", "Free", "With a qualifying third-country visa"),
           ("eTravel", "Free", "Mandatory for everyone")],
     tips=[

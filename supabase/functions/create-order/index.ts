@@ -59,6 +59,8 @@ async function sha256Hex(input: string) {
 // Both messages go out the moment the row is written, not on payment. An order
 // that exists but that nobody was told about is the worst failure mode here:
 // the customer thinks nothing happened and you never learn there was a sale.
+const TITLES = new Set(["Mr", "Mrs", "Ms", "Miss", "Mstr", "Dr"]);
+
 const RESEND = Deno.env.get("RESEND_API_KEY");
 const NOTIFY_TO = Deno.env.get("NOTIFY_EMAIL");
 const NOTIFY_FROM = Deno.env.get("NOTIFY_FROM") ?? "support@visaflighttickets.com";
@@ -88,7 +90,8 @@ async function send(to: string[], subject: string, html: string, replyTo?: strin
 
 type MailCtx = {
   ref: string; amount_minor: number; service: string; trip: string;
-  travellers: number; passengers: { surname: string; given_name: string; dob: string | null }[];
+  travellers: number;
+  passengers: { title: string; surname: string; given_name: string; dob: string | null }[];
   origin: string; destination: string; depart: string; ret: string;
   email: string; phone: string; notes: string; legs: unknown[];
 };
@@ -131,7 +134,7 @@ function paxList(c: MailCtx) {
   if (!c.passengers.length) return "";
   const items = c.passengers
     .map((p, i) =>
-      `<li>${esc(p.surname)}, ${esc(p.given_name)}` +
+      `<li>${p.title ? esc(p.title) + " " : ""}${esc(p.surname)}, ${esc(p.given_name)}` +
       (p.dob ? ` <span style="color:#667">(${esc(p.dob)})</span>` : "") +
       (i === 0 ? ' <span style="color:#667">- lead</span>' : "") + "</li>")
     .join("");
@@ -212,6 +215,7 @@ Deno.serve(async (req) => {
   const passengers = rawPax
     .slice(0, MAX_TRAVELLERS)
     .map((p: Record<string, unknown>) => ({
+      title: TITLES.has(str(p?.title, 5)) ? str(p?.title, 5) : "",
       surname: str(p?.surname, 80),
       given_name: str(p?.given_name, 80),
       dob: isDate(str(p?.dob, 10)) ? str(p?.dob, 10) : null,
