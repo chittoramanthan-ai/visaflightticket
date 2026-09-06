@@ -91,7 +91,10 @@ async function send(to: string[], subject: string, html: string, replyTo?: strin
 type MailCtx = {
   ref: string; amount_minor: number; service: string; trip: string;
   travellers: number;
-  passengers: { title: string; surname: string; given_name: string; dob: string | null }[];
+  passengers: {
+    title: string; surname: string; given_name: string; dob: string | null;
+    passport: string; passport_issue: string | null; passport_expiry: string | null;
+  }[];
   origin: string; destination: string; depart: string; ret: string;
   email: string; phone: string; notes: string; legs: unknown[];
 };
@@ -136,7 +139,12 @@ function paxList(c: MailCtx) {
     .map((p, i) =>
       `<li>${p.title ? esc(p.title) + " " : ""}${esc(p.surname)}, ${esc(p.given_name)}` +
       (p.dob ? ` <span style="color:#667">(${esc(p.dob)})</span>` : "") +
-      (i === 0 ? ' <span style="color:#667">- lead</span>' : "") + "</li>")
+      (i === 0 ? ' <span style="color:#667">- lead</span>' : "") +
+      (p.passport
+        ? `<br><span style="color:#667">Passport ${esc(p.passport)}` +
+          (p.passport_issue ? `, issued ${esc(p.passport_issue)}` : "") +
+          (p.passport_expiry ? `, expires ${esc(p.passport_expiry)}` : "") + "</span>"
+        : "") + "</li>")
     .join("");
   return `<p style="margin:18px 0 6px"><b>Travellers</b></p>
           <ol style="margin:0;padding-left:20px">${items}</ol>`;
@@ -219,6 +227,12 @@ Deno.serve(async (req) => {
       surname: str(p?.surname, 80),
       given_name: str(p?.given_name, 80),
       dob: isDate(str(p?.dob, 10)) ? str(p?.dob, 10) : null,
+      // The order form collects these, so they have to survive the allowlist.
+      // Without them the fields were accepted and silently discarded, which is
+      // worse than not asking: the form implies they were recorded.
+      passport: str(p?.passport, 20).toUpperCase(),
+      passport_issue: isDate(str(p?.passport_issue, 10)) ? str(p?.passport_issue, 10) : null,
+      passport_expiry: isDate(str(p?.passport_expiry, 10)) ? str(p?.passport_expiry, 10) : null,
     }))
     .filter((p) => p.surname || p.given_name);
 
