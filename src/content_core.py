@@ -526,6 +526,8 @@ def flight_page():
     product = {
         "@type": "Product",
         "name": "Flight reservation for visa application",
+        "image": SITE_URL + "/assets/img/og-default.jpg",
+        "sku": "VFT-FLIGHT",
         "description": "A genuine, airline-held flight reservation with a live PNR, issued in the traveller's name for visa applications and verifiable on the airline website.",
         "brand": {"@id": SITE_URL + "/#organization"},
         "offers": {
@@ -641,6 +643,8 @@ def hotel_page():
     product = {
         "@type": "Product",
         "name": "Hotel booking for visa application",
+        "image": SITE_URL + "/assets/img/og-default.jpg",
+        "sku": "VFT-HOTEL",
         "description": "A confirmed hotel reservation in the applicant's name with a booking reference, covering every night of the trip, issued for visa applications.",
         "brand": {"@id": SITE_URL + "/#organization"},
         "offers": {"@type": "Offer", "price": str(PRICE_HOTEL), "priceCurrency": CURRENCY_CODE,
@@ -725,6 +729,8 @@ def combo_page():
     product = {
         "@type": "Product",
         "name": "Flight and hotel booking package for visa application",
+        "image": SITE_URL + "/assets/img/og-default.jpg",
+        "sku": "VFT-BUNDLE",
         "description": "Bundled flight reservation with live PNR and confirmed hotel booking, date-reconciled for visa applications.",
         "brand": {"@id": SITE_URL + "/#organization"},
         "offers": {"@type": "Offer", "price": str(PRICE_BOTH), "priceCurrency": CURRENCY_CODE,
