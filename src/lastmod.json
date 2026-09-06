@@ -1,302 +1,302 @@
 {
  "": {
   "date": "2026-09-06",
-  "hash": "0735920b25bb4810"
+  "hash": "54ba2f90d20d02a5"
  },
  "about": {
   "date": "2026-09-06",
-  "hash": "1ecb42d850b81b6a"
+  "hash": "df06905092f37fae"
  },
  "blog": {
   "date": "2026-09-06",
-  "hash": "b6cfb6d300a7c518"
+  "hash": "179362ee3ac7e84d"
  },
  "blog/common-visa-rejection-reasons": {
   "date": "2026-09-06",
-  "hash": "025eec927bb55f64"
+  "hash": "f6fe36b0341269b6"
  },
  "blog/do-embassies-call-the-airline": {
   "date": "2026-09-06",
-  "hash": "952d05ffb6b8dd2a"
+  "hash": "32b4dea0b46b9df2"
  },
  "blog/do-embassies-verify-flight-bookings": {
   "date": "2026-09-06",
-  "hash": "2f3463e8a506f262"
+  "hash": "8304c79f54132413"
  },
  "blog/dummy-ticket-vs-refundable-ticket": {
   "date": "2026-09-06",
-  "hash": "22bd23d5d286609b"
+  "hash": "e9af95d7c4e5389c"
  },
  "blog/flight-reservation-vs-confirmed-ticket": {
   "date": "2026-09-06",
-  "hash": "60d8c0d788d0c0c9"
+  "hash": "7a320d62c589a386"
  },
  "blog/hotel-booking-for-visa-application": {
   "date": "2026-09-06",
-  "hash": "1384e09f33dc7986"
+  "hash": "f9492910e8be2f76"
  },
  "blog/how-long-is-a-flight-reservation-valid": {
   "date": "2026-09-06",
-  "hash": "f9cd88bced25eee6"
+  "hash": "ac12a5ee6fbc7a73"
  },
  "blog/how-to-choose-a-dummy-ticket-service": {
   "date": "2026-09-06",
-  "hash": "6ebdb12bf37f0a76"
+  "hash": "ef832e92ac72aacf"
  },
  "blog/is-a-dummy-ticket-legal": {
   "date": "2026-09-06",
-  "hash": "d697ddffabf77bb3"
+  "hash": "4ca4d96ea7caf4ab"
  },
  "blog/proof-of-onward-travel-explained": {
   "date": "2026-09-06",
-  "hash": "e2c7f095dacf50cf"
+  "hash": "0e74211db0fe0d1d"
  },
  "blog/schengen-visa-appointment-flight-reservation": {
   "date": "2026-09-06",
-  "hash": "e1e421e005d88be7"
+  "hash": "047161ab5df7a1f0"
  },
  "blog/visa-application-document-checklist": {
   "date": "2026-09-06",
-  "hash": "91f3e2a8d1eebb4c"
+  "hash": "218532b83f8462aa"
  },
  "blog/what-is-a-dummy-ticket": {
   "date": "2026-09-06",
-  "hash": "eb6ea2f4108d7a2d"
+  "hash": "308a312401d010e6"
  },
  "bulk-orders": {
   "date": "2026-09-06",
-  "hash": "9a6f3fa490f125dc"
+  "hash": "7c0f52c77d0707e6"
  },
  "cancellation-policy": {
   "date": "2026-09-06",
-  "hash": "92d91e5adb703eff"
+  "hash": "e01e4dbbc7ae6c10"
  },
  "contact": {
   "date": "2026-09-06",
-  "hash": "cdb03c34a55074e7"
+  "hash": "dd4b7612193a4412"
  },
  "faq": {
   "date": "2026-09-06",
-  "hash": "be43d3542da870d2"
+  "hash": "c9ce5ad8ea092b91"
  },
  "flight-and-hotel-package": {
   "date": "2026-09-06",
-  "hash": "92fb98d0e751d769"
+  "hash": "fbce4ba402007aef"
  },
  "flight-reservation-for-visa": {
   "date": "2026-09-06",
-  "hash": "cc13ee42f354dfb9"
+  "hash": "1b401a75b8b5b390"
  },
  "hotel-booking-for-visa": {
   "date": "2026-09-06",
-  "hash": "3d2827020f702eea"
+  "hash": "d2e05b5e47c01003"
  },
  "how-it-works": {
   "date": "2026-09-06",
-  "hash": "2651687e7a3079b3"
+  "hash": "7de2d824e9e0e7c7"
  },
  "login": {
   "date": "2026-09-06",
-  "hash": "111e43a8dabbab70"
+  "hash": "e78cc7603628df9b"
  },
  "order": {
   "date": "2026-09-06",
-  "hash": "4333aea4cb8e7512"
+  "hash": "6bad1f65cd86f99c"
  },
  "order/thank-you": {
   "date": "2026-09-06",
-  "hash": "ee74a8ba84c7d842"
+  "hash": "be0ef71d0736b1e7"
  },
  "pricing": {
   "date": "2026-09-06",
-  "hash": "69e678f4f8197524"
+  "hash": "8f66c305359b39fa"
  },
  "privacy-policy": {
   "date": "2026-09-06",
-  "hash": "a8e8f2b608b8afde"
+  "hash": "d7bf94aa0858082c"
  },
  "proof-of-onward-travel": {
   "date": "2026-09-06",
-  "hash": "766abfd0a8feec5c"
+  "hash": "aa524ac24d50a077"
  },
  "refund-policy": {
   "date": "2026-09-06",
-  "hash": "168504d176a680d2"
+  "hash": "3b668eb1d8e19a63"
  },
  "terms": {
   "date": "2026-09-06",
-  "hash": "65342fe2fe5794ef"
+  "hash": "33dba4dd7558cb5b"
  },
  "travel-esim": {
   "date": "2026-09-06",
-  "hash": "22b7cd6409406357"
+  "hash": "8b01a0d85a956031"
  },
  "travel-insurance-for-visa": {
   "date": "2026-09-06",
-  "hash": "89ada747a10f24ac"
+  "hash": "58422dc08bdd51c0"
  },
  "verify-pnr": {
   "date": "2026-09-06",
-  "hash": "7f60467efa7362a8"
+  "hash": "461e12db818d34e6"
  },
  "visa": {
   "date": "2026-09-06",
-  "hash": "c2630ee194dc7a05"
+  "hash": "ce47b33604abe64f"
  },
  "visa-consultation": {
   "date": "2026-09-06",
-  "hash": "13006f269725d476"
+  "hash": "b0edd7fc737f4950"
  },
  "visa/australia-visa-flight-reservation": {
   "date": "2026-09-06",
-  "hash": "302296e7a1aa8393"
+  "hash": "5ff233618fdc9a8c"
  },
  "visa/azerbaijan-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "90a24280f3be195b"
+  "hash": "38ba994d5b539ce6"
  },
  "visa/bahrain-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "38178574f5eaa594"
+  "hash": "ab7a0d0c4cae0840"
  },
  "visa/bhutan-permit-for-indians": {
   "date": "2026-09-06",
-  "hash": "3da467bb9c1ffd11"
+  "hash": "4498993fd6f92050"
  },
  "visa/brazil-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "29a82d634260f6e5"
+  "hash": "3edff1766ce88fbf"
  },
  "visa/cambodia-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "4c6bb63b9494fccc"
+  "hash": "a5451996a182d718"
  },
  "visa/canada-visa-flight-itinerary": {
   "date": "2026-09-06",
-  "hash": "6d6e8de870e989b7"
+  "hash": "5d48eeba37b2c476"
  },
  "visa/dubai-uae-visa-flight-ticket": {
   "date": "2026-09-06",
-  "hash": "0d7002833a31b3ea"
+  "hash": "c069b27a408d9dda"
  },
  "visa/egypt-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "1249d55678a33e35"
+  "hash": "dcdf2d509c3ff5d0"
  },
  "visa/georgia-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "16ece9e48a64ed5a"
+  "hash": "9fdf12a47d700b55"
  },
  "visa/hong-kong-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "25a9c87101296b8d"
+  "hash": "0df9c1112a27e69a"
  },
  "visa/indonesia-bali-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "ccaf47afcb9b427f"
+  "hash": "b8f9ab2f69f1e4d7"
  },
  "visa/japan-visa-flight-itinerary": {
   "date": "2026-09-06",
-  "hash": "4b7b405e773314d4"
+  "hash": "7fb88f44cbd04aaf"
  },
  "visa/kazakhstan-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "cc83678cd11a8ff4"
+  "hash": "89d5d4a24bba43ee"
  },
  "visa/kenya-eta-for-indians": {
   "date": "2026-09-06",
-  "hash": "36b27900a4da6966"
+  "hash": "0a7c30516b39d572"
  },
  "visa/kuwait-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "17aec15ce2fc9139"
+  "hash": "e761f11ee0431c62"
  },
  "visa/malaysia-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "9548e734545ce673"
+  "hash": "e73dfbcd27cdad92"
  },
  "visa/maldives-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "68440fda97d3e303"
+  "hash": "7166b1a8d97b140a"
  },
  "visa/mauritius-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "658cf1c5f11e3647"
+  "hash": "a7c407d5b7b830d5"
  },
  "visa/morocco-evisa-for-indians": {
   "date": "2026-09-06",
-  "hash": "0e891519bf10653d"
+  "hash": "7d60218923ed1981"
  },
  "visa/nepal-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "c5c3c004227fb6ae"
+  "hash": "3022ecaab0b82e0c"
  },
  "visa/new-zealand-visa-flight-ticket": {
   "date": "2026-09-06",
-  "hash": "380ceafe283ffd7b"
+  "hash": "c25d26677291395a"
  },
  "visa/oman-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "f5c503e995ae6171"
+  "hash": "9bea7fd2a46bdac0"
  },
  "visa/philippines-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "b0a5daf17afec7b7"
+  "hash": "8d84f44bc1668200"
  },
  "visa/qatar-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "9271e152ef0811f0"
+  "hash": "fa14b515662d385f"
  },
  "visa/russia-evisa-for-indians": {
   "date": "2026-09-06",
-  "hash": "d6f7e270dcf6931c"
+  "hash": "09440aaf4798a1e8"
  },
  "visa/saudi-arabia-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "37724d6a26be0538"
+  "hash": "5b88c7ebb40b3008"
  },
  "visa/schengen-visa-flight-reservation": {
   "date": "2026-09-06",
-  "hash": "90b294d92aeba712"
+  "hash": "f9e66113d9604051"
  },
  "visa/singapore-visa-flight-ticket": {
   "date": "2026-09-06",
-  "hash": "bbf349bae2e05410"
+  "hash": "1371bd09f2b8ad92"
  },
  "visa/south-africa-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "6dbc7170f1129941"
+  "hash": "98dc30ad132affa3"
  },
  "visa/south-korea-visa-flight-itinerary": {
   "date": "2026-09-06",
-  "hash": "88992f56d93ef6d1"
+  "hash": "877b69f69a96ce37"
  },
  "visa/sri-lanka-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "2f8a831dc783c7db"
+  "hash": "071a411bf35527d9"
  },
  "visa/thailand-visa-flight-ticket": {
   "date": "2026-09-06",
-  "hash": "64a96e7fe8c85eed"
+  "hash": "c5e620cd45ca9976"
  },
  "visa/turkey-visa-flight-ticket": {
   "date": "2026-09-06",
-  "hash": "af1e3e43571f589a"
+  "hash": "063dda9ac98dbbab"
  },
  "visa/uk-visa-flight-reservation": {
   "date": "2026-09-06",
-  "hash": "cdc4dbff34764214"
+  "hash": "c32787a53c9eed2c"
  },
  "visa/us-visa-flight-itinerary": {
   "date": "2026-09-06",
-  "hash": "a74200e7b5722fca"
+  "hash": "6caf0af3fca05c24"
  },
  "visa/uzbekistan-visa-for-indians": {
   "date": "2026-09-06",
-  "hash": "d71e6068cdc82ba7"
+  "hash": "70daa6c07808f875"
  },
  "visa/vietnam-evisa-for-indians": {
   "date": "2026-09-06",
-  "hash": "2ac86fd31cdff837"
+  "hash": "b67e19edafce74ba"
  }
 }

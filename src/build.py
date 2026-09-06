@@ -198,6 +198,25 @@ def _load_lastmod():
 
 _LASTMOD_OLD = _load_lastmod()
 _LASTMOD_NEW = {}
+_GLOBAL_FP = None
+
+
+def _global_fp():
+    """Fingerprint of what every page carries regardless of its content:
+    the wrapper template and the two schema nodes injected into every graph.
+
+    Without this, editing PAGE_TPL or ORG_SCHEMA rewrites all 73 pages while
+    every lastmod stays put - the mirror image of the bug this module exists
+    to fix, and harder to notice. Safe to hash: the template holds a {css}
+    placeholder, not the asset hash, so a stylesheet edit does not reach it.
+    """
+    global _GLOBAL_FP
+    if _GLOBAL_FP is None:
+        import hashlib
+        blob = PAGE_TPL + json.dumps([ORG_SCHEMA, WEBSITE_SCHEMA],
+                                     sort_keys=True, default=str)
+        _GLOBAL_FP = hashlib.sha1(blob.encode("utf-8")).hexdigest()[:12]
+    return _GLOBAL_FP
 
 
 def _content_date(slug, *parts):
@@ -1209,7 +1228,8 @@ def add_page(slug, title, description, body, schema=None, og_type="website",
     if lastmod is None:
         lastmod = _content_date(
             slug, title, description, body,
-            json.dumps(schema or [], sort_keys=True, default=str))
+            json.dumps(schema or [], sort_keys=True, default=str),
+            _global_fp())
     PAGES.append(dict(
         slug=slug, title=title, description=description, body=body,
         schema=schema or [], og_type=og_type, og_title=og_title or title,
