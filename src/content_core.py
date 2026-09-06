@@ -644,7 +644,8 @@ def hotel_page():
         "description": "A confirmed hotel reservation in the applicant's name with a booking reference, covering every night of the trip, issued for visa applications.",
         "brand": {"@id": SITE_URL + "/#organization"},
         "offers": {"@type": "Offer", "price": str(PRICE_HOTEL), "priceCurrency": CURRENCY_CODE,
-                   "availability": "https://schema.org/InStock", "url": abs_url("order")},
+                   "availability": "https://schema.org/InStock", "url": abs_url("order"),
+                   "priceValidUntil": "%d-12-31" % (int(TODAY[:4]) + 1)},
     }
     add_page(slug,
              "Hotel Booking for Visa | Confirmed Reservation from %s" % money(PRICE_HOTEL),
@@ -727,7 +728,8 @@ def combo_page():
         "description": "Bundled flight reservation with live PNR and confirmed hotel booking, date-reconciled for visa applications.",
         "brand": {"@id": SITE_URL + "/#organization"},
         "offers": {"@type": "Offer", "price": str(PRICE_BOTH), "priceCurrency": CURRENCY_CODE,
-                   "availability": "https://schema.org/InStock", "url": abs_url("order")},
+                   "availability": "https://schema.org/InStock", "url": abs_url("order"),
+                   "priceValidUntil": "%d-12-31" % (int(TODAY[:4]) + 1)},
     }
     add_page(slug,
              "Flight + Hotel Booking for Visa | Complete Pack %s" % money(PRICE_BOTH),

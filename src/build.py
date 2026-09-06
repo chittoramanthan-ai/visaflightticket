@@ -1222,8 +1222,15 @@ def write_pages(visa_links):
     for p in PAGES:
         active = p["slug"].split("/")[0]
         graph = list(p["schema"])
-        if p["slug"] == "":
-            graph = [ORG_SCHEMA, WEBSITE_SCHEMA] + graph
+        # Organization goes on every page, not just the home page. Product
+        # brand, Service provider and BlogPosting publisher all reference it by
+        # @id, and Google resolves @id only within the page it is reading. On
+        # every inner page those references were dangling, which is how a
+        # Product with a perfectly good Offer got reported as having none:
+        # the whole node is discarded when a required property will not
+        # resolve. WebSite stays home-only, since its SearchAction describes
+        # the site entry point.
+        graph = [ORG_SCHEMA, WEBSITE_SCHEMA] + graph
         html = PAGE_TPL.format(
             analytics=analytics_tag(),
             title=p["title"],

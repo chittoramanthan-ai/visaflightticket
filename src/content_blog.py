@@ -974,6 +974,10 @@ def _post(p, index):
     }
 
     add_page(slug, page_title(p["meta_title"]), trim_desc(p["desc"]), body,
-             schema=[c_schema, article, faq_schema(p["faqs"])],
+             schema=[c_schema, article, faq_schema(p["faqs"]),
+                     # The post's isPartOf points here, and Google resolves
+                     # @id only inside the page it is reading.
+                     {"@type": "Blog", "@id": abs_url("blog") + "#blog",
+                      "url": abs_url("blog"), "name": "%s blog" % BRAND}],
              og_type="article", og_title=p["title"],
              priority="0.7", changefreq="monthly")
