@@ -616,7 +616,7 @@ def pricing_tickets(featured="both", prefill=""):
                "Order hotel booking", "order?service=hotel" + prefill, code="HOTEL", featured=(featured == "hotel")),
         ticket("Flight + Hotel", "The complete travel-proof bundle most embassies ask for. Best value.",
                PRICE_BOTH,
-               ["One way %s, return %s, per traveller" % (money(PRICE_BOTH), money(PRICE_BOTH + PRICE_FLIGHT)),
+               ["One way %s, return %s, per traveller" % (money(PRICE_BOTH), money(PRICE_BOTH * 2)),
              "Everything in both plans above",
                 "Dates cross-checked for consistency",
                 "One PDF pack, ready to upload",

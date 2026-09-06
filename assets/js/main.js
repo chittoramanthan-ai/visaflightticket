@@ -156,7 +156,10 @@
     }
     function unitPrice(svc, legs) {
       if (svc === 'hotel') return P_HOTEL;
-      if (svc === 'both') return P_FLIGHT * legs + P_HOTEL - BUNDLE_SAVING;
+      // 'both' is flat: one way, or double for anything that is not.
+      // It deliberately does not scale with leg count, so a five-leg
+      // multi-city bundle costs the same as a return.
+      if (svc === 'both') return (P_FLIGHT + P_HOTEL - BUNDLE_SAVING) * (legs > 1 ? 2 : 1);
       return P_FLIGHT * legs;
     }
     // ---- currency toggle -------------------------------------------------
@@ -185,9 +188,21 @@
       // The three service options quote a price too. Leaving them in rupees
       // while the total switched to dollars is the sort of half-applied toggle
       // that makes people distrust the number they are about to pay.
+      paintOpts();
+    }
+
+    // The three service options quote a price, and that price depends on the
+    // leg count exactly as the total does. Painting them from a static
+    // data-inr left the bundle option reading "one way" money next to a
+    // return total, which reads as a bug in the total rather than a stale
+    // label. Derived from unitPrice() so the two can never disagree.
+    function paintOpts() {
+      var legs = legCount();
       var opts = form.querySelectorAll('.optprice');
       for (var o = 0; o < opts.length; o++) {
-        opts[o].textContent = fmt(parseInt(opts[o].getAttribute('data-inr'), 10));
+        var row = opts[o].closest('.opt');
+        var input = row && row.querySelector('input[name="service"]');
+        opts[o].textContent = fmt(unitPrice(input ? input.value : 'flight', legs));
       }
     }
     for (var ci = 0; ci < curBtns.length; ci++) {
@@ -211,6 +226,7 @@
       var pax = form.querySelectorAll('#pax-list .pax').length || 1;
       var legs = legCount();
       var unit = unitPrice(svc, legs);
+      paintOpts();
       if (out) out.textContent = fmt(unit * pax);
       if (lineOut) {
         var bits = fmt(unit) + ' x ' + pax + ' traveller' + (pax > 1 ? 's' : '');
@@ -401,7 +417,7 @@
     function bwPrice() {
       var legs = bwLegs();
       if (service === 'hotel') return BW_HOTEL;
-      if (service === 'both') return BW_FLIGHT * legs + BW_HOTEL - BW_SAVING;
+      if (service === 'both') return (BW_FLIGHT + BW_HOTEL - BW_SAVING) * (legs > 1 ? 2 : 1);
       return BW_FLIGHT * legs;
     }
     var LABELS = {
