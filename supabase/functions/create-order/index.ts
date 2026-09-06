@@ -267,10 +267,11 @@ Deno.serve(async (req) => {
   const unit = service === "hotel"
     ? P_HOTEL
     : service === "both"
-      // Flat: one way, or double for anything that is not. Must stay in
-      // step with unitPrice() in main.js; this copy is the authoritative
-      // one, the browser never supplies an amount.
-      ? (P_FLIGHT + P_HOTEL - BUNDLE_SAVING) * (legs > 1 ? 2 : 1)
+      // The one-way bundle charged per leg, so a return is double and a
+      // multi-city keeps rising. Must stay in step with unitPrice() in
+      // main.js; this copy is authoritative, the browser never supplies an
+      // amount.
+      ? (P_FLIGHT + P_HOTEL - BUNDLE_SAVING) * legs
       : P_FLIGHT * legs;
   const amount_minor = unit * travellers;
 

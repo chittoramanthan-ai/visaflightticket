@@ -156,10 +156,11 @@
     }
     function unitPrice(svc, legs) {
       if (svc === 'hotel') return P_HOTEL;
-      // 'both' is flat: one way, or double for anything that is not.
-      // It deliberately does not scale with leg count, so a five-leg
-      // multi-city bundle costs the same as a return.
-      if (svc === 'both') return (P_FLIGHT + P_HOTEL - BUNDLE_SAVING) * (legs > 1 ? 2 : 1);
+      // 'both' is the one-way bundle charged per leg. A return is exactly
+      // double, and a multi-city keeps rising with the legs - which matches
+      // the work, since each leg is another reservation and another city to
+      // book a bed in.
+      if (svc === 'both') return (P_FLIGHT + P_HOTEL - BUNDLE_SAVING) * legs;
       return P_FLIGHT * legs;
     }
     // ---- currency toggle -------------------------------------------------
@@ -417,7 +418,7 @@
     function bwPrice() {
       var legs = bwLegs();
       if (service === 'hotel') return BW_HOTEL;
-      if (service === 'both') return (BW_FLIGHT + BW_HOTEL - BW_SAVING) * (legs > 1 ? 2 : 1);
+      if (service === 'both') return (BW_FLIGHT + BW_HOTEL - BW_SAVING) * legs;
       return BW_FLIGHT * legs;
     }
     var LABELS = {
