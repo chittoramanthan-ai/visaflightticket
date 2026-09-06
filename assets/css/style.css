@@ -1709,39 +1709,3 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 @supports not selector(:has(*)) {
   .btn .usd-alt{ margin-left:calc(.28rem - .5rem); }
 }
-
-/* Country tiles. The reference design uses photography; this uses a
-   slug-derived gradient, so a country is always the same colour, it costs no
-   bytes, and it cannot break the no-external-hosts rule. To move to photos
-   later, set a background-image on .ccard - the markup does not change. */
-.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(186px,1fr));gap:16px}
-.ccard{
-  position:relative;display:flex;flex-direction:column;justify-content:flex-end;
-  min-height:230px;padding:16px;border-radius:16px;overflow:hidden;
-  color:#fff;text-decoration:none;
-  background:linear-gradient(180deg,transparent 34%,rgba(0,0,0,.5) 100%),
-             linear-gradient(155deg,hsl(var(--h) 46% 38%),hsl(var(--h2) 54% 16%));
-  transition:transform .18s ease,box-shadow .18s ease;
-}
-.ccard:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,.24)}
-.ccard:focus-visible{outline:3px solid var(--brand);outline-offset:3px}
-.ccard__name{
-  font-size:1.04rem;font-weight:750;letter-spacing:.02em;text-transform:uppercase;
-  line-height:1.16;margin-bottom:12px;color:#fff;
-}
-.ccard__strip{display:flex;gap:16px;border-top:1px solid rgba(255,255,255,.3);padding-top:10px}
-.ccard__strip>span{min-width:0}
-.ccard__k{
-  display:block;font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;
-  font-weight:650;color:rgba(255,255,255,.74);margin-bottom:3px;
-}
-.ccard__v{
-  display:block;font-size:.79rem;font-weight:650;color:#fff;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-@media (prefers-reduced-motion:reduce){.ccard{transition:none}.ccard:hover{transform:none}}
-@media (max-width:400px){
-  .cgrid{grid-template-columns:1fr 1fr;gap:12px}
-  .ccard{min-height:196px;padding:13px}
-  .ccard__name{font-size:.92rem}
-}
