@@ -4,7 +4,7 @@ from urllib.parse import quote
 """Travel insurance and eSIM: the two things people buy right after the visa."""
 
 from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
-                   PRICE_FLIGHT, PRICE_BOTH, PRICE_ESIM, PRICE_INSURE, PRICE_CONSULT, PRICE_CONSULT_ONLY,
+                   PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, PRICE_ESIM, PRICE_INSURE, PRICE_CONSULT, PRICE_CONSULT_ONLY,
                    CURRENCY_CODE, SHOW_USD, usd, money, add_page, url, abs_url,
                    faq_block, faq_schema, crumbs, cta_band, ticket, doodles,
                    WHATSAPP)
@@ -129,12 +129,18 @@ def insurance():
                 "Insurance that matches the itinerary, because we issued the itinerary."))
 
     product = {
-        "@type": "Product",
+        # Service, not Product. Google's Product snippets require one of
+        # offers/review/aggregateRating, and none is available honestly:
+        # neither page publishes a price (insurance is quote-based), and
+        # inventing reviews is fraud. Service carries no such requirement
+        # and is the accurate type anyway - we arrange these, we do not
+        # stock them. Matches the consultation page, which is already Service.
+        "@type": "Service",
         "name": "Travel insurance for visa applications",
+        "serviceType": "Travel insurance arrangement",
         "description": "Schengen-compliant travel medical insurance with EUR 30,000 cover, arranged through licensed insurers and matched to the applicant's flight dates.",
-        "brand": {"@id": SITE_URL + "/#organization"},
-        # No Offer node: an Offer needs a price, and we are no longer
-        # publishing one. A priceless Offer is invalid structured data.
+        "provider": {"@id": SITE_URL + "/#organization"},
+        "areaServed": "IN",
         "url": abs_url("travel-insurance-for-visa"),
     }
     add_page(slug, "Travel Insurance for Visa | Schengen &euro;30,000 Medical Cover",
@@ -246,11 +252,13 @@ def esim():
                 "Install on wifi at home, land with data already working."))
 
     product = {
-        "@type": "Product",
+        # Service, not Product: see the insurance page above.
+        "@type": "Service",
         "name": "Travel eSIM data packs",
+        "serviceType": "Travel eSIM provisioning",
         "description": "Prepaid travel eSIM data packs for single countries, regions or worldwide, delivered by QR code and installed before departure.",
-        "brand": {"@id": SITE_URL + "/#organization"},
-        # No Offer node: see the insurance page above.
+        "provider": {"@id": SITE_URL + "/#organization"},
+        "areaServed": "IN",
         "url": abs_url("travel-esim"),
     }
     add_page(slug, "Travel eSIM for Indians | Data Packs That Keep Your Number",
@@ -418,6 +426,64 @@ def consultation():
   </div>
 </section>
 
+
+<section class="band">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:2.2rem">
+      <h2>Countries we help with</h2>
+      <p class="lede">Every guide is written for an Indian passport. Open one for the
+      requirements, the fees and the mistakes that get files returned.</p>
+    </div>
+    %s
+    <div class="center" style="margin-top:2rem">
+      <a class="btn btn--ghost" href="%s">See all visa guides</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap wrap--narrow">
+    <h2>How we compare with a full-service visa platform</h2>
+    <p>Platforms like Atlys file the whole application for you. We do something narrower and
+    much cheaper: we produce the documents an application needs and tell you how to assemble
+    the rest. Which is right depends on what you actually want, so here is the honest version
+    rather than a table rigged in our favour.</p>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Full-service platform</th><th>%s</th></tr></thead>
+      <tbody>
+        <tr><td><b>What you are buying</b></td>
+            <td>The whole application, filed for you</td>
+            <td>The documents, plus advice on the rest of the file</td></tr>
+        <tr><td><b>Who submits it</b></td>
+            <td>They do, on your behalf</td>
+            <td>You do, so the application stays in your hands</td></tr>
+        <tr><td><b>Embassy fee</b></td>
+            <td>Bundled into a single price</td>
+            <td>You pay it directly, at cost, with nothing added</td></tr>
+        <tr><td><b>Flight reservation</b></td>
+            <td>Part of the package</td>
+            <td><b>%s</b> on its own, real PNR, no package needed</td></tr>
+        <tr><td><b>Hotel booking</b></td>
+            <td>Part of the package</td>
+            <td><b>%s</b> on its own</td></tr>
+        <tr><td><b>Advice without documents</b></td>
+            <td>Not normally sold separately</td>
+            <td><b>%s</b></td></tr>
+        <tr><td><b>Best when</b></td>
+            <td>You want someone else to handle all of it</td>
+            <td>You are filing it yourself and need documents that hold up</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="note">
+      <strong>When a full-service platform is the better choice</strong>
+      If you would rather hand the whole application to someone else and pay one bundled price,
+      use one. We are not going to pretend otherwise. Come to us when you are filing it yourself
+      and need a reservation an officer can actually look up.
+    </div>
+  </div>
+</section>
 <section>
   <div class="wrap wrap--narrow">%s</div>
 </section>
@@ -447,6 +513,8 @@ def consultation():
                "One pack, ready to upload"],
               "Talk on WhatsApp", CONSULT_WA, code="FULLFILE",
               price_note="per application", featured=True, badge="Most chosen"),
+       _country_tiles(), url("visa"), BRAND,
+       money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_CONSULT_ONLY),
        faq_block(faqs, "Consultation questions"),
        cta_band("Send us your file and we will read it",
                 "Tell us the country and where you have got to. We come back with what is missing and what it costs.",
@@ -466,3 +534,45 @@ def consultation():
              "Help assembling a visa application: itinerary planning, cover letter, guidance on what your bank statements need to show, flight reservations and hotel bookings, and a review against the embassy checklist.",
              body, schema=[c_schema, service, faq_schema(faqs)],
              priority="0.8", changefreq="monthly")
+
+
+# --------------------------------------------------------------------------
+def _country_tiles(limit=15):
+    """Country tiles for the consultation page.
+
+    Two deliberate omissions from the layout this copies.
+
+    No photography: 38 licensed country photos is a purchase, and the site's
+    standing rule is that nothing loads from another host. The gradient is
+    derived from the slug, so a country always gets the same colour. Moving to
+    real photos later is a background-image on .ccard, with no markup change.
+
+    No VALID column, which the reference design does have. status_note mixes
+    stay durations with processing times - Schengen's "15 to 45 days" is how
+    long a decision takes, not how long you may stay - so deriving a stay
+    length from it would print wrong visa information on a site whose whole
+    value is being checkable. TYPE and FEE are curated per country and safe.
+    """
+    import hashlib
+    import content_visa
+
+    TYPE = {"visa_free": "VISA FREE", "voa": "ON ARRIVAL",
+            "evisa": "E-VISA", "visa_required": "VISA NEEDED"}
+    out = []
+    for v in content_visa.VISAS[:limit]:
+        hue = int(hashlib.md5(v["slug"].encode("utf-8")).hexdigest()[:4], 16) % 360
+        fee = re.sub(r"<[^>]+>", "", (v.get("fees") or [("", "-", "")])[0][1])
+        out.append(
+            '<a class="ccard" style="--h:DEG1;--h2:DEG2" href="HREF">'
+            '<span class="ccard__name">NAME</span>'
+            '<span class="ccard__strip">'
+            '<span><b class="ccard__k">Type</b><span class="ccard__v">KIND</span></span>'
+            '<span><b class="ccard__k">Fee</b><span class="ccard__v">FEE</span></span>'
+            '</span></a>'
+            .replace("DEG1", str(hue))
+            .replace("DEG2", str((hue + 26) % 360))
+            .replace("HREF", url("visa/" + v["slug"]))
+            .replace("NAME", v["short"].upper())
+            .replace("KIND", TYPE.get(v["status"], "VISA"))
+            .replace("FEE", fee))
+    return '<div class="cgrid">' + "".join(out) + "</div>"
