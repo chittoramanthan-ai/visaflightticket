@@ -156,9 +156,17 @@
       ];
       (p.passengers || []).forEach(function (x, i) {
         if (i === 0) return;                     // lead is already listed above
-        lines.push('Traveller ' + (i + 1) + ': ' + (x.title ? x.title + ' ' : '') + x.surname + ', ' +
-                   x.given_name + (x.dob ? ' (' + x.dob + ')' : '') +
-                   (x.passport ? ' passport ' + x.passport : ''));
+        // One labelled line per field, matching the lead traveller. The old
+        // single-line form carried only name, dob and passport number, so the
+        // issue and expiry dates the form had just collected were silently
+        // dropped and had to be asked for again before the booking could be
+        // made. Blank fields fall out via the ": " filter below.
+        lines.push('Traveller ' + (i + 1) + ': ' +
+                   (x.title ? x.title + ' ' : '') + x.surname + ', ' + x.given_name);
+        lines.push('  Date of birth: ' + (x.dob || ''));
+        lines.push('  Passport: ' + (x.passport || ''));
+        lines.push('  Passport issued: ' + (x.passport_issue || ''));
+        lines.push('  Passport expires: ' + (x.passport_expiry || ''));
       });
       (p.legs || []).forEach(function (l, i) {
         lines.push('Flight ' + (i + 2) + ': ' + l.from + ' to ' + l.to + ' on ' + l.date);
