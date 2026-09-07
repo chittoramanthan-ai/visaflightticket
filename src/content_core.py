@@ -529,7 +529,11 @@ def flight_page():
         "image": SITE_URL + "/assets/img/og-default.jpg",
         "sku": "VFT-FLIGHT",
         "description": "A genuine, airline-held flight reservation with a live PNR, issued in the traveller's name for visa applications and verifiable on the airline website.",
-        "brand": {"@id": SITE_URL + "/#organization"},
+        # Google's Product spec types this field as Brand. Pointing it at the
+        # Organization node by @id resolved fine but reported "Invalid object
+        # type for field brand" in Merchant listings, because Organization is
+        # not a Brand. Inline and self-contained.
+        "brand": {"@type": "Brand", "name": BRAND},
         "offers": {
             "@type": "Offer",
             "price": str(PRICE_FLIGHT),
@@ -646,7 +650,11 @@ def hotel_page():
         "image": SITE_URL + "/assets/img/og-default.jpg",
         "sku": "VFT-HOTEL",
         "description": "A confirmed hotel reservation in the applicant's name with a booking reference, covering every night of the trip, issued for visa applications.",
-        "brand": {"@id": SITE_URL + "/#organization"},
+        # Google's Product spec types this field as Brand. Pointing it at the
+        # Organization node by @id resolved fine but reported "Invalid object
+        # type for field brand" in Merchant listings, because Organization is
+        # not a Brand. Inline and self-contained.
+        "brand": {"@type": "Brand", "name": BRAND},
         "offers": {"@type": "Offer", "price": str(PRICE_HOTEL), "priceCurrency": CURRENCY_CODE,
                    "availability": "https://schema.org/InStock", "url": abs_url("order"),
                    "priceValidUntil": "%d-12-31" % (int(TODAY[:4]) + 1)},
@@ -732,7 +740,11 @@ def combo_page():
         "image": SITE_URL + "/assets/img/og-default.jpg",
         "sku": "VFT-BUNDLE",
         "description": "Bundled flight reservation with live PNR and confirmed hotel booking, date-reconciled for visa applications.",
-        "brand": {"@id": SITE_URL + "/#organization"},
+        # Google's Product spec types this field as Brand. Pointing it at the
+        # Organization node by @id resolved fine but reported "Invalid object
+        # type for field brand" in Merchant listings, because Organization is
+        # not a Brand. Inline and self-contained.
+        "brand": {"@type": "Brand", "name": BRAND},
         "offers": {"@type": "Offer", "price": str(PRICE_BOTH), "priceCurrency": CURRENCY_CODE,
                    "availability": "https://schema.org/InStock", "url": abs_url("order"),
                    "priceValidUntil": "%d-12-31" % (int(TODAY[:4]) + 1)},
