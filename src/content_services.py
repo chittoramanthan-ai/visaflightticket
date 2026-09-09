@@ -3,8 +3,8 @@ from urllib.parse import quote
 # -*- coding: utf-8 -*-
 """Travel insurance and eSIM: the two things people buy right after the visa."""
 
-from build import (ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
-                   PRICE_FLIGHT, PRICE_BOTH, PRICE_ESIM, PRICE_INSURE, PRICE_CONSULT, PRICE_CONSULT_ONLY,
+from build import (asset, ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
+                   PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, PRICE_ESIM, PRICE_INSURE, PRICE_CONSULT, PRICE_CONSULT_ONLY, PRICE_FILING,
                    CURRENCY_CODE, SHOW_USD, usd, money, add_page, url, abs_url,
                    faq_block, faq_schema, crumbs, cta_band, ticket, doodles,
                    WHATSAPP)
@@ -20,6 +20,22 @@ INSURE_WA = ("https://wa.me/" + re.sub(r"[^0-9]", "", WHATSAPP) +
 
 CONSULT_WA = ("https://wa.me/" + re.sub(r"[^0-9]", "", WHATSAPP) +
               "?text=" + quote("I need help with my visa application"))
+
+
+def consult_wa(plan=None, price=None):
+    """WhatsApp link for a specific plan.
+
+    All three plan buttons used to open the same generic message, so the first
+    thing every conversation needed was working out which one had been tapped.
+    The plan name and price ride along in the prefilled text instead.
+    """
+    if not plan:
+        return CONSULT_WA
+    msg = "Hi, I want the %s plan" % plan
+    if price is not None:
+        msg += " (%s)" % money(price)
+    msg += " for my visa application."
+    return ("https://wa.me/" + re.sub(r"[^0-9]", "", WHATSAPP) + "?text=" + quote(msg))
 
 ESIM_WA = ("https://wa.me/" + re.sub(r"[^0-9]", "", WHATSAPP) +
            "?text=" + quote("I want to buy a travel eSIM for my trip"))
@@ -275,12 +291,19 @@ def _file_card():
     product is a read of your application, so the card shows a file being
     checked off instead: it says what you get rather than what we also sell.
     """
+    # Ordered the way the file is actually built, and carried through to
+    # lodging so the card covers all three plans rather than stopping where
+    # the middle one does. A muted tick means the line is yours, not ours -
+    # bank statements come from your bank, and the embassy fee is your money.
     rows = [
-        ("Cover letter", "Drafted", True),
+        ("Itinerary", "Planned to the day", True),
         ("Flight reservation", "Live PNR", True),
         ("Hotel booking", "Dates matched", True),
+        ("Cover letter", "Written for your case", True),
         ("Bank statements", "You provide, we advise", False),
-        ("Itinerary", "Reconciled", True),
+        ("Application form", "Completed for you", True),
+        ("Appointment", "Booked and timed", True),
+        ("Embassy fee", "Paid by you, at cost", False),
     ]
     items = ""
     for label, state, ours in rows:
@@ -289,10 +312,10 @@ def _file_card():
             '<span class="fcard__lbl">%s</span><span class="fcard__st">%s</span></li>'
             % ("" if ours else " fcard__tick--muted", ICON["check"], label, state))
     return """
-<div class="fcard" role="img" aria-label="A visa application file with each document checked off">
-  <div class="fcard__top"><span>Application file</span><span>Reviewed</span></div>
+<div class="fcard" role="img" aria-label="A visa application file with every document and step checked off, from itinerary to appointment">
+  <div class="fcard__top"><span>Application file</span><span>Ready to lodge</span></div>
   <ul class="fcard__list">%s</ul>
-  <div class="fcard__foot">%s Every date agrees across all three documents</div>
+  <div class="fcard__foot">%s Every date agrees, across every document in the file</div>
 </div>""" % (items, ICON["shield"])
 
 
@@ -323,17 +346,20 @@ def consultation():
         ("How much does it cost?",
          "<p>It depends on the country and how much of the file you want help with, so we quote after a short conversation rather than publishing a number that would be wrong for most people.</p>"),
         ("Can you book my appointment slot?",
-         "<p>We can tell you which portal to use, what the slot situation looks like and how to time your documents around it. We do not log into government portals on your behalf.</p>"),
+         "<p>On the first two plans we tell you which portal to use, what the slot situation looks like and how to time your documents around it. On <strong>Flights + hotels + filing</strong> we book the appointment and lodge the application for you. The embassy fee is always paid by you, at cost.</p>"),
     ]
 
     body = """
 <section>
   <div class="wrap">
     %s
+    <img class="vhero" src="%s" srcset="%s 640w, %s 1100w"
+         sizes="(max-width:640px) 100vw, 1100px" alt="" width="1100" height="340"
+         fetchpriority="high" decoding="async">
     <div class="hero__grid" style="align-items:flex-start">
       <div>
         <p class="eyebrow">Visa consultation &middot; from %s%s</p>
-        <h1>Help getting your visa file right the first time</h1>
+        <h1>Get your visa approved, on time</h1>
         <p class="lede">Most refusals are not close calls. They are avoidable ones: a missing document, a
         letter answering the wrong question, dates that do not agree with each other. We go through your
         file before an embassy does, and tell you what an officer is going to see.</p>
@@ -344,6 +370,35 @@ def consultation():
         %s
       </div>
       <div>%s</div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:2.4rem">
+      <h2>Three ways to work with us</h2>
+      <p class="lede">Advice on its own, the flights and hotels included, or the whole
+      application completed and lodged for you.</p>
+    </div>
+    <div class="grid g3">%s%s%s</div>
+    <p class="center" style="margin-top:1.4rem;color:var(--ink-2);font-size:.93rem">
+      Per application, not per traveller. Additional travellers on the same file are included.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap wrap--narrow">
+    <div class="creed creed--tight">
+      <p class="eyebrow">50+ countries travelled</p>
+      <h2>The team building your file are travellers themselves</h2>
+      <p class="creed__lead">The people at %s who put your application together have travelled to
+      <strong>more than 50 countries</strong> between them. They are not agents who have never
+      stepped outside the office, working down a checklist on a screen.</p>
+      <p>They have filled in these forms for their own trips, been asked for the same documents at the
+      same counters, and had their own files picked apart. That is the difference between advice that
+      repeats the embassy website back at you and advice from someone who has actually stood in the
+      queue.</p>
     </div>
   </div>
 </section>
@@ -414,28 +469,77 @@ def consultation():
   </div>
 </section>
 
+
 <section>
   <div class="wrap">
-    <div class="center" style="margin-bottom:2.4rem">
-      <h2>Two ways to work with us</h2>
-      <p class="lede">Advice on its own, or advice with the documents we issue included.</p>
+    <div class="center" style="margin-bottom:2.2rem">
+      <h2>Countries we help with</h2>
+      <p class="lede">Every guide is written for an Indian passport. Open one for the
+      requirements, the fees and the mistakes that get files returned.</p>
     </div>
-    <div class="grid g2" style="max-width:820px;margin-inline:auto">%s%s</div>
-    <p class="center" style="margin-top:1.4rem;color:var(--ink-2);font-size:.93rem">
-      Per application, not per traveller. Additional travellers on the same file are included.</p>
+    %s
+    <div class="center" style="margin-top:2rem">
+      <a class="btn btn--ghost" href="%s">See all visa guides</a>
+    </div>
   </div>
 </section>
 
+<section class="band">
+  <div class="wrap wrap--narrow">
+    <h2>How we compare with a full-service visa platform</h2>
+    <p>Platforms like Atlys file the whole application for you. We do something narrower and
+    much cheaper: we produce the documents an application needs and tell you how to assemble
+    the rest. Which is right depends on what you actually want, so here is the honest version
+    rather than a table rigged in our favour.</p>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Full-service platform</th><th>%s</th></tr></thead>
+      <tbody>
+        <tr><td><b>What you are buying</b></td>
+            <td>The whole application, filed for you</td>
+            <td>The documents and advice, or the full application if you want it</td></tr>
+        <tr><td><b>Who submits it</b></td>
+            <td>They do, on your behalf</td>
+            <td>You do on the first two plans, we do on Flights + hotels + filing</td></tr>
+        <tr><td><b>Embassy fee</b></td>
+            <td>Bundled into a single price</td>
+            <td>You pay it directly, at cost, with nothing added</td></tr>
+        <tr><td><b>Flight reservation</b></td>
+            <td>Part of the package</td>
+            <td><b>%s</b> on its own, real PNR, no package needed</td></tr>
+        <tr><td><b>Hotel booking</b></td>
+            <td>Part of the package</td>
+            <td><b>%s</b> on its own</td></tr>
+        <tr><td><b>Advice without documents</b></td>
+            <td>Not normally sold separately</td>
+            <td><b>%s</b></td></tr>
+        <tr><td><b>Best when</b></td>
+            <td>You want someone else to handle all of it</td>
+            <td>You are filing it yourself and need documents that hold up</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="note">
+      <strong>When a full-service platform is the better choice</strong>
+      If you would rather hand the whole application to someone else and pay one bundled price,
+      use one. We are not going to pretend otherwise. Come to us when you are filing it yourself
+      and need a reservation an officer can actually look up.
+    </div>
+  </div>
+</section>
 <section>
   <div class="wrap wrap--narrow">%s</div>
 </section>
 
 %s
-""" % (c_html, money(PRICE_CONSULT_ONLY),
+""" % (c_html,
+       asset("assets/img/consultation/hero-sm.jpg", bust=True),
+       asset("assets/img/consultation/hero-sm.jpg", bust=True),
+       asset("assets/img/consultation/hero.jpg", bust=True),
+       money(PRICE_CONSULT_ONLY),
        ('<span class="usd-alt">%s</span>' % usd(PRICE_CONSULT_ONLY)) if SHOW_USD else "",
        CONSULT_WA, ICON["whatsapp"], url("visa"),
        content_core.trustline("advice"), _file_card(),
-       ICON["globe"], ICON["doc"], ICON["wallet"], ICON["plane"], ICON["shield"], ICON["check"],
        ticket("Consultation only",
               "We read your file and tell you exactly what to fix. You assemble the documents.",
               PRICE_CONSULT_ONLY,
@@ -443,9 +547,9 @@ def consultation():
                "Cover letter written for your case",
                "Itinerary planned around your dates",
                "Guidance on what your finances need to show"],
-              "Talk on WhatsApp", CONSULT_WA, code="ADVICE",
+              "Talk on WhatsApp", consult_wa("Consultation only", PRICE_CONSULT_ONLY), code="ADVICE",
               price_note="per application"),
-       ticket("Consultation + documents",
+       ticket("Consultation + flights + hotels",
               "Everything above, plus the flight reservation and hotel booking, with every date reconciled.",
               PRICE_CONSULT,
               ["Everything in consultation only",
@@ -453,8 +557,22 @@ def consultation():
                "Hotel booking for every night declared",
                "Dates cross-checked across all three",
                "One pack, ready to upload"],
-              "Talk on WhatsApp", CONSULT_WA, code="FULLFILE",
-              price_note="per application", featured=True, badge="Most chosen"),
+              "Talk on WhatsApp", consult_wa("Consultation + flights + hotels", PRICE_CONSULT), code="FULLFILE",
+              price_note="per application"),
+       ticket("Flights + hotels + filing",
+              "Everything above, and we complete the forms and lodge the application for you.",
+              PRICE_FILING,
+              ["Everything in consultation + flights + hotels",
+               "Application forms completed for you",
+               "Appointment booked around your dates",
+               "Application lodged on your behalf",
+               "Embassy fee paid by you, at cost"],
+              "Talk on WhatsApp", consult_wa("Flights + hotels + filing", PRICE_FILING), code="FILING",
+              price_note="per application", featured=True, badge="Best value"),
+       BRAND,
+       ICON["globe"], ICON["doc"], ICON["wallet"], ICON["plane"], ICON["shield"], ICON["check"],
+       _country_tiles(), url("visa"), BRAND,
+       money(PRICE_FLIGHT), money(PRICE_HOTEL), money(PRICE_CONSULT_ONLY),
        faq_block(faqs, "Consultation questions"),
        cta_band("Send us your file and we will read it",
                 "Tell us the country and where you have got to. We come back with what is missing and what it costs.",
@@ -474,3 +592,48 @@ def consultation():
              "Help assembling a visa application: itinerary planning, cover letter, guidance on what your bank statements need to show, flight reservations and hotel bookings, and a review against the embassy checklist.",
              body, schema=[c_schema, service, faq_schema(faqs)],
              priority="0.8", changefreq="monthly")
+
+
+# --------------------------------------------------------------------------
+def _country_tiles(limit=15):
+    """Country tiles for the consultation page.
+
+    Two deliberate omissions from the layout this copies.
+
+    No photography: 38 licensed country photos is a purchase, and the site's
+    standing rule is that nothing loads from another host. The gradient is
+    derived from the slug, so a country always gets the same colour. Moving to
+    real photos later is a background-image on .ccard, with no markup change.
+
+    No VALID column, which the reference design does have. status_note mixes
+    stay durations with processing times - Schengen's "15 to 45 days" is how
+    long a decision takes, not how long you may stay - so deriving a stay
+    length from it would print wrong visa information on a site whose whole
+    value is being checkable. TYPE and FEE are curated per country and safe.
+    """
+    import hashlib
+    import content_visa
+    from build import slugify
+
+    TYPE = {"visa_free": "VISA FREE", "voa": "ON ARRIVAL",
+            "evisa": "E-VISA", "visa_required": "VISA NEEDED"}
+    out = []
+    for v in content_visa.VISAS[:limit]:
+        hue = int(hashlib.md5(v["slug"].encode("utf-8")).hexdigest()[:4], 16) % 360
+        fee = re.sub(r"<[^>]+>", "", (v.get("fees") or [("", "-", "")])[0][1])
+        out.append(
+            '<a class="ccard" style="--h:DEG1;--h2:DEG2" href="HREF">'
+            '<img class="ccard__img" src="IMG" alt="" loading="lazy"'
+            ' decoding="async" width="440" height="560">'
+            '<span class="ccard__name">NAME</span>'
+            '<span class="ccard__strip">'
+            '<span><b class="ccard__k">Type</b><span class="ccard__v">KIND</span></span>'
+            '</span></a>'
+            .replace("DEG1", str(hue))
+            .replace("DEG2", str((hue + 26) % 360))
+            .replace("HREF", url("visa/" + v["slug"]))
+            .replace("IMG", asset("assets/img/countries/%s.jpg" % slugify(v["short"]), bust=True))
+            .replace("NAME", v["short"].upper())
+            .replace("KIND", TYPE.get(v["status"], "VISA"))
+            )
+    return '<div class="cgrid">' + "".join(out) + "</div>"

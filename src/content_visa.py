@@ -3,7 +3,7 @@
 
 import re
 
-from build import (ICON, BRAND, DELIVERY, SITE_URL, TODAY, doodles,
+from build import (asset, slugify, ICON, BRAND, DELIVERY, SITE_URL, TODAY, doodles,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH,
                    money, add_page, url, abs_url, faq_block, faq_schema,
                    crumbs, cta_band, pricing_tickets,
@@ -711,10 +711,13 @@ def _index():
         for v in sorted(rows, key=by_popularity):
             cards += """
 <a class="card card--link vcard" href="%s">
+  <img class="vcard__img" src="%s" alt="" loading="lazy" decoding="async" width="640" height="200">
   <div class="vcard__hd"><span class="vcard__c">%s</span>%s</div>
   <p>%s</p>
   <span class="more">Requirements and fees &rarr;</span>
-</a>""" % (url("visa/" + v["slug"]), v["short"], _badge(v),
+</a>""" % (url("visa/" + v["slug"]),
+           asset("assets/img/countries/%s-wide-sm.jpg" % slugify(v["short"]), bust=True),
+           v["short"], _badge(v),
            _strip(v["blurb"])[:118].rsplit(" ", 1)[0] + "&hellip;")
         groups += """
 <section class="%s">
@@ -793,9 +796,11 @@ def _page(v):
 <section>
   <div class="wrap">
     %s
+    <img class="vhero" src="%s" srcset="%s 640w, %s 1100w"
+         sizes="(max-width:640px) 100vw, 1100px" alt="" width="1100" height="340"
+         fetchpriority="high" decoding="async">
     <div class="hero__grid" style="align-items:flex-start">
       <div>
-        <p class="eyebrow">%s &middot; from %s per traveller</p>
         %s
         <h1>%s</h1>
         <p class="lede">%s</p>
@@ -860,13 +865,13 @@ def _page(v):
   </div>
 </section>
 
-<section>
+<section class="band">
   <div class="wrap wrap--narrow">
     %s
   </div>
 </section>
 
-<section class="band">
+<section>
   <div class="wrap wrap--narrow">
     %s
   </div>
@@ -884,7 +889,11 @@ def _page(v):
 </section>
 
 %s
-""" % (c_html, v["short"], money(PRICE_FLIGHT), _badge(v, big=True), v["h1"], v["blurb"],
+""" % (c_html,
+       asset("assets/img/countries/%s-wide-sm.jpg" % slugify(v["short"]), bust=True),
+       asset("assets/img/countries/%s-wide-sm.jpg" % slugify(v["short"]), bust=True),
+       asset("assets/img/countries/%s-wide.jpg" % slugify(v["short"]), bust=True),
+       _badge(v, big=True), v["h1"], v["blurb"],
        url("order?service=flight" + pf), money(PRICE_FLIGHT), url("flight-and-hotel-package"), money(PRICE_BOTH),
        content_core.TRUSTLINE, pass_art, stat_bar(),
        trust_cards(heading=None),

@@ -1,0 +1,388 @@
+{
+ "australia": {
+  "banner_photographer": "Khoi Pham",
+  "banner_source": "https://www.pexels.com/photo/sydney-opera-house-with-harbour-view-33378301/",
+  "country": "Australia",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Georgios Tsatas",
+  "photographer_url": "https://www.pexels.com/@gorgeouspixels",
+  "query": "Sydney Opera House harbour",
+  "source": "https://www.pexels.com/photo/opera-house-in-sydney-australia-15453729/"
+ },
+ "azerbaijan": {
+  "banner_photographer": "Zulfugar Karimov",
+  "banner_source": "https://www.pexels.com/photo/modern-architecture-in-baku-with-flame-towers-35418664/",
+  "country": "Azerbaijan",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Ganimat Pashazade",
+  "photographer_url": "https://www.pexels.com/@ganimatque",
+  "query": "Baku Flame Towers Azerbaijan",
+  "source": "https://www.pexels.com/photo/city-buildings-under-gray-sky-8964358/"
+ },
+ "bahrain": {
+  "banner_photographer": "ABDULLA ALKETTAB",
+  "banner_source": "https://www.pexels.com/photo/bahrain-world-trade-center-at-dusk-6188071/",
+  "country": "Bahrain",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Ejaz Waris",
+  "photographer_url": "https://www.pexels.com/@ejaz-waris-2498520",
+  "query": "Manama skyline Bahrain",
+  "source": "https://www.pexels.com/photo/photo-of-building-during-evening-4111447/"
+ },
+ "bhutan": {
+  "banner_photographer": "Tenzing T",
+  "banner_source": "https://www.pexels.com/photo/tigers-nest-monastery-in-paro-bhutan-37908899/",
+  "country": "Bhutan",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "debasish panja",
+  "photographer_url": "https://www.pexels.com/@debasish-panja-550499338",
+  "query": "Tiger's Nest monastery Bhutan",
+  "source": "https://www.pexels.com/photo/tigers-nest-in-bhutan-17505615/"
+ },
+ "brazil": {
+  "banner_photographer": "Luca  Buhl",
+  "banner_query": "Rio de Janeiro Sugarloaf Copacabana beach",
+  "banner_source": "https://www.pexels.com/photo/scenic-view-of-copacabana-beach-in-rio-de-janeiro-37945814/",
+  "country": "Brazil",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Claiton  Conto",
+  "photographer_url": "https://www.pexels.com/@claiton",
+  "query": "Rio de Janeiro Christ the Redeemer",
+  "source": "https://www.pexels.com/photo/the-statue-of-christ-is-shown-in-rio-27914780/"
+ },
+ "cambodia": {
+  "banner_photographer": "K",
+  "banner_source": "https://www.pexels.com/photo/silhouette-of-angkor-wat-temple-at-dusk-19142378/",
+  "country": "Cambodia",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Serg Alesenko",
+  "photographer_url": "https://www.pexels.com/@sergk1",
+  "query": "Angkor Wat Cambodia",
+  "source": "https://www.pexels.com/photo/historic-passage-with-a-wall-covered-with-carvings-in-angkor-wat-15890462/"
+ },
+ "canada": {
+  "banner_photographer": "Roman Lukyanenko",
+  "banner_source": "https://www.pexels.com/photo/scenic-view-of-moraine-lake-in-canadian-rockies-33730307/",
+  "country": "Canada",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Mario Vogt",
+  "photographer_url": "https://www.pexels.com/@mario-vogt-2627668",
+  "query": "Banff Moraine Lake Canada",
+  "source": "https://www.pexels.com/photo/picturesque-view-of-moraine-lake-in-banff-national-park-29188538/"
+ },
+ "egypt": {
+  "banner_photographer": "Michelle Chadwick",
+  "banner_source": "https://www.pexels.com/photo/iconic-view-of-the-giza-pyramids-in-egypt-31133003/",
+  "country": "Egypt",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "slow.trips",
+  "photographer_url": "https://www.pexels.com/@slow-trips-2161176252",
+  "query": "Pyramids of Giza Egypt",
+  "source": "https://www.pexels.com/photo/tourist-at-the-pyramids-of-giza-under-blue-sky-37269382/"
+ },
+ "georgia": {
+  "banner_photographer": "ROMAN ODINTSOV",
+  "banner_source": "https://www.pexels.com/photo/photo-of-an-old-town-with-a-church-7539985/",
+  "country": "Georgia",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Dmitry Limonov",
+  "photographer_url": "https://www.pexels.com/@limonovdigital",
+  "query": "Tbilisi old town Georgia",
+  "source": "https://www.pexels.com/photo/a-bridge-in-a-town-9223235/"
+ },
+ "hong-kong": {
+  "banner_photographer": "John Benedict Malong",
+  "banner_source": "https://www.pexels.com/photo/hong-kong-skyline-with-buildings-and-water-26970225/",
+  "country": "Hong Kong",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Tiff Ng",
+  "photographer_url": "https://www.pexels.com/@anytiffng",
+  "query": "Hong Kong Victoria Harbour skyline",
+  "source": "https://www.pexels.com/photo/high-rise-buildings-2121451/"
+ },
+ "indonesia": {
+  "banner_photographer": "Balazs Simon",
+  "banner_source": "https://www.pexels.com/photo/rice-paddies-in-tropics-15994332/",
+  "country": "Indonesia",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Lara Hart",
+  "photographer_url": "https://www.pexels.com/@lara-hart-2149371048",
+  "query": "Bali temple rice terrace",
+  "source": "https://www.pexels.com/photo/scenic-ubud-rice-terraces-in-bali-indonesia-38868370/"
+ },
+ "japan": {
+  "banner_photographer": "Guohua Song",
+  "banner_source": "https://www.pexels.com/photo/mount-fuji-with-chureito-pagoda-at-dusk-37438017/",
+  "country": "Japan",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Paolo Botio",
+  "photographer_url": "https://www.pexels.com/@paolino96",
+  "query": "Mount Fuji pagoda Japan",
+  "source": "https://www.pexels.com/photo/chureito-pagoda-with-mount-fuji-at-sunset-35333669/"
+ },
+ "kazakhstan": {
+  "banner_photographer": "Valeria Drozdova",
+  "banner_source": "https://www.pexels.com/photo/modern-astana-cityscape-with-bayterek-tower-34814717/",
+  "country": "Kazakhstan",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Нурлан",
+  "photographer_url": "https://www.pexels.com/@165511592",
+  "query": "Astana Bayterek Kazakhstan",
+  "source": "https://www.pexels.com/photo/astana-at-sunset-17081831/"
+ },
+ "kenya": {
+  "banner_photographer": "伟达 严",
+  "banner_source": "https://www.pexels.com/photo/28157156/",
+  "country": "Kenya",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Alex Ning",
+  "photographer_url": "https://www.pexels.com/@alex-ning-523843601",
+  "query": "Masai Mara safari Kenya",
+  "source": "https://www.pexels.com/photo/lions-stalking-prey-in-kenyan-grassland-33651244/"
+ },
+ "kuwait": {
+  "banner_photographer": "Optical Chemist",
+  "banner_query": "Kuwait City skyline towers",
+  "banner_source": "https://www.pexels.com/photo/kuwait-city-office-skyscrapers-15885795/",
+  "country": "Kuwait",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Maryam Afana",
+  "photographer_url": "https://www.pexels.com/@maryamafana",
+  "query": "Kuwait Towers Kuwait City",
+  "source": "https://www.pexels.com/photo/kuwait-towers-with-national-flags-at-dusk-38611371/"
+ },
+ "malaysia": {
+  "banner_photographer": "Yusuf Sabqi",
+  "banner_query": "Kuala Lumpur skyline night",
+  "banner_source": "https://www.pexels.com/photo/illuminated-petronas-towers-at-night-in-kuala-lumpur-malaysia-18096357/",
+  "country": "Malaysia",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Mu Pathan",
+  "photographer_url": "https://www.pexels.com/@mu-pathan-2149369787",
+  "query": "Petronas Towers Kuala Lumpur",
+  "source": "https://www.pexels.com/photo/iconic-petronas-towers-illuminated-at-night-30575600/"
+ },
+ "maldives": {
+  "banner_photographer": "Asad Photo Maldives",
+  "banner_source": "https://www.pexels.com/photo/scenic-view-of-resort-9394304/",
+  "country": "Maldives",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Raj Shah",
+  "photographer_url": "https://www.pexels.com/@raj-shah-2159023513",
+  "query": "Maldives overwater villas lagoon",
+  "source": "https://www.pexels.com/photo/stunning-overwater-villas-in-maldives-paradise-35746937/"
+ },
+ "mauritius": {
+  "banner_photographer": "Damini Gokool",
+  "banner_source": "https://www.pexels.com/photo/sunset-at-flic-en-flac-beach-mauritius-34190261/",
+  "country": "Mauritius",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Zak H",
+  "photographer_url": "https://www.pexels.com/@zakh",
+  "query": "Le Morne Mauritius beach",
+  "source": "https://www.pexels.com/photo/le-morne-mountain-view-from-mauritian-beach-36731902/"
+ },
+ "morocco": {
+  "banner_photographer": "Francisco Cornellana",
+  "banner_source": "https://www.pexels.com/photo/view-of-a-city-at-night-16188292/",
+  "country": "Morocco",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Mhamed Ouhassou",
+  "photographer_url": "https://www.pexels.com/@m1h2",
+  "query": "Marrakech Koutoubia Morocco",
+  "source": "https://www.pexels.com/photo/people-walking-on-the-street-14412355/"
+ },
+ "nepal": {
+  "banner_photographer": "Mehmet Turgut  Kirkgoz",
+  "banner_source": "https://www.pexels.com/photo/boudhanath-in-nepal-11505263/",
+  "country": "Nepal",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Prajjwal Chettri",
+  "photographer_url": "https://www.pexels.com/@prajjwal-chettri-2159014023",
+  "query": "Kathmandu Boudhanath stupa Nepal",
+  "source": "https://www.pexels.com/photo/boudhanath-stupa-with-colorful-prayer-flags-35739391/"
+ },
+ "new-zealand": {
+  "banner_photographer": "Pixabay",
+  "banner_source": "https://www.pexels.com/photo/body-of-water-surrounded-by-mountains-237260/",
+  "country": "New Zealand",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Colin Fearing",
+  "photographer_url": "https://www.pexels.com/@colin-fearing-286674282",
+  "query": "Milford Sound New Zealand",
+  "source": "https://www.pexels.com/photo/waterfall-falling-in-milford-sound-13131440/"
+ },
+ "oman": {
+  "banner_photographer": "Eric Seddon",
+  "banner_query": "Mutrah Corniche Muscat harbour",
+  "banner_source": "https://www.pexels.com/photo/scenic-view-of-muscat-coastline-at-sunset-36152310/",
+  "country": "Oman",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Tobias",
+  "photographer_url": "https://www.pexels.com/@tobias-2156402216",
+  "query": "Sultan Qaboos Grand Mosque Muscat",
+  "source": "https://www.pexels.com/photo/grand-mosque-interior-in-muscat-oman-36319387/"
+ },
+ "philippines": {
+  "banner_photographer": "XT7 Core",
+  "banner_source": "https://www.pexels.com/photo/scenic-aerial-view-of-el-nido-bay-philippines-31533424/",
+  "country": "Philippines",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Palu Malerba",
+  "photographer_url": "https://www.pexels.com/@palumalerba",
+  "query": "Palawan El Nido Philippines",
+  "source": "https://www.pexels.com/photo/woman-standing-on-seashore-3047990/"
+ },
+ "qatar": {
+  "banner_photographer": "Mary Rose Relente",
+  "banner_query": "Doha Corniche skyline waterfront",
+  "banner_source": "https://www.pexels.com/photo/panoramic-view-of-doha-skyline-with-colorful-buildings-31732873/",
+  "country": "Qatar",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Avs Palma",
+  "photographer_url": "https://www.pexels.com/@avs-palma-828539764",
+  "query": "Doha skyline Qatar",
+  "source": "https://www.pexels.com/photo/city-buildings-on-sea-coast-behind-circular-hole-19370232/"
+ },
+ "russia": {
+  "banner_photographer": "Artyom Malyukov",
+  "banner_source": "https://www.pexels.com/photo/a-beautiful-shot-of-saint-basil-s-cathedral-10000075/",
+  "country": "Russia",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Slava Matveenko",
+  "photographer_url": "https://www.pexels.com/@slava-matveenko-3880919",
+  "query": "Moscow Red Square Saint Basil",
+  "source": "https://www.pexels.com/photo/view-of-the-saint-basils-cathedral-in-the-evening-moscow-russia-10807454/"
+ },
+ "saudi-arabia": {
+  "banner_photographer": "Abdulmeilk Aldawsari",
+  "banner_source": "https://www.pexels.com/photo/view-of-illuminated-kingdom-centre-riyadh-saudi-arabia-35761/",
+  "country": "Saudi Arabia",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Hazily Light",
+  "photographer_url": "https://www.pexels.com/@hazily-light-672092024",
+  "query": "Riyadh skyline Kingdom Centre",
+  "source": "https://www.pexels.com/photo/iconic-kingdom-tower-in-riyadh-silhouette-35836463/"
+ },
+ "schengen": {
+  "banner_photographer": "Denisa Lesniaková",
+  "banner_source": "https://www.pexels.com/photo/scenic-winter-view-of-paris-with-eiffel-tower-31482953/",
+  "country": "Schengen",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Rajkumar Bhandari",
+  "photographer_url": "https://www.pexels.com/@rajkumar-bhandari-392990022",
+  "query": "Paris Eiffel Tower",
+  "source": "https://www.pexels.com/photo/low-angle-photo-of-eiffel-tower-under-cloudy-sky-14763491/"
+ },
+ "singapore": {
+  "banner_photographer": "Cyrill",
+  "banner_source": "https://www.pexels.com/photo/illuminated-modern-city-buildings-at-water-15480459/",
+  "country": "Singapore",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Bey The Great",
+  "photographer_url": "https://www.pexels.com/@bey-the-great-525076477",
+  "query": "Marina Bay Sands Singapore",
+  "source": "https://www.pexels.com/photo/marina-bay-in-singapore-18280158/"
+ },
+ "south-africa": {
+  "banner_photographer": "Adrien Olichon",
+  "banner_source": "https://www.pexels.com/photo/majestic-view-of-table-mountain-from-the-highway-36597753/",
+  "country": "South Africa",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Reo Reo",
+  "photographer_url": "https://www.pexels.com/@warewawa",
+  "query": "Cape Town Table Mountain",
+  "source": "https://www.pexels.com/photo/mountain-peak-over-clouds-16218810/"
+ },
+ "south-korea": {
+  "banner_photographer": "Fernando B M",
+  "banner_source": "https://www.pexels.com/photo/traditional-hanbok-attire-at-historic-korean-palace-34259246/",
+  "country": "South Korea",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Gagan Kaur",
+  "photographer_url": "https://www.pexels.com/@gagankaur",
+  "query": "Seoul Gyeongbokgung palace",
+  "source": "https://www.pexels.com/photo/corner-wall-of-buddhist-temple-25396055/"
+ },
+ "sri-lanka": {
+  "banner_photographer": "Stephanie Perera",
+  "banner_source": "https://www.pexels.com/photo/sigiriya-rock-fortress-in-sri-lanka-at-sunrise-34128249/",
+  "country": "Sri Lanka",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Marina Zvada",
+  "photographer_url": "https://www.pexels.com/@marina-zvada-844583049",
+  "query": "Sigiriya rock Sri Lanka",
+  "source": "https://www.pexels.com/photo/sigiriya-rock-fortress-staircase-scene-in-sri-lanka-35606851/"
+ },
+ "thailand": {
+  "banner_photographer": "Kirandeep Singh Walia",
+  "banner_source": "https://www.pexels.com/photo/ornate-buildings-of-a-bangkok-grand-palace-19041654/",
+  "country": "Thailand",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Sergei  Gussev",
+  "photographer_url": "https://www.pexels.com/@sergei",
+  "query": "Bangkok Grand Palace temple",
+  "source": "https://www.pexels.com/photo/ornate-columns-of-wat-phra-kaew-bangkok-36023089/"
+ },
+ "turkey": {
+  "banner_photographer": "Mehmet Turgut  Kirkgoz",
+  "banner_source": "https://www.pexels.com/photo/ceiling-of-haghia-sofia-17985022/",
+  "country": "Turkey",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Mathias Reding",
+  "photographer_url": "https://www.pexels.com/@matreding",
+  "query": "Istanbul Hagia Sophia",
+  "source": "https://www.pexels.com/photo/circular-inscription-in-hagia-sophia-istanbul-turkey-12776938/"
+ },
+ "uae": {
+  "banner_photographer": "Maria Charizani",
+  "banner_source": "https://www.pexels.com/photo/photo-of-city-during-night-time-5577693/",
+  "country": "UAE",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Rasul Yarichev",
+  "photographer_url": "https://www.pexels.com/@rasul70",
+  "query": "Dubai Burj Khalifa skyline",
+  "source": "https://www.pexels.com/photo/dubai-skyline-at-sunset-with-burj-khalifa-36260020/"
+ },
+ "united-kingdom": {
+  "banner_photographer": "Michal Libertowski",
+  "banner_source": "https://www.pexels.com/photo/iconic-tower-bridge-overcast-view-in-london-37544947/",
+  "country": "United Kingdom",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Antoine Maurin",
+  "photographer_url": "https://www.pexels.com/@antoine-maurin-264851287",
+  "query": "London Tower Bridge",
+  "source": "https://www.pexels.com/photo/tower-bridge-in-london-19262645/"
+ },
+ "united-states": {
+  "banner_photographer": "Ivana Rodriguez",
+  "banner_source": "https://www.pexels.com/photo/silhouette-of-city-buildings-during-sunset-8569166/",
+  "country": "United States",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Brian Lazo",
+  "photographer_url": "https://www.pexels.com/@brian-lazo-92810756",
+  "query": "New York Manhattan skyline",
+  "source": "https://www.pexels.com/photo/brooklyn-bridge-in-new-york-9404571/"
+ },
+ "uzbekistan": {
+  "banner_photographer": "AXP Photography",
+  "banner_query": "Registan square Samarkand madrasah",
+  "banner_source": "https://www.pexels.com/photo/view-of-the-ulugh-beg-madrasah-and-tilya-kori-madrasah-in-samarkand-uzbekistan-19439206/",
+  "country": "Uzbekistan",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Ahmet Hilmi Ermiş",
+  "photographer_url": "https://www.pexels.com/@ahmet-hilmi-ermis-480844837",
+  "query": "Registan Samarkand Uzbekistan",
+  "source": "https://www.pexels.com/photo/intricate-islamic-architecture-in-samarkand-uzbekistan-32037650/"
+ },
+ "vietnam": {
+  "banner_photographer": "Valeria Drozdova",
+  "banner_source": "https://www.pexels.com/photo/scenic-view-of-cruise-boats-in-ha-long-bay-38116420/",
+  "country": "Vietnam",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Laura Rudi",
+  "photographer_url": "https://www.pexels.com/@laura-rudi-2161900809",
+  "query": "Ha Long Bay Vietnam",
+  "source": "https://www.pexels.com/photo/scenic-view-of-ha-long-bay-with-boats-38627602/"
+ }
+}

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Core pages: home, services, pricing, process, trust, legal."""
 
-from build import (ORDER_MODE, SHOW_USD, usd, USD_RATE, TRADE_NAME, legal_block, ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
+from build import (asset, ORDER_MODE, SHOW_USD, usd, USD_RATE, TRADE_NAME, legal_block, ICON, BRAND, EMAIL, DELIVERY, SITE_URL, TODAY,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, BUNDLE_SAVING, CURRENCY, CURRENCY_CODE,
                    SINCE_YEAR, FLIGHTS_BOOKED, VISAS_HELPED, AIRLINE_COUNT, WHATSAPP,
                    IATA_ACCREDITED, IATA_NUMBER,
@@ -85,9 +85,10 @@ def boarding_pass(dep="DEL", arr="CDG", variant="flight"):
   <div class="pass__foot">
     <div><span style="display:block;font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">Booking reference</span>
       <span class="pnr-chip">K7QX2M</span></div>
+    <div class="pass__fare"><span>From</span><b>%s</b><small>per traveller</small></div>
     <span class="verified">%s Verifiable on the airline site</span>
   </div>
-</div>""" % (label, top, dep, ICON["plane"], arr, third, ICON["check"])
+</div>""" % (label, top, dep, ICON["plane"], arr, third, money(PRICE_FLIGHT), ICON["check"])
 
 
 # Default specimen, for pages with no particular route in mind.
@@ -112,7 +113,7 @@ def trustline(kind="flight"):
         "advice": [("check", "Read against your embassy's own checklist"),
                    ("clock", "First response the same day"),
                    ("check", "Documents built to survive checking"),
-                   ("shield", "No guaranteed-approval nonsense")],
+                   ("globe", "By experienced travellers")],
     }
     rows = "".join('<b>%s %s</b>' % (ICON[i], t) for i, t in SETS.get(kind, SETS["flight"]))
     return ('<div class="trustline">%s</div>'
@@ -178,14 +179,14 @@ def travellers_band():
     the easiest place in the world to break that rule.
     """
     return """
-<section class="band">
+<section>
   <div class="wrap wrap--narrow">
     <div class="creed">
-      <p class="eyebrow">30+ countries between us</p>
+      <p class="eyebrow">50+ countries between us</p>
       <h2>By the community of travellers, for the community</h2>
 
       <p class="creed__lead">We are travellers before we are anything else. Between us we have been to
-      more than thirty countries, and nearly every one of them began the same way: a folder of documents,
+      more than fifty countries, and nearly every one of them began the same way: a folder of documents,
       and a form asking for a flight ticket we could not sensibly buy yet.</p>
 
       <p>So none of this is guesswork. We have refreshed an appointment page at six in the morning. We have
@@ -194,6 +195,11 @@ def travellers_band():
 
       <p>This exists because the people building it kept walking into the same wall, and got tired of
       watching friends walk into it too.</p>
+
+      <p>It matters who is on the other end. Your file is read by people who have actually stood in that
+      queue and had their own documents picked apart, not by an agent who has never used a visa,
+      working down a checklist on a screen. We know which line of a cover letter an officer stops on,
+      because we have watched one stop on ours.</p>
 
       <ul class="creed__list">
         <li>We have had a file handed back over one letter in a name.</li>
@@ -1220,6 +1226,12 @@ def order_page():
         <button class="btn btn--primary btn--lg btn--block" type="submit" id="order-submit">
           <span class="btn__lbl">%s</span><span class="btn__sep">&middot;</span><span id="price-out">%s</span></button>
         <p class="hint" style="text-align:center;margin-top:12px" id="price-line"></p>
+        <div class="paystrip">
+          <span class="paystrip__lbl">Pay by</span>
+          <img class="paylogo" src="%s" alt="UPI" width="376" height="137" loading="lazy" decoding="async">
+          <img class="paylogo" src="%s" alt="PayPal" width="454" height="114" loading="lazy" decoding="async">
+          <span class="paystrip__note">Payment is arranged in the chat. Nothing is charged here.</span>
+        </div>
 
         <div class="note" id="order-msg" hidden></div>
       </form>
@@ -1251,7 +1263,10 @@ def order_page():
        USD_RATE, CURRENCY,
        PRICE_FLIGHT, money(PRICE_FLIGHT), PRICE_HOTEL, money(PRICE_HOTEL),
        PRICE_BOTH, money(PRICE_BOTH),
-       _order_cta(), money(PRICE_FLIGHT), _order_steps())
+       _order_cta(), money(PRICE_FLIGHT),
+       asset("assets/img/pay/upi.png", bust=True),
+       asset("assets/img/pay/paypal.png", bust=True),
+       _order_steps())
 
     add_page(slug, "Order a Flight Reservation or Hotel Booking for Your Visa",
              "Order a verifiable flight reservation from %s or a hotel booking from %s. No account needed, delivered in %s." % (money(PRICE_FLIGHT), money(PRICE_HOTEL), DELIVERY),
@@ -1359,6 +1374,23 @@ def faq_page():
 
 
 # --------------------------------------------------------------------------
+def _accreditation():
+    """Accreditation section, or nothing.
+
+    Gated on IATA_ACCREDITED like iata_badge(). It used to be hardcoded, so
+    turning the flag off removed every badge but left this paragraph still
+    claiming certification - and claiming a number that IATA_NUMBER does not
+    actually supply.
+    """
+    if not IATA_ACCREDITED:
+        return ""
+    return """<h2>Accreditation</h2>
+    <p>We are an <strong>IATA certified travel agent</strong>. That accreditation is what lets us place bookings
+    directly in live airline reservation systems rather than scraping a public search page, and it is why the
+    references we issue behave exactly like any other agency booking when a visa officer looks them up.</p>
+    <p>%s</p>""" % iata_badge()
+
+
 def about_page():
     c_html, c_schema = crumbs([("About", None)])
     body = """
@@ -1390,16 +1422,11 @@ def about_page():
 
     <div class="note">
       <strong>Not a government service</strong>
-      %s is a private travel-documentation company. We are not affiliated with any embassy, embassy, visa
+      %s is a private travel-documentation company. We are not affiliated with any embassy, visa
       application centre or government agency, and we do not provide immigration advice.
     </div>
 
-    <h2>Accreditation</h2>
-    <p>We are an <strong>IATA certified travel agent</strong>. That accreditation is what lets us place bookings
-    directly in live airline reservation systems rather than scraping a public search page, and it is why the
-    references we issue behave exactly like any other agency booking when a visa officer looks them up.
-    Our accreditation number is published on this page and can be checked against IATA&rsquo;s own register.</p>
-    <p>%s</p>
+    %s
 
     <h2>Company details</h2>
     <p>Contact: <a href="mailto:%s">%s</a>. Registered company name, address and registration number will be
@@ -1408,7 +1435,7 @@ def about_page():
     <p><a href="%s">Contact us</a> &middot; <a href="%s">Terms of service</a> &middot; <a href="%s">Privacy policy</a></p>
   </div>
 </section>
-%s""" % (c_html, BRAND, stat_bar(), BRAND, iata_badge(), EMAIL, EMAIL, url("contact"),
+%s""" % (c_html, BRAND, stat_bar(), BRAND, _accreditation(), EMAIL, EMAIL, url("contact"),
          url("terms"), url("privacy-policy"), cta_band())
 
     add_page("about", "About Us | " + BRAND,
@@ -1492,7 +1519,7 @@ paid, no ticket number is issued, and the reservation is held only for the perio
 
 <h2>3. What we do not supply</h2>
 <p>We do not issue visas, influence visa decisions, or provide immigration or legal advice. We are not affiliated
-with any government, embassy, embassy or visa application centre. We make no representation that any application
+with any government, embassy or visa application centre. We make no representation that any application
 supported by our documents will succeed.</p>
 
 <h2>4. Your obligations</h2>

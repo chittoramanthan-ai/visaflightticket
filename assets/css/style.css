@@ -1070,7 +1070,26 @@ td.vfee{
 .vstat--lg small{font-weight:500;font-size:.75rem;opacity:.85;letter-spacing:0}
 
 /* --- visa index cards --------------------------------------------------- */
+/* Photo band on a visa card. Bleeds to the card edge by cancelling the 26px
+   padding, and rounds only its top corners so it sits inside the card's own
+   radius. Lazy, because the visa index is a long grid and only the first row
+   is ever on screen. */
 .vcard{display:flex;flex-direction:column;height:100%}
+.vcard__img{
+  display:block;width:calc(100% + 52px);height:104px;object-fit:cover;
+  /* The global img rule sets max-width:100%, which clamped this back to the
+     card's content box and left a 52px gap on the right. */
+  max-width:none;
+  margin:-26px -26px 16px;border-radius:var(--radius) var(--radius) 0 0;
+}
+/* Banner on a guide page. This one is above the fold and is deliberately NOT
+   lazy: a lazy above-fold image is fetched later than an eager one, which is
+   the opposite of what LCP needs. */
+.vhero{
+  display:block;width:100%;height:170px;object-fit:cover;
+  border-radius:var(--radius);margin-bottom:1.6rem;
+}
+@media (max-width:640px){.vhero{height:120px;margin-bottom:1.2rem}}
 .vcard__hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:.7rem}
 .vcard__c{line-height:1.2}
 .vcard__hd .vstat{margin-top:2px}
@@ -1709,3 +1728,102 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 @supports not selector(:has(*)) {
   .btn .usd-alt{ margin-left:calc(.28rem - .5rem); }
 }
+
+/* Country tiles. The reference design uses photography; this uses a
+   slug-derived gradient, so a country is always the same colour, it costs no
+   bytes, and it cannot break the no-external-hosts rule. To move to photos
+   later, set a background-image on .ccard - the markup does not change. */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(186px,1fr));gap:16px}
+.ccard{
+  position:relative;display:flex;flex-direction:column;justify-content:flex-end;
+  min-height:230px;padding:16px;border-radius:16px;overflow:hidden;
+  color:#fff;text-decoration:none;
+  background:linear-gradient(180deg,transparent 34%,rgba(0,0,0,.5) 100%),
+             linear-gradient(155deg,hsl(var(--h) 46% 38%),hsl(var(--h2) 54% 16%));
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.ccard:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,.24)}
+.ccard:focus-visible{outline:3px solid var(--brand);outline-offset:3px}
+/* The photo sits under the text as a real element, not a background-image:
+   no browser lazy-loads a CSS background, and 38 of these fetched eagerly is
+   1.8 MB. The gradient stays behind it, so a slow or missing photo degrades
+   into something deliberate rather than a blank card. */
+.ccard__img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;border-radius:inherit;z-index:0;
+}
+/* Scrim, or white text on a bright sky is unreadable. */
+.ccard::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;z-index:1;
+  background:linear-gradient(180deg,rgba(0,0,0,.12) 38%,rgba(0,0,0,.72) 100%);
+}
+.ccard__name,.ccard__strip{position:relative;z-index:2}
+.ccard__name{
+  font-size:1.04rem;font-weight:750;letter-spacing:.02em;text-transform:uppercase;
+  line-height:1.16;margin-bottom:12px;color:#fff;
+  text-shadow:0 1px 6px rgba(0,0,0,.45);
+}
+.ccard__strip{display:flex;gap:16px;border-top:1px solid rgba(255,255,255,.3);padding-top:10px}
+.ccard__strip>span{min-width:0}
+.ccard__k{
+  display:block;font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;
+  font-weight:650;color:rgba(255,255,255,.74);margin-bottom:3px;
+}
+.ccard__v{
+  display:block;font-size:.79rem;font-weight:650;color:#fff;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+@media (prefers-reduced-motion:reduce){.ccard{transition:none}.ccard:hover{transform:none}}
+@media (max-width:400px){
+  .cgrid{grid-template-columns:1fr 1fr;gap:12px}
+  .ccard{min-height:196px;padding:13px}
+  .ccard__name{font-size:.92rem}
+}
+
+/* Accepted-payment strip under the order button. Wordmarks set in type rather
+   than logo files: an approximated trademark looks worse than none, and both
+   NPCI and PayPal publish merchant assets that can drop in later without the
+   markup changing. Naming a payment method in text is nominative use and needs
+   no licence. */
+.paystrip{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:8px;margin-top:14px;
+}
+.paystrip__lbl{
+  font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  font-weight:650;color:var(--ink-3);
+}
+/* Official marks, trimmed of their padding so they optically match at the
+   same height rather than one floating in whitespace. Height-constrained with
+   width:auto so each keeps its own aspect. */
+/* Each mark sits on its own light chip, the way payment badges normally do.
+   The first attempt inverted the UPI logo in dark mode, which lifted the grey
+   line art but also flipped the saffron and green chevron to blue - and the
+   brightness lift on top left the whole thing washed out. A white chip keeps
+   both marks on the background they were drawn for, in either theme, with no
+   filter touching the brand colours. */
+.paylogo{
+  height:20px;width:auto;max-width:none;display:block;
+  box-sizing:content-box;padding:6px 10px;background:#fff;
+  border:1px solid rgba(0,0,0,.10);border-radius:7px;
+}
+.paystrip__note{
+  flex-basis:100%;text-align:center;font-size:.78rem;color:var(--ink-3);margin-top:2px;
+}
+
+/* Fare on the specimen stub. Moved here off the guide-page eyebrow, where a
+   price sat oddly next to the country name; on a ticket a fare is exactly
+   what the stub carries. Sits between the PNR and the verify line, and the
+   foot already wraps, so it stacks rather than crowds on a phone. */
+.pass__fare{display:flex;align-items:baseline;gap:6px;white-space:nowrap}
+.pass__fare span{
+  font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:650;
+}
+.pass__fare b{font-family:var(--display);font-size:1.12rem;font-weight:800;color:var(--ink)}
+.pass__fare small{font-size:.68rem;color:var(--ink-3)}
+
+/* Shorter creed for the consultation page: the home page version runs to a
+   list and a signature, which is too much beside a pricing table. */
+.creed--tight .creed__lead{font-size:1.06rem}
+.creed--tight h2{margin-bottom:.7rem}

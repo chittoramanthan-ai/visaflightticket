@@ -45,6 +45,7 @@ BUNDLE_SAVING = 99
 PRICE_BOTH = PRICE_FLIGHT + PRICE_HOTEL - BUNDLE_SAVING
 PRICE_CONSULT_ONLY = 799   # advice only: review, cover letter, itinerary
 PRICE_CONSULT = 1499       # advice plus the flight reservation and hotel booking
+PRICE_FILING = 1999        # the above, plus we complete and lodge the application
 PRICE_ESIM = 299       # cheapest regional eSIM pack
 PRICE_INSURE = 499     # cheapest Schengen-compliant policy, per traveller
 DELIVERY = "30-60 minutes"
