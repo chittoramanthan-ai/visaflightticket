@@ -353,9 +353,6 @@ def consultation():
 <section>
   <div class="wrap">
     %s
-    <img class="vhero" src="%s" srcset="%s 640w, %s 1100w"
-         sizes="(max-width:640px) 100vw, 1100px" alt="" width="1100" height="340"
-         fetchpriority="high" decoding="async">
     <div class="hero__grid" style="align-items:flex-start">
       <div>
         <p class="eyebrow">Visa consultation &middot; from %s%s</p>
@@ -533,9 +530,6 @@ def consultation():
 
 %s
 """ % (c_html,
-       asset("assets/img/consultation/hero-sm.jpg", bust=True),
-       asset("assets/img/consultation/hero-sm.jpg", bust=True),
-       asset("assets/img/consultation/hero.jpg", bust=True),
        money(PRICE_CONSULT_ONLY),
        ('<span class="usd-alt">%s</span>' % usd(PRICE_CONSULT_ONLY)) if SHOW_USD else "",
        CONSULT_WA, ICON["whatsapp"], url("visa"),
