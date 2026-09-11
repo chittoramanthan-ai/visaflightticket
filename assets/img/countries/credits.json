@@ -70,6 +70,17 @@
   "query": "Banff Moraine Lake Canada",
   "source": "https://www.pexels.com/photo/picturesque-view-of-moraine-lake-in-banff-national-park-29188538/"
  },
+ "china": {
+  "banner_photographer": "Bruna Santos",
+  "banner_query": "Shanghai skyline Pudong bund",
+  "banner_source": "https://www.pexels.com/photo/shanghai-skyline-with-oriental-pearl-tower-35045370/",
+  "country": "China",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Stijn Dijkstra",
+  "photographer_url": "https://www.pexels.com/@stijn-dijkstra-1306815",
+  "query": "Great Wall of China",
+  "source": "https://www.pexels.com/photo/arched-window-overlooking-mountains-in-morning-fog-18709769/"
+ },
  "egypt": {
   "banner_photographer": "Michelle Chadwick",
   "banner_source": "https://www.pexels.com/photo/iconic-view-of-the-giza-pyramids-in-egypt-31133003/",
@@ -313,6 +324,17 @@
   "photographer_url": "https://www.pexels.com/@marina-zvada-844583049",
   "query": "Sigiriya rock Sri Lanka",
   "source": "https://www.pexels.com/photo/sigiriya-rock-fortress-staircase-scene-in-sri-lanka-35606851/"
+ },
+ "taiwan": {
+  "banner_photographer": "Jerry LIANG",
+  "banner_query": "Taipei 101 skyline Taiwan",
+  "banner_source": "https://www.pexels.com/photo/city-skyline-during-night-time-5149096/",
+  "country": "Taiwan",
+  "licence": "Pexels License - free commercial use",
+  "photographer": "Wei86 Travel",
+  "photographer_url": "https://www.pexels.com/@wei86-travel-31932701",
+  "query": "Taipei 101 skyline Taiwan",
+  "source": "https://www.pexels.com/photo/night-view-of-taipei-101-in-taiwan-cityscape-34332954/"
  },
  "thailand": {
   "banner_photographer": "Kirandeep Singh Walia",

@@ -97,6 +97,8 @@ SEARCH = {
     "South Africa": "Cape Town Table Mountain",
     "Morocco": "Marrakech Koutoubia Morocco",
     "Brazil": "Rio de Janeiro Christ the Redeemer",
+    "China": "Great Wall of China",
+    "Taiwan": "Taipei 101 skyline Taiwan",
 }
 
 
@@ -111,6 +113,8 @@ SEARCH_WIDE = {
     "Kuwait": "Kuwait City skyline towers",
     "Brazil": "Rio de Janeiro Sugarloaf Copacabana beach",
     "Uzbekistan": "Registan square Samarkand madrasah",
+    # "Great Wall of China" landscape results crop to open sky.
+    "China": "Shanghai skyline Pudong bund",
 }
 
 

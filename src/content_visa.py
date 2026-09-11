@@ -3,7 +3,7 @@
 
 import re
 
-from build import (asset, slugify, ICON, BRAND, DELIVERY, SITE_URL, TODAY, doodles,
+from build import (ticket, PRICE_CONSULT_ONLY, asset, slugify, ICON, BRAND, DELIVERY, SITE_URL, TODAY, doodles,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH,
                    money, add_page, url, abs_url, faq_block, faq_schema,
                    crumbs, cta_band, pricing_tickets,
@@ -653,6 +653,84 @@ STATUS = {
 }
 
 
+# Visa-free, but only if you clear a condition first: a qualifying visa you
+# may not hold, a permit, a registration that is easy to miss. There is real
+# advice to give on these, unlike Thailand or Nepal where you simply arrive.
+CONDITIONAL_FREE = {
+    "philippines-visa-for-indians",      # free only with a US/UK/Schengen/JP/AU/CA visa
+    "georgia-visa-for-indians",          # free only with a US/UK/Schengen/GCC visa
+    "hong-kong-visa-for-indians",        # free, but pre-arrival registration is compulsory
+    "sri-lanka-visa-for-indians",        # free, but ETA registration is still required
+    "bhutan-permit-for-indians",         # no visa, but a permit and a daily levy apply
+}
+
+
+def _wants_consult(v):
+    """True where there is an application to advise on.
+
+    Pure visa-free destinations are excluded: you land and walk through, so
+    consultation plans there would sell something that does not apply. Those
+    pages keep the flight and hotel cards.
+    """
+    return not (v["status"] == "visa_free" and v["slug"] not in CONDITIONAL_FREE)
+
+
+def _secondary_cta(v):
+    """Second hero button: consultation where it applies, the bundle otherwise."""
+    if _wants_consult(v):
+        return ('<a class="btn btn--ghost btn--lg" href="%s">Visa consultation at %s</a>'
+                % (url("visa-consultation"), money(PRICE_CONSULT_ONLY)))
+    return ('<a class="btn btn--ghost btn--lg" href="%s">Flight + hotel at %s</a>'
+            % (url("flight-and-hotel-package"), money(PRICE_BOTH)))
+
+
+def _plans_section(v, pf):
+    """The mid-page plan grid.
+
+    Where a visa has to be applied for, the useful offer is help with the
+    application, not three ways to buy a document. The flight and hotel
+    products stay reachable from the hero button and the closing band, so
+    nothing is hidden - it is the middle of the page that changes.
+    """
+    import content_services
+    if _wants_consult(v):
+        head = "Documents and help for your %s application" % v["short"]
+        lede = ("Buy the reservation on its own, or have us take on as much of the "
+                "application as you want.")
+        # The flight card leads, and deliberately so. These pages rank for
+        # "dummy ticket for <country> visa", which is cheap-document intent;
+        # opening with a Rs799 plan asks a reader to change their mind before
+        # they have found what they came for. It sits first, the consultation
+        # plans follow as the upsell.
+        grid = ('<div class="grid g4">%s%s</div>'
+                % (ticket("Flight Reservation",
+                          "A real, airline-held itinerary with a live PNR you can verify yourself.",
+                          PRICE_FLIGHT,
+                          ["Priced per flight: one way %s, return %s"
+                           % (money(PRICE_FLIGHT), money(PRICE_FLIGHT * 2)),
+                           "Live PNR, verifiable on the airline site",
+                           "One-way, return or multi-city",
+                           "Delivered as an embassy-ready PDF"],
+                          "Order flight ticket", "order?service=flight" + pf,
+                          code="FLIGHT", price_note="per traveller, one way"),
+                   "".join(content_services.consult_tickets())))
+    else:
+        head = "Documents for your %s application" % v["short"]
+        lede = "Delivered in %s, verifiable before you submit." % DELIVERY
+        grid = pricing_tickets(prefill=pf)
+    return """
+<section>
+  <div class="wrap">
+    <div class="center" style="margin-bottom:2.4rem">
+      <h2>%s</h2>
+      <p class="lede">%s</p>
+    </div>
+    %s
+  </div>
+</section>
+""" % (head, lede, grid)
+
+
 def _badge(v, big=False):
     label, cls, _ = STATUS[v["status"]]
     return ('<span class="vstat vstat--%s%s">%s<b>%s</b>%s</span>'
@@ -670,14 +748,17 @@ def _tips_html(v):
 def _index():
     c_html, c_schema = crumbs([("Visa guides", None)])
 
-    ORDER = [("visa_free", "Visa free for Indians",
-              "Nothing to apply for. Turn up with the right paperwork and you are in."),
-             ("voa", "Visa on arrival",
-              "Issued at the airport, but only if you meet the conditions."),
+    # Hardest first. Someone facing a full application has weeks of work ahead
+    # and should not scroll past countries they can simply fly to; someone
+    # going somewhere visa-free is not really shopping.
+    ORDER = [("visa_required", "Full visa application",
+              "Appointment, documents, and a wait. Plan these first."),
              ("evisa", "e-Visa, applied for online",
               "No embassy visit. Usually decided in a few days."),
-             ("visa_required", "Full visa application",
-              "Appointment, documents, and a wait. Plan these first.")]
+             ("voa", "Visa on arrival",
+              "Issued at the airport, but only if you meet the conditions."),
+             ("visa_free", "Visa free for Indians",
+              "Nothing to apply for. Turn up with the right paperwork and you are in.")]
 
     # Ordered by how many Indians actually travel there, not alphabetically.
     # A visitor scanning the visa-free section wants Thailand and Dubai near
@@ -692,10 +773,11 @@ def _index():
         "Indonesia", "Qatar",
         # e-visa
         "UAE", "Singapore", "Vietnam", "Turkey", "Saudi Arabia", "Oman", "Bahrain",
-        "Egypt", "Azerbaijan", "Cambodia", "Kenya", "South Africa", "Russia", "Morocco",
+        "Egypt", "Azerbaijan", "Cambodia", "Taiwan", "Kenya", "South Africa", "Russia",
+        "Morocco",
         # full visa
         "United States", "United Kingdom", "Schengen", "Canada", "Australia",
-        "Japan", "South Korea", "New Zealand", "Kuwait", "Brazil",
+        "China", "Japan", "South Korea", "New Zealand", "Kuwait", "Brazil",
     ]
     RANK = {name: i for i, name in enumerate(POPULARITY)}
 
@@ -806,7 +888,7 @@ def _page(v):
         <p class="lede">%s</p>
         <div class="btn-row" style="margin-top:1.6rem">
           <a class="btn btn--primary btn--lg" href="%s">Order flight reservation at %s</a>
-          <a class="btn btn--ghost btn--lg" href="%s">Flight + hotel at %s</a>
+          %s
         </div>
         %s
       </div>
@@ -855,15 +937,7 @@ def _page(v):
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <div class="center" style="margin-bottom:2.4rem">
-      <h2>Documents for your %s application</h2>
-      <p class="lede">Delivered in %s, verifiable before you submit.</p>
-    </div>
-    %s
-  </div>
-</section>
+%s
 
 <section class="band">
   <div class="wrap wrap--narrow">
@@ -894,12 +968,12 @@ def _page(v):
        asset("assets/img/countries/%s-wide-sm.jpg" % slugify(v["short"]), bust=True),
        asset("assets/img/countries/%s-wide.jpg" % slugify(v["short"]), bust=True),
        _badge(v, big=True), v["h1"], v["blurb"],
-       url("order?service=flight" + pf), money(PRICE_FLIGHT), url("flight-and-hotel-package"), money(PRICE_BOTH),
+       url("order?service=flight" + pf), money(PRICE_FLIGHT), _secondary_cta(v),
        content_core.TRUSTLINE, pass_art, stat_bar(),
        trust_cards(heading=None),
        _steps_html(v), _fees_html(v),
        reqs, v["official"], traps,
-       v["short"], DELIVERY, pricing_tickets(prefill=pf),
+       _plans_section(v, pf),
        faq_block(v["faqs"], "%s: your questions" % v["short"]),
        _tips_html(v),
        others,

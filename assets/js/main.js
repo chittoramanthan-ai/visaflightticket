@@ -743,9 +743,26 @@
 
     // Safety net: whatever has not been revealed after 4s gets revealed anyway,
     // so a stuck observer can never leave content permanently invisible.
+    // 4s was far too generous for a safety net: it is the worst case a reader
+    // actually experiences when anything delays main.js, and four seconds of
+    // blank page below the hero reads as a broken site rather than a slow one.
     setTimeout(function () {
       document.documentElement.classList.remove('js-anim');
-    }, 4000);
+    }, 900);
+
+    // Layout at defer-time is not final: fonts and images can still shift
+    // things down. Re-run the on-screen check once everything has settled, so
+    // anything that turned out to be above the fold is shown rather than
+    // waiting for a scroll that may never come.
+    window.addEventListener('load', function () {
+      var h = window.innerHeight || 800;
+      var pending = document.querySelectorAll(RV_SEL);
+      for (var q = 0; q < pending.length; q++) {
+        var el = pending[q];
+        if (el.classList.contains('rv-in') || el.classList.contains('rv-now')) continue;
+        if (el.getBoundingClientRect().top < h) el.classList.add('rv-now');
+      }
+    });
 
     // Count the stat numbers up when the bar first scrolls into view.
     // Skipped entirely for anyone who has asked their OS for less motion:
@@ -817,6 +834,25 @@
     window.addEventListener('load', function () { measureScta(); up = null; updateScta(); });
   }
 
+  // --- marquee: only animate what is on screen ----------------------------
+  // Three infinite CSS animations carrying 84 logos will happily run while the
+  // strip is four screens above you, and the compositor work shows up as
+  // general sluggishness rather than anything obviously broken.
+  (function () {
+    var strips = document.querySelectorAll('.mq');
+    if (!strips.length) return;
+    if (reduce || !('IntersectionObserver' in window)) {
+      for (var i = 0; i < strips.length; i++) strips[i].classList.add('is-live');
+      return;
+    }
+    var mio = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) {
+        entries[k].target.classList.toggle('is-live', entries[k].isIntersecting);
+      }
+    }, { rootMargin: '200px 0px' });
+    for (var n = 0; n < strips.length; n++) mio.observe(strips[n]);
+  })();
+
   // --- back to top ---------------------------------------------------------
   var totop = document.getElementById('totop');
   if (totop) {
@@ -850,11 +886,24 @@
       aTop = article.offsetTop;
       aSpan = Math.max(1, article.offsetHeight - window.innerHeight);
     }
-    function updateProg() {
+    // Scroll fires far more often than the screen refreshes, and this handler
+    // both reads layout and writes style. Unthrottled it was the one place on
+    // the site doing real work on every single scroll event.
+    var progQueued = false, lastPct = -1;
+    function paintProg() {
+      progQueued = false;
       var y = (window.pageYOffset || document.documentElement.scrollTop || 0) - aTop;
       var pct = Math.max(0, Math.min(1, y / aSpan));
-      bar.style.width = (pct * 100).toFixed(1) + '%';
-      bar.setAttribute('aria-valuenow', Math.round(pct * 100));
+      var whole = Math.round(pct * 100);
+      if (whole === lastPct) return;          // nothing moved worth repainting
+      lastPct = whole;
+      bar.style.width = whole + '%';
+      bar.setAttribute('aria-valuenow', whole);
+    }
+    function updateProg() {
+      if (progQueued) return;
+      progQueued = true;
+      requestAnimationFrame(paintProg);
     }
     measureProg();
     updateProg();

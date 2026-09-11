@@ -136,9 +136,13 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
 }
 
 /* --- header ------------------------------------------------------------- */
+/* No backdrop-filter here, deliberately. A blur behind a sticky header has to
+   be recomputed every scroll frame, on every page, for the whole session - it
+   is the most expensive thing a site can ask for on scroll. At 96% opacity the
+   frosted look is almost indistinguishable and costs nothing. */
 .hdr{
-  position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--surface) 88%,transparent);
-  backdrop-filter:saturate(1.5) blur(12px);border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--surface) 96%,transparent);
+  border-bottom:1px solid var(--line);
 }
 .hdr__in{display:flex;align-items:center;gap:14px;min-height:66px}
 .logo{display:flex;align-items:center;gap:9px;font-weight:750;color:var(--ink);font-size:1.03rem;letter-spacing:-.02em;flex:none}
@@ -451,8 +455,7 @@ section > .wrap > .center{margin-bottom:var(--sp-block)}
 /* --- sticky conversion bar ---------------------------------------------- */
 .scta{
   position:fixed;left:0;right:0;bottom:0;z-index:70;
-  background:color-mix(in srgb,var(--surface) 96%,transparent);
-  backdrop-filter:saturate(1.5) blur(14px);
+  background:color-mix(in srgb,var(--surface) 98%,transparent);
   border-top:1px solid var(--line);box-shadow:0 -6px 28px -14px rgba(16,32,26,.3);
   transform:translateY(105%);transition:transform .34s cubic-bezier(.22,.61,.36,1);
 }
@@ -594,15 +597,21 @@ body.has-scta .ftr{padding-bottom:96px}
    leave the page blank if the script ever failed to run. The hero is
    excluded: above-the-fold content must never depend on an observer.
    ------------------------------------------------------------------------ */
-.js-anim section:not(.hero) > .wrap > *,
-.js-anim section:not(.hero) .grid > *,
-.js-anim section:not(.hero) .steps > *,
-.js-anim section:not(.hero) .trust-panel > .trust-card,
-.js-anim section:not(.hero) .stats > .stat,
-.js-anim section:not(.hero) .mq,
-.js-anim section:not(.hero) .tbl-wrap,
-.js-anim section:not(.hero) .faq,
-.js-anim section:not(.hero) .note{
+/* :not(:first-of-type) matters more than it looks. Only the home page puts
+   class="hero" on its opening section; on the other 76 pages the first
+   section matched this rule, so everything above the fold was invisible from
+   first paint until main.js ran and revealed it. The fold is not something
+   CSS can measure, but "the first section" is a good enough stand-in for it
+   and needs no JavaScript at all. */
+.js-anim section:not(.hero):not(:first-of-type) > .wrap > *,
+.js-anim section:not(.hero):not(:first-of-type) .grid > *,
+.js-anim section:not(.hero):not(:first-of-type) .steps > *,
+.js-anim section:not(.hero):not(:first-of-type) .trust-panel > .trust-card,
+.js-anim section:not(.hero):not(:first-of-type) .stats > .stat,
+.js-anim section:not(.hero):not(:first-of-type) .mq,
+.js-anim section:not(.hero):not(:first-of-type) .tbl-wrap,
+.js-anim section:not(.hero):not(:first-of-type) .faq,
+.js-anim section:not(.hero):not(:first-of-type) .note{
   opacity:0;transform:translateY(18px);
   transition:opacity .35s cubic-bezier(.22,.61,.36,1) var(--rvd,0ms),
              transform .35s cubic-bezier(.22,.61,.36,1) var(--rvd,0ms);
@@ -941,9 +950,16 @@ body.has-scta .totop{bottom:88px}
 }
 .mq+.mq{margin-top:12px}
 .mq__track{
-  display:flex;gap:13px;width:max-content;will-change:transform;
+  display:flex;gap:13px;width:max-content;
   animation:mq-ltr 58s linear infinite;
 }
+/* will-change:transform used to sit here. An element that is already running
+   a transform animation is composited anyway, so the hint bought nothing and
+   pinned three layers in GPU memory for the life of the page. */
+/* Paused unless the strip is actually on screen. Three infinite animations
+   that never stop are the difference between a page that idles and one that
+   keeps the compositor busy while you read something else entirely. */
+.mq:not(.is-live) .mq__track{animation-play-state:paused}
 .mq--b .mq__track{animation-duration:74s}
 .mq--c .mq__track{animation-duration:64s}
 /* content travels left -> right; the track is duplicated so -50% wraps seamlessly */
@@ -961,8 +977,11 @@ body.has-scta .totop{bottom:88px}
 .mq__item--logo{gap:.6rem;padding-left:14px}
 .mq__item img{
   width:30px;height:30px;flex:none;object-fit:contain;
-  filter:saturate(.92);transition:filter .2s ease,transform .2s ease;
+  transition:filter .2s ease,transform .2s ease;
 }
+/* The resting state used to carry filter:saturate(.92). A filter on 84 images
+   that are permanently in motion is re-evaluated every frame; the hover state
+   below still gets one, but only on the image under the cursor. */
 .mq__item:hover img{filter:saturate(1.1);transform:scale(1.06)}
 .mq__item b{
   font-size:.9rem;font-weight:700;letter-spacing:-.015em;color:var(--ink-2);
@@ -1827,3 +1846,24 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
    list and a signature, which is too much beside a pricing table. */
 .creed--tight .creed__lead{font-size:1.06rem}
 .creed--tight h2{margin-bottom:.7rem}
+
+/* Consultation prompt on a visa guide. Reads as an aside rather than a second
+   sales pitch, so it does not fight the pricing tickets in the next section. */
+.note--cta{margin-top:1.8rem}
+.note--cta a{font-weight:650;white-space:nowrap}
+
+/* Illustrating photo inside an article. Full column width, and always lazy:
+   it sits after the first section so it is never the LCP element. */
+.post-img{
+  display:block;width:100%;height:auto;max-width:100%;
+  border-radius:var(--radius);margin:1.8rem 0;
+}
+
+/* .yes/.no are also applied straight to <td>, and inline-flex takes a cell
+   out of the table layout entirely: the three verdict cells collapsed into
+   one column and the remaining columns rendered empty. Spans keep the flex
+   (31 of those); cells stay cells and get the badge as an inline-block. */
+td.yes,td.no{display:table-cell}
+td.yes::before,td.no::before{
+  display:inline-block;vertical-align:-3px;margin-right:.4rem;
+}

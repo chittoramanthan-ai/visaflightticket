@@ -284,6 +284,46 @@ def esim():
 
 
 # --------------------------------------------------------------------------
+def consult_tickets():
+    """The three consultation plans.
+
+    Lifted out of consultation() so a visa guide can show the same three
+    cards. One definition, so a price or a feature line cannot drift
+    between the two places a reader might meet them.
+    """
+    return (
+       ticket("Consultation only",
+               "We read your file and tell you exactly what to fix. You assemble the documents.",
+               PRICE_CONSULT_ONLY,
+               ["Checklist review against your embassy",
+                "Cover letter written for your case",
+                "Itinerary planned around your dates",
+                "Guidance on what your finances need to show"],
+               "Talk on WhatsApp", consult_wa("Consultation only", PRICE_CONSULT_ONLY), code="ADVICE",
+               price_note="per application"),
+        ticket("Consultation + flights + hotels",
+               "Everything above, plus the flight reservation and hotel booking, with every date reconciled.",
+               PRICE_CONSULT,
+               ["Everything in consultation only",
+                "Flight reservation with a live PNR",
+                "Hotel booking for every night declared",
+                "Dates cross-checked across all three",
+                "One pack, ready to upload"],
+               "Talk on WhatsApp", consult_wa("Consultation + flights + hotels", PRICE_CONSULT), code="FULLFILE",
+               price_note="per application"),
+        ticket("Flights + hotels + filing",
+               "Everything above, and we complete the forms and lodge the application for you.",
+               PRICE_FILING,
+               ["Everything in consultation + flights + hotels",
+                "Application forms completed for you",
+                "Appointment booked around your dates",
+                "Application lodged on your behalf",
+                "Embassy fee paid by you, at cost"],
+               "Talk on WhatsApp", consult_wa("Flights + hotels + filing", PRICE_FILING), code="FILING",
+               price_note="per application", featured=True, badge="Best value"),
+    )
+
+
 def _file_card():
     """Artwork for the consultation hero.
 
@@ -356,7 +396,7 @@ def consultation():
     <div class="hero__grid" style="align-items:flex-start">
       <div>
         <p class="eyebrow">Visa consultation &middot; from %s%s</p>
-        <h1>Get your visa approved, on time</h1>
+        <h1 data-type>Get your visa approved, on time</h1>
         <p class="lede">Most refusals are not close calls. They are avoidable ones: a missing document, a
         letter answering the wrong question, dates that do not agree with each other. We go through your
         file before an embassy does, and tell you what an officer is going to see.</p>
@@ -378,7 +418,7 @@ def consultation():
       <p class="lede">Advice on its own, the flights and hotels included, or the whole
       application completed and lodged for you.</p>
     </div>
-    <div class="grid g3">%s%s%s</div>
+    <div class="grid g3">%s</div>
     <p class="center" style="margin-top:1.4rem;color:var(--ink-2);font-size:.93rem">
       Per application, not per traveller. Additional travellers on the same file are included.</p>
   </div>
@@ -534,35 +574,7 @@ def consultation():
        ('<span class="usd-alt">%s</span>' % usd(PRICE_CONSULT_ONLY)) if SHOW_USD else "",
        CONSULT_WA, ICON["whatsapp"], url("visa"),
        content_core.trustline("advice"), _file_card(),
-       ticket("Consultation only",
-              "We read your file and tell you exactly what to fix. You assemble the documents.",
-              PRICE_CONSULT_ONLY,
-              ["Checklist review against your embassy",
-               "Cover letter written for your case",
-               "Itinerary planned around your dates",
-               "Guidance on what your finances need to show"],
-              "Talk on WhatsApp", consult_wa("Consultation only", PRICE_CONSULT_ONLY), code="ADVICE",
-              price_note="per application"),
-       ticket("Consultation + flights + hotels",
-              "Everything above, plus the flight reservation and hotel booking, with every date reconciled.",
-              PRICE_CONSULT,
-              ["Everything in consultation only",
-               "Flight reservation with a live PNR",
-               "Hotel booking for every night declared",
-               "Dates cross-checked across all three",
-               "One pack, ready to upload"],
-              "Talk on WhatsApp", consult_wa("Consultation + flights + hotels", PRICE_CONSULT), code="FULLFILE",
-              price_note="per application"),
-       ticket("Flights + hotels + filing",
-              "Everything above, and we complete the forms and lodge the application for you.",
-              PRICE_FILING,
-              ["Everything in consultation + flights + hotels",
-               "Application forms completed for you",
-               "Appointment booked around your dates",
-               "Application lodged on your behalf",
-               "Embassy fee paid by you, at cost"],
-              "Talk on WhatsApp", consult_wa("Flights + hotels + filing", PRICE_FILING), code="FILING",
-              price_note="per application", featured=True, badge="Best value"),
+       "".join(consult_tickets()),
        BRAND,
        ICON["globe"], ICON["doc"], ICON["wallet"], ICON["plane"], ICON["shield"], ICON["check"],
        _country_tiles(), url("visa"), BRAND,

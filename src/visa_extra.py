@@ -19,6 +19,110 @@ carries a checked-on date rather than pretending the position is permanent.
 from build import DELIVERY, PRICE_FLIGHT, PRICE_BOTH, money, url
 
 EXTRA = [
+# ==================================================================== East Asia
+dict(
+    slug="china-visa-for-indians",
+    official_src=('Chinese Visa Application Service Center', 'https://bio.visaforchina.cn/'),
+    label="China", short="China",
+    status="visa_required", status_note="Full application at CVASC, biometrics, 4 to 7 working days",
+    h1="China visa for Indian passport holders",
+    title="China Visa for Indians 2026 | Cost, CVASC Process, Documents",
+    desc="Indians need a visa for mainland China: no visa on arrival, no e-visa. Fees are reduced to December 2026. Documents, biometrics and processing times. Reservations from %s." % money(PRICE_FLIGHT),
+    route=("DEL", "PEK"),
+    blurb="There is no shortcut into mainland China. No visa on arrival, no e-visa, no waiver for Indian "
+          "passports. You apply in person at a Chinese Visa Application Service Center, give fingerprints, "
+          "and wait. The one piece of good news is the fee, which China cut for Indian applicants and has "
+          "held down through December 2026.",
+    requirements=[
+        "Passport valid <strong>six months</strong> beyond arrival, with blank pages for the sticker.",
+        "<strong>Fingerprint biometrics</strong> at the CVASC, in person. Waived under 14, over 70, and if you gave them for a Chinese visa in the last five years.",
+        "<strong>Confirmed flight booking</strong> in and out, with dates matching the form.",
+        "<strong>Hotel bookings for every night</strong>, or an invitation letter if you are staying with someone.",
+        "<strong>Bank statements</strong>, usually six months, showing you can fund the trip.",
+        "A <strong>day-by-day itinerary</strong>. China asks for more detail here than most.",
+    ],
+    official="The Chinese Visa Application Service Center handles submission, biometrics and collection for the embassy in New Delhi and the missions in Mumbai and Kolkata.",
+    traps=[
+        ("Assuming an e-visa exists", "It does not, for Indian passports. Sites offering one are selling you a form-filling service at best."),
+        ("Booking the appointment late", "Biometrics are in person and slots in Delhi and Mumbai go quickly in peak season. The visa cannot be started without one."),
+        ("A vague itinerary", "China asks for dates, cities and hotels. 'Touring Beijing and Shanghai' is the kind of answer that gets the file queried."),
+        ("Forgetting the pre-approval step", "An online pre-approval stage was added in December 2025. End to end, budget 10 to 15 working days rather than the 4 to 7 the counter quotes."),
+    ],
+    steps=[
+        ("Fill the online form and get pre-approval", "Added in December 2025 and now the first step, not the last."),
+        ("Book a CVASC appointment", "New Delhi, Mumbai or Kolkata. In person, with biometrics."),
+        ("Assemble the file", "Passport, photo, itinerary, flight and hotel bookings, bank statements."),
+        ("Submit and give fingerprints", "Both happen at the same appointment."),
+        ("Collect, or pay for courier", "Standard processing is 4 to 7 working days after submission."),
+    ],
+    fees=[("Tourist visa, single entry", "About Rs5,000", "Roughly Rs2,900 visa fee plus Rs2,107 CVASC service charge"),
+          ("Double entry", "About Rs4,400", "Visa fee, before the service charge"),
+          ("Six-month multiple entry", "About Rs5,900", "Visa fee, before the service charge"),
+          ("Twelve-month multiple entry", "About Rs8,800", "Visa fee, before the service charge")],
+    tips=[
+        "Reduced fees for Indian applicants run to 31 December 2026. They have been extended before, but do not plan a trip around the assumption.",
+        "Google, WhatsApp and Instagram do not work on Chinese networks. Download offline maps and set up an alternative before you fly, not after.",
+        "Alipay and WeChat Pay now take foreign cards, which removes the old problem of being unable to pay for anything without a Chinese bank account.",
+        "High-speed rail beats domestic flights between most city pairs and books out well ahead during public holidays.",
+    ],
+    faqs=[
+        ("Do Indians need a visa for China?", "<p>Yes, always. There is no visa on arrival and no e-visa for Indian passport holders. You apply in advance through a Chinese Visa Application Service Center and give fingerprints in person.</p>"),
+        ("How much does a China visa cost from India?", "<p>About Rs5,000 all in for a single-entry tourist visa: roughly Rs2,900 in visa fee plus about Rs2,107 in CVASC service charge. Reduced rates for Indian applicants run to 31 December 2026.</p>"),
+        ("How long does a China visa take?", "<p>Four to seven working days after your appointment. Counting the online pre-approval step introduced in December 2025, plan for 10 to 15 working days end to end.</p>"),
+        ("Do I need hotel and flight bookings to apply?", "<p>Yes. China wants a dated itinerary with flights in and out and accommodation for every night. A held reservation satisfies this without paying for a fare before the visa is decided.</p>"),
+    ]),
+
+dict(
+    slug="taiwan-visa-for-indians",
+    official_src=('Bureau of Consular Affairs, Taiwan', 'https://www.boca.gov.tw/'),
+    label="Taiwan", short="Taiwan",
+    status="evisa", status_note="Free online certificate if you hold a qualifying visa, otherwise an e-visa",
+    h1="Taiwan visa for Indian passport holders",
+    title="Taiwan Visa for Indians 2026 | Free TAC, e-Visa, Arrival Card",
+    desc="Indians holding a valid US, UK, Schengen, Japanese, Canadian, Australian, NZ or Korean visa can get a free Taiwan Travel Authorization Certificate online. Everyone else applies for an e-visa. Reservations from %s." % money(PRICE_FLIGHT),
+    route=("DEL", "TPE"),
+    blurb="Taiwan has one of the better deals going for Indian travellers, and almost nobody knows about it. "
+          "If you already hold a valid visa or residence permit for the US, UK, Schengen, Japan, Canada, "
+          "Australia, New Zealand or South Korea, you can apply online for a Travel Authorization "
+          "Certificate. It is free, it takes minutes, and it is good for 14 days.",
+    requirements=[
+        "Passport valid at least <strong>six months</strong> from the date you arrive.",
+        "For the free certificate: a <strong>valid visa or residence permit</strong> from the US, UK, Schengen area, Japan, Canada, Australia, New Zealand or South Korea. An e-visa from those countries does not count.",
+        "<strong>Confirmed onward or return ticket</strong>.",
+        "<strong>Proof of accommodation</strong> for the stay.",
+        "<strong>Taiwan Arrival Card</strong>, submitted online within three days before you land. Compulsory since 1 October 2025.",
+    ],
+    official="The Bureau of Consular Affairs issues both the Travel Authorization Certificate and the e-visa, and publishes the current list of qualifying countries.",
+    traps=[
+        ("Assuming an expired US or Schengen visa still counts", "The qualifying visa has to be valid, or used within the stated window. An expired one does not open the certificate route."),
+        ("Missing the arrival card", "The Taiwan Arrival Card became compulsory on 1 October 2025 and catches people who last visited before that."),
+        ("Treating the certificate as a visa", "It is an authorisation to travel and gives 14 days. If you need longer, apply for a visitor visa instead."),
+        ("Trying to use an e-visa as your qualifying document", "Taiwan does not accept another country's e-visa as the qualifying permit. It has to be a full visa or residence permit."),
+    ],
+    steps=[
+        ("Check whether you hold a qualifying visa", "A valid US, UK, Schengen, Japanese, Canadian, Australian, NZ or Korean visa or residence permit opens the free route."),
+        ("Apply for the Travel Authorization Certificate", "Online, free, usually issued immediately. Print it and carry it."),
+        ("If you do not qualify, apply for a visitor visa", "Through the Taipei Economic and Cultural Center, from about Rs4,200 for single entry."),
+        ("Submit the Taiwan Arrival Card", "Online, within three days before arrival. Free and compulsory."),
+        ("Carry your bookings", "Onward ticket and accommodation, checked at the airline counter as often as at immigration."),
+    ],
+    fees=[("Travel Authorization Certificate", "Free", "If you hold a qualifying visa from one of the listed countries"),
+          ("Visitor visa, single entry", "From about Rs4,200", "Through the Taipei Economic and Cultural Center"),
+          ("Taiwan Arrival Card", "Free", "Official site only, compulsory since October 2025"),
+          ("Express processing", "Extra", "One working day instead of two")],
+    tips=[
+        "The free certificate is good for 14 days and cannot be extended. If your trip is longer, apply for the visitor visa from the start.",
+        "EasyCard covers metro, buses, convenience stores and most of Taipei. Buy one at the airport MRT station.",
+        "The high-speed rail runs the length of the west coast in under two hours and is far better value booked early.",
+        "Taiwan is one of the easiest places in Asia to eat vegetarian: look for the Buddhist swastika symbol outside a restaurant, which marks a fully vegetarian kitchen.",
+    ],
+    faqs=[
+        ("Do Indians need a visa for Taiwan?", "<p>Yes, but if you hold a valid visa or residence permit from the US, UK, Schengen area, Japan, Canada, Australia, New Zealand or South Korea, you can get a free Travel Authorization Certificate online instead, good for 14 days.</p>"),
+        ("Is the Taiwan Travel Authorization Certificate really free?", "<p>Yes. It is issued online by the Bureau of Consular Affairs at no cost, usually straight away. Sites charging for it are charging for form filling.</p>"),
+        ("What is the Taiwan Arrival Card?", "<p>A free online form, compulsory since 1 October 2025, submitted within three days before you arrive. It is separate from your visa or certificate and catches a lot of returning visitors.</p>"),
+        ("Does an old US visa still qualify?", "<p>It has to be valid, or used within the window Taiwan publishes. An expired visa does not open the free certificate route, and an e-visa from another country never does.</p>"),
+    ]),
+
 # ============================================================ Southeast Asia
 dict(
     slug="malaysia-visa-for-indians",

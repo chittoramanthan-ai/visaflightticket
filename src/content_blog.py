@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """Blog: the topical-authority cluster that feeds the money pages."""
 
-from build import (BRAND, SITE_URL, TODAY, DELIVERY, EMAIL,
+import os
+
+from build import (ROOT, asset, BRAND, SITE_URL, TODAY, DELIVERY, EMAIL,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH, SINCE_YEAR,
                    money, add_page, url, abs_url, faq_block, faq_schema,
                    crumbs, cta_band, slugify, page_title, trim_desc)
@@ -907,15 +909,33 @@ def _index():
              body, schema=[c_schema, blog_schema], priority="0.8", changefreq="weekly")
 
 
+def _post_image(p):
+    """Illustrating photo, or nothing if one was never fetched."""
+    base = os.path.join(ROOT, "assets", "img", "blog", p["slug"])
+    if not os.path.exists(base + ".jpg"):
+        return ""
+    return ('<img class="post-img" src="%s" srcset="%s 480w, %s 800w" '
+            'sizes="(max-width:720px) 100vw, 720px" alt="" '
+            'width="800" height="360" loading="lazy" decoding="async">'
+            % (asset("assets/img/blog/%s-sm.jpg" % p["slug"], bust=True),
+               asset("assets/img/blog/%s-sm.jpg" % p["slug"], bust=True),
+               asset("assets/img/blog/%s.jpg" % p["slug"], bust=True)))
+
+
 def _post(p, index):
     slug = "blog/" + p["slug"]
     c_html, c_schema = crumbs([("Blog", "blog"), (p["title"], None)])
 
     toc, sections = "", ""
-    for h, html in p["sections"]:
+    for i, (h, html) in enumerate(p["sections"]):
         anchor = slugify(__import__("re").sub(r"<[^>]+>", "", h))[:60]
         toc += '<li><a href="#%s">%s</a></li>' % (anchor, h)
         sections += '<h2 id="%s">%s</h2>%s' % (anchor, h, html)
+        # After the first section, never before it: an image above the fold
+        # would become the LCP element on the pages that carry the organic
+        # traffic. Down here it is lazy and costs nothing until scrolled to.
+        if i == 0:
+            sections += _post_image(p)
 
     # related: next two posts, wrapping
     rel = ""
@@ -970,7 +990,10 @@ def _post(p, index):
         "publisher": {"@id": SITE_URL + "/#organization"},
         "isPartOf": {"@id": abs_url("blog") + "#blog"},
         "mainEntityOfPage": {"@type": "WebPage", "@id": abs_url(slug)},
-        "image": SITE_URL + "/assets/img/og-default.jpg",
+        "image": (SITE_URL + asset("assets/img/blog/%s.jpg" % p["slug"])
+                  if os.path.exists(os.path.join(ROOT, "assets", "img", "blog",
+                                                 p["slug"] + ".jpg"))
+                  else SITE_URL + "/assets/img/og-default.jpg"),
     }
 
     add_page(slug, page_title(p["meta_title"]), trim_desc(p["desc"]), body,
