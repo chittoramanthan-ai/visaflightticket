@@ -401,7 +401,7 @@ def consultation():
         letter answering the wrong question, dates that do not agree with each other. We go through your
         file before an embassy does, and tell you what an officer is going to see.</p>
         <div class="btn-row" style="margin-top:1.6rem">
-          <a class="btn btn--wa btn--lg" href="%s">%s Talk on WhatsApp</a>
+          <a class="btn btn--wa btn--lg" href="%s">%s Apply now</a>
           <a class="btn btn--ghost btn--lg" href="%s">Browse visa guides</a>
         </div>
         %s
@@ -421,6 +421,15 @@ def consultation():
     <div class="grid g3">%s</div>
     <p class="center" style="margin-top:1.4rem;color:var(--ink-2);font-size:.93rem">
       Per application, not per traveller. Additional travellers on the same file are included.</p>
+    <div class="center" style="margin-top:2.6rem">
+      <p style="font-family:var(--display);font-size:clamp(1.3rem,1.1rem + 1vw,1.75rem);font-weight:800;letter-spacing:-.03em;color:var(--ink);margin:0;line-height:1.15">
+        Most affordable price on the internet</p>
+      <p style="color:var(--ink-2);max-width:58ch;margin:.6rem auto 0">The embassy fee is paid by you, at
+      cost. We never mark it up, and nothing is added to the figure after we have quoted it.</p>
+      <div class="btn-row" style="justify-content:center;margin-top:1.5rem">
+        <a class="btn btn--wa btn--lg" href="%s">%s Apply now</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -575,6 +584,7 @@ def consultation():
        CONSULT_WA, ICON["whatsapp"], url("visa"),
        content_core.trustline("advice"), _file_card(),
        "".join(consult_tickets()),
+       consult_wa(), ICON["whatsapp"],
        BRAND,
        ICON["globe"], ICON["doc"], ICON["wallet"], ICON["plane"], ICON["shield"], ICON["check"],
        _country_tiles(), url("visa"), BRAND,

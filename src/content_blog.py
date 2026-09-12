@@ -19,6 +19,122 @@ POSTS = [
 
 # ==========================================================================
 dict(
+    slug="thailand-new-rules-for-indian-travellers",
+    cat="Travel rules",
+    title="Thailand's New Rules for Indians: 30 Days, TDAC and Proof of Funds",
+    meta_title="Thailand New Rules for Indians 2026 | 30-Day Stay, TDAC, Funds",
+    desc="From 15 September 2026 Thailand's visa-free stay for Indians drops from 60 days to 30. The compulsory digital arrival card, the proof-of-funds figure officers can ask for, and what to carry.",
+    read=7,
+    lede="Thailand changed three things at once, and two of them catch people at the airport rather than "
+         "at an embassy. The visa-free stay is shorter from 15 September 2026, the arrival card has been "
+         "compulsory since last year, and the money rule everyone is arguing about online has a different "
+         "answer depending on how you enter.",
+    sections=[
+        ("The 60-day stay is now 30 days", """
+<p>From <strong>15 September 2026</strong>, Thailand's visa exemption gives Indian passport holders
+<strong>30 days</strong> instead of 60. The 60-day scheme introduced in 2024 ended on the same date. The
+Ministry of Interior announcements were published in the Royal Gazette on 31 August 2026, and the Tourism
+Authority of Thailand confirmed the framework: sixty countries and territories now get 30 days for tourism.</p>
+<p>Two details that matter more than the headline:</p>
+<ul>
+  <li><strong>If you entered before 15 September, you keep what you were given.</strong> A 60-day stamp
+      already in your passport is not shortened retroactively.</li>
+  <li><strong>You can still extend once, inside Thailand</strong>, by 30 days at an immigration office. The
+      fee is normally 1,900 baht. That gets you back to roughly the old window, but it costs a morning and
+      a queue rather than being automatic.</li>
+</ul>
+<p>If you were planning a trip around a two-month stay, that plan now needs either a shorter trip, an
+extension in Bangkok, or an actual tourist visa applied for before you fly.</p>"""),
+
+        ("The arrival card is compulsory, free, and online", """
+<p>The <strong>Thailand Digital Arrival Card</strong>, or TDAC, replaced the old paper TM6 card and has been
+compulsory since <strong>1 May 2025</strong>. It applies to every non-Thai national entering the country, by
+air, land or sea, whether or not you need a visa.</p>
+<ul>
+  <li>Submit it online, <strong>within 72 hours before you arrive</strong>. Not earlier.</li>
+  <li>It is <strong>free</strong>. The official site is <code>tdac.immigration.go.th</code>, run by the
+      Immigration Bureau.</li>
+  <li>You get a QR code. Save it offline, because airport wifi is exactly where you do not want to be
+      hunting for an email.</li>
+</ul>
+<div class="note note--warn">
+  <strong>The copycat sites are the real problem here</strong>
+  Search "Thailand arrival card" and you will find services charging fifteen to thirty dollars to fill in a
+  free government form for you. They are not scams in the legal sense, they are just charging you for
+  typing. The Immigration Bureau's own page says plainly that no fees are required.
+</div>"""),
+
+        ("Proof of funds: the number depends on how you enter", """
+<p>This is where most of the confusion sits. People repeat "20,000 baht" as though it were one rule. It is
+not. The figure comes from Thai immigration regulation and it varies by entry category. These are the
+amounts published by the Thai government:</p>
+<div class="tbl-wrap">
+  <table>
+    <thead><tr><th>How you enter</th><th>Per person</th><th>Per family</th></tr></thead>
+    <tbody>
+      <tr><td><b>Visa exemption</b> (most Indians)</td><td>10,000 baht</td><td>20,000 baht</td></tr>
+      <tr><td>Visa on arrival</td><td>10,000 baht</td><td>20,000 baht</td></tr>
+      <tr><td>Tourist visa</td><td>20,000 baht</td><td>40,000 baht</td></tr>
+      <tr><td>Non-immigrant visa</td><td>20,000 baht</td><td>40,000 baht</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>So if you are flying in visa-free, which is what most Indian tourists do, the figure is
+<strong>10,000 baht per person or 20,000 per family</strong>, not 20,000 each. The 20,000 figure people
+quote is the tourist visa number.</p>
+<p>Four things worth knowing about it:</p>
+<ul>
+  <li><strong>It is not a fee.</strong> Nobody collects it. You are showing that you have access to money,
+      not handing it over.</li>
+  <li>It can be <strong>cash in baht, the equivalent in another currency, or documents evidencing
+      payment</strong>. A card with a visible balance is commonly accepted, but an officer is entitled to
+      want something more concrete.</li>
+  <li><strong>Children under 12 are exempt.</strong></li>
+  <li>It is not new. The rule dates back to 1980. What changes is how often it is actually checked, and
+      Thailand issued a public reminder about it in July 2026, which is usually a sign that enforcement is
+      being tightened.</li>
+</ul>
+<p>The final call belongs to the Immigration Bureau officer in front of you. Being able to answer the
+question in five seconds is the whole point.</p>"""),
+
+        ("Onward travel is checked before you reach Thailand", """
+<p>Thailand is one of the strictest places in the world for proof of onward travel, and the check does not
+usually happen at Thai immigration. It happens at the check-in desk in Delhi, Mumbai or Bengaluru, because
+the airline carries the cost of flying you home if you are refused entry.</p>
+<p>Ground staff want to see a flight out of Thailand within your permitted stay. With the exemption now at
+30 days rather than 60, <strong>an onward flight dated 45 days out is no longer inside your window</strong>,
+and that is the specific thing that will get you stopped this season. Anyone who booked a long trip under
+the old rule should look at their return date again.</p>"""),
+
+        ("What to have ready", """
+<ul>
+  <li>Passport valid at least <strong>six months</strong> beyond arrival.</li>
+  <li><strong>TDAC QR code</strong>, submitted in the 72 hours before you land, saved offline.</li>
+  <li>An <strong>onward or return flight</strong> dated inside 30 days of arrival.</li>
+  <li><strong>Accommodation</strong> for at least the first nights, with an address you can actually read
+      out at immigration.</li>
+  <li><strong>Funds</strong>, per the table above, accessible rather than theoretical.</li>
+</ul>
+<p>The two documents that are checked most often, the onward flight and the accommodation, are also the two
+people are least willing to pay for before a trip is certain. That is the gap we fill: a real airline
+reservation with a live PNR and a hotel booking in your name, dated to match each other, without buying a
+fare you might change.</p>"""),
+    ],
+    faqs=[
+        ("How long can Indians stay in Thailand without a visa in 2026?",
+         "<p>Thirty days, from 15 September 2026. The 60-day exemption that ran from 2024 ended on that date. You can extend once inside Thailand by a further 30 days at an immigration office, normally for 1,900 baht.</p>"),
+        ("Do I need 20,000 baht to enter Thailand?",
+         "<p>Not if you are entering visa-free, which most Indian tourists are. That category is 10,000 baht per person or 20,000 per family. The 20,000-per-person figure applies to a tourist visa. Children under 12 are exempt, and it is not a fee, nobody takes the money.</p>"),
+        ("Is the Thailand Digital Arrival Card free?",
+         "<p>Yes. It is issued by the Immigration Bureau at tdac.immigration.go.th at no cost. Sites charging for it are charging you to fill in a free form. Submit within 72 hours before arrival.</p>"),
+        ("What happens if I already have a 60-day stamp?",
+         "<p>Nothing. If you entered before 15 September 2026 you keep the stay you were granted. The new rule is not applied retroactively to people already in the country.</p>"),
+        ("Does Thailand really check onward tickets?",
+         "<p>More consistently than almost anywhere. The check usually happens at the airline counter in India rather than at Thai immigration, because the airline pays to fly you back if you are refused. With the stay now 30 days, your onward flight has to fall inside that window.</p>"),
+    ]),
+
+# ==========================================================================
+dict(
     slug="what-is-a-dummy-ticket",
     cat="Fundamentals",
     title="What Is a Dummy Ticket for a Visa? A Plain-English Guide",

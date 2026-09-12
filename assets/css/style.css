@@ -1748,6 +1748,34 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .btn .usd-alt{ margin-left:calc(.28rem - .5rem); }
 }
 
+/* The stub turns horizontal in a narrow card, and that layout was drawn for a
+   phone-width card: one price, a short note, a barcode, all on one line. A
+   four-up grid makes cards about 270px wide, where the rupee figure, the
+   dollar figure, "PER APPLICATION" and the barcode want roughly 360px between
+   them - so the note ran off the card and the barcode was squeezed to a
+   sliver. Below 380px of card the note takes its own line under the price,
+   which is the one part of the stub that reads perfectly well stacked, and
+   the price and barcode step down to leave it room. */
+@container (max-width:380px){
+  .ticket__price{flex-wrap:wrap;min-width:0;font-size:1.5rem}
+  .ticket__price small{flex:1 0 100%;margin-left:0;margin-top:4px;letter-spacing:.07em}
+  .ticket__barcode{width:62px;height:30px;flex:none}
+}
+/* A four-up grid does not stop at 270px: auto-fit holds four columns down to
+   its 210px floor, around a 950px viewport. At that size even the price alone
+   wrapped between the rupee figure and the dollar figure, which reads as two
+   prices rather than one. One more step down keeps them on the same line. */
+@container (max-width:266px){
+  .ticket__price{font-size:1.28rem}
+  .ticket__price small{font-size:.64rem}
+  .ticket__barcode{width:50px;height:26px}
+}
+/* At the very bottom of the range the barcode is the only thing still pushing
+   the price onto two lines, and it is decoration - the price is the point. */
+@container (max-width:242px){
+  .ticket__barcode{display:none}
+}
+
 /* Country tiles. The reference design uses photography; this uses a
    slug-derived gradient, so a country is always the same colour, it costs no
    bytes, and it cannot break the no-external-hosts rule. To move to photos

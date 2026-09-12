@@ -2,12 +2,13 @@
 """Visa / destination landing pages - the long-tail SEO engine."""
 
 import re
+from urllib.parse import quote
 
 from build import (ticket, PRICE_CONSULT_ONLY, asset, slugify, ICON, BRAND, DELIVERY, SITE_URL, TODAY, doodles,
                    PRICE_FLIGHT, PRICE_HOTEL, PRICE_BOTH,
                    money, add_page, url, abs_url, faq_block, faq_schema,
                    crumbs, cta_band, pricing_tickets,
-                   stat_bar, trust_cards, airline_strip)
+                   stat_bar, trust_cards, airline_strip, WHATSAPP)
 import content_core
 from visa_extra import EXTRA
 
@@ -668,20 +669,42 @@ CONDITIONAL_FREE = {
 def _wants_consult(v):
     """True where there is an application to advise on.
 
-    Pure visa-free destinations are excluded: you land and walk through, so
-    consultation plans there would sell something that does not apply. Those
-    pages keep the flight and hotel cards.
+    Two exclusions. Pure visa-free destinations have nothing to apply for, so
+    a consultation plan there sells something that does not apply. And e-visas
+    we file ourselves: those pages offer to do the thing rather than selling
+    advice about doing it. Both keep the flight and hotel cards.
     """
+    if v["status"] == "evisa":
+        return False
     return not (v["status"] == "visa_free" and v["slug"] not in CONDITIONAL_FREE)
 
 
+def _apply_thing(v):
+    """What there is to apply for here.
+
+    A visa-free destination has no visa, but nearly all of them now want an
+    arrival card or travel declaration filed before you land, and that is the
+    step people actually miss. Conditional visa-free countries keep the visa
+    wording, because the condition is the thing that catches them out.
+    """
+    if v["status"] == "visa_free" and v["slug"] not in CONDITIONAL_FREE:
+        return "%s arrival card" % v["short"]
+    return "%s visa" % v["short"]
+
+
+def _apply_wa(v):
+    """A WhatsApp thread that already names the country, so the first reply
+    does not have to work out what is being asked about."""
+    return ("https://wa.me/%s?text=%s"
+            % (re.sub(r"[^0-9]", "", WHATSAPP),
+               quote("Hi, I want to apply for a %s" % _apply_thing(v))))
+
+
 def _secondary_cta(v):
-    """Second hero button: consultation where it applies, the bundle otherwise."""
-    if _wants_consult(v):
-        return ('<a class="btn btn--ghost btn--lg" href="%s">Visa consultation at %s</a>'
-                % (url("visa-consultation"), money(PRICE_CONSULT_ONLY)))
-    return ('<a class="btn btn--ghost btn--lg" href="%s">Flight + hotel at %s</a>'
-            % (url("flight-and-hotel-package"), money(PRICE_BOTH)))
+    """Second hero button. Every guide now offers to do the thing: the visa
+    where there is one, the arrival card where there is not."""
+    return ('<a class="btn btn--wa btn--lg" href="%s">Apply for %s</a>'
+            % (_apply_wa(v), _apply_thing(v)))
 
 
 def _plans_section(v, pf):
@@ -693,7 +716,17 @@ def _plans_section(v, pf):
     nothing is hidden - it is the middle of the page that changes.
     """
     import content_services
-    if _wants_consult(v):
+    # Every guide closes its plan block with the same offer, whatever else it
+    # shows above: we will do this for you, here is the thread.
+    apply_cta = ('<p class="center" style="margin-top:2.4rem">'
+                 '<a class="btn btn--wa btn--lg" href="%s">%s Apply for %s</a></p>'
+                 % (_apply_wa(v), ICON["whatsapp"], _apply_thing(v)))
+    if v["status"] == "evisa":
+        head = "Apply for your %s visa" % v["short"]
+        lede = ("We file it for you, and the flight and hotel bookings the application "
+                "asks for come from us too, dated to match.")
+        grid = pricing_tickets(prefill=pf)
+    elif _wants_consult(v):
         head = "Documents and help for your %s application" % v["short"]
         lede = ("Buy the reservation on its own, or have us take on as much of the "
                 "application as you want.")
@@ -725,10 +758,10 @@ def _plans_section(v, pf):
       <h2>%s</h2>
       <p class="lede">%s</p>
     </div>
-    %s
+    %s%s
   </div>
 </section>
-""" % (head, lede, grid)
+""" % (head, lede, grid, apply_cta)
 
 
 def _badge(v, big=False):

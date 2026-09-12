@@ -82,6 +82,24 @@
         var i = leg.querySelectorAll('input');
         if (i[0] && i[0].value) legs.push({ from: i[0].value, to: i[1] ? i[1].value : '', date: i[2] ? i[2].value : '' });
       });
+      // Cities are a hotel-only control. Rows typed on Hotel are kept when
+      // someone switches to Flight or Both so nothing they wrote is lost, but
+      // they are not part of that order and must not be sent: nothing priced
+      // them there, and listing them would promise a booking we never charged
+      // for.
+      var svcNow = form.querySelector('input[name="service"]:checked');
+      var cities = [];
+      if (svcNow && svcNow.value === 'hotel')
+      form.querySelectorAll('#city-list .city').forEach(function (c) {
+        var i = c.querySelectorAll('input');
+        if (i[0] && i[0].value) {
+          cities.push({
+            city: i[0].value,
+            checkin: i[1] ? i[1].value : '',
+            checkout: i[2] ? i[2].value : ''
+          });
+        }
+      });
       var pax = [];
       form.querySelectorAll('#pax-list .pax').forEach(function (row, i) {
         if (i === 0) {
@@ -118,6 +136,7 @@
         origin: v('from'), destination: v('to'),
         depart_date: v('depart'), return_date: v('return'),
         legs: legs,
+        cities: cities,
         visa_type: v('visa'),
         title: v('title'),
         surname: v('surname'), given_name: v('given'),
@@ -170,6 +189,14 @@
       });
       (p.legs || []).forEach(function (l, i) {
         lines.push('Flight ' + (i + 2) + ': ' + l.from + ' to ' + l.to + ' on ' + l.date);
+      });
+      // Cities are priced, so they have to reach the message too. Leaving them
+      // out would quote a three-city total and send a one-city booking, which
+      // is the same failure the extra travellers had.
+      (p.cities || []).forEach(function (c, i) {
+        lines.push('City ' + (i + 2) + ': ' + c.city +
+                   ', check-in ' + (c.checkin || '?') +
+                   ', check-out ' + (c.checkout || '?'));
       });
       return lines.filter(function (l) { return !/: $/.test(l); });
     }

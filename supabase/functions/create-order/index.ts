@@ -11,7 +11,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 // Must match PRICE_* in src/build.py. If you change one, change both.
 // Per leg for flights. Must match PRICE_* in src/build.py.
 //   flight = FLIGHT * legs * travellers
-//   hotel  = HOTEL * travellers
+//   hotel  = HOTEL * cities * travellers
 //   both   = (FLIGHT * legs + HOTEL - BUNDLE_SAVING) * travellers
 const P_FLIGHT = 39900;
 const P_HOTEL = 29900;
@@ -255,6 +255,8 @@ Deno.serve(async (req) => {
 
   let legs_: unknown[] = [];
   if (Array.isArray(body.legs)) legs_ = body.legs.slice(0, 4);
+  let cities_: unknown[] = [];
+  if (Array.isArray(body.cities)) cities_ = body.cities.slice(0, 4);
 
   // --- price it ourselves --------------------------------------------------
   // Legs are derived from the itinerary we were sent, not from a leg count the
@@ -263,9 +265,14 @@ Deno.serve(async (req) => {
   let legs = 1;
   if (trip === "round" || (ret && ret !== depart)) legs = 2;
   if (trip === "multi") legs = Math.min(1 + legs_.length, 5);
+  // Cities are counted from the stays we were sent, never from a count the
+  // browser supplies, for the same reason legs are not.
+  // Hotel only: the destination is city 1, each submitted stay adds one.
+  // 'both' bills one hotel per flight leg and has no city count of its own.
+  const cities = Math.min(1 + cities_.length, 5);
 
   const unit = service === "hotel"
-    ? P_HOTEL
+    ? P_HOTEL * cities
     : service === "both"
       // The one-way bundle charged per leg, so a return is double and a
       // multi-city keeps rising. Must stay in step with unitPrice() in

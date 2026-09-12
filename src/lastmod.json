@@ -1,31 +1,31 @@
 {
  "": {
-  "date": "2026-09-10",
-  "hash": "40b30b38829491d5"
+  "date": "2026-09-12",
+  "hash": "da8de89bf6e61d17"
  },
  "about": {
   "date": "2026-09-10",
   "hash": "85dd42504120e7ab"
  },
  "blog": {
-  "date": "2026-09-10",
-  "hash": "179362ee3ac7e84d"
+  "date": "2026-09-12",
+  "hash": "a0147a180e820d32"
  },
  "blog/common-visa-rejection-reasons": {
   "date": "2026-09-10",
   "hash": "1bbc84e8e667f4e1"
  },
  "blog/do-embassies-call-the-airline": {
-  "date": "2026-09-10",
-  "hash": "ad68a184f36d97ed"
+  "date": "2026-09-12",
+  "hash": "261bb3c86f7ec581"
  },
  "blog/do-embassies-verify-flight-bookings": {
   "date": "2026-09-10",
   "hash": "a27966813fb3ec49"
  },
  "blog/dummy-ticket-vs-refundable-ticket": {
-  "date": "2026-09-10",
-  "hash": "db608f7f50613cf0"
+  "date": "2026-09-12",
+  "hash": "3deff437b78477f1"
  },
  "blog/flight-reservation-vs-confirmed-ticket": {
   "date": "2026-09-10",
@@ -54,6 +54,10 @@
  "blog/schengen-visa-appointment-flight-reservation": {
   "date": "2026-09-10",
   "hash": "f5fd2ee8a67c5e10"
+ },
+ "blog/thailand-new-rules-for-indian-travellers": {
+  "date": "2026-09-12",
+  "hash": "5d708fd01759af33"
  },
  "blog/visa-application-document-checklist": {
   "date": "2026-09-10",
@@ -100,8 +104,8 @@
   "hash": "e78cc7603628df9b"
  },
  "order": {
-  "date": "2026-09-10",
-  "hash": "87ec1e4757990b8c"
+  "date": "2026-09-12",
+  "hash": "a7edc223311a3ed8"
  },
  "order/thank-you": {
   "date": "2026-09-10",
@@ -122,6 +126,10 @@
  "refund-policy": {
   "date": "2026-09-10",
   "hash": "3b668eb1d8e19a63"
+ },
+ "special-visas": {
+  "date": "2026-09-12",
+  "hash": "05d666cbb17282a2"
  },
  "terms": {
   "date": "2026-09-10",
@@ -144,167 +152,167 @@
   "hash": "182a2ed5de860538"
  },
  "visa-consultation": {
-  "date": "2026-09-10",
-  "hash": "566e26f1fa99c3ee"
+  "date": "2026-09-12",
+  "hash": "dc03a6f4c0e4139e"
  },
  "visa/australia-visa-flight-reservation": {
-  "date": "2026-09-11",
-  "hash": "99dc1a1091d56aff"
+  "date": "2026-09-12",
+  "hash": "6970909ef71187a7"
  },
  "visa/azerbaijan-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "00703aeeb3da0a30"
+  "date": "2026-09-12",
+  "hash": "b33c77c283fa2d47"
  },
  "visa/bahrain-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "8414e9948ecd4225"
+  "date": "2026-09-12",
+  "hash": "032f2a834312caa5"
  },
  "visa/bhutan-permit-for-indians": {
-  "date": "2026-09-11",
-  "hash": "5808ed8f16d592d1"
+  "date": "2026-09-12",
+  "hash": "f7af7ebf14bcb00d"
  },
  "visa/brazil-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "b0fd6905fba334ec"
+  "date": "2026-09-12",
+  "hash": "18741f5c0f60f511"
  },
  "visa/cambodia-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "5d742902cb94a371"
+  "date": "2026-09-12",
+  "hash": "d5235bf413bbf754"
  },
  "visa/canada-visa-flight-itinerary": {
-  "date": "2026-09-11",
-  "hash": "b96391e1f4afa393"
+  "date": "2026-09-12",
+  "hash": "713a1f6acfe6888f"
  },
  "visa/china-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "2d3b31e587bde9bd"
+  "date": "2026-09-12",
+  "hash": "8f02001a45e8a59b"
  },
  "visa/dubai-uae-visa-flight-ticket": {
-  "date": "2026-09-11",
-  "hash": "f704b62e50c76e61"
+  "date": "2026-09-12",
+  "hash": "19e4fa16d06703b1"
  },
  "visa/egypt-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "7ebf60bf79748fb5"
+  "date": "2026-09-12",
+  "hash": "367391b613b8cc84"
  },
  "visa/georgia-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "3c4c6ee11672ab40"
+  "date": "2026-09-12",
+  "hash": "b5d3dde6506d21ae"
  },
  "visa/hong-kong-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "6a829ae6933725a2"
+  "date": "2026-09-12",
+  "hash": "eeccdf157abca166"
  },
  "visa/indonesia-bali-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "dc9350a35847dfac"
+  "date": "2026-09-12",
+  "hash": "d65a9aea584274ec"
  },
  "visa/japan-visa-flight-itinerary": {
-  "date": "2026-09-11",
-  "hash": "f5608a61833969e9"
+  "date": "2026-09-12",
+  "hash": "e3add837aa5bc6d3"
  },
  "visa/kazakhstan-visa-for-indians": {
-  "date": "2026-09-10",
-  "hash": "8145c26759a99b27"
+  "date": "2026-09-12",
+  "hash": "3362c65e3867dbc8"
  },
  "visa/kenya-eta-for-indians": {
-  "date": "2026-09-11",
-  "hash": "bffaf6103a496171"
+  "date": "2026-09-12",
+  "hash": "a19b44eb682441bd"
  },
  "visa/kuwait-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "69b16852bce78542"
+  "date": "2026-09-12",
+  "hash": "b16457b505033b23"
  },
  "visa/malaysia-visa-for-indians": {
-  "date": "2026-09-10",
-  "hash": "f642aac1eeb70dc9"
+  "date": "2026-09-12",
+  "hash": "3ea8d8f2d2646620"
  },
  "visa/maldives-visa-for-indians": {
-  "date": "2026-09-10",
-  "hash": "7c1795c8090cf5b6"
+  "date": "2026-09-12",
+  "hash": "e31fe53d9eddf06a"
  },
  "visa/mauritius-visa-for-indians": {
-  "date": "2026-09-10",
-  "hash": "f92654472c45e0ec"
+  "date": "2026-09-12",
+  "hash": "16761cbea3a1a083"
  },
  "visa/morocco-evisa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "a6d6fa1b1bb846cc"
+  "date": "2026-09-12",
+  "hash": "8032c6b227b68465"
  },
  "visa/nepal-visa-for-indians": {
-  "date": "2026-09-10",
-  "hash": "3b59b4302f843bf3"
+  "date": "2026-09-12",
+  "hash": "7e595bbb17f1fe29"
  },
  "visa/new-zealand-visa-flight-ticket": {
-  "date": "2026-09-11",
-  "hash": "e1a331b6516376d7"
+  "date": "2026-09-12",
+  "hash": "9367e01fc71fcc4c"
  },
  "visa/oman-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "af7668c1f6b10e4f"
+  "date": "2026-09-12",
+  "hash": "82ca7092e4a66aff"
  },
  "visa/philippines-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "5815198cf23ba864"
+  "date": "2026-09-12",
+  "hash": "380023e9b64c852e"
  },
  "visa/qatar-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "27c550b1c19698fa"
+  "date": "2026-09-12",
+  "hash": "0e34c1ab4388c80d"
  },
  "visa/russia-evisa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "6df159bc184b3088"
+  "date": "2026-09-12",
+  "hash": "1bb63c20630adb89"
  },
  "visa/saudi-arabia-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "fddf803631e88be2"
+  "date": "2026-09-12",
+  "hash": "5c04e496fee8a4bf"
  },
  "visa/schengen-visa-flight-reservation": {
-  "date": "2026-09-11",
-  "hash": "b75a453fe842a1bc"
+  "date": "2026-09-12",
+  "hash": "0e2a728a5ed8d222"
  },
  "visa/singapore-visa-flight-ticket": {
-  "date": "2026-09-11",
-  "hash": "6cefcd7bc0e1e87f"
+  "date": "2026-09-12",
+  "hash": "6cbdd4c1c7802271"
  },
  "visa/south-africa-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "cbe0de22a0a3d69a"
+  "date": "2026-09-12",
+  "hash": "29d6c99c3cf4cb1e"
  },
  "visa/south-korea-visa-flight-itinerary": {
-  "date": "2026-09-11",
-  "hash": "a61d87a54c6ee1c8"
+  "date": "2026-09-12",
+  "hash": "8f8135a6ca973b42"
  },
  "visa/sri-lanka-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "05832a039f343cb2"
+  "date": "2026-09-12",
+  "hash": "384fab15b57ce377"
  },
  "visa/taiwan-visa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "b5e2d28d794a3505"
+  "date": "2026-09-12",
+  "hash": "0528386a03559ae5"
  },
  "visa/thailand-visa-flight-ticket": {
-  "date": "2026-09-10",
-  "hash": "6a1a49b0aeaa0052"
+  "date": "2026-09-12",
+  "hash": "9e013d104946f339"
  },
  "visa/turkey-visa-flight-ticket": {
-  "date": "2026-09-11",
-  "hash": "81e43facead3bcef"
+  "date": "2026-09-12",
+  "hash": "e8449fa216643ead"
  },
  "visa/uk-visa-flight-reservation": {
-  "date": "2026-09-11",
-  "hash": "a05a34ae7d62c1e3"
+  "date": "2026-09-12",
+  "hash": "680d2de4827ea726"
  },
  "visa/us-visa-flight-itinerary": {
-  "date": "2026-09-11",
-  "hash": "6b7b51d19a5a9467"
+  "date": "2026-09-12",
+  "hash": "1fba4164f6d958d8"
  },
  "visa/uzbekistan-visa-for-indians": {
-  "date": "2026-09-10",
-  "hash": "a39cb886a609e0fd"
+  "date": "2026-09-12",
+  "hash": "beef97b77bac2f1f"
  },
  "visa/vietnam-evisa-for-indians": {
-  "date": "2026-09-11",
-  "hash": "84dbe627e9c55993"
+  "date": "2026-09-12",
+  "hash": "b197695b6c764daf"
  }
 }

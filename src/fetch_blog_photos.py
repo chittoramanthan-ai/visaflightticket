@@ -61,6 +61,7 @@ SUBJECT = {
     "schengen-visa-appointment-flight-reservation": "european city street travel",
     "do-embassies-call-the-airline": "telephone handset office desk",
     "dummy-ticket-vs-refundable-ticket": "wallet money travel budget",
+    "thailand-new-rules-for-indian-travellers": "bangkok thailand temple travel",
 }
 
 

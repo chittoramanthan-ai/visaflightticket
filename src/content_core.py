@@ -1168,6 +1168,13 @@ def order_page():
               <input id="return" name="return" type="date">
               <span class="hint">Leave empty for a one-way or onward-only booking.</span></div>
           </div>
+
+          <div id="city-box" hidden>
+            <p class="hint" style="margin:10px 0">Staying in more than one city? Add each one. Every city is
+            a separate booking, so the price rises with the count.</p>
+            <div id="city-list"></div>
+            <button type="button" class="bw__add" id="add-city">+ Add another city</button>
+          </div>
         </fieldset>
 
         <fieldset>

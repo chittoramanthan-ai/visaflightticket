@@ -466,12 +466,12 @@ def brand_mark():
 # Top menu is deliberately short. Every other page stays reachable from the
 # footer and from in-page links, so crawl depth is unaffected.
 NAV = [
-    ("Visa Guides", "visa"),
+    ("Apply for a visa", "visa"),
     ("Consultation", "visa-consultation"),
     ("Bulk Orders", "bulk-orders"),
     ("Blog", "blog"),
     ("FAQs", "faq"),
-    ("Track my order", "login"),
+    ("Special visas", "special-visas"),
 ]
 
 FOOTER_SERVICES = [
@@ -867,7 +867,10 @@ def booking_widget():
   </div>
 
   <div id="bw-legs" hidden></div>
-  <button type="button" class="bw__add" id="bw-addleg" hidden>+ Add another city</button>
+  <button type="button" class="bw__add" id="bw-addleg" hidden>+ Add another flight</button>
+
+  <div id="bw-cities" hidden></div>
+  <button type="button" class="bw__add" id="bw-addcity" hidden>+ Add another city</button>
 
   <button class="btn btn--primary btn--lg btn--block" type="submit" id="bw-submit">
     Get my dummy ticket at %s%s</button>

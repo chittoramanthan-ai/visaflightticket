@@ -154,12 +154,56 @@
       var ret = form.querySelector('#return');
       return (ret && ret.value) ? 2 : 1;
     }
+    // ---- extra hotel cities ----------------------------------------------
+    var cityBoxF = document.getElementById('city-box');
+    var cityList = document.getElementById('city-list');
+    var addCity = document.getElementById('add-city');
+    var MAX_CITIES_F = 5;
+
+    function cityRowsF() {
+      return cityList ? cityList.querySelectorAll('.city').length : 0;
+    }
+    // Same rule as the home widget, and it has to stay that way: the two
+    // quote the same order. Hotel only; 'both' bills one hotel per flight leg.
+    function cityCount() { return 1 + cityRowsF(); }
+
+    function renumberCities() {
+      var all = cityList.querySelectorAll('.city');
+      for (var i = 0; i < all.length; i++) {
+        var n = i + 2;
+        all[i].querySelector('.pax__n').textContent = 'City ' + n;
+        var f = all[i].querySelectorAll('input');
+        f[0].name = 'city' + n;
+        f[1].name = 'city' + n + '_in';
+        f[2].name = 'city' + n + '_out';
+      }
+      recalc();
+    }
+
+    function addCityRow() {
+      if (cityCount() >= MAX_CITIES_F) return;
+      var d = document.createElement('div');
+      d.className = 'city';
+      d.innerHTML =
+        '<div class="pax__hd"><span class="pax__n">City</span>' +
+        '<button type="button" class="pax__rm">Remove</button></div>' +
+        '<div class="field"><label>City</label>' +
+        '<input type="text" name="city" placeholder="Rome"></div>' +
+        '<div class="row2">' +
+        '<div class="field"><label>Check-in</label><input type="date" name="city_in"></div>' +
+        '<div class="field"><label>Check-out</label><input type="date" name="city_out"></div>' +
+        '</div>';
+      d.querySelector('.pax__rm').addEventListener('click', function () {
+        d.parentNode.removeChild(d);
+        renumberCities();
+      });
+      cityList.appendChild(d);
+      renumberCities();
+    }
+    if (addCity) addCity.addEventListener('click', addCityRow);
+
     function unitPrice(svc, legs) {
-      if (svc === 'hotel') return P_HOTEL;
-      // 'both' is the one-way bundle charged per leg. A return is exactly
-      // double, and a multi-city keeps rising with the legs - which matches
-      // the work, since each leg is another reservation and another city to
-      // book a bed in.
+      if (svc === 'hotel') return P_HOTEL * cityCount();
       if (svc === 'both') return (P_FLIGHT + P_HOTEL - BUNDLE_SAVING) * legs;
       return P_FLIGHT * legs;
     }
@@ -224,6 +268,9 @@
       var out = document.getElementById('price-out');
       var lineOut = document.getElementById('price-line');
       var svc = (form.querySelector('input[name="service"]:checked') || {}).value || 'flight';
+      // Only a hotel-only booking has cities to add.
+      if (cityBoxF) cityBoxF.hidden = svc !== 'hotel';
+      if (addCity) addCity.hidden = cityCount() >= MAX_CITIES_F;
       var pax = form.querySelectorAll('#pax-list .pax').length || 1;
       var legs = legCount();
       var unit = unitPrice(svc, legs);
@@ -231,7 +278,9 @@
       if (out) out.textContent = fmt(unit * pax);
       if (lineOut) {
         var bits = fmt(unit) + ' x ' + pax + ' traveller' + (pax > 1 ? 's' : '');
-        if (svc !== 'hotel') {
+        if (svc === 'hotel') {
+          if (cityCount() > 1) bits += ' (' + cityCount() + ' cities)';
+        } else {
           bits += legs > 1 ? ' (return, 2 flights)' : ' (one way)';
         }
         // Say plainly which currency is actually charged, so a dollar figure
@@ -415,11 +464,68 @@
       if (t === 'multi') return 1 + legCount();
       return 1;
     }
+    // ---- hotel cities ----------------------------------------------------
+    // Their own container, separate from the flight legs: in 'both' a trip can
+    // have three flights and two hotel cities, and one list cannot say that.
+    var cityBox = document.getElementById('bw-cities');
+    var addCityBtn = document.getElementById('bw-addcity');
+    var MAX_CITIES = 5;
+
+    function cityRows() {
+      return cityBox ? cityBox.querySelectorAll('.bw__city').length : 0;
+    }
+    // Hotel only. The City field above the repeater is city 1, so the count is
+    // one more than the rows. 'both' has always billed one hotel per flight
+    // leg and still does, so it has no city count of its own.
+    function bwCities() { return 1 + cityRows(); }
     function bwPrice() {
       var legs = bwLegs();
-      if (service === 'hotel') return BW_HOTEL;
+      if (service === 'hotel') return BW_HOTEL * bwCities();
       if (service === 'both') return (BW_FLIGHT + BW_HOTEL - BW_SAVING) * legs;
       return BW_FLIGHT * legs;
+    }
+
+    function buildCity(n) {
+      var today = new Date().toISOString().slice(0, 10);
+      var d = document.createElement('div');
+      d.className = 'bw__leg bw__city';
+      d.innerHTML =
+        '<div class="bw__leghd"><span>City ' + n + '</span>' +
+        '<button type="button" class="bw__rm" aria-label="Remove this city">Remove</button></div>' +
+        '<div class="bw__f"><label>City</label>' +
+        '<input type="text" name="city' + n + '" placeholder="Rome"></div>' +
+        '<div class="bw__row">' +
+        '<div class="bw__f"><label>Check-in</label>' +
+        '<input type="date" name="city' + n + '_in" min="' + today + '"></div>' +
+        '<div class="bw__f"><label>Check-out</label>' +
+        '<input type="date" name="city' + n + '_out" min="' + today + '"></div>' +
+        '</div>';
+      d.querySelector('.bw__rm').addEventListener('click', function () {
+        d.parentNode.removeChild(d);
+        renumberCities();
+      });
+      return d;
+    }
+
+    function renumberCities() {
+      var rows = cityBox.querySelectorAll('.bw__city');
+      for (var i = 0; i < rows.length; i++) {
+        var n = i + 2;
+        rows[i].querySelector('.bw__leghd span').textContent = 'City ' + n;
+        var f = rows[i].querySelectorAll('input');
+        f[0].name = 'city' + n;
+        f[1].name = 'city' + n + '_in';
+        f[2].name = 'city' + n + '_out';
+      }
+      render();
+    }
+
+    if (addCityBtn) {
+      addCityBtn.addEventListener('click', function () {
+        if (bwCities() >= MAX_CITIES) return;
+        cityBox.appendChild(buildCity(bwCities() + 1));
+        renumberCities();
+      });
     }
     var LABELS = {
       flight: 'Get my dummy ticket',
@@ -491,7 +597,7 @@
       // hotel needs a city and a stay, not a route and a trip type
       tripBox.hidden = hotel;
       fromWrap.hidden = hotel;
-      toLabel.textContent = hotel ? 'City' : 'To';
+      toLabel.textContent = hotel ? (cityRows() ? 'City 1' : 'City') : 'To';
       toInput.placeholder = hotel ? 'Paris' : 'Paris (CDG)';
       depLabel.textContent = hotel ? 'Check-in' : 'Departure';
       retLabel.textContent = hotel ? 'Check-out' : 'Return';
@@ -500,6 +606,14 @@
       retWrap.hidden = hotel ? false : (tripValue() !== 'round');
       if (legsBox) legsBox.hidden = !multi;
       if (addLeg) addLeg.hidden = !multi || legCount() + 1 >= MAX_LEGS;
+      if (cityBox) {
+        cityBox.hidden = !hotel || !cityRows();
+        // This form submits by GET, so a merely hidden field would still be
+        // appended to the order URL. Disabled fields are not submitted.
+        var cin = cityBox.querySelectorAll('input');
+        for (var q = 0; q < cin.length; q++) cin[q].disabled = !hotel;
+      }
+      if (addCityBtn) addCityBtn.hidden = !hotel || bwCities() >= MAX_CITIES;
       if (multi && legCount() === 0) {
         legsBox.appendChild(buildLeg(0));
         renumber();
@@ -530,6 +644,9 @@
         this.setAttribute('aria-selected', 'true');
         service = this.getAttribute('data-svc');
         svcField.value = service;
+        // City rows are kept, not destroyed: switching to Flight and back
+        // should not lose what someone already typed. They are simply hidden
+        // and stop counting while another service is selected.
         render();
       });
     }
